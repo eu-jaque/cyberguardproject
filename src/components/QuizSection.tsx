@@ -101,9 +101,9 @@ const QuizSection = () => {
   };
 
   const getFeedback = () => {
-    if (score === 5) return { text: "Excelente! Você é um especialista em segurança digital! 🛡️", color: "text-green-400" };
-    if (score >= 3) return { text: "Bom trabalho! Mas ainda há o que aprender. Fique atento! ⚠️", color: "text-primary" };
-    return { text: "Cuidado! Você está vulnerável a golpes. Estude mais sobre segurança digital! 🚨", color: "text-destructive" };
+    if (score === 5) return { text: "Excelente! Voce domina seguranca digital.", color: "text-green-400" };
+    if (score >= 3) return { text: "Bom resultado, mas ainda ha o que aprender. Continue atento.", color: "text-primary" };
+    return { text: "Voce esta vulneravel a golpes. Isso e serio. Confira nossos cursos abaixo e aprenda a se proteger antes que seja tarde.", color: "text-destructive" };
   };
 
   if (finished) {
@@ -116,10 +116,10 @@ const QuizSection = () => {
             <p className="font-display text-5xl font-bold text-primary mb-4">{score}/{questions.length}</p>
             <p className={`text-xl font-semibold mb-6 ${feedback.color}`}>{feedback.text}</p>
             <div className="mb-6 text-left space-y-2 text-foreground/80">
-              <p>🔒 Use autenticação de dois fatores sempre que possível</p>
-              <p>🔒 Nunca compartilhe senhas ou códigos de verificação</p>
-              <p>🔒 Desconfie de ofertas boas demais para ser verdade</p>
-              <p>🔒 Verifique a URL antes de inserir dados pessoais</p>
+              <p>Use autenticacao de dois fatores sempre que possivel</p>
+              <p>Nunca compartilhe senhas ou codigos de verificacao</p>
+              <p>Desconfie de ofertas boas demais para ser verdade</p>
+              <p>Verifique a URL antes de inserir dados pessoais</p>
             </div>
             <button onClick={restart} className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors inline-flex items-center gap-2">
               <RotateCcw className="w-4 h-4" /> Refazer Quiz
@@ -176,7 +176,7 @@ const QuizSection = () => {
 
           {answered && (
             <div className="mt-4 p-4 bg-secondary/50 rounded-lg">
-              <p className="text-sm text-foreground/80">💡 {q.explanation}</p>
+              <p className="text-sm text-foreground/80">{q.explanation}</p>
             </div>
           )}
 
