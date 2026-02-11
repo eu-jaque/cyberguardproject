@@ -8,20 +8,20 @@ import hero3 from "@/assets/hero-3.jpg";
 const slides = [
   {
     image: hero1,
-    title: "Fraudes Digitais: O Inimigo Invisível",
-    description: "Milhões de brasileiros são vítimas de golpes online todos os anos. Descubra como se proteger.",
+    title: "Voce confia em quem esta do outro lado da tela?",
+    description: "A cada 6 segundos, alguem cai em um golpe digital no Brasil. O proximo pode ser voce ou alguem que voce ama.",
     link: "/artigo/fraudes-digitais",
   },
   {
     image: hero2,
-    title: "Phishing: O Golpe do Clique",
-    description: "E-mails falsos, links maliciosos e roubo de dados bancários. Você sabe identificar?",
+    title: "Aquela mensagem urgente pode custar tudo que voce tem",
+    description: "Criminosos usam o medo e a pressa para roubar seu dinheiro. Aprenda a reconhecer os sinais antes que seja tarde.",
     link: "/artigo/phishing",
   },
   {
     image: hero3,
-    title: "Roubo de Identidade",
-    description: "Seus dados pessoais valem ouro para criminosos. Saiba como blindar sua identidade digital.",
+    title: "Seus dados ja podem estar nas maos erradas",
+    description: "Nome, CPF, senhas: tudo pode ser roubado sem voce perceber. Descubra como blindar sua vida digital agora.",
     link: "/artigo/roubo-identidade",
   },
 ];

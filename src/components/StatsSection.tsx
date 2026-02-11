@@ -44,11 +44,14 @@ const StatsSection = () => {
     <section id="sobre" className="py-20 bg-background">
       <div className="max-w-[1366px] mx-auto px-[2%]">
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-          O Impacto Real das <span className="text-primary">Fraudes e Golpes</span>
+          Numeros que voce <span className="text-primary">precisa conhecer</span>
         </h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-          Os números não mentem: fraudes digitais afetam milhões de pessoas e causam prejuízos bilionários. 
-          Conheça os dados alarmantes que revelam a dimensão deste problema.
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-4">
+          Os dados abaixo mostram a realidade das fraudes digitais no Brasil e no mundo.
+          Sao numeros reais, de fontes oficiais, que revelam o tamanho desse problema.
+        </p>
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12 text-sm">
+          Quanto mais voce souber, mais dificil sera para um criminoso te enganar.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

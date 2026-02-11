@@ -25,7 +25,7 @@ const Header = () => {
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollTo("inicio")}>
           <Shield className="w-8 h-8 text-primary" />
           <span className="font-display text-xl font-bold text-foreground">
-            Cyber<span className="text-primary">Guarda</span>
+            Cyber<span className="text-primary">Guard</span>
           </span>
         </div>
 

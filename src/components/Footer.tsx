@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="flex items-center gap-2 mb-4">
               <Shield className="w-6 h-6 text-primary" />
               <span className="font-display text-lg font-bold text-foreground">
-                Cyber<span className="text-primary">Guarda</span>
+                Cyber<span className="text-primary">Guard</span>
               </span>
             </div>
             <p className="text-muted-foreground text-sm">
@@ -38,7 +38,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-xs text-muted-foreground">
-          © 2026 CyberGuarda. Todos os direitos reservados. Site educativo sem fins lucrativos.
+          &copy; 2026 CyberGuard. Todos os direitos reservados. Site educativo sem fins lucrativos.
         </div>
       </div>
     </footer>
