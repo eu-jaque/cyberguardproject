@@ -1,64 +1,125 @@
+# Modificacoes na Landing Page CyberGuard
 
+## Resumo
 
-# CyberGuarda - Landing Page sobre Fraudes e Golpes
-
-## Visão Geral
-Landing page moderna e impactante com tema de segurança cibernética, usando paleta de cores azul escuro, preto e dourado (baseada nas imagens de referência). O site educará visitantes sobre fraudes e golpes digitais.
-
-## Paleta de Cores
-- **Fundo principal:** Azul escuro profundo (#0a1628) e preto
-- **Destaques/acentos:** Dourado/laranja (#d4a029)
-- **Texto:** Branco e tons claros
-- **Botões:** Azul com efeitos dourados
+Atualizacao completa do cabecalho com novos botoes de navegacao, dropdown de servicos, seletor de idiomas, acessibilidade e campo de email. Reorganizacao de secoes, nova secao "Cai em um golpe" com flip cards, novo parallax, e ajustes no rodape e na secao de estatisticas.
 
 ---
 
-## 1. Cabeçalho (Header/Navbar)
-- Logo "CyberGuarda" à esquerda com ícone de escudo
-- Navegação à direita: **Início**, **Sobre**, **Contato** + botão **Login/Cadastrar**
-- Header **transparente** sobre o carrossel, ganha fundo sólido ao rolar a página (efeito scroll)
-- Botão Login com efeito de sombra vermelha no hover e sombra interna ao pressionar (conforme CSS especificado)
-- Altura de 80px, layout flexbox com espaçamento entre elementos
+## 1. Cabecalho (Header) - Reestruturacao completa
 
-## 2. Seção Hero - Carrossel Full-Width
-- Carrossel ocupando toda a largura da tela, com imagens temáticas de fraudes e golpes (usando as imagens de referência como fundo)
-- **Setas de navegação** nas extremidades esquerda e direita
-- **Título e descrição** sobrepostos na extremidade esquerda do carrossel, texto provocativo e chamativo sobre fraudes digitais
-- Cada slide é clicável e redireciona para uma página interna do site
-- Design impactante com gradientes azul-escuro/dourado
+### Novos botoes de navegacao (esquerda para direita):
 
-## 3. Parallax Section
-- Seção com efeito parallax (background-attachment: fixed)
-- Imagem de fundo com as cores do tema (azul escuro com detalhes dourados)
-- Pode conter uma frase de impacto sobre proteção digital
+Inicio, Blog, Cursos, Servicos (dropdown), Sobre, Contato
 
-## 4. Seção de Dados e Estatísticas sobre Fraudes
-- Conteúdo educativo sobre como fraudes e golpes afetam as pessoas
-- **Números alarmantes** e estatísticas reais (dados do Brasil e do mundo)
-- Notícias e fontes reais citadas (ex: dados do Banco Central, Febraban, Serasa)
-- Cards ou blocos visuais com ícones para cada estatística
-- Provas de valor e impacto social dos golpes digitais
+### Dropdown "Servicos"
 
-## 5. Quiz Antigolpe (5 perguntas)
-- Quiz interativo com 5 perguntas sobre fraudes e golpes
-- Perguntas de múltipla escolha para testar o conhecimento do usuário
-- **Feedback ao final** com pontuação e dicas de proteção
-- Design envolvente com transições entre perguntas
+Menu com fundo solido (nao transparente), z-index alto, contendo:
 
-## 6. Footer
-- Informações de contato, links úteis e créditos
-- Consistente com o design azul escuro/dourado
+- Testa PIX
+- Verificador de Link
+- Verificador de E-mail
+- Verificador de Seguranca
+- Guia de Informacoes
+- Teste de Vulnerabilidades
+- LGPD
+- Vazamento de Dados
+- Dicas de Protecao
+- Conversa com Especialistas
+
+### Seletor de Idiomas
+
+Dropdown com opcoes: PT (Portugues), EN (Ingles), ES (Espanhol). Ao trocar o idioma, todos os textos da pagina serao alterados. Sera implementado um contexto React (LanguageContext) com um dicionario de traducoes para os tres idiomas, cobrindo todos os componentes.
+
+### Botao de Acessibilidade
+
+Dropdown com as opcoes:
+
+- Leitor de Tela (ativa aria-live e atributos de acessibilidade)
+- Alto Contraste (aplica filtro CSS de alto contraste)
+- Tela P&B (aplica filtro CSS grayscale)
+- Tamanho da Fonte (permite aumentar/diminuir)
+- Modo Escuro/Claro (alterna tema)
+- Destacar Links (adiciona sublinhado e borda em todos os links)
+
+### Campo de email + Botao Login/Cadastrar
+
+Input type="email" ao lado do botao, com estilo de sombra interna, borda e fundo customizados. Validacao: ao clicar em Login/Cadastrar sem email valido, exibe toast fixo no canto superior direito (vermelho para erro, verde para sucesso) que desaparece apos 5 segundos.
 
 ---
 
-## Páginas Adicionais (placeholder)
-- Página de destino dos slides do carrossel (pelo menos uma página de artigo)
-- Página de Login/Cadastrar (placeholder/modal)
+## 2. Secao de Estatisticas (StatsSection)
 
-## Design Geral
-- Estilo moderno, escuro e sofisticado baseado nas imagens de referência
-- Gradientes azul escuro → preto com linhas douradas
-- Tipografia clara e legível sobre fundos escuros
-- Responsivo para desktop e mobile
-- Animações sutis para engajamento
+- Remover a div "Os golpes mais comuns no Brasil" e todo seu conteudo (linhas 73-89 do componente atual)
 
+---
+
+## 3. Nova organizacao das secoes na pagina
+
+Ordem atualizada:
+
+1. Header
+2. HeroCarousel
+3. StatsSection (sem a div "golpes mais comuns")
+4. FlipCardsSection (como identificar golpes)
+5. **Novo Parallax** (nova imagem tematica)
+6. **Nova secao: "Cai em um golpe. O que fazer?"** - 6 flip cards (3x2) com titulo provocativo
+7. QuizSection
+8. FAQSection
+9. Footer
+10. Chatbot
+
+- A secao CoursesSection sera **removida** da pagina.
+- O parallax existente sera movido/reaproveitado.
+
+---
+
+## 4. Nova secao "Cai em um golpe. O que fazer?"
+
+Componente `ScamResponseSection.tsx` com:
+
+- Titulo chamativo e frase provocativa
+- 6 flip cards (grid 3x2) com dicas de acao pos-golpe:
+  1. Bloqueie suas contas bancarias
+  2. Registre um Boletim de Ocorrencia
+  3. Avise seus contatos
+  4. Troque todas as suas senhas
+  5. Denuncie nos orgaos competentes
+  6. Monitore seus dados
+
+---
+
+## 5. Rodape (Footer)
+
+- Remover coluna "Links Uteis" inteira
+- Alterar email para [contato@cyberguard.com.br](mailto:contato@cyberguard.com.br)
+- Remover linhas de telefone (181 e 0800)
+- Manter apenas o email no contato
+
+---
+
+## Detalhes Tecnicos
+
+### Arquivos a criar:
+
+- `src/contexts/LanguageContext.tsx` - Contexto de idiomas com dicionario PT/EN/ES
+- `src/components/ScamResponseSection.tsx` - Nova secao com flip cards
+- `src/assets/parallax-bg-2.jpg` - Nova imagem de parallax (gerada)
+
+### Arquivos a modificar:
+
+- `src/components/Header.tsx` - Reestruturacao completa (navegacao, dropdown servicos, idiomas, acessibilidade, email input, toast)
+- `src/components/StatsSection.tsx` - Remover div "golpes mais comuns"
+- `src/components/Footer.tsx` - Simplificar rodape
+- `src/components/ParallaxSection.tsx` - Possivel duplicar para segundo parallax
+- `src/pages/Index.tsx` - Reorganizar secoes, remover CoursesSection, adicionar novas
+- `src/index.css` - Adicionar estilos para input, toast, acessibilidade
+- Todos os componentes com texto - envolver com sistema de traducao
+
+### Sistema de Idiomas:
+
+Um LanguageProvider envolvera o App. Cada componente usara um hook `useLanguage()` que retorna a funcao `t(key)` para buscar o texto traduzido. O dicionario tera todas as strings organizadas por chave.
+
+### Acessibilidade:
+
+Sera implementada via classes CSS aplicadas ao `<body>` ou ao container raiz, controladas por estado no contexto. Exemplo: classe `high-contrast` aplica `filter: contrast(1.5)`, classe `grayscale` aplica `filter: grayscale(1)`, classe `large-font` aumenta o tamanho base.
