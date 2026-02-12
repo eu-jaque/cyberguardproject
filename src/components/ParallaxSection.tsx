@@ -1,6 +1,9 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import parallaxBg from "@/assets/parallax-bg.jpg";
 
 const ParallaxSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       className="parallax-section relative h-[400px] flex items-center justify-center"
@@ -9,10 +12,10 @@ const ParallaxSection = () => {
       <div className="absolute inset-0 bg-background/60" />
       <div className="relative z-10 text-center max-w-3xl px-4">
         <h2 className="font-display text-3xl md:text-4xl font-bold text-primary mb-4">
-          Proteja-se. Informe-se. Não seja a próxima vítima.
+          {t("parallax.title")}
         </h2>
         <p className="text-foreground/80 text-lg">
-          O conhecimento é sua maior arma contra os golpes digitais.
+          {t("parallax.desc")}
         </p>
       </div>
     </section>

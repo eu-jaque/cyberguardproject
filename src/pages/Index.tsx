@@ -3,9 +3,9 @@ import HeroCarousel from "@/components/HeroCarousel";
 import StatsSection from "@/components/StatsSection";
 import ParallaxSection from "@/components/ParallaxSection";
 import FlipCardsSection from "@/components/FlipCardsSection";
+import ParallaxSection2 from "@/components/ParallaxSection2";
+import ScamResponseSection from "@/components/ScamResponseSection";
 import QuizSection from "@/components/QuizSection";
-import CoursesSection from "@/components/CoursesSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
@@ -19,9 +19,9 @@ const Index = () => {
         <StatsSection />
         <ParallaxSection />
         <FlipCardsSection />
+        <ParallaxSection2 />
+        <ScamResponseSection />
         <QuizSection />
-        <CoursesSection />
-        <TestimonialsSection />
         <FAQSection />
       </main>
       <Footer />
