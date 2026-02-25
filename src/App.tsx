@@ -7,8 +7,14 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Article from "./pages/Article";
 import NotFound from "./pages/NotFound";
+import './App.css'
+
+import Auth from './pages/Auth';
+
+
 
 const queryClient = new QueryClient();
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -21,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/artigo/:slug" element={<Article />} />
             <Route path="*" element={<NotFound />} />
+            <Route path='/auth' element={<Auth />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

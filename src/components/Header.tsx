@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Shield, ChevronDown, Globe, Accessibility, Plus, Minus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {Link} from 'react-router-dom'
 
 const serviceKeys = [
   "srv.testa_pix", "srv.verificador_link", "srv.verificador_email",
@@ -217,16 +218,11 @@ const Header = () => {
             </div>
 
             {/* Email + Login */}
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("nav.email_placeholder")}
-              className="header-email-input"
-            />
-            <button onClick={handleLogin} className="btn-login bg-primary text-primary-foreground px-5 py-1.5 rounded-[5px] text-sm font-semibold cursor-pointer">
+            
+             <Link to="/auth" className="btn-login bg-primary text-primary-foreground px-5 py-1.5 rounded-[5px] text-sm font-semibold cursor-pointer">
               {t("nav.login")}
-            </button>
+            </Link>
+           
           </div>
         </div>
       </nav>
