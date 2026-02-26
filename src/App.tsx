@@ -10,7 +10,7 @@ import NotFound from "./pages/NotFound";
 import './App.css'
 
 import Auth from './pages/Auth';
-
+import Dash from './pages/Dash';
 
 
 const queryClient = new QueryClient();
@@ -28,6 +28,7 @@ const App = () => (
             <Route path="/artigo/:slug" element={<Article />} />
             <Route path="*" element={<NotFound />} />
             <Route path='/auth' element={<Auth />} />
+            <Route path='dash' element= {<Dash />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
