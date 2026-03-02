@@ -1,125 +1,119 @@
-# Modificacoes na Landing Page CyberGuard
+
+
+# Plano de Modificacoes - CyberGuard
 
 ## Resumo
 
-Atualizacao completa do cabecalho com novos botoes de navegacao, dropdown de servicos, seletor de idiomas, acessibilidade e campo de email. Reorganizacao de secoes, nova secao "Cai em um golpe" com flip cards, novo parallax, e ajustes no rodape e na secao de estatisticas.
+Este plano cobre: ajustes no Header (texto "Acessibilidade"), Header compartilhado em todas as paginas, logica do botao "Inicio", remocao de 3 secoes (ScamResponse, Quiz, FAQ), cor golden 500, footer com "Sobre", pagina de perfil do usuario logado, e chatbot com IA via Lovable AI.
 
 ---
 
-## 1. Cabecalho (Header) - Reestruturacao completa
+## 1. Header - Ajustes menores
 
-### Novos botoes de navegacao (esquerda para direita):
+**Arquivo:** `src/components/Header.tsx`
+- Adicionar texto "Acessibilidade" ao lado do icone no botao do dropdown de acessibilidade
+- Alterar o botao "Inicio" para usar `useNavigate` + `useLocation`: se ja esta em `/`, faz `scrollTo("inicio")`; senao, navega para `/`
 
-Inicio, Blog, Cursos, Servicos (dropdown), Sobre, Contato
+## 2. Header em todas as paginas
 
-### Dropdown "Servicos"
+**Arquivos:** `src/pages/Article.tsx`, `src/pages/Auth.tsx`, `src/pages/Dash.tsx`, `src/pages/NotFound.tsx`
+- Substituir navs locais pelo componente `<Header />` importado
+- O Header ja usa `<Link>` para login, funciona em qualquer rota
 
-Menu com fundo solido (nao transparente), z-index alto, contendo:
+## 3. Remover secoes da Index
 
-- Testa PIX
-- Verificador de Link
-- Verificador de E-mail
-- Verificador de Seguranca
-- Guia de Informacoes
-- Teste de Vulnerabilidades
-- LGPD
-- Vazamento de Dados
-- Dicas de Protecao
-- Conversa com Especialistas
+**Arquivo:** `src/pages/Index.tsx`
+- Remover: `ScamResponseSection`, `QuizSection`, `FAQSection`, `ParallaxSection2`
+- Nova ordem: HeroCarousel > StatsSection > ParallaxSection > FlipCardsSection > TestimonialsSection > Footer > Chatbot
 
-### Seletor de Idiomas
+**Arquivos a manter mas nao usar:** `ScamResponseSection.tsx`, `QuizSection.tsx`, `FAQSection.tsx`, `ParallaxSection2.tsx` (podem ser removidos)
 
-Dropdown com opcoes: PT (Portugues), EN (Ingles), ES (Espanhol). Ao trocar o idioma, todos os textos da pagina serao alterados. Sera implementado um contexto React (LanguageContext) com um dicionario de traducoes para os tres idiomas, cobrindo todos os componentes.
+## 4. Cor golden 500
 
-### Botao de Acessibilidade
+**Arquivo:** `src/index.css`
+- Alterar a variavel `--primary` de `43 70% 49%` para um tom golden 500 mais rico: `43 96% 56%` (equivalente a ~#EAB308, golden-500 do Tailwind)
+- Isso afeta automaticamente todos os botoes e textos que usam `text-primary`, `bg-primary`, etc.
 
-Dropdown com as opcoes:
+## 5. Footer - Coluna "Sobre"
 
-- Leitor de Tela (ativa aria-live e atributos de acessibilidade)
-- Alto Contraste (aplica filtro CSS de alto contraste)
-- Tela P&B (aplica filtro CSS grayscale)
-- Tamanho da Fonte (permite aumentar/diminuir)
-- Modo Escuro/Claro (alterna tema)
-- Destacar Links (adiciona sublinhado e borda em todos os links)
+**Arquivo:** `src/components/Footer.tsx`
+- Adicionar uma coluna "Sobre" ao lado de "Contato" com um link "Sobre a CyberGuard" apontando para `/sobre`
+- Adicionar traducoes no LanguageContext
 
-### Campo de email + Botao Login/Cadastrar
+**Arquivo:** `src/pages/About.tsx` (novo)
+- Pagina placeholder "Sobre a CyberGuard" com Header e Footer
 
-Input type="email" ao lado do botao, com estilo de sombra interna, borda e fundo customizados. Validacao: ao clicar em Login/Cadastrar sem email valido, exibe toast fixo no canto superior direito (vermelho para erro, verde para sucesso) que desaparece apos 5 segundos.
+**Arquivo:** `src/App.tsx`
+- Adicionar rota `/sobre` para a pagina About
 
----
+## 6. Pagina de Perfil do Usuario (Dash)
 
-## 2. Secao de Estatisticas (StatsSection)
+**Arquivo:** `src/pages/Dash.tsx` (reescrever completamente)
 
-- Remover a div "Os golpes mais comuns no Brasil" e todo seu conteudo (linhas 73-89 do componente atual)
+Pagina rica e interativa com design moderno (fundo escuro, parallax, animacoes) contendo:
 
----
+- **Cabecalho do perfil:** Nome do usuario, avatar placeholder, dados basicos
+- **Abas/Tabs navegaveis:**
+  - **Assinaturas:** Cards de apps de ciberseguranca (Norton, Kaspersky, etc.) com status ativo/inativo
+  - **Cursos:** Carrossel de cursos organizados por nivel (Iniciante, Intermediario, Avancado, Especialista) com cards interativos
+  - **Verificadores:** Ferramentas de verificacao de links, emails, chaves Pix (inputs com feedback visual)
+  - **Quiz e Jogos:** Quiz antigolpe (reaproveitado da logica existente) + mini game interativo tipo "Identifique o Golpe" com cards que o usuario classifica como golpe/legitimo
+- **Design:** Parallax de fundo, cards com hover/flip, carrosseis, transicoes CSS (opacity, visibility, transition), sem emojis
+- **Secoes informativas/educacionais** entre as abas com dicas rapidas
 
-## 3. Nova organizacao das secoes na pagina
+## 7. Chatbot com IA (Lovable AI)
 
-Ordem atualizada:
+O usuario pediu que o chatbot use NLP real em vez de apenas palavras-chave. Usaremos Lovable AI (gateway) via edge function.
 
-1. Header
-2. HeroCarousel
-3. StatsSection (sem a div "golpes mais comuns")
-4. FlipCardsSection (como identificar golpes)
-5. **Novo Parallax** (nova imagem tematica)
-6. **Nova secao: "Cai em um golpe. O que fazer?"** - 6 flip cards (3x2) com titulo provocativo
-7. QuizSection
-8. FAQSection
-9. Footer
-10. Chatbot
+**Passo 1:** Ativar Lovable Cloud (necessario para edge functions)
 
-- A secao CoursesSection sera **removida** da pagina.
-- O parallax existente sera movido/reaproveitado.
+**Arquivo:** `supabase/functions/chat/index.ts` (nova edge function)
+- Recebe mensagens do usuario
+- System prompt: "Voce e o Tsio, assistente de seguranca digital do CyberGuard. Responda em linguagem simples sobre golpes, fraudes, phishing, Pix, senhas e protecao digital. Suporte PT/EN/ES."
+- Usa streaming SSE via Lovable AI gateway
+- Trata erros 429/402
 
----
+**Arquivo:** `src/components/Chatbot.tsx` (reescrever)
+- Nome do bot: "Tsio"
+- Header mostra nome e papel
+- Streaming token-by-token com SSE
+- Mantem historico de conversa na sessao
+- Mantém suporte multi-idioma
+- Remove base de conhecimento local (knowledgeBase), usa IA real
+- Renderiza respostas com markdown (react-markdown)
 
-## 4. Nova secao "Cai em um golpe. O que fazer?"
+**Dependencia:** Instalar `react-markdown`
 
-Componente `ScamResponseSection.tsx` com:
+## 8. Traducoes
 
-- Titulo chamativo e frase provocativa
-- 6 flip cards (grid 3x2) com dicas de acao pos-golpe:
-  1. Bloqueie suas contas bancarias
-  2. Registre um Boletim de Ocorrencia
-  3. Avise seus contatos
-  4. Troque todas as suas senhas
-  5. Denuncie nos orgaos competentes
-  6. Monitore seus dados
-
----
-
-## 5. Rodape (Footer)
-
-- Remover coluna "Links Uteis" inteira
-- Alterar email para [contato@cyberguard.com.br](mailto:contato@cyberguard.com.br)
-- Remover linhas de telefone (181 e 0800)
-- Manter apenas o email no contato
+**Arquivo:** `src/contexts/LanguageContext.tsx`
+- Adicionar chaves: `footer.sobre`, `footer.sobre_link`, `about.title`, `about.desc`, `dash.*` (tabs, titulos)
+- Remover chaves nao usadas (quiz, faq, scam)
 
 ---
 
 ## Detalhes Tecnicos
 
-### Arquivos a criar:
+### Arquivos novos:
+- `src/pages/About.tsx`
+- `supabase/functions/chat/index.ts`
 
-- `src/contexts/LanguageContext.tsx` - Contexto de idiomas com dicionario PT/EN/ES
-- `src/components/ScamResponseSection.tsx` - Nova secao com flip cards
-- `src/assets/parallax-bg-2.jpg` - Nova imagem de parallax (gerada)
+### Arquivos modificados:
+- `src/components/Header.tsx` - texto "Acessibilidade", logica do botao Inicio
+- `src/pages/Index.tsx` - remover 4 secoes
+- `src/pages/Dash.tsx` - reescrever como pagina de perfil completa
+- `src/pages/Article.tsx` - usar Header compartilhado
+- `src/pages/Auth.tsx` - usar Header compartilhado
+- `src/pages/NotFound.tsx` - usar Header compartilhado
+- `src/components/Footer.tsx` - coluna Sobre
+- `src/components/Chatbot.tsx` - integrar Lovable AI com streaming
+- `src/contexts/LanguageContext.tsx` - novas traducoes, remover obsoletas
+- `src/index.css` - cor primary para golden 500
+- `src/App.tsx` - rota /sobre
 
-### Arquivos a modificar:
+### Dependencias:
+- `react-markdown` (para renderizar respostas do chatbot)
 
-- `src/components/Header.tsx` - Reestruturacao completa (navegacao, dropdown servicos, idiomas, acessibilidade, email input, toast)
-- `src/components/StatsSection.tsx` - Remover div "golpes mais comuns"
-- `src/components/Footer.tsx` - Simplificar rodape
-- `src/components/ParallaxSection.tsx` - Possivel duplicar para segundo parallax
-- `src/pages/Index.tsx` - Reorganizar secoes, remover CoursesSection, adicionar novas
-- `src/index.css` - Adicionar estilos para input, toast, acessibilidade
-- Todos os componentes com texto - envolver com sistema de traducao
+### Requisito:
+- Ativar Lovable Cloud para a edge function do chatbot
 
-### Sistema de Idiomas:
-
-Um LanguageProvider envolvera o App. Cada componente usara um hook `useLanguage()` que retorna a funcao `t(key)` para buscar o texto traduzido. O dicionario tera todas as strings organizadas por chave.
-
-### Acessibilidade:
-
-Sera implementada via classes CSS aplicadas ao `<body>` ou ao container raiz, controladas por estado no contexto. Exemplo: classe `high-contrast` aplica `filter: contrast(1.5)`, classe `grayscale` aplica `filter: grayscale(1)`, classe `large-font` aumenta o tamanho base.

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Shield, ChevronDown, Globe, Accessibility, Plus, Minus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import {Link} from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 const serviceKeys = [
   "srv.testa_pix", "srv.verificador_link", "srv.verificador_email",
@@ -17,6 +17,8 @@ const Header = () => {
   const [email, setEmail] = useState("");
   const [toast, setToast] = useState<{ msg: string; type: "error" | "success" } | null>(null);
   const { t, lang, setLang } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Accessibility state
   const [highContrast, setHighContrast] = useState(false);
@@ -109,7 +111,13 @@ const Header = () => {
           {/* Nav + Controls */}
           <div className="flex items-center gap-3 flex-wrap">
             {/* Nav links */}
-            <button onClick={() => scrollTo("inicio")} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
+            <button onClick={() => {
+              if (location.pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              } else {
+                navigate("/");
+              }
+            }} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.inicio")}
             </button>
             <button className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
@@ -177,10 +185,11 @@ const Header = () => {
             <div className="relative" ref={a11yRef}>
               <button
                 onClick={() => setA11yOpen(!a11yOpen)}
-                className="text-foreground/80 hover:text-primary transition-colors"
+                className="text-foreground/80 hover:text-primary transition-colors inline-flex items-center gap-1 text-sm font-medium"
                 aria-label={t("a11y.title")}
               >
                 <Accessibility className="w-5 h-5" />
+                {t("a11y.title")}
               </button>
               {a11yOpen && (
                 <div className="absolute top-full right-0 mt-2 w-52 bg-card border border-border rounded-lg shadow-xl z-[100] py-2">
