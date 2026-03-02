@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Shield } from "lucide-react";
+import Header from "@/components/Header";
 
 const articles: Record<string, { title: string; content: string[] }> = {
   "fraudes-digitais": {
@@ -38,10 +38,13 @@ const Article = () => {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="font-display text-2xl text-foreground mb-4">Artigo não encontrado</h1>
-          <button onClick={() => navigate("/")} className="text-primary hover:underline">Voltar ao início</button>
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex items-center justify-center pt-32">
+          <div className="text-center">
+            <h1 className="font-display text-2xl text-foreground mb-4">Artigo nao encontrado</h1>
+            <button onClick={() => navigate("/")} className="text-primary hover:underline">Voltar ao inicio</button>
+          </div>
         </div>
       </div>
     );
@@ -49,27 +52,14 @@ const Article = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="h-[80px] flex items-center bg-background/95 border-b border-border">
-        <div className="max-w-[1366px] mx-auto px-[2%] w-full flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <Shield className="w-8 h-8 text-primary" />
-            <span className="font-display text-xl font-bold text-foreground">
-              Cyber<span className="text-primary">Guarda</span>
-            </span>
-          </div>
-          <button onClick={() => navigate("/")} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Voltar
-          </button>
-        </div>
-      </nav>
-
-      <article className="max-w-3xl mx-auto px-[2%] py-16">
+      <Header />
+      <article className="max-w-3xl mx-auto px-[2%] py-32">
         <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-8">{article.title}</h1>
         {article.content.map((p, i) => (
           <p key={i} className="text-foreground/80 text-lg leading-relaxed mb-6">{p}</p>
         ))}
         <button onClick={() => navigate("/")} className="mt-8 bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors">
-          Voltar ao Início
+          Voltar ao Inicio
         </button>
       </article>
     </div>
