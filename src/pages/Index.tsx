@@ -3,14 +3,9 @@ import HeroCarousel from "@/components/HeroCarousel";
 import StatsSection from "@/components/StatsSection";
 import ParallaxSection from "@/components/ParallaxSection";
 import FlipCardsSection from "@/components/FlipCardsSection";
-import ParallaxSection2 from "@/components/ParallaxSection2";
-import ScamResponseSection from "@/components/ScamResponseSection";
-import QuizSection from "@/components/QuizSection";
-import FAQSection from "@/components/FAQSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
-
-
 
 const Index = () => {
   return (
@@ -21,10 +16,7 @@ const Index = () => {
         <StatsSection />
         <ParallaxSection />
         <FlipCardsSection />
-        <ParallaxSection2 />
-        <ScamResponseSection />
-        <QuizSection />
-        <FAQSection />
+        <TestimonialsSection />
       </main>
       <Footer />
       <Chatbot />

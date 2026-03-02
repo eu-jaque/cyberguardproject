@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Article from "./pages/Article";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import './App.css'
 
@@ -26,9 +27,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/artigo/:slug" element={<Article />} />
+            <Route path="/sobre" element={<About />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dash" element={<Dash />} />
             <Route path="*" element={<NotFound />} />
-            <Route path='/auth' element={<Auth />} />
-            <Route path='dash' element= {<Dash />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
