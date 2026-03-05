@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -15,7 +15,7 @@
     --popover: 216 71% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 43 96% 56%;
+    --primary: 40 76% 55%;
     --primary-foreground: 216 71% 10%;
 
     --secondary: 216 50% 18%;
@@ -24,7 +24,7 @@
     --muted: 216 50% 18%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 43 96% 56%;
+    --accent: 40 76% 55%;
     --accent-foreground: 216 71% 10%;
 
     --destructive: 0 84% 60%;
@@ -32,18 +32,21 @@
 
     --border: 216 40% 20%;
     --input: 216 40% 20%;
-    --ring: 43 96% 56%;
+    --ring: 40 76% 55%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 216 71% 8%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 43 96% 56%;
+    --sidebar-primary: 40 76% 55%;
     --sidebar-primary-foreground: 216 71% 10%;
     --sidebar-accent: 216 50% 18%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 216 40% 20%;
-    --sidebar-ring: 43 96% 56%;
+    --sidebar-ring: 40 76% 55%;
+
+    --gold-light: 43 80% 65%;
+    --gold-dark: 36 72% 42%;
   }
 }
 
@@ -54,12 +57,63 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Orbitron', sans-serif;
   }
+}
+
+/* Gold gradient utilities */
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-gold-3d {
+  background: linear-gradient(145deg, #F5D77A, #D4A535, #B8860B);
+  box-shadow: 0 4px 15px rgba(212, 165, 53, 0.4), inset 0 1px 0 rgba(245, 215, 122, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold-3d::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  animation: shimmer 3s infinite;
+}
+
+.btn-gold-3d:hover {
+  box-shadow: 0 6px 20px rgba(212, 165, 53, 0.6), inset 0 1px 0 rgba(245, 215, 122, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-gold-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(212, 165, 53, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
 }
 
 /* Custom button effects */
@@ -69,23 +123,17 @@
 }
 
 .btn-login:hover {
-  box-shadow: 2px 2px 6px 1px rgba(250, 1, 1, 0.5);
-  -webkit-box-shadow: 2px 2px 6px 1px rgba(255, 0, 0, 0.5);
-  -moz-box-shadow: 2px 2px 6px 1px rgba(255, 0, 0, 0.5);
+  box-shadow: 2px 2px 6px 1px rgba(212, 165, 53, 0.5);
 }
 
 .btn-login:active {
   box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
 
 /* Header email input */
 .header-email-input {
   border: solid 2px hsl(var(--border));
   box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
-  -webkit-box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
-  -moz-box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
   background-color: hsl(var(--card));
   color: hsl(var(--foreground));
   padding: 5px 10px;
@@ -100,9 +148,7 @@
 }
 
 .header-email-input:focus-visible {
-  box-shadow: -2px -2px 6px 3px rgba(194, 146, 29, 0.3) inset;
-  -webkit-box-shadow: -2px -2px 6px 3px rgba(194, 146, 29, 0.3) inset;
-  -moz-box-shadow: -2px -2px 6px 3px rgba(194, 146, 29, 0.3) inset;
+  box-shadow: -2px -2px 6px 3px rgba(212, 165, 53, 0.3) inset;
   border-color: hsl(var(--primary));
 }
 
@@ -153,4 +199,56 @@
   text-decoration: underline !important;
   outline: 2px solid hsl(var(--primary)) !important;
   outline-offset: 2px;
+}
+
+/* Chatbot animations */
+@keyframes bounce-in {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes typing-ball {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(var(--muted-foreground));
+  animation: typing-ball 0.6s ease-in-out infinite;
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: linear-gradient(135deg, rgba(212, 165, 53, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
+  border: 2px solid hsl(var(--border));
+  border-radius: 20px;
+  padding: 2.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.glass-card:hover {
+  border-color: hsl(var(--primary));
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(212, 165, 53, 0.15);
+}
+
+/* Float animation for cards */
+@keyframes float-card {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float-card 4s ease-in-out infinite;
 }

@@ -8,14 +8,16 @@ import Index from "./pages/Index";
 import Article from "./pages/Article";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
-import './App.css'
-
-import Auth from './pages/Auth';
-import Dash from './pages/Dash';
-
+import Auth from "./pages/Auth";
+import Dash from "./pages/Dash";
+import Antivirus from "./pages/Antivirus";
+import Services from "./pages/Services";
+import Experts from "./pages/Experts";
+import Blog from "./pages/Blog";
+import Policies from "./pages/Policies";
+import "./App.css";
 
 const queryClient = new QueryClient();
-
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -30,6 +32,11 @@ const App = () => (
             <Route path="/sobre" element={<About />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dash" element={<Dash />} />
+            <Route path="/antivirus" element={<Antivirus />} />
+            <Route path="/servicos" element={<Services />} />
+            <Route path="/especialistas" element={<Experts />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/politicas" element={<Policies />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
