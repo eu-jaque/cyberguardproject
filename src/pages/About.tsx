@@ -1,5 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Chatbot from "@/components/Chatbot";
+import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const About = () => {
@@ -13,6 +15,8 @@ const About = () => {
         <p className="text-foreground/80 text-lg leading-relaxed">{t("about.desc")}</p>
       </main>
       <Footer />
+      <Chatbot />
+      <AccessibilityWidget />
     </div>
   );
 };

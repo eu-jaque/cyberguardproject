@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, Shield } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Message {
+  id: string;
   from: "user" | "bot";
   text: string;
+  timestamp: string;
+  isContact?: boolean;
 }
 
 const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = [
   {
-    keywords: ["pix", "transferencia", "transferir"],
+    keywords: ["pix", "transferencia", "transferir", "agendamento"],
     answer: {
       pt: "Nunca faca Pix por pressao ou urgencia. Sempre confirme a identidade de quem esta pedindo por ligacao ou pessoalmente. Bancos nunca pedem transferencias por mensagem.",
       en: "Never send Pix under pressure or urgency. Always confirm the identity of whoever is asking by phone or in person. Banks never ask for transfers via messages.",
@@ -25,7 +28,7 @@ const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = 
     },
   },
   {
-    keywords: ["phishing", "e-mail", "email", "link", "falso"],
+    keywords: ["phishing", "e-mail", "email", "link", "falso", "site"],
     answer: {
       pt: "Phishing e quando criminosos enviam mensagens falsas imitando empresas para roubar seus dados. Nunca clique em links de e-mails ou SMS suspeitos.",
       en: "Phishing is when criminals send fake messages imitating companies to steal your data. Never click on links from suspicious emails or SMS.",
@@ -41,7 +44,7 @@ const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = 
     },
   },
   {
-    keywords: ["boleto", "adulterado"],
+    keywords: ["boleto", "adulterado", "pdf", "pagamento"],
     answer: {
       pt: "Antes de pagar um boleto, confira o nome do beneficiario, o CNPJ e o valor. Se os dados nao baterem, nao pague.",
       en: "Before paying an invoice, check the beneficiary name, ID number and amount. If the data does not match, do not pay.",
@@ -72,90 +75,173 @@ const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = 
       es: "Para proteger a los mayores: habla sobre estafas con calma, activa la verificacion en dos pasos y orientalos a nunca dar datos por telefono.",
     },
   },
+  {
+    keywords: ["cartao", "clonado", "cvv", "compra", "indevida"],
+    answer: {
+      pt: "Seu cartao foi clonado? Bloqueie-o imediatamente pelo aplicativo do banco. Para compras online, utilize sempre o Cartao Virtual.",
+      en: "Was your card cloned? Block it immediately through the bank app. For online purchases, always use a Virtual Card.",
+      es: "Tu tarjeta fue clonada? Bloqueala inmediatamente por la app del banco. Para compras online, usa siempre la Tarjeta Virtual.",
+    },
+  },
+  {
+    keywords: ["lgpd", "dados pessoais", "privacidade", "vazamento"],
+    answer: {
+      pt: "A LGPD garante seu direito sobre seus dados pessoais. Em caso de vazamento, voce pode exigir informacoes, correcao ou exclusao dos seus dados junto a empresa responsavel.",
+      en: "The LGPD guarantees your rights over your personal data. In case of a breach, you can demand information, correction, or deletion of your data from the responsible company.",
+      es: "La LGPD garantiza tu derecho sobre tus datos personales. En caso de filtracion, puedes exigir informacion, correccion o eliminacion de tus datos a la empresa responsable.",
+    },
+  },
 ];
+
+const getCurrentTime = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
 const Chatbot = () => {
   const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (open && !initialized) {
-      setMessages([{ from: "bot", text: t("chat.welcome") }]);
+      setMessages([{
+        id: "init",
+        from: "bot",
+        text: t("chat.welcome"),
+        timestamp: getCurrentTime(),
+      }]);
       setInitialized(true);
     }
   }, [open, initialized, t]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isTyping]);
 
-  const getAnswer = (input: string): string => {
+  const getAnswer = (input: string): { text: string; isContact: boolean } => {
     const lower = input.toLowerCase();
     for (const entry of knowledgeBase) {
       if (entry.keywords.some((kw) => lower.includes(kw))) {
-        return entry.answer[lang] || entry.answer.pt;
+        return { text: entry.answer[lang] || entry.answer.pt, isContact: false };
       }
     }
-    return t("chat.fallback");
+    return {
+      text: t("chat.fallback"),
+      isContact: true,
+    };
   };
 
   const send = () => {
     if (!input.trim()) return;
     const userMsg = input.trim();
-    setMessages((prev) => [...prev, { from: "user", text: userMsg }]);
+    setMessages((prev) => [...prev, {
+      id: Date.now().toString(),
+      from: "user",
+      text: userMsg,
+      timestamp: getCurrentTime(),
+    }]);
     setInput("");
+    setIsTyping(true);
+
     setTimeout(() => {
-      setMessages((prev) => [...prev, { from: "bot", text: getAnswer(userMsg) }]);
-    }, 500);
+      const answer = getAnswer(userMsg);
+      setMessages((prev) => [...prev, {
+        id: (Date.now() + 1).toString(),
+        from: "bot",
+        text: answer.text,
+        timestamp: getCurrentTime(),
+        isContact: answer.isContact,
+      }]);
+      setIsTyping(false);
+    }, 800 + Math.random() * 700);
   };
 
   return (
     <>
+      {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 bg-primary text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
+        className="fixed bottom-6 right-6 z-50 btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
         aria-label={t("chat.open")}
       >
         {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
       </button>
 
+      {/* Chat window */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-card border border-border rounded-lg shadow-2xl flex flex-col max-h-[500px]">
-          <div className="bg-primary text-primary-foreground px-4 py-3 rounded-t-lg">
-            <p className="font-display text-sm font-bold">{t("chat.title")}</p>
-            <p className="text-xs opacity-80">{t("chat.subtitle")}</p>
+        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 rounded-2xl shadow-2xl flex flex-col max-h-[500px] overflow-hidden"
+          style={{ background: "rgba(10, 20, 40, 0.85)", backdropFilter: "blur(20px)", border: "1px solid rgba(212, 165, 53, 0.2)" }}
+        >
+          {/* Header */}
+          <div className="flex items-center gap-3 px-4 py-3 relative" style={{ background: "rgba(0, 0, 0, 0.3)" }}>
+            <div className="w-9 h-9 rounded-full border-2 border-primary/30 bg-primary/20 flex items-center justify-center shrink-0">
+              <Shield className="w-4 h-4 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-foreground text-xs font-bold uppercase tracking-wide">{t("chat.title")}</h1>
+              <h2 className="text-muted-foreground text-[10px] tracking-widest">{t("chat.subtitle")}</h2>
+            </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[250px]">
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
-                    msg.from === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-foreground"
-                  }`}
-                >
-                  {msg.text}
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[250px]">
+            {messages.map((msg) => (
+              <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} animate-bounce-in`}>
+                {msg.from === "bot" && (
+                  <div className="w-7 h-7 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center mr-2 shrink-0 self-end">
+                    <Shield className="w-3 h-3 text-primary" />
+                  </div>
+                )}
+                <div className="max-w-[80%]">
+                  <div
+                    className={`px-3 py-2 text-sm leading-relaxed ${
+                      msg.from === "user"
+                        ? "bg-gradient-to-r from-[#D4A535] to-[#B8860B] text-primary-foreground rounded-xl rounded-br-none"
+                        : "bg-black/30 text-foreground/80 rounded-xl rounded-bl-none"
+                    }`}
+                  >
+                    {msg.text}
+                  </div>
+                  {msg.isContact && (
+                    <div className="mt-2 text-xs text-muted-foreground">
+                      {t("chat.contact_info")}
+                    </div>
+                  )}
+                  <span className="text-[9px] text-muted-foreground/50 mt-1 block">
+                    {msg.timestamp}
+                  </span>
                 </div>
               </div>
             ))}
+
+            {/* Typing indicator */}
+            {isTyping && (
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                  <Shield className="w-3 h-3 text-primary" />
+                </div>
+                <div className="bg-black/30 rounded-xl px-4 py-3 flex gap-1.5">
+                  <span className="typing-dot" style={{ animationDelay: "0s" }} />
+                  <span className="typing-dot" style={{ animationDelay: "0.15s" }} />
+                  <span className="typing-dot" style={{ animationDelay: "0.3s" }} />
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-border p-3 flex gap-2">
+          {/* Input */}
+          <div className="p-3 flex gap-2" style={{ background: "rgba(0, 0, 0, 0.3)" }}>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder={t("chat.placeholder")}
-              className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              className="flex-1 bg-transparent border-none text-sm text-foreground/80 placeholder:text-muted-foreground/50 focus:outline-none"
             />
-            <button onClick={send} className="bg-primary text-primary-foreground p-2 rounded-md hover:bg-primary/90 transition-colors">
+            <button onClick={send} className="btn-gold-3d text-primary-foreground p-2 rounded-lg">
               <Send className="w-4 h-4" />
             </button>
           </div>

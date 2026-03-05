@@ -21,17 +21,10 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.email_invalid": { pt: "E-mail invalido", en: "Invalid email", es: "Correo invalido" },
   "nav.email_success": { pt: "E-mail cadastrado com sucesso", en: "Email registered successfully", es: "Correo registrado con exito" },
 
-  // Services dropdown
-  "srv.testa_pix": { pt: "Testa PIX", en: "Test PIX", es: "Probar PIX" },
-  "srv.verificador_link": { pt: "Verificador de Link", en: "Link Checker", es: "Verificador de Enlace" },
-  "srv.verificador_email": { pt: "Verificador de E-mail", en: "Email Checker", es: "Verificador de Correo" },
+  // Services dropdown (cleaned)
   "srv.verificador_seguranca": { pt: "Verificador de Seguranca", en: "Security Checker", es: "Verificador de Seguridad" },
-  "srv.guia_informacoes": { pt: "Guia de Informacoes", en: "Info Guide", es: "Guia de Informacion" },
-  "srv.teste_vulnerabilidades": { pt: "Teste de Vulnerabilidades", en: "Vulnerability Test", es: "Prueba de Vulnerabilidades" },
-  "srv.lgpd": { pt: "LGPD", en: "LGPD", es: "LGPD" },
-  "srv.vazamento_dados": { pt: "Vazamento de Dados", en: "Data Breach", es: "Fuga de Datos" },
-  "srv.dicas_protecao": { pt: "Dicas de Protecao", en: "Protection Tips", es: "Consejos de Proteccion" },
   "srv.conversa_especialistas": { pt: "Conversa com Especialistas", en: "Talk to Experts", es: "Hablar con Expertos" },
+  "srv.servicos_page": { pt: "Servicos", en: "Services", es: "Servicios" },
 
   // Accessibility
   "a11y.title": { pt: "Acessibilidade", en: "Accessibility", es: "Accesibilidad" },
@@ -39,11 +32,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "a11y.high_contrast": { pt: "Alto Contraste", en: "High Contrast", es: "Alto Contraste" },
   "a11y.grayscale": { pt: "Tela P&B", en: "Grayscale", es: "Escala de Grises" },
   "a11y.font_size": { pt: "Tamanho da Fonte", en: "Font Size", es: "Tamano de Fuente" },
-  "a11y.dark_mode": { pt: "Modo Escuro", en: "Dark Mode", es: "Modo Oscuro" },
-  "a11y.light_mode": { pt: "Modo Claro", en: "Light Mode", es: "Modo Claro" },
   "a11y.highlight_links": { pt: "Destacar Links", en: "Highlight Links", es: "Resaltar Enlaces" },
-  "a11y.increase": { pt: "Aumentar", en: "Increase", es: "Aumentar" },
-  "a11y.decrease": { pt: "Diminuir", en: "Decrease", es: "Disminuir" },
 
   // Hero Carousel
   "hero.slide1.title": {
@@ -92,7 +81,6 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Cuanto mas sepas, mas dificil sera para un criminal enganarte.",
   },
   "stats.source": { pt: "Fonte", en: "Source", es: "Fuente" },
-
   "stats.0.value": { pt: "R$ 2,5 bilhoes", en: "R$ 2.5 billion", es: "R$ 2.500 millones" },
   "stats.0.label": { pt: "Perdas com fraudes bancarias digitais em 2024", en: "Losses from digital banking fraud in 2024", es: "Perdidas por fraude bancario digital en 2024" },
   "stats.1.value": { pt: "1 em cada 3", en: "1 in 3", es: "1 de cada 3" },
@@ -127,7 +115,6 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Conoce los tipos de fraude mas comunes y aprende a identificar cada uno antes de que sea tarde.",
   },
   "flip.hover": { pt: "Passe o mouse para saber mais", en: "Hover to learn more", es: "Pasa el mouse para saber mas" },
-
   "flip.0.title": { pt: "Golpe do Pix", en: "Pix Scam", es: "Estafa del Pix" },
   "flip.0.back": {
     pt: "Criminosos se passam por conhecidos ou empresas e pedem transferencias urgentes via Pix. Sempre confirme por ligacao antes de enviar qualquer valor.",
@@ -165,183 +152,6 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Empleos falsos piden pago anticipado o documentos personales. Las empresas serias nunca cobran para contratar. Desconfia de ofertas demasiado buenas.",
   },
 
-  // ScamResponse Section
-  "scam.title": { pt: "Cai em um golpe.", en: "Fell for a scam.", es: "Cai en una estafa." },
-  "scam.title2": { pt: "O que fazer?", en: "What to do?", es: "Que hacer?" },
-  "scam.subtitle": {
-    pt: "Se voce ou alguem proximo foi vitima, cada minuto conta. Veja os passos que podem salvar seu dinheiro e seus dados.",
-    en: "If you or someone close was a victim, every minute counts. See the steps that can save your money and data.",
-    es: "Si tu o alguien cercano fue victima, cada minuto cuenta. Mira los pasos que pueden salvar tu dinero y tus datos.",
-  },
-  "scam.hover": { pt: "Passe o mouse para saber mais", en: "Hover to learn more", es: "Pasa el mouse para saber mas" },
-
-  "scam.0.title": { pt: "Bloqueie suas contas bancarias", en: "Block your bank accounts", es: "Bloquea tus cuentas bancarias" },
-  "scam.0.back": {
-    pt: "Ligue imediatamente para o seu banco e peca o bloqueio temporario das contas e cartoes. Quanto mais rapido agir, maiores as chances de impedir movimentacoes indevidas.",
-    en: "Call your bank immediately and request a temporary block on accounts and cards. The faster you act, the greater the chances of preventing unauthorized transactions.",
-    es: "Llama inmediatamente a tu banco y pide el bloqueo temporal de cuentas y tarjetas. Cuanto mas rapido actues, mayores las posibilidades de evitar movimientos indebidos.",
-  },
-  "scam.1.title": { pt: "Registre um Boletim de Ocorrencia", en: "File a Police Report", es: "Registra un Informe Policial" },
-  "scam.1.back": {
-    pt: "Procure a delegacia mais proxima ou faca o registro online. O boletim de ocorrencia e essencial para investigacoes e para contestar transacoes fraudulentas.",
-    en: "Go to the nearest police station or file a report online. The police report is essential for investigations and to dispute fraudulent transactions.",
-    es: "Acude a la comisaria mas cercana o haz el registro en linea. El informe policial es esencial para investigaciones y para impugnar transacciones fraudulentas.",
-  },
-  "scam.2.title": { pt: "Avise seus contatos", en: "Warn your contacts", es: "Avisa a tus contactos" },
-  "scam.2.back": {
-    pt: "Se seus dados ou contas foram comprometidos, avise familiares e amigos para que ninguem caia em golpes usando seu nome ou numero.",
-    en: "If your data or accounts were compromised, warn family and friends so no one falls for scams using your name or number.",
-    es: "Si tus datos o cuentas fueron comprometidos, avisa a familiares y amigos para que nadie caiga en estafas usando tu nombre o numero.",
-  },
-  "scam.3.title": { pt: "Troque todas as suas senhas", en: "Change all your passwords", es: "Cambia todas tus contrasenas" },
-  "scam.3.back": {
-    pt: "Altere as senhas de e-mail, redes sociais, bancos e qualquer servico que possa ter sido exposto. Use senhas fortes e diferentes para cada conta.",
-    en: "Change passwords for email, social media, banks, and any service that may have been exposed. Use strong, unique passwords for each account.",
-    es: "Cambia las contrasenas de correo, redes sociales, bancos y cualquier servicio que pueda haber sido expuesto. Usa contrasenas fuertes y diferentes para cada cuenta.",
-  },
-  "scam.4.title": { pt: "Denuncie nos orgaos competentes", en: "Report to authorities", es: "Denuncia ante las autoridades" },
-  "scam.4.back": {
-    pt: "Alem da policia, denuncie no Procon, Banco Central e sites como consumidor.gov.br. Quanto mais denuncias, mais facil identificar e punir os criminosos.",
-    en: "Besides the police, report to consumer protection agencies and central bank. The more reports, the easier to identify and punish criminals.",
-    es: "Ademas de la policia, denuncia en agencias de proteccion al consumidor y banco central. Cuantas mas denuncias, mas facil identificar y castigar a los criminales.",
-  },
-  "scam.5.title": { pt: "Monitore seus dados", en: "Monitor your data", es: "Monitorea tus datos" },
-  "scam.5.back": {
-    pt: "Fique atento a movimentacoes estranhas nas suas contas e no seu CPF. Use servicos de monitoramento de credito e ative alertas no seu banco.",
-    en: "Watch for unusual activity in your accounts and ID. Use credit monitoring services and enable alerts at your bank.",
-    es: "Estate atento a movimientos extranos en tus cuentas y documento. Usa servicios de monitoreo de credito y activa alertas en tu banco.",
-  },
-
-  // Quiz
-  "quiz.title": { pt: "Quiz", en: "Quiz", es: "Quiz" },
-  "quiz.title_highlight": { pt: "AntiGolpe", en: "Anti-Scam", es: "AntiEstafa" },
-  "quiz.subtitle": { pt: "Teste seus conhecimentos sobre seguranca digital", en: "Test your knowledge about digital security", es: "Pon a prueba tus conocimientos sobre seguridad digital" },
-  "quiz.question_of": { pt: "Pergunta", en: "Question", es: "Pregunta" },
-  "quiz.of": { pt: "de", en: "of", es: "de" },
-  "quiz.points": { pt: "Pontos", en: "Points", es: "Puntos" },
-  "quiz.next": { pt: "Proxima Pergunta", en: "Next Question", es: "Siguiente Pregunta" },
-  "quiz.see_result": { pt: "Ver Resultado", en: "See Result", es: "Ver Resultado" },
-  "quiz.result_title": { pt: "Resultado do Quiz", en: "Quiz Result", es: "Resultado del Quiz" },
-  "quiz.restart": { pt: "Refazer Quiz", en: "Retake Quiz", es: "Rehacer Quiz" },
-  "quiz.feedback_good": { pt: "Excelente! Voce domina seguranca digital.", en: "Excellent! You master digital security.", es: "Excelente! Dominas la seguridad digital." },
-  "quiz.feedback_medium": { pt: "Bom resultado, mas ainda ha o que aprender. Continue atento.", en: "Good result, but there is still more to learn. Stay alert.", es: "Buen resultado, pero aun hay mas por aprender. Mantente alerta." },
-  "quiz.feedback_bad": {
-    pt: "Voce esta vulneravel a golpes. Isso e serio. Revise as informacoes acima e aprenda a se proteger antes que seja tarde.",
-    en: "You are vulnerable to scams. This is serious. Review the information above and learn to protect yourself before it is too late.",
-    es: "Eres vulnerable a estafas. Esto es serio. Revisa la informacion y aprende a protegerte antes de que sea tarde.",
-  },
-  "quiz.tip1": { pt: "Use autenticacao de dois fatores sempre que possivel", en: "Use two-factor authentication whenever possible", es: "Usa autenticacion de dos factores siempre que sea posible" },
-  "quiz.tip2": { pt: "Nunca compartilhe senhas ou codigos de verificacao", en: "Never share passwords or verification codes", es: "Nunca compartas contrasenas o codigos de verificacion" },
-  "quiz.tip3": { pt: "Desconfie de ofertas boas demais para ser verdade", en: "Be suspicious of offers too good to be true", es: "Desconfia de ofertas demasiado buenas para ser verdad" },
-  "quiz.tip4": { pt: "Verifique a URL antes de inserir dados pessoais", en: "Check the URL before entering personal data", es: "Verifica la URL antes de ingresar datos personales" },
-
-  "quiz.q0": {
-    pt: "Voce recebe um SMS do seu banco pedindo para clicar em um link e atualizar seus dados. O que fazer?",
-    en: "You receive an SMS from your bank asking you to click a link and update your data. What to do?",
-    es: "Recibes un SMS de tu banco pidiendo hacer clic en un enlace y actualizar tus datos. Que hacer?",
-  },
-  "quiz.q0.o0": { pt: "Clicar no link imediatamente para nao perder acesso", en: "Click the link immediately to not lose access", es: "Hacer clic en el enlace inmediatamente para no perder acceso" },
-  "quiz.q0.o1": { pt: "Ignorar e entrar no app oficial do banco para verificar", en: "Ignore and open the official bank app to verify", es: "Ignorar y entrar en la app oficial del banco para verificar" },
-  "quiz.q0.o2": { pt: "Responder o SMS com seus dados", en: "Reply to the SMS with your data", es: "Responder el SMS con tus datos" },
-  "quiz.q0.o3": { pt: "Encaminhar para amigos para alerta-los", en: "Forward to friends to alert them", es: "Reenviar a amigos para alertarlos" },
-  "quiz.q0.exp": { pt: "Bancos nunca pedem dados por SMS com links. Sempre acesse o app oficial ou ligue para a central.", en: "Banks never request data via SMS with links. Always use the official app or call the hotline.", es: "Los bancos nunca piden datos por SMS con enlaces. Siempre usa la app oficial o llama a la central." },
-
-  "quiz.q1": {
-    pt: "Qual destes e um sinal claro de golpe de phishing?",
-    en: "Which of these is a clear sign of a phishing scam?",
-    es: "Cual de estos es una senal clara de estafa de phishing?",
-  },
-  "quiz.q1.o0": { pt: "E-mail com o dominio oficial da empresa", en: "Email with the company official domain", es: "Correo con el dominio oficial de la empresa" },
-  "quiz.q1.o1": { pt: "Urgencia extrema e ameacas de bloqueio de conta", en: "Extreme urgency and account blocking threats", es: "Urgencia extrema y amenazas de bloqueo de cuenta" },
-  "quiz.q1.o2": { pt: "Comunicacao sem erros ortograficos", en: "Communication without spelling errors", es: "Comunicacion sin errores ortograficos" },
-  "quiz.q1.o3": { pt: "Link que direciona ao site oficial", en: "Link that directs to the official site", es: "Enlace que dirige al sitio oficial" },
-  "quiz.q1.exp": { pt: "Golpistas criam senso de urgencia para que a vitima aja sem pensar. Desconfie de mensagens alarmistas.", en: "Scammers create a sense of urgency so the victim acts without thinking. Be suspicious of alarming messages.", es: "Los estafadores crean un sentido de urgencia para que la victima actue sin pensar. Desconfia de mensajes alarmistas." },
-
-  "quiz.q2": {
-    pt: "Um desconhecido no WhatsApp diz ser seu filho e pede um Pix urgente. O que fazer?",
-    en: "A stranger on WhatsApp claims to be your child and asks for an urgent Pix. What to do?",
-    es: "Un desconocido en WhatsApp dice ser tu hijo y pide un Pix urgente. Que hacer?",
-  },
-  "quiz.q2.o0": { pt: "Fazer o Pix imediatamente, pode ser urgente", en: "Send the Pix immediately, it might be urgent", es: "Hacer el Pix inmediatamente, puede ser urgente" },
-  "quiz.q2.o1": { pt: "Pedir o CPF para confirmar", en: "Ask for their ID to confirm", es: "Pedir el documento para confirmar" },
-  "quiz.q2.o2": { pt: "Ligar para o numero antigo do seu filho para confirmar", en: "Call your child old number to confirm", es: "Llamar al numero anterior de tu hijo para confirmar" },
-  "quiz.q2.o3": { pt: "Bloquear sem verificar", en: "Block without verifying", es: "Bloquear sin verificar" },
-  "quiz.q2.exp": { pt: "Sempre confirme por outro meio de contato. Golpistas usam fotos e nomes reais para enganar.", en: "Always confirm through another means of contact. Scammers use real photos and names to deceive.", es: "Siempre confirma por otro medio de contacto. Los estafadores usan fotos y nombres reales para enganar." },
-
-  "quiz.q3": {
-    pt: "Qual e a melhor pratica para criar senhas seguras?",
-    en: "What is the best practice for creating secure passwords?",
-    es: "Cual es la mejor practica para crear contrasenas seguras?",
-  },
-  "quiz.q3.o0": { pt: "Usar a mesma senha em todos os sites para nao esquecer", en: "Use the same password on all sites to not forget", es: "Usar la misma contrasena en todos los sitios para no olvidarla" },
-  "quiz.q3.o1": { pt: "Usar o nome do pet + data de nascimento", en: "Use pet name + birthday", es: "Usar nombre de mascota + fecha de nacimiento" },
-  "quiz.q3.o2": { pt: "Criar senhas longas com letras, numeros e simbolos unicos para cada site", en: "Create long passwords with unique letters, numbers and symbols for each site", es: "Crear contrasenas largas con letras, numeros y simbolos unicos para cada sitio" },
-  "quiz.q3.o3": { pt: "Anotar todas as senhas em um papel na carteira", en: "Write all passwords on a paper in wallet", es: "Anotar todas las contrasenas en un papel en la billetera" },
-  "quiz.q3.exp": { pt: "Senhas unicas e complexas para cada servico, preferencialmente com um gerenciador de senhas.", en: "Unique and complex passwords for each service, preferably with a password manager.", es: "Contrasenas unicas y complejas para cada servicio, preferiblemente con un gestor de contrasenas." },
-
-  "quiz.q4": {
-    pt: "Voce encontra uma vaga de emprego online que pede pagamento de R$ 50 para garantir sua inscricao. O que fazer?",
-    en: "You find an online job posting that asks for a R$ 50 payment to secure your application. What to do?",
-    es: "Encuentras una oferta de empleo en linea que pide un pago de R$ 50 para asegurar tu inscripcion. Que hacer?",
-  },
-  "quiz.q4.o0": { pt: "Pagar rapidamente antes que a vaga acabe", en: "Pay quickly before the position is filled", es: "Pagar rapidamente antes de que se acabe la vacante" },
-  "quiz.q4.o1": { pt: "Verificar se a empresa existe e nunca pagar para se candidatar", en: "Verify the company exists and never pay to apply", es: "Verificar si la empresa existe y nunca pagar para postularse" },
-  "quiz.q4.o2": { pt: "Pedir desconto no valor", en: "Ask for a discount", es: "Pedir descuento en el monto" },
-  "quiz.q4.o3": { pt: "Enviar seus documentos primeiro e pagar depois", en: "Send documents first and pay later", es: "Enviar documentos primero y pagar despues" },
-  "quiz.q4.exp": { pt: "Empresas legitimas nunca cobram para processos seletivos. Isso e golpe.", en: "Legitimate companies never charge for hiring processes. This is a scam.", es: "Las empresas legitimas nunca cobran por procesos de seleccion. Esto es una estafa." },
-
-  // FAQ
-  "faq.title": { pt: "Perguntas", en: "Frequently Asked", es: "Preguntas" },
-  "faq.title_highlight": { pt: "frequentes", en: "Questions", es: "frecuentes" },
-  "faq.subtitle": {
-    pt: "Tire suas duvidas sobre seguranca digital e saiba como agir em cada situacao.",
-    en: "Get answers about digital security and learn how to act in each situation.",
-    es: "Resuelve tus dudas sobre seguridad digital y aprende como actuar en cada situacion.",
-  },
-
-  "faq.0.q": { pt: "O que devo fazer se cai em um golpe?", en: "What should I do if I fell for a scam?", es: "Que debo hacer si cai en una estafa?" },
-  "faq.0.a": {
-    pt: "Primeiro, entre em contato com seu banco imediatamente para tentar bloquear a transacao. Depois, registre um boletim de ocorrencia na delegacia ou pela internet. Tambem e importante avisar seus contatos caso seus dados tenham sido roubados.",
-    en: "First, contact your bank immediately to try to block the transaction. Then, file a police report at the station or online. It is also important to warn your contacts if your data was stolen.",
-    es: "Primero, contacta a tu banco inmediatamente para intentar bloquear la transaccion. Luego, registra un informe policial en la comisaria o por internet. Tambien es importante avisar a tus contactos si tus datos fueron robados.",
-  },
-  "faq.1.q": { pt: "Como saber se um site e seguro para comprar?", en: "How to know if a website is safe to buy from?", es: "Como saber si un sitio web es seguro para comprar?" },
-  "faq.1.a": {
-    pt: "Verifique se o endereco comeca com https e se ha um cadeado ao lado da URL. Pesquise a reputacao da loja em sites como Reclame Aqui. Desconfie de precos muito abaixo do normal e de sites que so aceitam Pix ou boleto.",
-    en: "Check if the address starts with https and if there is a padlock next to the URL. Research the store reputation on review sites. Be suspicious of prices far below normal and sites that only accept wire transfers.",
-    es: "Verifica si la direccion comienza con https y si hay un candado junto a la URL. Investiga la reputacion de la tienda en sitios de resenas. Desconfia de precios muy por debajo de lo normal y sitios que solo aceptan transferencias.",
-  },
-  "faq.2.q": { pt: "Meu WhatsApp foi clonado. O que faco?", en: "My WhatsApp was cloned. What do I do?", es: "Mi WhatsApp fue clonado. Que hago?" },
-  "faq.2.a": {
-    pt: "Avise seus contatos imediatamente para que ninguem envie dinheiro ao golpista. Tente recuperar sua conta pelo proprio app seguindo as instrucoes de verificacao. Ative a verificacao em duas etapas para evitar que aconteca novamente.",
-    en: "Warn your contacts immediately so no one sends money to the scammer. Try to recover your account through the app following verification instructions. Enable two-step verification to prevent it from happening again.",
-    es: "Avisa a tus contactos inmediatamente para que nadie envie dinero al estafador. Intenta recuperar tu cuenta a traves de la app siguiendo las instrucciones de verificacion. Activa la verificacion en dos pasos para evitar que vuelva a ocurrir.",
-  },
-  "faq.3.q": { pt: "E seguro fazer Pix para desconhecidos?", en: "Is it safe to send Pix to strangers?", es: "Es seguro hacer Pix a desconocidos?" },
-  "faq.3.a": {
-    pt: "Evite ao maximo. Antes de transferir, confirme a identidade da pessoa por outros meios, como uma ligacao. Nunca faca Pix por pressao ou urgencia. Lembre-se: depois de enviado, e muito dificil recuperar o dinheiro.",
-    en: "Avoid it as much as possible. Before transferring, confirm the person identity through other means, like a phone call. Never send Pix under pressure or urgency. Remember: once sent, it is very hard to recover the money.",
-    es: "Evitalo al maximo. Antes de transferir, confirma la identidad de la persona por otros medios, como una llamada. Nunca hagas Pix bajo presion o urgencia. Recuerda: una vez enviado, es muy dificil recuperar el dinero.",
-  },
-  "faq.4.q": { pt: "Como criar uma senha realmente segura?", en: "How to create a truly secure password?", es: "Como crear una contrasena realmente segura?" },
-  "faq.4.a": {
-    pt: "Use pelo menos 12 caracteres misturando letras maiusculas, minusculas, numeros e simbolos. Nao use datas de aniversario, nomes de familiares ou sequencias como 123456. O ideal e usar um gerenciador de senhas.",
-    en: "Use at least 12 characters mixing uppercase, lowercase letters, numbers, and symbols. Do not use birthdays, family names, or sequences like 123456. Ideally, use a password manager.",
-    es: "Usa al menos 12 caracteres mezclando letras mayusculas, minusculas, numeros y simbolos. No uses fechas de cumpleanos, nombres de familiares o secuencias como 123456. Lo ideal es usar un gestor de contrasenas.",
-  },
-  "faq.5.q": { pt: "Recebi uma ligacao do banco pedindo minha senha. E verdade?", en: "I received a call from the bank asking for my password. Is it real?", es: "Recibi una llamada del banco pidiendo mi contrasena. Es real?" },
-  "faq.5.a": {
-    pt: "Nao. Bancos nunca pedem senha, numero do cartao completo ou codigo de seguranca por telefone. Se receber esse tipo de ligacao, desligue e ligue voce mesmo para o numero oficial do banco que esta no verso do seu cartao.",
-    en: "No. Banks never ask for passwords, full card numbers, or security codes by phone. If you receive such a call, hang up and call the official bank number on the back of your card.",
-    es: "No. Los bancos nunca piden contrasenas, numeros de tarjeta completos o codigos de seguridad por telefono. Si recibes ese tipo de llamada, cuelga y llama tu mismo al numero oficial del banco que esta en el reverso de tu tarjeta.",
-  },
-  "faq.6.q": { pt: "Como proteger pessoas idosas de golpes?", en: "How to protect elderly people from scams?", es: "Como proteger a las personas mayores de estafas?" },
-  "faq.6.a": {
-    pt: "Converse com elas sobre os golpes mais comuns, de forma simples e sem pressa. Configure a verificacao em duas etapas no celular delas. Oriente a nunca dar informacoes por telefone e a sempre confirmar pedidos de dinheiro com um familiar.",
-    en: "Talk to them about the most common scams, simply and patiently. Set up two-step verification on their phone. Advise them to never give information by phone and always confirm money requests with a family member.",
-    es: "Habla con ellos sobre las estafas mas comunes, de forma simple y sin prisa. Configura la verificacion en dos pasos en su telefono. Orientalos a nunca dar informacion por telefono y a siempre confirmar pedidos de dinero con un familiar.",
-  },
-
   // Testimonials
   "test.title": { pt: "Quem aprendeu,", en: "Those who learned,", es: "Quien aprendio," },
   "test.title_highlight": { pt: "nao caiu", en: "did not fall", es: "no cayo" },
@@ -357,13 +167,15 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Educating and protecting people against digital fraud and scams.",
     es: "Educando y protegiendo personas contra fraudes y estafas digitales.",
   },
-  "footer.sobre": { pt: "Sobre", en: "About", es: "Acerca" },
-  "footer.sobre_link": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
+  "footer.sobre": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
+  "footer.sobre_link": { pt: "Sobre nos", en: "About us", es: "Sobre nosotros" },
+  "footer.blog_link": { pt: "Blog", en: "Blog", es: "Blog" },
+  "footer.politicas_link": { pt: "Politicas", en: "Policies", es: "Politicas" },
   "footer.contato": { pt: "Contato", en: "Contact", es: "Contacto" },
   "footer.copy": {
-    pt: "2026 CyberGuard. Todos os direitos reservados. Site educativo sem fins lucrativos.",
-    en: "2026 CyberGuard. All rights reserved. Educational non-profit website.",
-    es: "2026 CyberGuard. Todos los derechos reservados. Sitio educativo sin fines de lucro.",
+    pt: "Copyright \u00A9 2026 CyberGuard. Todos os direitos reservados.",
+    en: "Copyright \u00A9 2026 CyberGuard. All rights reserved.",
+    es: "Copyright \u00A9 2026 CyberGuard. Todos los derechos reservados.",
   },
 
   // About
@@ -409,21 +221,119 @@ const translations: Record<string, Record<Lang, string>> = {
   "dash.tip1": { pt: "Ative a verificacao em duas etapas em todas as suas contas", en: "Enable two-factor authentication on all your accounts", es: "Activa la verificacion en dos pasos en todas tus cuentas" },
   "dash.tip2": { pt: "Nunca compartilhe codigos de verificacao recebidos por SMS", en: "Never share verification codes received via SMS", es: "Nunca compartas codigos de verificacion recibidos por SMS" },
 
-  // Chatbot
-  "chat.title": { pt: "CyberGuard - Assistente", en: "CyberGuard - Assistant", es: "CyberGuard - Asistente" },
-  "chat.subtitle": { pt: "Tire suas duvidas sobre golpes e fraudes", en: "Get answers about scams and fraud", es: "Resuelve tus dudas sobre estafas y fraudes" },
+  // Chatbot - Cyntia
+  "chat.title": { pt: "CYNTIA ASSISTENTE", en: "CYNTIA ASSISTANT", es: "CYNTIA ASISTENTE" },
+  "chat.subtitle": { pt: "@CYNTIA", en: "@CYNTIA", es: "@CYNTIA" },
   "chat.welcome": {
-    pt: "Ola! Sou o assistente do CyberGuard. Pergunte sobre qualquer tipo de golpe ou fraude digital e vou te ajudar a se proteger.",
-    en: "Hello! I am the CyberGuard assistant. Ask about any type of digital scam or fraud and I will help you protect yourself.",
-    es: "Hola! Soy el asistente de CyberGuard. Pregunta sobre cualquier tipo de estafa o fraude digital y te ayudare a protegerte.",
+    pt: "Ola! Sou a Cyntia, assistente de seguranca digital da CyberGuard. Pergunte sobre qualquer tipo de golpe ou fraude e vou te ajudar a se proteger.",
+    en: "Hello! I am Cyntia, CyberGuard's digital security assistant. Ask about any type of scam or fraud and I will help you protect yourself.",
+    es: "Hola! Soy Cyntia, asistente de seguridad digital de CyberGuard. Pregunta sobre cualquier tipo de estafa o fraude y te ayudare a protegerte.",
   },
   "chat.placeholder": { pt: "Digite sua duvida...", en: "Type your question...", es: "Escribe tu duda..." },
   "chat.open": { pt: "Abrir chat", en: "Open chat", es: "Abrir chat" },
   "chat.fallback": {
-    pt: "Nao encontrei uma resposta especifica para sua pergunta. Tente perguntar sobre: Pix, phishing, WhatsApp, senhas, boletos, compras online, golpes em geral ou como proteger idosos.",
-    en: "I could not find a specific answer to your question. Try asking about: Pix, phishing, WhatsApp, passwords, invoices, online shopping, scams in general, or how to protect the elderly.",
-    es: "No encontre una respuesta especifica a tu pregunta. Intenta preguntar sobre: Pix, phishing, WhatsApp, contrasenas, boletos, compras en linea, estafas en general o como proteger a los mayores.",
+    pt: "Nao encontrei uma resposta especifica para sua pergunta. Para mais informacoes, entre em contato: contato@cyberguard.com.br",
+    en: "I could not find a specific answer. For more information, contact us: contato@cyberguard.com.br",
+    es: "No encontre una respuesta especifica. Para mas informacion, contactenos: contato@cyberguard.com.br",
   },
+  "chat.contact_info": {
+    pt: "Entre em contato: contato@cyberguard.com.br",
+    en: "Contact us: contato@cyberguard.com.br",
+    es: "Contactenos: contato@cyberguard.com.br",
+  },
+
+  // Antivirus page
+  "av.badge": { pt: "Antivirus Gratuito", en: "Free Antivirus", es: "Antivirus Gratuito" },
+  "av.title": { pt: "Defenda seu PC contra ciberameacas com nosso premiado", en: "Defend your PC against cyber threats with our award-winning", es: "Defiende tu PC contra ciberamenazas con nuestro premiado" },
+  "av.title_highlight": { pt: "antivirus gratuito CyberGuard", en: "free CyberGuard antivirus", es: "antivirus gratuito CyberGuard" },
+  "av.desc": {
+    pt: "Protecao em tempo real contra malware, ransomware, spyware e ameacas zero-day. Leve, rapido e completamente gratuito.",
+    en: "Real-time protection against malware, ransomware, spyware, and zero-day threats. Lightweight, fast, and completely free.",
+    es: "Proteccion en tiempo real contra malware, ransomware, spyware y amenazas zero-day. Ligero, rapido y completamente gratuito.",
+  },
+  "av.cta": { pt: "Download Gratuito", en: "Free Download", es: "Descarga Gratuita" },
+  "av.features_title": { pt: "Recursos de Protecao", en: "Protection Features", es: "Funciones de Proteccion" },
+  "av.features_desc": {
+    pt: "Tecnologia avancada para manter voce seguro no mundo digital.",
+    en: "Advanced technology to keep you safe in the digital world.",
+    es: "Tecnologia avanzada para mantenerte seguro en el mundo digital.",
+  },
+  "av.feat1.title": { pt: "Protecao em Tempo Real", en: "Real-Time Protection", es: "Proteccion en Tiempo Real" },
+  "av.feat1.desc": { pt: "Monitoramento constante contra ameacas, bloqueando malware antes que infecte seu sistema.", en: "Constant threat monitoring, blocking malware before it infects your system.", es: "Monitoreo constante contra amenazas, bloqueando malware antes de que infecte tu sistema." },
+  "av.feat2.title": { pt: "Analise Inteligente", en: "Smart Analysis", es: "Analisis Inteligente" },
+  "av.feat2.desc": { pt: "Motor de deteccao com inteligencia artificial que identifica ameacas desconhecidas.", en: "AI-powered detection engine that identifies unknown threats.", es: "Motor de deteccion con inteligencia artificial que identifica amenazas desconocidas." },
+  "av.feat3.title": { pt: "Protecao de Rede", en: "Network Protection", es: "Proteccion de Red" },
+  "av.feat3.desc": { pt: "Firewall integrado que monitora trafego de rede e bloqueia conexoes suspeitas.", en: "Integrated firewall that monitors network traffic and blocks suspicious connections.", es: "Firewall integrado que monitorea el trafico de red y bloquea conexiones sospechosas." },
+  "av.feat4.title": { pt: "Cofre Digital", en: "Digital Vault", es: "Cofre Digital" },
+  "av.feat4.desc": { pt: "Armazene seus arquivos sensiveis em uma area criptografada e protegida.", en: "Store your sensitive files in an encrypted and protected area.", es: "Almacena tus archivos sensibles en un area encriptada y protegida." },
+  "av.feat5.title": { pt: "Anti-Rastreamento", en: "Anti-Tracking", es: "Anti-Rastreo" },
+  "av.feat5.desc": { pt: "Bloqueie rastreadores e proteja sua privacidade durante a navegacao.", en: "Block trackers and protect your privacy while browsing.", es: "Bloquea rastreadores y protege tu privacidad durante la navegacion." },
+  "av.feat6.title": { pt: "Atualizacoes Automaticas", en: "Automatic Updates", es: "Actualizaciones Automaticas" },
+  "av.feat6.desc": { pt: "Base de dados de ameacas atualizada automaticamente para protecao contra as ultimas ameacas.", en: "Threat database automatically updated for protection against the latest threats.", es: "Base de datos de amenazas actualizada automaticamente para proteccion contra las ultimas amenazas." },
+  "av.cta_title": { pt: "Pronto para se proteger?", en: "Ready to protect yourself?", es: "Listo para protegerte?" },
+  "av.cta_desc": { pt: "Baixe o CyberGuard Antivirus gratuitamente e tenha protecao completa para o seu computador.", en: "Download CyberGuard Antivirus for free and get complete protection for your computer.", es: "Descarga CyberGuard Antivirus gratis y ten proteccion completa para tu computadora." },
+
+  // Services page
+  "svc.title": { pt: "Nossos", en: "Our", es: "Nuestros" },
+  "svc.title_highlight": { pt: "Servicos", en: "Services", es: "Servicios" },
+  "svc.subtitle": { pt: "Ferramentas e recursos para proteger sua vida digital.", en: "Tools and resources to protect your digital life.", es: "Herramientas y recursos para proteger tu vida digital." },
+  "svc.guide_title": { pt: "Guia de Informacoes", en: "Information Guide", es: "Guia de Informacion" },
+  "svc.guide1.title": { pt: "Dicas para Redes Sociais", en: "Social Media Tips", es: "Consejos para Redes Sociales" },
+  "svc.guide1.desc": { pt: "Aprenda a configurar a privacidade das suas redes sociais, evitar perfis falsos e proteger suas informacoes pessoais contra engenharia social.", en: "Learn to configure your social media privacy, avoid fake profiles, and protect your personal information against social engineering.", es: "Aprende a configurar la privacidad de tus redes sociales, evitar perfiles falsos y proteger tu informacion personal contra ingenieria social." },
+  "svc.guide2.title": { pt: "Seguranca em Pagamentos", en: "Payment Security", es: "Seguridad en Pagos" },
+  "svc.guide2.desc": { pt: "Saiba como verificar sites de compras, usar cartoes virtuais, identificar boletos falsos e proteger suas transacoes financeiras online.", en: "Learn how to verify shopping sites, use virtual cards, identify fake invoices, and protect your online financial transactions.", es: "Aprende a verificar sitios de compras, usar tarjetas virtuales, identificar boletos falsos y proteger tus transacciones financieras online." },
+  "svc.guide3.title": { pt: "E-mails Fraudulentos", en: "Fraudulent Emails", es: "Correos Fraudulentos" },
+  "svc.guide3.desc": { pt: "Identifique caracteristicas de e-mails de phishing, verifique remetentes suspeitos e proteja-se contra anexos maliciosos e links falsos.", en: "Identify phishing email characteristics, verify suspicious senders, and protect yourself against malicious attachments and fake links.", es: "Identifica caracteristicas de correos de phishing, verifica remitentes sospechosos y protegete contra archivos adjuntos maliciosos y enlaces falsos." },
+  "svc.vuln_title": { pt: "Teste de Vulnerabilidade", en: "Vulnerability Test", es: "Prueba de Vulnerabilidad" },
+  "svc.vuln_desc": { pt: "O teste de vulnerabilidade e uma analise estruturada que identifica, classifica e prioriza fraquezas de seguranca em sistemas, redes e aplicacoes sem explora-las ativamente.", en: "A vulnerability test is a structured analysis that identifies, classifies, and prioritizes security weaknesses in systems, networks, and applications without actively exploiting them.", es: "La prueba de vulnerabilidad es un analisis estructurado que identifica, clasifica y prioriza debilidades de seguridad en sistemas, redes y aplicaciones sin explotarlas activamente." },
+  "svc.vuln_detail": { pt: "Ele funciona como um raio-x para detectar softwares obsoletos, configuracoes incorretas e falhas conhecidas, gerando relatorios para correcao preventiva e mitigacao de riscos.", en: "It works as an X-ray to detect obsolete software, incorrect configurations, and known flaws, generating reports for preventive correction and risk mitigation.", es: "Funciona como una radiografia para detectar software obsoleto, configuraciones incorrectas y fallas conocidas, generando informes para correccion preventiva y mitigacion de riesgos." },
+  "svc.lgpd_title": { pt: "LGPD e Vazamento de Dados", en: "LGPD & Data Breaches", es: "LGPD y Fuga de Datos" },
+  "svc.lgpd_card_title": { pt: "LGPD - Lei Geral de Protecao de Dados", en: "LGPD - General Data Protection Law", es: "LGPD - Ley General de Proteccion de Datos" },
+  "svc.lgpd_card_desc": { pt: "A LGPD e a legislacao brasileira que estabelece regras para a coleta, armazenamento, tratamento e compartilhamento de dados pessoais, com o objetivo de proteger a privacidade e os direitos fundamentais dos cidadaos. Ela garante que empresas e orgaos publicos usem essas informacoes com transparencia, consentimento e seguranca, permitindo que voce saiba o que e coletado, corrija, bloqueie ou peca a eliminacao dos seus dados.", en: "The LGPD is the Brazilian legislation that establishes rules for the collection, storage, processing, and sharing of personal data, with the aim of protecting the privacy and fundamental rights of citizens. It ensures that companies and public bodies use this information with transparency, consent, and security.", es: "La LGPD es la legislacion brasilena que establece reglas para la recoleccion, almacenamiento, tratamiento y comparticion de datos personales, con el objetivo de proteger la privacidad y los derechos fundamentales de los ciudadanos." },
+  "svc.vazamento_card_title": { pt: "Vazamento de Dados", en: "Data Breaches", es: "Fuga de Datos" },
+  "svc.vazamento_card_desc": { pt: "Vazamentos de dados ocorrem quando informacoes pessoais ou confidenciais sao acessadas, copiadas ou divulgadas sem autorizacao. Dados de CPFs, cartoes e senhas tornam-se alvos para fraudes. As principais causas incluem ataques de hackers, negligencia humana e configuracoes de seguranca mal feitas. Os riscos envolvem roubo de identidade, fraudes financeiras, phishing e venda de dados no mercado negro.", en: "Data breaches occur when personal or confidential information is accessed, copied, or disclosed without authorization. CPF data, cards, and passwords become targets for fraud. Main causes include hacker attacks, human negligence, and poor security configurations.", es: "Las fugas de datos ocurren cuando informacion personal o confidencial es accedida, copiada o divulgada sin autorizacion. Datos de documentos, tarjetas y contrasenas se convierten en objetivos para fraudes." },
+
+  // Experts page
+  "exp.title": { pt: "Converse com nossos", en: "Talk to our", es: "Habla con nuestros" },
+  "exp.title_highlight": { pt: "Especialistas", en: "Experts", es: "Especialistas" },
+  "exp.subtitle": { pt: "Conecte-se com profissionais de ciberseguranca para orientacao personalizada.", en: "Connect with cybersecurity professionals for personalized guidance.", es: "Conectate con profesionales de ciberseguridad para orientacion personalizada." },
+  "exp.our_experts": { pt: "Nossos Especialistas", en: "Our Experts", es: "Nuestros Especialistas" },
+  "exp.available": { pt: "Disponivel", en: "Available", es: "Disponible" },
+  "exp.unavailable": { pt: "Indisponivel", en: "Unavailable", es: "No disponible" },
+  "exp.schedule": { pt: "Agendar Consulta", en: "Schedule Consultation", es: "Agendar Consulta" },
+  "exp.confirm": { pt: "Confirmar Agendamento", en: "Confirm Booking", es: "Confirmar Agendamiento" },
+  "exp.chat": { pt: "Chat com Especialista", en: "Chat with Expert", es: "Chat con Especialista" },
+  "exp.chat_example": { pt: "Ola! Como posso ajudar com sua seguranca digital hoje?", en: "Hello! How can I help with your digital security today?", es: "Hola! Como puedo ayudarte con tu seguridad digital hoy?" },
+  "exp.chat_placeholder": { pt: "Digite sua mensagem...", en: "Type your message...", es: "Escribe tu mensaje..." },
+  "exp.send": { pt: "Enviar", en: "Send", es: "Enviar" },
+  "exp.videos": { pt: "Videos de Instrucao", en: "Instructional Videos", es: "Videos de Instruccion" },
+
+  // Blog page
+  "blog.title": { pt: "Blog", en: "Blog", es: "Blog" },
+  "blog.title_highlight": { pt: "CyberGuard", en: "CyberGuard", es: "CyberGuard" },
+  "blog.subtitle": { pt: "Artigos e noticias sobre ciberseguranca para manter voce informado e protegido.", en: "Articles and news about cybersecurity to keep you informed and protected.", es: "Articulos y noticias sobre ciberseguridad para mantenerte informado y protegido." },
+  "blog.read_more": { pt: "Ler mais", en: "Read more", es: "Leer mas" },
+  "blog.post1.title": { pt: "Como proteger seu WhatsApp em 2026", en: "How to protect your WhatsApp in 2026", es: "Como proteger tu WhatsApp en 2026" },
+  "blog.post1.summary": { pt: "Dicas essenciais para evitar clonagem e invasao da sua conta.", en: "Essential tips to avoid cloning and hacking your account.", es: "Consejos esenciales para evitar la clonacion e invasion de tu cuenta." },
+  "blog.post2.title": { pt: "Os 5 golpes mais comuns via Pix", en: "The 5 most common Pix scams", es: "Las 5 estafas mas comunes via Pix" },
+  "blog.post2.summary": { pt: "Conheca as taticas mais usadas por criminosos e como se proteger.", en: "Learn about the most used tactics by criminals and how to protect yourself.", es: "Conoce las tacticas mas usadas por criminales y como protegerte." },
+  "blog.post3.title": { pt: "LGPD: seus direitos sobre seus dados", en: "LGPD: your rights over your data", es: "LGPD: tus derechos sobre tus datos" },
+  "blog.post3.summary": { pt: "Entenda o que a lei garante e como exercer seus direitos.", en: "Understand what the law guarantees and how to exercise your rights.", es: "Entiende lo que la ley garantiza y como ejercer tus derechos." },
+  "blog.post4.title": { pt: "Senhas seguras: guia definitivo", en: "Secure passwords: definitive guide", es: "Contrasenas seguras: guia definitiva" },
+  "blog.post4.summary": { pt: "Aprenda a criar e gerenciar senhas que realmente protegem.", en: "Learn to create and manage passwords that truly protect.", es: "Aprende a crear y gestionar contrasenas que realmente protejan." },
+  "blog.post5.title": { pt: "Engenharia social: a ameaca invisivel", en: "Social engineering: the invisible threat", es: "Ingenieria social: la amenaza invisible" },
+  "blog.post5.summary": { pt: "Como criminosos manipulam pessoas para obter informacoes.", en: "How criminals manipulate people to obtain information.", es: "Como los criminales manipulan personas para obtener informacion." },
+  "blog.post6.title": { pt: "Antivirus em 2026: ainda e necessario?", en: "Antivirus in 2026: is it still necessary?", es: "Antivirus en 2026: sigue siendo necesario?" },
+  "blog.post6.summary": { pt: "Analise sobre a importancia dos antivirus nos dias atuais.", en: "Analysis on the importance of antivirus software today.", es: "Analisis sobre la importancia de los antivirus en la actualidad." },
+
+  // Policies page
+  "pol.title": { pt: "Politicas e Termos", en: "Policies & Terms", es: "Politicas y Terminos" },
+  "pol.terms_title": { pt: "Termos de Uso", en: "Terms of Use", es: "Terminos de Uso" },
+  "pol.terms_text": { pt: "Ao utilizar o site CyberGuard, voce concorda com estes termos de uso. O conteudo deste site tem carater educativo e informativo. Nao nos responsabilizamos por decisoes tomadas com base nas informacoes aqui disponibilizadas. O uso do site e de suas ferramentas e de inteira responsabilidade do usuario. Reservamo-nos o direito de modificar estes termos a qualquer momento.", en: "By using the CyberGuard website, you agree to these terms of use. The content of this site is educational and informational. We are not responsible for decisions made based on the information provided here. The use of the site and its tools is the user's full responsibility.", es: "Al utilizar el sitio CyberGuard, usted acepta estos terminos de uso. El contenido de este sitio tiene caracter educativo e informativo. No nos responsabilizamos por decisiones tomadas con base en la informacion aqui proporcionada." },
+  "pol.privacy_title": { pt: "Politica de Privacidade", en: "Privacy Policy", es: "Politica de Privacidad" },
+  "pol.privacy_text": { pt: "A CyberGuard respeita sua privacidade. Coletamos apenas dados necessarios para o funcionamento do site, como e-mail para cadastro. Nao compartilhamos seus dados com terceiros. Utilizamos cookies para melhorar sua experiencia de navegacao. Voce pode solicitar a exclusao dos seus dados a qualquer momento entrando em contato conosco.", en: "CyberGuard respects your privacy. We only collect data necessary for the site's operation, such as email for registration. We do not share your data with third parties. We use cookies to improve your browsing experience. You can request the deletion of your data at any time by contacting us.", es: "CyberGuard respeta su privacidad. Solo recopilamos datos necesarios para el funcionamiento del sitio. No compartimos sus datos con terceros. Utilizamos cookies para mejorar su experiencia de navegacion." },
+  "pol.lgpd_title": { pt: "LGPD - Seus Direitos", en: "LGPD - Your Rights", es: "LGPD - Sus Derechos" },
+  "pol.lgpd_text": { pt: "De acordo com a Lei Geral de Protecao de Dados (Lei 13.709/2018), voce tem direito a: confirmacao da existencia de tratamento de seus dados; acesso aos dados; correcao de dados incompletos ou desatualizados; anonimizacao, bloqueio ou eliminacao de dados desnecessarios; portabilidade dos dados; eliminacao dos dados pessoais tratados com seu consentimento; e revogacao do consentimento.", en: "According to the General Data Protection Law (Law 13.709/2018), you have the right to: confirmation of the existence of processing of your data; access to data; correction of incomplete or outdated data; anonymization, blocking, or deletion of unnecessary data; data portability; deletion of personal data processed with your consent; and revocation of consent.", es: "De acuerdo con la Ley General de Proteccion de Datos (Ley 13.709/2018), usted tiene derecho a: confirmacion de la existencia de tratamiento de sus datos; acceso a los datos; correccion de datos incompletos o desactualizados; anonimizacion, bloqueo o eliminacion de datos innecesarios." },
 };
 
 const LanguageContext = createContext<LanguageContextType>({

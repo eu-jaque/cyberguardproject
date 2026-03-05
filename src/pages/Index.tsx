@@ -6,6 +6,7 @@ import FlipCardsSection from "@/components/FlipCardsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
+import AccessibilityWidget from "@/components/AccessibilityWidget";
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
       </main>
       <Footer />
       <Chatbot />
+      <AccessibilityWidget />
     </div>
   );
 };
