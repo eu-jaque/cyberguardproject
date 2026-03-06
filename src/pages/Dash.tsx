@@ -5,9 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Shield, Link2, Mail, Key, CheckCircle, XCircle, BookOpen, Gamepad2, CreditCard, ChevronRight, Lock, Wifi, Server, Eye, MonitorSmartphone, ShieldCheck } from "lucide-react";
-import parallaxBg from "@/assets/parallax-bg.jpg";
 
 const subscriptions = [
   { name: "Norton 360", icon: Shield, active: true },
@@ -22,23 +20,23 @@ const courseLevels = [
   {
     level: "beginner",
     courses: [
-      { title: "Introducao a Seguranca Digital", lessons: 12, duration: "4h" },
+      { title: "Introdução à Segurança Digital", lessons: 12, duration: "4h" },
       { title: "Proteja suas Senhas", lessons: 8, duration: "2h" },
-      { title: "Navegacao Segura na Internet", lessons: 10, duration: "3h" },
+      { title: "Navegação Segura na Internet", lessons: 10, duration: "3h" },
     ],
   },
   {
     level: "intermediate",
     courses: [
       { title: "Engenharia Social e Phishing", lessons: 15, duration: "6h" },
-      { title: "Seguranca em Redes Wi-Fi", lessons: 10, duration: "4h" },
-      { title: "Protecao de Dados Pessoais", lessons: 12, duration: "5h" },
+      { title: "Segurança em Redes Wi-Fi", lessons: 10, duration: "4h" },
+      { title: "Proteção de Dados Pessoais", lessons: 12, duration: "5h" },
     ],
   },
   {
     level: "advanced",
     courses: [
-      { title: "Analise de Malware", lessons: 20, duration: "10h" },
+      { title: "Análise de Malware", lessons: 20, duration: "10h" },
       { title: "Criptografia Aplicada", lessons: 18, duration: "8h" },
       { title: "Resposta a Incidentes", lessons: 16, duration: "7h" },
     ],
@@ -48,18 +46,18 @@ const courseLevels = [
     courses: [
       { title: "Pentest e Ethical Hacking", lessons: 25, duration: "15h" },
       { title: "Forense Digital", lessons: 22, duration: "12h" },
-      { title: "Arquitetura de Seguranca", lessons: 20, duration: "10h" },
+      { title: "Arquitetura de Segurança", lessons: 20, duration: "10h" },
     ],
   },
 ];
 
 const scamScenarios = [
-  { text: "Voce recebeu um e-mail do banco pedindo para atualizar dados clicando em um link", isScam: true },
-  { text: "Seu banco ligou para o numero oficial e pediu para comparecer a agencia", isScam: false },
+  { text: "Você recebeu um e-mail do banco pedindo para atualizar dados clicando em um link", isScam: true },
+  { text: "Seu banco ligou para o número oficial e pediu para comparecer à agência", isScam: false },
   { text: "Um desconhecido no WhatsApp oferece investimento com retorno de 300% em 24h", isScam: true },
-  { text: "Voce recebeu uma notificacao do app oficial do banco sobre uma compra que fez", isScam: false },
-  { text: "Alguem pede seu codigo de verificacao por SMS dizendo ser do suporte tecnico", isScam: true },
-  { text: "A empresa onde voce trabalha enviou um e-mail interno sobre treinamento de seguranca", isScam: false },
+  { text: "Você recebeu uma notificação do app oficial do banco sobre uma compra que fez", isScam: false },
+  { text: "Alguém pede seu código de verificação por SMS dizendo ser do suporte técnico", isScam: true },
+  { text: "A empresa onde você trabalha enviou um e-mail interno sobre treinamento de segurança", isScam: false },
 ];
 
 export default function Dash() {
@@ -111,22 +109,61 @@ export default function Dash() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Parallax Hero */}
-      <div
-        className="parallax-section relative h-[300px] flex items-center justify-center"
-        style={{ backgroundImage: `url(${parallaxBg})` }}
-      >
-        <div className="absolute inset-0 bg-background/70" />
-        <div className="relative z-10 text-center">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Avatar className="w-20 h-20 border-2 border-primary">
-              <AvatarFallback className="bg-primary/20 text-primary text-2xl font-display">CG</AvatarFallback>
-            </Avatar>
+      {/* Profile Hero - Premium Design */}
+      <div className="relative pt-[80px]">
+        {/* Background with matrix-like effect */}
+        <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
+          }} />
+          {/* Gold glow from center */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-[400px] h-[400px] rounded-full opacity-10" style={{
+              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)'
+            }} />
           </div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-            {t("dash.welcome")}, <span className="text-primary">Usuario</span>
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">{t("dash.member_since")} Jan 2026</p>
+
+          {/* Profile content */}
+          <div className="relative z-10 flex flex-col items-center justify-center h-full">
+            {/* Avatar with border glow */}
+            <div className="relative mb-4">
+              <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+              }}>
+                <Shield className="w-12 h-12 text-primary" />
+              </div>
+              {/* Online indicator */}
+              <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
+            </div>
+
+            {/* Label */}
+            <span className="text-primary/70 text-xs tracking-[0.3em] uppercase mb-1">Perfil Protegido</span>
+
+            {/* Name */}
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+              Carlos Silva
+            </h1>
+
+            {/* Stats row */}
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-primary/70" />
+                <div className="text-center">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Nível</span>
+                  <p className="text-sm font-bold text-primary">Avançado</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-primary/70" />
+                <div className="text-center">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Verificações</span>
+                  <p className="text-sm font-bold text-primary">147</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -214,7 +251,7 @@ export default function Dash() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex gap-3 text-xs text-muted-foreground">
-                        <span>{course.lessons} licoes</span>
+                        <span>{course.lessons} lições</span>
                         <span>{course.duration}</span>
                       </div>
                     </CardContent>
@@ -316,7 +353,6 @@ export default function Dash() {
           {/* Games */}
           <TabsContent value="games">
             <div className="mt-6">
-              {/* Info bar */}
               <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 flex items-center gap-3">
                 <Eye className="w-5 h-5 text-primary shrink-0" />
                 <p className="text-sm text-foreground/80">
