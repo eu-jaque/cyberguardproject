@@ -31,21 +31,20 @@ const AccessibilityWidget = () => {
 
   return (
     <div ref={panelRef} className="fixed right-0 top-1/2 -translate-y-1/2 z-[60]">
-      {/* Toggle button */}
+      {/* Toggle button - icon only */}
       <button
         onClick={() => setOpen(!open)}
-        className="btn-gold-3d text-primary-foreground px-3 py-3 rounded-l-lg flex items-center gap-2 font-semibold text-xs shadow-lg"
+        className="btn-gold-3d text-primary-foreground px-3 py-3 rounded-l-lg flex items-center justify-center shadow-lg"
         aria-label={t("a11y.title")}
       >
         <Accessibility className="w-5 h-5" />
-        {!open && <span className="hidden sm:inline">{t("a11y.title")}</span>}
       </button>
 
       {/* Panel */}
       {open && (
         <div className="absolute right-0 top-0 translate-x-0 w-60 bg-card border border-border rounded-l-lg shadow-2xl py-3 px-4">
           <div className="flex items-center justify-between mb-3">
-            <span className="font-display text-xs font-bold text-foreground">{t("a11y.title")}</span>
+            <span className="text-xs font-bold text-foreground">{t("a11y.title")}</span>
             <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-primary">
               <X className="w-4 h-4" />
             </button>

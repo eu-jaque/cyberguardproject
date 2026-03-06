@@ -75,7 +75,7 @@ const Header = () => {
           }}>
             <Shield className="w-8 h-8 text-primary" />
             <span className="font-display text-xl font-bold text-foreground">
-              Cyber<span className="text-primary">Guard</span>
+              Cyber<span className="text-gradient-gold">Guard</span>
             </span>
           </div>
 

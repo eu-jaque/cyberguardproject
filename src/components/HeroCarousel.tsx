@@ -1,17 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
 
 const images = [hero1, hero2, hero3];
-const links = ["/artigo/fraudes-digitais", "/artigo/phishing", "/artigo/roubo-identidade"];
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
-  const navigate = useNavigate();
   const { t } = useLanguage();
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % 3), []);
@@ -30,10 +28,9 @@ const HeroCarousel = () => {
       {images.map((img, i) => (
         <div
           key={i}
-          className={`absolute inset-0 transition-opacity duration-1000 cursor-pointer ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             i === current ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
-          onClick={() => navigate(links[i])}
         >
           <img src={img} alt={titles[i]} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent" />
@@ -47,12 +44,12 @@ const HeroCarousel = () => {
               {titles[current]}
             </h1>
             <p className="text-lg md:text-xl text-foreground/80 mb-6">{descs[current]}</p>
-            <button
-              onClick={() => navigate(links[current])}
-              className="bg-primary text-primary-foreground px-8 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors"
+            <Link
+              to="/saiba-mais"
+              className="btn-login bg-primary text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block hover:bg-primary/90 transition-colors"
             >
               {t("hero.cta")}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
