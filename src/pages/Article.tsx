@@ -42,8 +42,8 @@ const Article = () => {
         <Header />
         <div className="flex items-center justify-center pt-32">
           <div className="text-center">
-            <h1 className="font-display text-2xl text-foreground mb-4">Artigo nao encontrado</h1>
-            <button onClick={() => navigate("/")} className="text-primary hover:underline">Voltar ao inicio</button>
+            <h1 className="font-display text-2xl text-foreground mb-4">Artigo não encontrado</h1>
+            <button onClick={() => navigate("/")} className="text-primary hover:underline">Voltar ao início</button>
           </div>
         </div>
       </div>
@@ -58,8 +58,8 @@ const Article = () => {
         {article.content.map((p, i) => (
           <p key={i} className="text-foreground/80 text-lg leading-relaxed mb-6">{p}</p>
         ))}
-        <button onClick={() => navigate("/")} className="mt-8 bg-primary text-primary-foreground px-6 py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors">
-          Voltar ao Inicio
+        <button onClick={() => navigate("/")} className="mt-8 btn-login bg-primary text-primary-foreground px-6 py-3 rounded-[5px] font-semibold hover:bg-primary/90 transition-colors">
+          Voltar ao Início
         </button>
       </article>
     </div>

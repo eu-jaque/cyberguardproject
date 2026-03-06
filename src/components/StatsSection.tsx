@@ -11,7 +11,7 @@ const StatsSection = () => {
     <section id="sobre" className="py-20 bg-background">
       <div className="max-w-[1366px] mx-auto px-[2%]">
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-          {t("stats.title")} <span className="text-primary">{t("stats.title_highlight")}</span>
+          {t("stats.title")} <span className="text-gradient-gold">{t("stats.title_highlight")}</span>
         </h2>
         <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-4">
           {t("stats.subtitle")}
@@ -27,7 +27,7 @@ const StatsSection = () => {
               className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-colors group"
             >
               <Icon className="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform" />
-              <p className="font-display text-2xl md:text-3xl font-bold text-primary mb-2">
+              <p className="font-display text-2xl md:text-3xl font-bold text-gradient-gold mb-2">
                 {t(`stats.${i}.value`)}
               </p>
               <p className="text-foreground/90 mb-3">{t(`stats.${i}.label`)}</p>
