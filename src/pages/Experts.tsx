@@ -7,8 +7,8 @@ import { User, Calendar, MessageSquare, Video, Star, Clock } from "lucide-react"
 import { useState } from "react";
 
 const experts = [
-  { name: "Dr. Carlos Silva", area: "Seguranca de Redes", rating: 4.9, available: true },
-  { name: "Ana Rodrigues", area: "Analise de Malware", rating: 4.8, available: true },
+  { name: "Dr. Carlos Silva", area: "Segurança de Redes", rating: 4.9, available: true },
+  { name: "Ana Rodrigues", area: "Análise de Malware", rating: 4.8, available: true },
   { name: "Prof. Lucas Mendes", area: "Forense Digital", rating: 4.7, available: false },
   { name: "Dra. Juliana Costa", area: "LGPD e Compliance", rating: 4.9, available: true },
   { name: "Rafael Santos", area: "Pentesting", rating: 4.6, available: true },
@@ -17,9 +17,9 @@ const experts = [
 
 const videos = [
   { title: "Como identificar phishing em 5 passos", duration: "12:30", views: "2.4k" },
-  { title: "Protegendo seu Wi-Fi domestico", duration: "8:45", views: "1.8k" },
+  { title: "Protegendo seu Wi-Fi doméstico", duration: "8:45", views: "1.8k" },
   { title: "Senhas seguras: guia completo", duration: "15:20", views: "3.1k" },
-  { title: "O que fazer apos um vazamento de dados", duration: "10:15", views: "2.7k" },
+  { title: "O que fazer após um vazamento de dados", duration: "10:15", views: "2.7k" },
 ];
 
 const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex"];
@@ -48,7 +48,9 @@ const Experts = () => {
       {/* Experts Grid */}
       <section className="py-12 bg-background">
         <div className="max-w-[1366px] mx-auto px-[2%]">
-          <h2 className="font-display text-xl font-bold text-foreground mb-6">{t("exp.our_experts")}</h2>
+          <h2 className="font-display text-xl font-bold text-foreground mb-6">
+            <span className="text-gradient-gold">{t("exp.our_experts")}</span>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {experts.map((expert, i) => (
               <div key={i} className="glass-card group flex flex-col items-center text-center">
@@ -79,7 +81,7 @@ const Experts = () => {
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <div className="flex items-center gap-2 mb-6">
             <Calendar className="w-5 h-5 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">{t("exp.schedule")}</h2>
+            <h2 className="font-display text-xl font-bold text-gradient-gold">{t("exp.schedule")}</h2>
           </div>
           <div className="glass-card max-w-2xl">
             <div className="flex gap-3 mb-6 flex-wrap">
@@ -130,7 +132,7 @@ const Experts = () => {
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <div className="flex items-center gap-2 mb-6">
             <MessageSquare className="w-5 h-5 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">{t("exp.chat")}</h2>
+            <h2 className="font-display text-xl font-bold text-gradient-gold">{t("exp.chat")}</h2>
           </div>
           <div className="glass-card max-w-2xl">
             <div className="space-y-3 mb-4 min-h-[150px]">
@@ -163,7 +165,7 @@ const Experts = () => {
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <div className="flex items-center gap-2 mb-6">
             <Video className="w-5 h-5 text-primary" />
-            <h2 className="font-display text-xl font-bold text-foreground">{t("exp.videos")}</h2>
+            <h2 className="font-display text-xl font-bold text-gradient-gold">{t("exp.videos")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {videos.map((video, i) => (

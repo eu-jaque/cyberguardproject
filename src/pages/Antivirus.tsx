@@ -37,7 +37,7 @@ const Antivirus = () => {
             {t("av.title")} <span className="text-gradient-gold">{t("av.title_highlight")}</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("av.desc")}</p>
-          <button className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-lg text-base font-bold">
+          <button className="btn-login bg-primary text-primary-foreground px-8 py-3 rounded-[5px] text-base font-bold">
             {t("av.cta")}
           </button>
         </div>
@@ -47,7 +47,7 @@ const Antivirus = () => {
       <section className="py-20 bg-background">
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <h2 className="font-display text-2xl md:text-3xl font-bold text-center text-foreground mb-4">
-            {t("av.features_title")}
+            <span className="text-gradient-gold">{t("av.features_title")}</span>
           </h2>
           <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">{t("av.features_desc")}</p>
 
@@ -59,7 +59,7 @@ const Antivirus = () => {
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-display text-sm font-bold text-foreground mb-2">{t(`${feat.key}.title`)}</h3>
+                  <h3 className="font-display text-sm font-bold text-gradient-gold mb-2">{t(`${feat.key}.title`)}</h3>
                   <p className="text-muted-foreground text-sm">{t(`${feat.key}.desc`)}</p>
                 </div>
               );
@@ -71,9 +71,11 @@ const Antivirus = () => {
       {/* CTA */}
       <section className="py-16 bg-card">
         <div className="max-w-3xl mx-auto px-[2%] text-center">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">{t("av.cta_title")}</h2>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
+            <span className="text-gradient-gold">{t("av.cta_title")}</span>
+          </h2>
           <p className="text-muted-foreground mb-8">{t("av.cta_desc")}</p>
-          <button className="btn-gold-3d text-primary-foreground px-10 py-3 rounded-lg text-base font-bold">
+          <button className="btn-login bg-primary text-primary-foreground px-10 py-3 rounded-[5px] text-base font-bold">
             {t("av.cta")}
           </button>
         </div>

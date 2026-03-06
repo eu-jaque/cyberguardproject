@@ -25,7 +25,7 @@ export default function Auth() {
     if (tentativa < 3) {
       setTentativa(tentativa + 1);
     } else {
-      showToast("volte mais tarde");
+      showToast("Volte mais tarde");
       return;
     }
     const loged = users.find((u) => u.email === user?.email && u.pass === user?.pass);
@@ -33,16 +33,16 @@ export default function Auth() {
       showToast("Login realizado");
       navigate("/dash");
     } else {
-      showToast("email e senha invalidos");
+      showToast("E-mail e senha inválidos");
     }
   }
 
   function handleRegister() {
     if (user?.email && user?.pass) {
       setUsers([...users, user]);
-      showToast("cadastro com sucesso");
+      showToast("Cadastro com sucesso");
     } else {
-      showToast("Email e Senha obrigatorios");
+      showToast("E-mail e Senha obrigatórios");
     }
   }
 
@@ -55,7 +55,7 @@ export default function Auth() {
             <p>{pToast}</p>
           </div>
         )}
-        <h1 className="font-display text-2xl text-foreground">Pagina de login</h1>
+        <h1 className="font-display text-2xl text-foreground">Página de Login</h1>
         <input
           className="bg-card border border-border text-foreground rounded-md px-3 py-2 text-sm w-64"
           type="email"
@@ -69,11 +69,11 @@ export default function Auth() {
           onChange={(e) => setUser({ ...user, pass: e.target.value })}
         />
         {login ? (
-          <button className="bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-semibold" onClick={checkedLogin}>
+          <button className="btn-login bg-primary text-primary-foreground px-5 py-2 rounded-[5px] text-sm font-semibold" onClick={checkedLogin}>
             Login {tentativa > 0 && tentativa}
           </button>
         ) : (
-          <button className="bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-semibold" onClick={handleRegister}>
+          <button className="btn-login bg-primary text-primary-foreground px-5 py-2 rounded-[5px] text-sm font-semibold" onClick={handleRegister}>
             Cadastre-se
           </button>
         )}

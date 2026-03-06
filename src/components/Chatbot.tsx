@@ -14,39 +14,39 @@ const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = 
   {
     keywords: ["pix", "transferencia", "transferir", "agendamento"],
     answer: {
-      pt: "Nunca faca Pix por pressao ou urgencia. Sempre confirme a identidade de quem esta pedindo por ligacao ou pessoalmente. Bancos nunca pedem transferencias por mensagem.",
+      pt: "Nunca faça Pix por pressão ou urgência. Sempre confirme a identidade de quem está pedindo por ligação ou pessoalmente. Bancos nunca pedem transferências por mensagem.",
       en: "Never send Pix under pressure or urgency. Always confirm the identity of whoever is asking by phone or in person. Banks never ask for transfers via messages.",
-      es: "Nunca hagas Pix bajo presion o urgencia. Siempre confirma la identidad de quien pide por telefono o en persona. Los bancos nunca piden transferencias por mensaje.",
+      es: "Nunca hagas Pix bajo presión o urgencia. Siempre confirma la identidad de quien pide por teléfono o en persona. Los bancos nunca piden transferencias por mensaje.",
     },
   },
   {
     keywords: ["whatsapp", "clonado", "clonar", "clonagem"],
     answer: {
-      pt: "Se seu WhatsApp foi clonado, avise seus contatos imediatamente. Tente recuperar pelo app e ative a verificacao em duas etapas.",
+      pt: "Se seu WhatsApp foi clonado, avise seus contatos imediatamente. Tente recuperar pelo app e ative a verificação em duas etapas.",
       en: "If your WhatsApp was cloned, warn your contacts immediately. Try to recover through the app and enable two-step verification.",
-      es: "Si tu WhatsApp fue clonado, avisa a tus contactos inmediatamente. Intenta recuperarlo por la app y activa la verificacion en dos pasos.",
+      es: "Si tu WhatsApp fue clonado, avisa a tus contactos inmediatamente. Intenta recuperarlo por la app y activa la verificación en dos pasos.",
     },
   },
   {
     keywords: ["phishing", "e-mail", "email", "link", "falso", "site"],
     answer: {
-      pt: "Phishing e quando criminosos enviam mensagens falsas imitando empresas para roubar seus dados. Nunca clique em links de e-mails ou SMS suspeitos.",
+      pt: "Phishing é quando criminosos enviam mensagens falsas imitando empresas para roubar seus dados. Nunca clique em links de e-mails ou SMS suspeitos.",
       en: "Phishing is when criminals send fake messages imitating companies to steal your data. Never click on links from suspicious emails or SMS.",
-      es: "Phishing es cuando los criminales envian mensajes falsos imitando empresas para robar tus datos. Nunca hagas clic en enlaces de correos o SMS sospechosos.",
+      es: "Phishing es cuando los criminales envían mensajes falsos imitando empresas para robar tus datos. Nunca hagas clic en enlaces de correos o SMS sospechosos.",
     },
   },
   {
     keywords: ["senha", "senhas", "password"],
     answer: {
-      pt: "Use senhas com pelo menos 12 caracteres, misturando letras, numeros e simbolos. Nunca repita a mesma senha em sites diferentes.",
+      pt: "Use senhas com pelo menos 12 caracteres, misturando letras, números e símbolos. Nunca repita a mesma senha em sites diferentes.",
       en: "Use passwords with at least 12 characters, mixing letters, numbers and symbols. Never repeat the same password on different sites.",
-      es: "Usa contrasenas de al menos 12 caracteres, mezclando letras, numeros y simbolos. Nunca repitas la misma contrasena en sitios diferentes.",
+      es: "Usa contraseñas de al menos 12 caracteres, mezclando letras, números y símbolos. Nunca repitas la misma contraseña en sitios diferentes.",
     },
   },
   {
     keywords: ["boleto", "adulterado", "pdf", "pagamento"],
     answer: {
-      pt: "Antes de pagar um boleto, confira o nome do beneficiario, o CNPJ e o valor. Se os dados nao baterem, nao pague.",
+      pt: "Antes de pagar um boleto, confira o nome do beneficiário, o CNPJ e o valor. Se os dados não baterem, não pague.",
       en: "Before paying an invoice, check the beneficiary name, ID number and amount. If the data does not match, do not pay.",
       es: "Antes de pagar un boleto, verifica el nombre del beneficiario, el CNPJ y el monto. Si los datos no coinciden, no pagues.",
     },
@@ -54,41 +54,41 @@ const knowledgeBase: { keywords: string[]; answer: Record<string, string> }[] = 
   {
     keywords: ["banco", "ligacao", "central", "atendimento", "telefone"],
     answer: {
-      pt: "Bancos nunca pedem sua senha ou codigo por telefone. Se receber uma ligacao suspeita, desligue e ligue para o numero oficial.",
+      pt: "Bancos nunca pedem sua senha ou código por telefone. Se receber uma ligação suspeita, desligue e ligue para o número oficial.",
       en: "Banks never ask for your password or code by phone. If you receive a suspicious call, hang up and call the official number.",
-      es: "Los bancos nunca piden tu contrasena o codigo por telefono. Si recibes una llamada sospechosa, cuelga y llama al numero oficial.",
+      es: "Los bancos nunca piden tu contraseña o código por teléfono. Si recibes una llamada sospechosa, cuelga y llama al número oficial.",
     },
   },
   {
-    keywords: ["golpe", "fraude", "cai", "caiu", "vitima"],
+    keywords: ["golpe", "fraude", "cai", "caiu", "vitima", "vítima"],
     answer: {
-      pt: "Se voce caiu em um golpe: 1) Fale com seu banco. 2) Registre um boletim de ocorrencia. 3) Avise seus contatos. 4) Mude suas senhas.",
+      pt: "Se você caiu em um golpe: 1) Fale com seu banco. 2) Registre um boletim de ocorrência. 3) Avise seus contatos. 4) Mude suas senhas.",
       en: "If you fell for a scam: 1) Contact your bank. 2) File a police report. 3) Warn your contacts. 4) Change your passwords.",
-      es: "Si caiste en una estafa: 1) Habla con tu banco. 2) Haz un informe policial. 3) Avisa a tus contactos. 4) Cambia tus contrasenas.",
+      es: "Si caíste en una estafa: 1) Habla con tu banco. 2) Haz un informe policial. 3) Avisa a tus contactos. 4) Cambia tus contraseñas.",
     },
   },
   {
-    keywords: ["idoso", "idosos", "velho", "avos", "avo"],
+    keywords: ["idoso", "idosos", "velho", "avos", "avó", "avô"],
     answer: {
-      pt: "Para proteger idosos: converse sobre golpes com calma, ative verificacao em duas etapas e oriente a nunca dar dados por telefone.",
+      pt: "Para proteger idosos: converse sobre golpes com calma, ative verificação em duas etapas e oriente a nunca dar dados por telefone.",
       en: "To protect the elderly: talk about scams calmly, enable two-step verification and advise them to never give data by phone.",
-      es: "Para proteger a los mayores: habla sobre estafas con calma, activa la verificacion en dos pasos y orientalos a nunca dar datos por telefono.",
+      es: "Para proteger a los mayores: habla sobre estafas con calma, activa la verificación en dos pasos y oriéntalos a nunca dar datos por teléfono.",
     },
   },
   {
-    keywords: ["cartao", "clonado", "cvv", "compra", "indevida"],
+    keywords: ["cartao", "cartão", "clonado", "cvv", "compra", "indevida"],
     answer: {
-      pt: "Seu cartao foi clonado? Bloqueie-o imediatamente pelo aplicativo do banco. Para compras online, utilize sempre o Cartao Virtual.",
+      pt: "Seu cartão foi clonado? Bloqueie-o imediatamente pelo aplicativo do banco. Para compras online, utilize sempre o Cartão Virtual.",
       en: "Was your card cloned? Block it immediately through the bank app. For online purchases, always use a Virtual Card.",
-      es: "Tu tarjeta fue clonada? Bloqueala inmediatamente por la app del banco. Para compras online, usa siempre la Tarjeta Virtual.",
+      es: "¿Tu tarjeta fue clonada? Bloquéala inmediatamente por la app del banco. Para compras online, usa siempre la Tarjeta Virtual.",
     },
   },
   {
     keywords: ["lgpd", "dados pessoais", "privacidade", "vazamento"],
     answer: {
-      pt: "A LGPD garante seu direito sobre seus dados pessoais. Em caso de vazamento, voce pode exigir informacoes, correcao ou exclusao dos seus dados junto a empresa responsavel.",
+      pt: "A LGPD garante seu direito sobre seus dados pessoais. Em caso de vazamento, você pode exigir informações, correção ou exclusão dos seus dados junto à empresa responsável.",
       en: "The LGPD guarantees your rights over your personal data. In case of a breach, you can demand information, correction, or deletion of your data from the responsible company.",
-      es: "La LGPD garantiza tu derecho sobre tus datos personales. En caso de filtracion, puedes exigir informacion, correccion o eliminacion de tus datos a la empresa responsable.",
+      es: "La LGPD garantiza tu derecho sobre tus datos personales. En caso de filtración, puedes exigir información, corrección o eliminación de tus datos a la empresa responsable.",
     },
   },
 ];
@@ -160,7 +160,7 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Toggle button */}
+      {/* Toggle button - fixed bottom right */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed bottom-6 right-6 z-50 btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"

@@ -13,14 +13,14 @@ const Footer = () => {
             <div className="flex items-center gap-2 mb-4">
               <Shield className="w-6 h-6 text-primary" />
               <span className="font-display text-lg font-bold text-foreground">
-                Cyber<span className="text-primary">Guard</span>
+                Cyber<span className="text-gradient-gold">Guard</span>
               </span>
             </div>
             <p className="text-muted-foreground text-sm">{t("footer.desc")}</p>
           </div>
 
           <div>
-            <h4 className="font-display text-sm font-bold text-foreground mb-4">{t("footer.sobre")}</h4>
+            <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.sobre")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link to="/sobre" className="hover:text-primary transition-colors">{t("footer.sobre_link")}</Link>
@@ -35,7 +35,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-display text-sm font-bold text-foreground mb-4">{t("footer.contato")}</h4>
+            <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.contato")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>contato@cyberguard.com.br</li>
             </ul>

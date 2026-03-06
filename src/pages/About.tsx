@@ -11,7 +11,9 @@ const About = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="max-w-3xl mx-auto px-[2%] py-32">
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">{t("about.title")}</h1>
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+          <span className="text-gradient-gold">{t("about.title")}</span>
+        </h1>
         <p className="text-foreground/80 text-lg leading-relaxed">{t("about.desc")}</p>
       </main>
       <Footer />
