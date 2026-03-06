@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ["Orbitron", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        body: ["Montserrat", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,6 +50,10 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        gold: {
+          light: "hsl(var(--gold-light))",
+          dark: "hsl(var(--gold-dark))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

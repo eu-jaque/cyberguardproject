@@ -25,6 +25,12 @@ const Footer = () => {
               <li>
                 <Link to="/sobre" className="hover:text-primary transition-colors">{t("footer.sobre_link")}</Link>
               </li>
+              <li>
+                <Link to="/blog" className="hover:text-primary transition-colors">{t("footer.blog_link")}</Link>
+              </li>
+              <li>
+                <Link to="/politicas" className="hover:text-primary transition-colors">{t("footer.politicas_link")}</Link>
+              </li>
             </ul>
           </div>
 
@@ -37,7 +43,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-xs text-muted-foreground">
-          &copy; {t("footer.copy")}
+          {t("footer.copy")}
         </div>
       </div>
     </footer>

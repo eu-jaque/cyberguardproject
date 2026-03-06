@@ -1,119 +1,145 @@
 
 
-# Plano de Modificacoes - CyberGuard
+# Plano de Modificacoes - CyberGuard (Grande Atualizacao)
 
 ## Resumo
 
-Este plano cobre: ajustes no Header (texto "Acessibilidade"), Header compartilhado em todas as paginas, logica do botao "Inicio", remocao de 3 secoes (ScamResponse, Quiz, FAQ), cor golden 500, footer com "Sobre", pagina de perfil do usuario logado, e chatbot com IA via Lovable AI.
+Criar pagina de antivirus, pagina de servicos, pagina de blog, pagina de politicas, pagina de "conversar com especialistas" (mockup visual), redesign do chatbot como "Cyntia", mover acessibilidade para lateral, atualizar cores para dourado premium, atualizar footer, trocar fonte para Montserrat, limpar dropdown de servicos.
 
 ---
 
-## 1. Header - Ajustes menores
-
-**Arquivo:** `src/components/Header.tsx`
-- Adicionar texto "Acessibilidade" ao lado do icone no botao do dropdown de acessibilidade
-- Alterar o botao "Inicio" para usar `useNavigate` + `useLocation`: se ja esta em `/`, faz `scrollTo("inicio")`; senao, navega para `/`
-
-## 2. Header em todas as paginas
-
-**Arquivos:** `src/pages/Article.tsx`, `src/pages/Auth.tsx`, `src/pages/Dash.tsx`, `src/pages/NotFound.tsx`
-- Substituir navs locais pelo componente `<Header />` importado
-- O Header ja usa `<Link>` para login, funciona em qualquer rota
-
-## 3. Remover secoes da Index
-
-**Arquivo:** `src/pages/Index.tsx`
-- Remover: `ScamResponseSection`, `QuizSection`, `FAQSection`, `ParallaxSection2`
-- Nova ordem: HeroCarousel > StatsSection > ParallaxSection > FlipCardsSection > TestimonialsSection > Footer > Chatbot
-
-**Arquivos a manter mas nao usar:** `ScamResponseSection.tsx`, `QuizSection.tsx`, `FAQSection.tsx`, `ParallaxSection2.tsx` (podem ser removidos)
-
-## 4. Cor golden 500
+## 1. Cor dourada premium (referencia: imagens anexadas)
 
 **Arquivo:** `src/index.css`
-- Alterar a variavel `--primary` de `43 70% 49%` para um tom golden 500 mais rico: `43 96% 56%` (equivalente a ~#EAB308, golden-500 do Tailwind)
-- Isso afeta automaticamente todos os botoes e textos que usam `text-primary`, `bg-primary`, etc.
+- Alterar `--primary` para um dourado mais premium/brilhante: `40 76% 55%` (tom dourado mais quente e rico, similar ao das imagens - ~#D4A535)
+- Adicionar variavel `--gold-gradient` para efeitos 3D premium nos botoes
 
-## 5. Footer - Coluna "Sobre"
+**Arquivo:** `tailwind.config.ts` + `src/index.css`
+- Adicionar classes utilitarias para gradiente dourado: `bg-gradient-gold` com `linear-gradient(135deg, #D4A535, #F5D77A, #D4A535)`
+- Botoes primarios terao efeito de brilho/shimmer sutil
+
+## 2. Fonte Montserrat
+
+**Arquivo:** `src/index.css`
+- Trocar importacao de `Inter` para `Montserrat`
+- Trocar `font-family` do body para `'Montserrat', sans-serif`
+
+**Arquivo:** `tailwind.config.ts`
+- Alterar `font-body` para `['Montserrat', 'sans-serif']`
+
+## 3. Header - Ajustes
+
+**Arquivo:** `src/components/Header.tsx`
+- Remover do dropdown de Servicos: "Testa PIX", "Verificador de Link", "Verificador de E-mail"
+- Remover do dropdown de Servicos: "Guia de Informacoes", "Teste de Vulnerabilidades", "LGPD", "Vazamento de Dados", "Dicas de Protecao"
+- O dropdown de Servicos ficara com: "Verificador de Seguranca", "Conversa com Especialistas", e um link "Servicos" que leva para `/servicos`
+- Mover botao de acessibilidade para fora do header: componente flutuante fixo no meio-direito da tela
+
+## 4. Botao de Acessibilidade flutuante
+
+**Arquivo:** Novo componente `src/components/AccessibilityWidget.tsx`
+- Botao fixo no meio-direito da tela (`fixed right-0 top-1/2 -translate-y-1/2`)
+- Ao clicar, abre painel lateral com as opcoes de acessibilidade
+- Mover toda a logica de acessibilidade (highContrast, grayscale, fontSize, highlightLinks) para este componente
+- Incluir no `Index.tsx` e demais paginas
+
+## 5. FlipCards - Cores douradas
+
+**Arquivo:** `src/components/FlipCardsSection.tsx`
+- Trocar as cores individuais dos cards (vermelho, azul, verde, etc.) para variações do dourado premium: tons de ouro claro, ouro escuro, ouro rosado, bronze, champagne, cobre
+- Manter icones diferentes para diferenciacao
+
+## 6. Footer - Atualizacoes
 
 **Arquivo:** `src/components/Footer.tsx`
-- Adicionar uma coluna "Sobre" ao lado de "Contato" com um link "Sobre a CyberGuard" apontando para `/sobre`
-- Adicionar traducoes no LanguageContext
+- Coluna "Sobre" renomear para "Sobre a CyberGuard", link "Sobre a CyberGuard" renomear para "Sobre nos"
+- Adicionar link "Blog" abaixo apontando para `/blog`
+- Adicionar link "Politicas" abaixo apontando para `/politicas`
+- Alterar copyright para: "Copyright (c) 2026 CyberGuard. Todos os direitos reservados."
 
-**Arquivo:** `src/pages/About.tsx` (novo)
-- Pagina placeholder "Sobre a CyberGuard" com Header e Footer
+## 7. Nova pagina: Antivirus (`/antivirus`)
 
-**Arquivo:** `src/App.tsx`
-- Adicionar rota `/sobre` para a pagina About
+**Arquivo:** `src/pages/Antivirus.tsx`
+- Pagina "Defenda seu PC contra ciberameacas com nosso premiado antivirus gratuito CyberGuard"
+- Design premium com parallax, secoes informativas sobre recursos do antivirus, cards com funcionalidades, CTA de download
+- Header e Footer compartilhados
 
-## 6. Pagina de Perfil do Usuario (Dash)
+## 8. Nova pagina: Servicos (`/servicos`)
 
-**Arquivo:** `src/pages/Dash.tsx` (reescrever completamente)
+**Arquivo:** `src/pages/Services.tsx`
+- **Secao 1 - Guia de Informacoes:** Cards com glassmorphism (backdrop-filter blur, gradientes sutis, bordas) para "Dicas para Redes Sociais", "Seguranca em Pagamentos", "E-mails Fraudulentos"
+- **Secao 2 - Teste de Vulnerabilidade:** Secao explicativa sobre analise de seguranca com design moderno
+- **Secao 3 - LGPD e Vazamento de Dados:** Cards com efeitos de flutuacao (`@keyframes animate`), pseudo-elementos com gradiente, glassmorphism. Conteudo sobre LGPD e vazamento de dados
 
-Pagina rica e interativa com design moderno (fundo escuro, parallax, animacoes) contendo:
+## 9. Nova pagina: Conversar com Especialistas (`/especialistas`)
 
-- **Cabecalho do perfil:** Nome do usuario, avatar placeholder, dados basicos
-- **Abas/Tabs navegaveis:**
-  - **Assinaturas:** Cards de apps de ciberseguranca (Norton, Kaspersky, etc.) com status ativo/inativo
-  - **Cursos:** Carrossel de cursos organizados por nivel (Iniciante, Intermediario, Avancado, Especialista) com cards interativos
-  - **Verificadores:** Ferramentas de verificacao de links, emails, chaves Pix (inputs com feedback visual)
-  - **Quiz e Jogos:** Quiz antigolpe (reaproveitado da logica existente) + mini game interativo tipo "Identifique o Golpe" com cards que o usuario classifica como golpe/legitimo
-- **Design:** Parallax de fundo, cards com hover/flip, carrosseis, transicoes CSS (opacity, visibility, transition), sem emojis
-- **Secoes informativas/educacionais** entre as abas com dicas rapidas
+**Arquivo:** `src/pages/Experts.tsx`
+- **Mockup visual** (sem backend real):
+  - Lista de especialistas com avatars, areas de expertise, disponibilidade visual
+  - Calendario interativo mockup para agendamento
+  - Area de chat mockup
+  - Galeria de videos de instrucao (placeholders)
+  - Design moderno com Tailwind, mobile-friendly
+- Adicionar ao dropdown de Servicos no Header
 
-## 7. Chatbot com IA (Lovable AI)
+## 10. Nova pagina: Blog (`/blog`)
 
-O usuario pediu que o chatbot use NLP real em vez de apenas palavras-chave. Usaremos Lovable AI (gateway) via edge function.
+**Arquivo:** `src/pages/Blog.tsx`
+- Pagina placeholder com grid de artigos sobre ciberseguranca
+- Cards com titulo, resumo, data, imagem placeholder
 
-**Passo 1:** Ativar Lovable Cloud (necessario para edge functions)
+## 11. Nova pagina: Politicas (`/politicas`)
 
-**Arquivo:** `supabase/functions/chat/index.ts` (nova edge function)
-- Recebe mensagens do usuario
-- System prompt: "Voce e o Tsio, assistente de seguranca digital do CyberGuard. Responda em linguagem simples sobre golpes, fraudes, phishing, Pix, senhas e protecao digital. Suporte PT/EN/ES."
-- Usa streaming SSE via Lovable AI gateway
-- Trata erros 429/402
+**Arquivo:** `src/pages/Policies.tsx`
+- Pagina com Termos de Uso, Politica de Privacidade, informacoes sobre LGPD
+
+## 12. Chatbot "Cyntia"
 
 **Arquivo:** `src/components/Chatbot.tsx` (reescrever)
-- Nome do bot: "Tsio"
-- Header mostra nome e papel
-- Streaming token-by-token com SSE
-- Mantem historico de conversa na sessao
-- Mantém suporte multi-idioma
-- Remove base de conhecimento local (knowledgeBase), usa IA real
-- Renderiza respostas com markdown (react-markdown)
+- Renomear de "Tsio" para "Cyntia"
+- Nome: "CYNTIA ASSISTENTE" no header, "@CYNTIA" como subtitulo
+- Design inspirado no CSS fornecido: fundo semi-transparente com blur, bordas arredondadas, sombra
+- Paleta de cores do site (dourado/azul escuro) em vez de verde
+- Avatar com icone Shield
+- Mensagens do bot com estilo bolha arredondada e timestamp
+- Mensagens do usuario com gradiente dourado
+- Animacao de "digitando..." com 3 bolinhas pulsantes
+- Animacao de entrada (bounce) nas novas mensagens
+- Manter logica de palavras-chave expandida
+- Fallback: "Para mais informacoes, entre em contato: contato@cyberguard.com.br"
+- Botao fixo no canto inferior direito
 
-**Dependencia:** Instalar `react-markdown`
+## 13. Rotas
 
-## 8. Traducoes
+**Arquivo:** `src/App.tsx`
+- Adicionar rotas: `/antivirus`, `/servicos`, `/especialistas`, `/blog`, `/politicas`
+
+## 14. Traducoes
 
 **Arquivo:** `src/contexts/LanguageContext.tsx`
-- Adicionar chaves: `footer.sobre`, `footer.sobre_link`, `about.title`, `about.desc`, `dash.*` (tabs, titulos)
-- Remover chaves nao usadas (quiz, faq, scam)
+- Adicionar chaves para todas as novas paginas e componentes
+- Atualizar chaves do footer, chatbot (Cyntia), servicos
+- Remover chaves obsoletas dos servicos removidos do dropdown
 
 ---
 
-## Detalhes Tecnicos
+## Arquivos novos:
+- `src/components/AccessibilityWidget.tsx`
+- `src/pages/Antivirus.tsx`
+- `src/pages/Services.tsx`
+- `src/pages/Experts.tsx`
+- `src/pages/Blog.tsx`
+- `src/pages/Policies.tsx`
 
-### Arquivos novos:
-- `src/pages/About.tsx`
-- `supabase/functions/chat/index.ts`
-
-### Arquivos modificados:
-- `src/components/Header.tsx` - texto "Acessibilidade", logica do botao Inicio
-- `src/pages/Index.tsx` - remover 4 secoes
-- `src/pages/Dash.tsx` - reescrever como pagina de perfil completa
-- `src/pages/Article.tsx` - usar Header compartilhado
-- `src/pages/Auth.tsx` - usar Header compartilhado
-- `src/pages/NotFound.tsx` - usar Header compartilhado
-- `src/components/Footer.tsx` - coluna Sobre
-- `src/components/Chatbot.tsx` - integrar Lovable AI com streaming
-- `src/contexts/LanguageContext.tsx` - novas traducoes, remover obsoletas
-- `src/index.css` - cor primary para golden 500
-- `src/App.tsx` - rota /sobre
-
-### Dependencias:
-- `react-markdown` (para renderizar respostas do chatbot)
-
-### Requisito:
-- Ativar Lovable Cloud para a edge function do chatbot
+## Arquivos modificados:
+- `src/index.css` - cor, fonte Montserrat
+- `tailwind.config.ts` - fonte body
+- `src/components/Header.tsx` - dropdown servicos, remover acessibilidade
+- `src/components/Footer.tsx` - sobre, blog, politicas, copyright
+- `src/components/FlipCardsSection.tsx` - cores douradas
+- `src/components/Chatbot.tsx` - redesign completo como Cyntia
+- `src/pages/Index.tsx` - incluir AccessibilityWidget
+- `src/App.tsx` - novas rotas
+- `src/contexts/LanguageContext.tsx` - novas traducoes
+- Todas as paginas existentes - incluir AccessibilityWidget
 
