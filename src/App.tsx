@@ -2,7 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Article from "./pages/Article";
@@ -18,6 +20,10 @@ import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
 import "./App.css";
 
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import AuthRoute from "./components/AuthRoute";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -26,21 +32,43 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+
         <BrowserRouter>
+        <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/artigo/:slug" element={<Article />} />
+            
             <Route path="/sobre" element={<About />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/dash" element={<Dash />} />
+
+            <Route path="/auth" element={
+              <AuthRoute>
+                <Auth/>
+              </AuthRoute>
+            } />
+
+            <Route path="/dash" element={
+              <ProtectedRoute>
+                <Dash />
+              </ProtectedRoute>
+            } />
+
             <Route path="/antivirus" element={<Antivirus />} />
+
             <Route path="/servicos" element={<Services />} />
+
             <Route path="/especialistas" element={<Experts />} />
+
             <Route path="/blog" element={<Blog />} />
+
             <Route path="/politicas" element={<Policies />} />
+
             <Route path="/saiba-mais" element={<SaibaMais />} />
+
             <Route path="*" element={<NotFound />} />
+            
           </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
