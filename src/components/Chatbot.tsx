@@ -162,13 +162,15 @@ const Chatbot = () => {
   return (
     <>
       {/* Toggle button - fixed bottom right, below accessibility */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
-        aria-label={t("chat.open")}
-      >
-        {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-      </button>
+      <div className="fixed bottom-5 right-5 z-50">
+        <button
+          onClick={() => setOpen(!open)}
+          className="btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+          aria-label={t("chat.open")}
+        >
+          {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Chat window */}
       {open && (
