@@ -1,4 +1,5 @@
-
+import supabase from "../../utils/supabase";
+import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 export type Devices = ({
     user?:string,
@@ -9,12 +10,24 @@ export type Devices = ({
 
 
 export default function Device(){
+     const {user, signOutUser} = useAuth();
      const[device,setDevice] = useState <Devices> ({});
-    
+    async function handleDevice (){
+     const data = {...device, user_id: user.id};
+
+     const{error} = await supabase.from('Devices').insert(data);
+
+       if(error){
+        alert(error.message);
+        return
+       }     
+
+       alert("Cadastrado com sucesso")
+    }
     
     return(
         <>
-        <h1>minha pagina de device</h1>
+        <h1>minha pagina de dispostivos</h1>
              
               <input type= "text" 
               placeholder="User? " 
@@ -31,6 +44,9 @@ export default function Device(){
               placeholder="Ultimo login " 
               value={device.lasted}
               onChange={ (e) => setDevice({...device,lasted :Number(e.target.value)})}/>
+
+
+              <button onClick = {handleDevice}>cadastrar</button>
         </>
         
     )
