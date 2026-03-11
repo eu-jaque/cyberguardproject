@@ -20,7 +20,7 @@ const ParallaxSection = () => {
         </p>
         <Link
           to="/saiba-mais"
-          className="btn-login bg-primary text-primary-foreground px-8 py-3 rounded-[5px] font-semibold text-sm inline-block hover:bg-primary/90 transition-colors"
+          className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block"
         >
           {t("hero.cta")}
         </Link>
