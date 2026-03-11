@@ -37,7 +37,7 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.contato")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>contato@cyberguard.com.br</li>
+              <li>contatoo@cyberguard.com.br</li>
             </ul>
           </div>
         </div>
