@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
+import  supabase  from '../../utils/supabase';
+
 
 export type User = {
   email?: string;
@@ -21,26 +23,46 @@ export default function Auth() {
     setTimeout(() => setPToast(""), 5000);
   }
 
-  function checkedLogin() {
+  async function checkedLogin() {
     if (tentativa < 3) {
-      setTentativa(tentativa + 1);
-    } else {
-      showToast("Volte mais tarde");
+      setTentativa(tentativa+1)
+    }else{
+      showToast('Volte mais tarde')
       return;
     }
-    const loged = users.find((u) => u.email === user?.email && u.pass === user?.pass);
-    if (loged) {
-      showToast("Login realizado");
-      navigate("/dash");
-    } else {
-      showToast("E-mail e senha inválidos");
-    }
-  }
 
-  function handleRegister() {
+    setTentativa(tentativa+1);
+
+    if(!user?.email || !user?.pass) {
+      showToast("Email e senha obrigatórios");
+      return;
+    }
+
+    const {error} = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: user.pass
+      });
+
+      if (error) { 
+        showToast("Erro ao cadastrar");
+        return
+      }
+  }
+    
+
+  async function handleRegister() {
     if (user?.email && user?.pass) {
       setUsers([...users, user]);
-      showToast("Cadastro com sucesso");
+
+      //supabase.from('expenses').insert({})
+
+      const {data, error} = await supabase.auth.signUp({
+        email: user.email,
+        password: user.pass
+      });
+
+      if (error) showToast("Erro ao cadastrar");
+      else showToast("Cadastrado com sucesso");
     } else {
       showToast("E-mail e Senha obrigatórios");
     }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Accessibility, Plus, Minus, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -9,6 +9,7 @@ const AccessibilityWidget = () => {
   const [grayscale, setGrayscale] = useState(false);
   const [fontSize, setFontSize] = useState(100);
   const [highlightLinks, setHighlightLinks] = useState(false);
+  const [screenReader, setScreenReader] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,6 +19,28 @@ const AccessibilityWidget = () => {
     root.classList.toggle("highlight-links", highlightLinks);
     root.style.fontSize = `${fontSize}%`;
   }, [highContrast, grayscale, fontSize, highlightLinks]);
+
+  // Screen reader: read selected text
+  const handleMouseUp = useCallback(() => {
+    if (!screenReader) return;
+    const selectedText = window.getSelection()?.toString().trim();
+    if (selectedText && selectedText.length > 0) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(selectedText);
+      utterance.lang = "pt-BR";
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [screenReader]);
+
+  useEffect(() => {
+    if (screenReader) {
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mouseup", handleMouseUp);
+      window.speechSynthesis.cancel();
+    }
+    return () => document.removeEventListener("mouseup", handleMouseUp);
+  }, [screenReader, handleMouseUp]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -50,7 +73,10 @@ const AccessibilityWidget = () => {
             </button>
           </div>
 
-          <button className="block w-full text-left px-2 py-2 text-sm text-foreground/80 hover:bg-secondary rounded transition-colors">
+          <button
+            onClick={() => setScreenReader(!screenReader)}
+            className={`block w-full text-left px-2 py-2 text-sm rounded transition-colors ${screenReader ? "text-primary font-bold" : "text-foreground/80 hover:bg-secondary"}`}
+          >
             {t("a11y.screen_reader")}
           </button>
 
