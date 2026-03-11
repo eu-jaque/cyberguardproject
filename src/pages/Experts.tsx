@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { User, Calendar, MessageSquare, Video, Star, Clock } from "lucide-react";
 import { useState } from "react";
 
+
 const experts = [
   { name: "Dr. Carlos Silva", area: "Segurança de Redes", rating: 4.9, available: true },
   { name: "Ana Rodrigues", area: "Análise de Malware", rating: 4.8, available: true },
