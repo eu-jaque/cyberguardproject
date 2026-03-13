@@ -19,7 +19,7 @@ export default function Profile(){
 
     /*uma variavel que recebeu um tipo propio é um objeto*/
     const [prof, setProf] = useState<Profile>({});
-    const [expenses, setExpenses] = useState<Expense>({});
+    //const [expenses, setExpenses] = useState<Expense[]>([]); quem tem relacionamento 1 pra 1 nao precisa disso
 
     //funcao anonima, vetor de orbservados
     // useEffect (() => {}, []);
@@ -28,18 +28,18 @@ export default function Profile(){
 
     }, []);
 
-    function syncProfile(user_id: string){
-        const {data, error} = supabase.from('profiles')
+    async function syncProfile(user_id: string): Promise<void>{
+        const {data, error} = await supabase.from('profiles')
             .select('*').eq("user_id", user_id)
             //ordenada('created_at', {ascending: false})
             .single();
 
             if(error){
-                alert(error.messege)
+                alert(error.message)
                 return
             }
 
-
+            setProf(data);
 
     }
 
