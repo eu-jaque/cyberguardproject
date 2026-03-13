@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import supabase from "../../utils/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -11,24 +11,7 @@ export type Signature ={
 export default function Signature(){
     /*  uma variavel que recebeu tipo proprio é um objeto*/
     const [sig, setSig] = useState<Signature>({});
-
-    /* useEffect(() =>{}, []); função anonima, vetor de observados*/
-   
-    useEffect(() => {
-      
-        if(user) syncSignature(user.id);
-    }, []);
     
-    
-    async function syncSignature(user_id: string): Promise<void>{
-        const {data, error} = await supabase.from('signature').select('*').eq("user_id", user_id).single();
-        // para lista ordenada -> order('created_at', {ascending: false})
-        if(error){
-            alert(error.message) 
-            return
-        }
-        setSig(data)
-    }
     const {user, signOutUser} = useAuth();
     
     async function handleSignature(){

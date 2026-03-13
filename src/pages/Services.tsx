@@ -4,6 +4,7 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Share2, CreditCard, MailWarning, Search, ShieldAlert, Database } from "lucide-react";
+import hackerBg from "@/assets/hacker-parallax.jpg";
 
 const Services = () => {
   const { t } = useLanguage();
@@ -18,13 +19,17 @@ const Services = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-background">
-        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
+      {/* Hero Parallax */}
+      <section
+        className="parallax-section relative h-[500px] flex items-center justify-center"
+        style={{ backgroundImage: `url(${hackerBg})` }}
+      >
+        <div className="absolute inset-0 bg-background/70" />
+        <div className="relative z-10 text-center max-w-3xl px-4">
           <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t("svc.title")} <span className="text-gradient-gold">{t("svc.title_highlight")}</span>
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">{t("svc.subtitle")}</p>
+          <p className="text-foreground/80 text-xl">{t("svc.subtitle")}</p>
         </div>
       </section>
 
@@ -43,7 +48,7 @@ const Services = () => {
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="font-display text-sm font-bold text-gradient-gold mb-2">{t(`${card.key}.title`)}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{t(`${card.key}.desc`)}</p>
+                  <p className="text-muted-foreground text-[16px] leading-relaxed">{t(`${card.key}.desc`)}</p>
                 </div>
               );
             })}
@@ -54,15 +59,17 @@ const Services = () => {
       {/* Section 2 - Teste de Vulnerabilidade */}
       <section className="py-16 bg-card">
         <div className="max-w-[1366px] mx-auto px-[2%]">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-              <Search className="w-8 h-8 text-primary" />
+          <div className="max-w-3xl mx-auto">
+            <div className="vuln-card">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                <Search className="w-8 h-8 text-primary" />
+              </div>
+              <h2 className="font-display text-2xl font-bold text-foreground mb-4 text-center">
+                <span className="text-gradient-gold">{t("svc.vuln_title")}</span>
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6 text-[16px]">{t("svc.vuln_desc")}</p>
+              <p className="text-foreground/70 text-[16px] leading-relaxed">{t("svc.vuln_detail")}</p>
             </div>
-            <h2 className="font-display text-2xl font-bold text-foreground mb-4">
-              <span className="text-gradient-gold">{t("svc.vuln_title")}</span>
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mb-6">{t("svc.vuln_desc")}</p>
-            <p className="text-foreground/70 text-sm leading-relaxed">{t("svc.vuln_detail")}</p>
           </div>
         </div>
       </section>
@@ -79,7 +86,7 @@ const Services = () => {
                 <ShieldAlert className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-display text-base font-bold text-gradient-gold mb-3">{t("svc.lgpd_card_title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("svc.lgpd_card_desc")}</p>
+              <p className="text-muted-foreground text-[16px] leading-relaxed">{t("svc.lgpd_card_desc")}</p>
             </div>
 
             <div className="glass-card animate-float group" style={{ animationDelay: "1s" }}>
@@ -87,7 +94,7 @@ const Services = () => {
                 <Database className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-display text-base font-bold text-gradient-gold mb-3">{t("svc.vazamento_card_title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("svc.vazamento_card_desc")}</p>
+              <p className="text-muted-foreground text-[16px] leading-relaxed">{t("svc.vazamento_card_desc")}</p>
             </div>
           </div>
         </div>
