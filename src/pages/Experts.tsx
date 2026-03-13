@@ -4,7 +4,11 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { User, Calendar, MessageSquare, Video, Star, Clock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "../../utils/supabase";
+import { useAuth } from "@/contexts/AuthContext";
+import { error } from "console";
+import { promises } from "dns";
 
 const experts = [
   { name: "Dr. Carlos Silva", area: "Segurança de Redes", rating: 4.9, available: true },
@@ -15,6 +19,66 @@ const experts = [
   { name: "Mariana Oliveira", area: "Engenharia Social", rating: 4.8, available: false },
 ];
 
+export type Experts = ({
+  name?: string;
+  area?: string;
+  rating?: string;
+  available?: string;
+})
+
+export type expenses = {
+  name?: string,
+  value?: string
+}
+
+
+export default function Experts(){
+const {user, signOutUser} = useAuth();
+const [experts, setExperts]= useState <Experts[]> ([]);
+
+
+useEffect( () => {
+  if (user) syncExperts(user.id); 
+}, []);
+
+async function syncExperts(user_id: string ): Promise<void>{
+  const{data, error} = await supabase.from('experts')
+     .select('*').eq("user_id", user_id).single();
+
+if(error){
+  alert(error.message)
+  return
+}
+
+setExperts(data);
+
+}
+
+
+
+async function handleExpert(){
+const data= {...expert, user_id: user.id};
+
+
+const { error } = await supabase.from('Experts').insert(data);
+
+if (error) {
+  alert(error.message);
+  return
+}
+  alert("cadastrado com sucesso")
+}
+return(
+  <>
+  <h1></h1>
+  <input type="text"
+  placeholder="text?"
+  value={expert.name}
+  onChange={(e) => setExpert ({...expert, name : (e.target.value)})} />
+  <button onClick={handleExpert}> Confimar agendamento </button>
+  </>
+)
+}
 const videos = [
   { title: "Como identificar phishing em 5 passos", duration: "12:30", views: "2.4k" },
   { title: "Protegendo seu Wi-Fi doméstico", duration: "8:45", views: "1.8k" },
@@ -191,4 +255,4 @@ const Experts = () => {
   );
 };
 
-export default Experts;
+

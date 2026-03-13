@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Shield } from "lucide-react";
+import { MessageCircle, X, Send } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import cyntiaAvatar from "@/assets/cyntia-avatar.png";
 
 interface Message {
   id: string;
@@ -160,14 +161,16 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Toggle button - fixed bottom right */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
-        aria-label={t("chat.open")}
-      >
-        {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-      </button>
+      {/* Toggle button - fixed bottom right, below accessibility */}
+      <div className="fixed bottom-5 right-5 z-50">
+        <button
+          onClick={() => setOpen(!open)}
+          className="btn-gold-3d text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+          aria-label={t("chat.open")}
+        >
+          {open ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Chat window */}
       {open && (
@@ -176,8 +179,8 @@ const Chatbot = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 relative" style={{ background: "rgba(0, 0, 0, 0.3)" }}>
-            <div className="w-9 h-9 rounded-full border-2 border-primary/30 bg-primary/20 flex items-center justify-center shrink-0">
-              <Shield className="w-4 h-4 text-primary" />
+            <div className="w-9 h-9 rounded-full border-2 border-primary/30 overflow-hidden shrink-0">
+              <img src={cyntiaAvatar} alt="Cyntia" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-foreground text-xs font-bold uppercase tracking-wide">{t("chat.title")}</h1>
@@ -190,8 +193,8 @@ const Chatbot = () => {
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} animate-bounce-in`}>
                 {msg.from === "bot" && (
-                  <div className="w-7 h-7 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center mr-2 shrink-0 self-end">
-                    <Shield className="w-3 h-3 text-primary" />
+                  <div className="w-7 h-7 rounded-full overflow-hidden mr-2 shrink-0 self-end">
+                    <img src={cyntiaAvatar} alt="Cyntia" className="w-full h-full object-cover" />
                   </div>
                 )}
                 <div className="max-w-[80%]">
@@ -219,8 +222,8 @@ const Chatbot = () => {
             {/* Typing indicator */}
             {isTyping && (
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
-                  <Shield className="w-3 h-3 text-primary" />
+                <div className="w-7 h-7 rounded-full overflow-hidden shrink-0">
+                  <img src={cyntiaAvatar} alt="Cyntia" className="w-full h-full object-cover" />
                 </div>
                 <div className="bg-black/30 rounded-xl px-4 py-3 flex gap-1.5">
                   <span className="typing-dot" style={{ animationDelay: "0s" }} />

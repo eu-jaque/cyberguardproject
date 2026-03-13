@@ -1,6 +1,6 @@
-import { Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logo from "@/assets/cyberguard-logo.png";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Shield className="w-6 h-6 text-primary" />
+              <img src={logo} alt="CyberGuard Logo" className="w-8 h-8 object-contain" />
               <span className="font-display text-lg font-bold text-foreground">
                 Cyber<span className="text-gradient-gold">Guard</span>
               </span>
@@ -37,7 +37,7 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.contato")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>contatoo@cyberguard.com.br</li>
+              <li>contato@cyberguard.com.br</li>
             </ul>
           </div>
         </div>
