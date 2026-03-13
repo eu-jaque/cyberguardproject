@@ -4,9 +4,11 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { User, Calendar, MessageSquare, Video, Star, Clock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 import { useAuth } from "@/contexts/AuthContext";
+import { error } from "console";
+import { promises } from "dns";
 
 const experts = [
   { name: "Dr. Carlos Silva", area: "Segurança de Redes", rating: 4.9, available: true },
@@ -24,10 +26,35 @@ export type Experts = ({
   available?: string;
 })
 
+export type expenses = {
+  name?: string,
+  value?: string
+}
 
-export default function Expert(){
+
+export default function Experts(){
 const {user, signOutUser} = useAuth();
-const [expert, setExpert]= useState <Experts> ({});
+const [experts, setExperts]= useState <Experts[]> ([]);
+
+
+useEffect( () => {
+  if (user) syncExperts(user.id); 
+}, []);
+
+async function syncExperts(user_id: string ): Promise<void>{
+  const{data, error} = await supabase.from('experts')
+     .select('*').eq("user_id", user_id).single();
+
+if(error){
+  alert(error.message)
+  return
+}
+
+setExperts(data);
+
+}
+
+
 
 async function handleExpert(){
 const data= {...expert, user_id: user.id};
