@@ -13,10 +13,10 @@ const StatsSection = () => {
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
           {t("stats.title")} <span className="text-gradient-gold">{t("stats.title_highlight")}</span>
         </h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-4">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-4" style={{ fontSize: "20px" }}>
           {t("stats.subtitle")}
         </p>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12 text-sm">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12" style={{ fontSize: "16px" }}>
           {t("stats.subtitle2")}
         </p>
 
@@ -30,7 +30,7 @@ const StatsSection = () => {
               <p className="font-display text-2xl md:text-3xl font-bold text-gradient-gold mb-2">
                 {t(`stats.${i}.value`)}
               </p>
-              <p className="text-foreground/90 mb-3">{t(`stats.${i}.label`)}</p>
+              <p className="text-foreground/90 mb-3" style={{ fontSize: "16px" }}>{t(`stats.${i}.label`)}</p>
               <p className="text-xs text-muted-foreground">{t("stats.source")}: {sources[i]}</p>
             </div>
           ))}
