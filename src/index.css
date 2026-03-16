@@ -252,3 +252,82 @@
 .animate-float {
   animation: float-card 4s ease-in-out infinite;
 }
+
+/* Expert carousel auto-scroll */
+@keyframes carousel-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-carousel-scroll {
+  animation: carousel-scroll 25s linear infinite;
+}
+
+.animate-carousel-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Scale in animation for confirmation */
+@keyframes scale-in {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+/* Expert card hover */
+.expert-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expert-card:hover {
+  border-color: hsl(var(--primary));
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(212, 165, 53, 0.2);
+}
+
+/* Video card electric border */
+.video-card {
+  background: linear-gradient(135deg, rgba(212, 165, 53, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
+  border: 2px solid hsl(var(--border));
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.video-card:hover {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 25px rgba(212, 165, 53, 0.3), 0 0 50px rgba(212, 165, 53, 0.1);
+}
+
+/* Vulnerability card */
+.vuln-card {
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
+  border: 2px solid hsl(var(--border));
+  border-radius: 20px;
+  padding: 2.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.vuln-card:hover {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 10px 40px rgba(212, 165, 53, 0.15);
+}
