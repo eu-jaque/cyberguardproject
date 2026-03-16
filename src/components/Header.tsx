@@ -50,11 +50,10 @@ const Header = () => {
     <>
       {toast && (
         <div
-          className={`fixed top-4 right-4 z-[9999] px-4 py-3 rounded-lg text-sm font-medium shadow-lg ${
-            toast.type === "error"
+          className={`fixed top-4 right-4 z-[9999] px-4 py-3 rounded-lg text-sm font-medium shadow-lg ${toast.type === "error"
               ? "bg-destructive text-destructive-foreground"
               : "bg-green-600 text-white"
-          }`}
+            }`}
           style={{ minWidth: 190 }}
         >
           {toast.msg}
@@ -62,12 +61,13 @@ const Header = () => {
       )}
 
       <nav
-        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${
-          scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+          }`}
       >
-        <div className="w-full max-w-[1366px] mx-auto px-[2%] flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer shrink-0" onClick={() => {
+        <div className="w-full max-w-[1366px] mx-auto px-[2%] flex items-center">
+
+          {/* 1. LOGO (Esquerda) */}
+          <div className="flex items-center gap-2 cursor-pointer shrink-0 w-[200px]" onClick={() => {
             if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
             else navigate("/");
           }}>
@@ -77,7 +77,8 @@ const Header = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          {/* 2. LINKS DE NAVEGAÇÃO (Centro) */}
+          <div className="flex-1 flex items-center justify-center gap-6">
             <button onClick={() => {
               if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
               else navigate("/");
@@ -102,7 +103,7 @@ const Header = () => {
                 {t("nav.servicos")} <ChevronDown className="w-3 h-3" />
               </button>
               {servicesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border rounded-lg shadow-xl z-[100] py-2">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-card border border-border rounded-lg shadow-xl z-[100] py-2">
                   {serviceItems.map((item) => (
                     item.to ? (
                       <Link
@@ -131,13 +132,16 @@ const Header = () => {
             </Link>
 
             <button onClick={() => {
-              if (location.pathname === "/") {
+              if (location.pathname === "/Contato") {
                 document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" });
-              } else navigate("/");
+              } else navigate("/Contato");
             }} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.contato")}
             </button>
+          </div>
 
+          {/* 3. AÇÕES DIREITA (Idioma e Login) */}
+          <div className="flex items-center gap-4 shrink-0 w-[200px] justify-end">
             {/* Language selector */}
             <div className="relative" ref={langRef}>
               <button
@@ -152,9 +156,8 @@ const Header = () => {
                     <button
                       key={l}
                       onClick={() => { setLang(l); setLangOpen(false); }}
-                      className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                        lang === l ? "text-primary font-bold" : "text-foreground/80 hover:bg-secondary hover:text-primary"
-                      }`}
+                      className={`block w-full text-left px-4 py-2 text-sm transition-colors ${lang === l ? "text-primary font-bold" : "text-foreground/80 hover:bg-secondary hover:text-primary"
+                        }`}
                     >
                       {langLabels[l]}
                     </button>
@@ -163,10 +166,11 @@ const Header = () => {
               )}
             </div>
 
-            <Link to="/auth" className="btn-gold-3d text-primary-foreground px-5 py-1.5 rounded-[5px] text-sm font-semibold cursor-pointer">
+            <Link to="/auth" className="btn-gold-3d text-primary-foreground px-5 py-1.5 rounded-[5px] text-sm font-semibold cursor-pointer whitespace-nowrap">
               {t("nav.login")}
             </Link>
           </div>
+
         </div>
       </nav>
     </>

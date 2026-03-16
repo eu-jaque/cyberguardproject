@@ -24,6 +24,7 @@ import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
+import Contact from "./pages/Contact.tsx";
 
 const queryClient = new QueryClient();
 
@@ -35,36 +36,35 @@ const App = () => (
         <Sonner />
 
         <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/artigo/:slug" element={<Article />} />
-            
-            <Route path="/sobre" element={<About />} />
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/artigo/:slug" element={<Article />} />
 
-            <Route path="/auth" element={
-              <AuthRoute>
-                <Auth/>
-              </AuthRoute>
-            } />
+              <Route path="/sobre" element={<About />} />
 
-            <Route path="/dash" element={
-              <ProtectedRoute>
-                <Dash />
-              </ProtectedRoute>
-            } />
+              <Route path="/auth" element={
+                <AuthRoute>
+                  <Auth />
+                </AuthRoute>
+              } />
 
-            <Route path="/antivirus" element={<Antivirus />} />
-            <Route path="/servicos" element={<Services />} />
-            <Route path="/especialistas" element={<Experts />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/politicas" element={<Policies />} />
-            <Route path="/saiba-mais" element={<SaibaMais />} />
-            <Route path="/assinaturas" element={<Assinaturas />} />
+              <Route path="/dash" element={
+                <ProtectedRoute>
+                  <Dash />
+                </ProtectedRoute>
+              } />
 
-            <Route path="*" element={<NotFound />} />
-            
-          </Routes>
+              <Route path="/antivirus" element={<Antivirus />} />
+              <Route path="/servicos" element={<Services />} />
+              <Route path="/especialistas" element={<Experts />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/politicas" element={<Policies />} />
+              <Route path="/saiba-mais" element={<SaibaMais />} />
+              <Route path="/assinaturas" element={<Assinaturas />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/contato" element={<Contact></Contact>}></Route>
+            </Routes>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
