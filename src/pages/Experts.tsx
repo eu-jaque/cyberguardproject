@@ -32,7 +32,7 @@ export type expenses = {
 }
 
 
-export default function Experts(){
+export default function Expert(){
 const {user, signOutUser} = useAuth();
 const [experts, setExperts]= useState <Experts[]> ([]);
 
