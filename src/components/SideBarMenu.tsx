@@ -60,11 +60,14 @@ const Sidebar = () => {
   return (
     <>
       {/* Mobile Toggle */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="lg:hidden fixed top-4 left-4 z-[60] p-2 bg-primary rounded-md text-white shadow-lg"
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`lg:hidden fixed top-4 left-4 z-[60] p-2 transition-all duration-500 rounded-full shadow-lg ${isOpen
+            ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm"
+            : "text-white bg-primary"
+          }`}
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        {isOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
       {/* Overlay */}
@@ -143,9 +146,8 @@ const Sidebar = () => {
                   <button
                     key={l}
                     onClick={() => { setLang(l); setLangOpen(false); }}
-                    className={`block w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                      lang === l ? "bg-primary/10 text-primary font-bold" : "text-foreground/80 hover:bg-secondary"
-                    }`}
+                    className={`block w-full text-left px-4 py-2.5 text-sm transition-colors ${lang === l ? "bg-primary/10 text-primary font-bold" : "text-foreground/80 hover:bg-secondary"
+                      }`}
                   >
                     {langLabels[l]}
                   </button>

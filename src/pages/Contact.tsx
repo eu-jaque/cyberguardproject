@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/SideBarMenu";
 import { Mail, Phone, User, MessageSquare, Send } from "lucide-react";
 import supabase from "../../utils/supabase";
+import { toast } from "sonner";
 
 export default function Contact() {
 
     const [loading, setLoading] = useState(false);
-
+  
     const containerMargin = "lg:ml-64 ml-0";
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -40,6 +41,10 @@ export default function Contact() {
             console.log("Ticket criado com sucesso!");
             (e.target as HTMLFormElement).reset();
             setPhone('');
+            toast.success("Mensagem enviada!", {
+                description: "Recebemos seu ticket e responderemos em breve.",
+                duration: 5000, // 5 segundos de exibição
+            });
 
         } catch (error) {
             console.error("Erro na transação:", error);
