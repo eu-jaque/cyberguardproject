@@ -2,7 +2,7 @@ import supabase from "../../utils/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 export type Courses = ({
-    user?:string,
+    name?:string,
     description?:string,
     workload?:number,
     status: string,
@@ -13,7 +13,7 @@ export type Courses = ({
 
 export default function Course(){
      const {user, signOutUser} = useAuth();
-     const[device,setCourse] = useState <Courses> ({});/* apenas relacionamento muitos pra muitos*/
+     const[device,setCourse] = useState <Courses> ();/* apenas relacionamento muitos pra muitos*/
 
     useEffect(() => {
     if(user) syncCourses (user?.id);
@@ -46,20 +46,31 @@ export default function Course(){
         <h1>cursos</h1>
              
               <input type= "text" 
-              placeholder="User? " 
-              value={device.user}
-              onChange={ (e) => setCourse({...device, user :(e.target.value)})}/>
+              placeholder="name? " 
+              value={device.name}
+              onChange={ (e) => setCourse({...device, name :(e.target.value)})}/>
 
 
               <input type= "text" 
               placeholder="Qual o seu dispostivo" 
-              value={device.devices} 
-              onChange={ (e) => setCourse({...device,devices:(e.target.value)})}/>
+              value={device.description} 
+              onChange={ (e) => setCourse({...device,description:(e.target.value)})}/>
 
               <input type= "numeric" 
               placeholder="Data de criação " 
-              value={device.lasted}
-              onChange={ (e) => setCourse ({...device,lasted :Number(e.target.value)})}/>
+              value={device.workload}
+              onChange={ (e) => setCourse ({...device,workload :Number(e.target.value)})}/>
+
+              <input type= "text" 
+              placeholder="status do curso" 
+              value={device.status}
+              onChange={ (e) => setCourse ({...device,status:(e.target.value)})}/>
+
+               <input type= "text" 
+              placeholder="Básico, Intermediário, Avançado" 
+              value={device.level}
+              onChange={ (e) => setCourse ({...device,level:(e.target.value)})}/>
+  
 
 
               <button onClick = {handleDevice}>cadastrar</button>
