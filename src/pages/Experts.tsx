@@ -3,8 +3,163 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield, LogIn, Laugh } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import confettiLib from "canvas-confetti";
+import supabase from "../../utils/supabase";
+
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+// Exemplo de interface - ajuste conforme seu projeto
+interface Experts{
+  name: string;
+}
+
+interface BookingModalProps {
+  open: boolean;
+  onClose: () => void;
+  Experts: Experts | null;
+}
+
+  const BookingModal = ({ open, onClose, Experts }: BookingModalProps) => {
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+
+  // Simulação de autenticação (substitua pelo seu hook de auth real)
+  const isAuthenticated = false; 
+
+
+  const today = new Date();
+  const days = Array.from({ length: 14 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i + 1);
+    return d;
+  });
+  export default function Experts(){
+
+   const [experts, setExperts] = useState<Experts[]>([]);
+  
+    useEffect(()=>{
+    loadExperts(user_id);
+  }, [])
+
+  
+
+   
+
+  async function loadExperts(user_id: string ): Promise<void>{
+   const (data, error) = await supbase.from('esperts').select('*');
+
+     if(error){
+            alert(error.message)
+            return;
+        }
+
+        setExperts(data);
+  }
+  }
+  const handleClose = useCallback(() => {
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setConfirmed(false);
+    setShowAuthPrompt(false);
+    onClose();
+  }, [onClose]);
+
+  const handleConfirm = () => {
+    if (!isAuthenticated) {
+      setShowAuthPrompt(true);
+    } else {
+      // Aqui você chamaria sua API de agendamento
+      setConfirmed(true);
+    }
+  };
+
+  if (!experts) return null;
+
+  const selectedDay = selectedDate !== null ? days[selectedDate] : null;
+
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="max-w-3xl bg-[hsl(222,47%,11%)] border-amber-500/30 text-[hsl(210,40%,98%)] max-h-[90vh] overflow-y-auto">
+        
+        {/* ESTADO 1: PROMPT DE LOGIN */}
+        {showAuthPrompt ? (
+          <div className="flex flex-col items-center justify-center py-10 text-center animate-in fade-in zoom-in duration-300">
+            <div className="w-20 h-20 rounded-full bg-amber-500/10 border-2 border-amber-500/30 flex items-center justify-center mb-6">
+              <LogIn className="w-10 h-10 text-amber-400" />
+            </div>
+
+            <h2 className="text-2xl font-bold mb-3 text-white">Acesso Necessário</h2>
+            <p className="text-[hsl(215,20%,65%)] mb-2 max-w-sm">
+              Para agendar com <span className="text-amber-400 font-semibold">{selectedExpert.name}</span>, você precisa estar logado.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm mt-6">
+              <Button className="flex-1 bg-amber-500 text-slate-950 font-bold hover:bg-amber-400">
+                Fazer Login
+              </Button>
+              <Button variant="outline" className="flex-1 border-amber-500/30 text-amber-400 hover:bg-amber-500/10">
+                Criar Conta
+              </Button>
+            </div>
+
+            <button onClick={() => setShowAuthPrompt(false)} className="mt-6 text-sm text-slate-400 hover:text-amber-400">
+              ← Voltar ao agendamento
+            </button>
+          </div>
+
+        /* ESTADO 2: SUCESSO (CONFIRMADO) */
+        ) : confirmed ? (
+          <div className="flex flex-col items-center justify-center py-10 text-center animate-in fade-in zoom-in duration-500">
+            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center mb-6">
+              <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-2">Agendamento Realizado!</h2>
+            <p className="text-slate-400 mb-6">Seu horário com {selectedExpert.name} foi reservado.</p>
+            
+            <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-800 w-full max-w-xs mb-8">
+              <div className="flex items-center gap-3 mb-2">
+                <Calendar className="w-4 h-4 text-amber-400" />
+                <span>{selectedDay?.toLocaleDateString('pt-BR')}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-amber-400" />
+                <span>{selectedTime}</span>
+              </div>
+            </div>
+
+            <Button onClick={handleClose} className="bg-slate-800 hover:bg-slate-700 text-white">
+              Fechar
+            </Button>
+          </div>
+
+        /* ESTADO 3: SELEÇÃO (O QUE JÁ EXISTIA) */
+        ) : (
+          <div className="p-4">
+             <h2 className="text-xl font-bold mb-4">Escolha um horário com {selectedExpert.name}</h2>
+             {/* ... Seu código de seleção de data e hora aqui ... */}
+             
+             <Button 
+               disabled={!selectedTime} 
+               onClick={handleConfirm}
+               className="w-full mt-6 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold"
+             >
+               Confirmar Agendamento
+             </Button>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+
+
+
 
 import hackerBg from "@/assets/hacker-parallax.jpg";
 import expertsBg from "@/assets/experts-bg.jpg";
@@ -119,6 +274,12 @@ const Experts = () => {
 
   const handleConfirm = () => {
     setViewState("confirmation");
+    confettiLib({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#4ade80', '#ffffff', '#fbbf24'],
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -167,6 +328,8 @@ const Experts = () => {
   // Schedule view
   if (viewState === "schedule" && selectedExpert) {
     return (
+
+      
       <div className="min-h-screen bg-background">
         <Header />
         <section className="pt-32 pb-20">
@@ -234,11 +397,10 @@ const Experts = () => {
                     <button
                       key={i}
                       onClick={() => setSelectedDay(i)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium transition-all ${
-                        selectedDay === i
-                          ? "btn-gold-3d text-primary-foreground"
-                          : "bg-secondary text-foreground/70 hover:bg-secondary/80"
-                      }`}
+                      className={`px-5 py-3 rounded-lg text-sm font-medium transition-all ${selectedDay === i
+                        ? "btn-gold-3d text-primary-foreground"
+                        : "bg-secondary text-foreground/70 hover:bg-secondary/80"
+                        }`}
                     >
                       {day}
                     </button>
@@ -251,11 +413,10 @@ const Experts = () => {
                       <button
                         key={time}
                         onClick={() => setSelectedTime(time)}
-                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm transition-all ${
-                          selectedTime === time
-                            ? "btn-gold-3d text-primary-foreground"
-                            : "bg-secondary/50 text-foreground/70 hover:bg-secondary"
-                        }`}
+                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm transition-all ${selectedTime === time
+                          ? "btn-gold-3d text-primary-foreground"
+                          : "bg-secondary/50 text-foreground/70 hover:bg-secondary"
+                          }`}
                       >
                         <Clock className="w-3 h-3" /> {time}
                       </button>
@@ -444,3 +605,17 @@ const Experts = () => {
 };
 
 export default Experts;
+function confetti(args: { 
+  particleCount: number; 
+  spread: number; 
+  origin: { y: number; }; 
+  colors: string[]; 
+}) {
+  // Chamamos a biblioteca importada passando os argumentos recebidos
+  confettiLib({
+    particleCount: args.particleCount,
+    spread: args.spread,
+    origin: args.origin,
+    colors: args.colors
+  });
+}
