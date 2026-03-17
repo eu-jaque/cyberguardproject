@@ -7,29 +7,6 @@ import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, Graduat
 import { useState, useRef } from "react";
 import confettiLib from "canvas-confetti";
 
-        /* ESTADO 3: SELEÇÃO (O QUE JÁ EXISTIA) */
-        ) : (
-          <div className="p-4">
-             <h2 className="text-xl font-bold mb-4">Escolha um horário com {selectedExpert.name}</h2>
-             {/* ... Seu código de seleção de data e hora aqui ... */}
-             
-             <Button 
-               disabled={!selectedTime} 
-               onClick={handleConfirm}
-               className="w-full mt-6 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold"
-             >
-               Confirmar Agendamento
-             </Button>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-
-
-
 
 import hackerBg from "@/assets/hacker-parallax.jpg";
 import expertsBg from "@/assets/experts-bg.jpg";
