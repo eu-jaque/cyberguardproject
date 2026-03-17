@@ -212,66 +212,8 @@ const experts = [
   },
 ];
 
-export type Experts = ({
-  name?: string;
-  area?: string;
-  rating?: string;
-  available?: string;
-})
-
-export type expenses = {
-  name?: string,
-  value?: string
-}
 
 
-export default function Expert(){
-const {user, signOutUser} = useAuth();
-const [experts, setExperts]= useState <Experts[]> ([]);
-
-
-useEffect( () => {
-  if (user) syncExperts(user.id); 
-}, []);
-
-async function syncExperts(user_id: string ): Promise<void>{
-  const{data, error} = await supabase.from('experts')
-     .select('*').eq("user_id", user_id).single();
-
-if(error){
-  alert(error.message)
-  return
-}
-
-setExperts(data);
-
-}
-
-
-
-async function handleExpert(){
-const data= {...expert, user_id: user.id};
-
-
-const { error } = await supabase.from('Experts').insert(data);
-
-if (error) {
-  alert(error.message);
-  return
-}
-  alert("cadastrado com sucesso")
-}
-return(
-  <>
-  <h1></h1>
-  <input type="text"
-  placeholder="text?"
-  value={expert.name}
-  onChange={(e) => setExpert ({...expert, name : (e.target.value)})} />
-  <button onClick={handleExpert}> Confimar agendamento </button>
-  </>
-)
-}
 const videos = [
   { title: "Como identificar phishing em 5 passos", id: "EqQ-cDeKQLU" },
   { title: "Protegendo seu Wi-Fi doméstico", id: "DMkKcrwxlsc" },
