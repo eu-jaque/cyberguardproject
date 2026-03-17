@@ -38,29 +38,8 @@ interface BookingModalProps {
     d.setDate(today.getDate() + i + 1);
     return d;
   });
-  export default function Experts(){
 
-   const [experts, setExperts] = useState<Experts[]>([]);
-  
-    useEffect(()=>{
-    loadExperts(user_id);
-  }, [])
 
-  
-
-   
-
-  async function loadExperts(user_id: string ): Promise<void>{
-   const (data, error) = await supbase.from('esperts').select('*');
-
-     if(error){
-            alert(error.message)
-            return;
-        }
-
-        setExperts(data);
-  }
-  }
   const handleClose = useCallback(() => {
     setSelectedDate(null);
     setSelectedTime(null);
