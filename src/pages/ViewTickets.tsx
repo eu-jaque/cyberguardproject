@@ -71,33 +71,7 @@ export default function ViewTickets() {
                                 <TicketDataGrid searchTerm={searchTerm} />
                             </div>
                             {/* Empty State - Exibido quando a lista está vazia */}
-                            <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-                                <div className="relative mb-6">
-                                    {/* Círculo de brilho ao fundo do ícone */}
-                                    <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
 
-                                    <div className="relative p-6 bg-secondary/30 rounded-full border border-primary/20 text-primary/50">
-                                        <Ticket size={48} strokeWidth={1} />
-                                    </div>
-                                </div>
-
-                                <h3 className="text-xl font-bold text-foreground mb-2">
-                                    Nenhum ticket <span className="text-gradient-gold">encontrado</span>
-                                </h3>
-
-                                <p className="text-foreground/60 max-w-xs mx-auto leading-relaxed">
-                                    No momento não foi encontrado nenhuma solicitação aberta ou que coincidam com sua busca.
-                                </p>
-
-                                {searchTerm && (
-                                    <button
-                                        onClick={() => setSearchTerm('')}
-                                        className="mt-6 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                                    >
-                                        Limpar todos os filtros
-                                    </button>
-                                )}
-                            </div>
                         </div>
                     </div>
                 </div>

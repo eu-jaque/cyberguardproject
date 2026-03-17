@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import supabase from "../../utils/supabase";
-import { Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Ticket } from "lucide-react";
 
 // 1. Defina uma interface clara para o Ticket
 interface Ticket {
     id: string;
-    nome: string;
-    assunto: string;
-    mensagem: string;
+    name: string;
+    subject: string;
+    message: string;
     status: string;
     created_at: string;
+    email: string;
 }
 
 interface TicketListProps {
@@ -21,6 +22,12 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const statusMap: Record<string, string> = {
+        "open": "Em Aberto",
+        "in_progress": "Em Análise",
+        "closed": "Concluído",
+        "urgent": "Urgente"
+    };
     useEffect(() => {
         fetchTickets();
     }, []);
@@ -35,6 +42,7 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
 
             if (error) throw error;
             if (data) setTickets(data);
+            console.log(data);
         } catch (err: any) {
             setError(err.message);
             console.error("Erro ao carregar tickets:", err);
@@ -45,8 +53,8 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
 
     // Lógica de filtragem local baseada no termo de busca
     const filteredTickets = tickets.filter(ticket =>
-        ticket.assunto?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ticket.nome?.toLowerCase().includes(searchTerm.toLowerCase())
+        ticket.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Estado de Carregamento
@@ -71,28 +79,43 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
     // Estado Vazio (Aquele componente estilizado que criamos antes)
     if (filteredTickets.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-                {/* ... (Aquele código do Empty State que te mandei antes) ... */}
-                <p className="text-foreground/50">Nenhum registro encontrado.</p>
+            <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+                <div className="relative mb-6">
+                    {/* Círculo de brilho ao fundo do ícone */}
+                    <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
+
+                    <div className="relative p-6 bg-secondary/30 rounded-full border border-primary/20 text-primary/50">
+                        <Ticket size={48} strokeWidth={1} />
+                    </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-foreground mb-2">
+                    Nenhum ticket <span className="text-gradient-gold">encontrado</span>
+                </h3>
+
+                <p className="text-foreground/60 max-w-xs mx-auto leading-relaxed">
+                    No momento não foi encontrado nenhuma solicitação aberta ou que coincidam com sua busca.
+                </p>
+            </div>
+        )
+    } else {
+        return (
+            <div className="divide-y divide-border">
+                {filteredTickets.map((ticket) => (
+                    <div key={ticket.id} className="p-4 hover:bg-secondary/20 transition-colors flex justify-between items-center group">
+                        <div>
+                            <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                                {ticket.subject}
+                            </h4>
+                            <p className="text-xs text-foreground/60">{ticket.name} • {new Date(ticket.created_at).toLocaleDateString()}</p>
+                        </div>
+                        <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                            {statusMap[ticket.status] || "Pendente"}
+                        </span>
+                    </div>
+                ))}
             </div>
         );
     }
 
-    return (
-        <div className="divide-y divide-border">
-            {filteredTickets.map((ticket) => (
-                <div key={ticket.id} className="p-4 hover:bg-secondary/20 transition-colors flex justify-between items-center group">
-                    <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                            {ticket.assunto}
-                        </h4>
-                        <p className="text-xs text-foreground/60">{ticket.nome} • {new Date(ticket.created_at).toLocaleDateString()}</p>
-                    </div>
-                    <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                        {ticket.status || 'Pendente'}
-                    </span>
-                </div>
-            ))}
-        </div>
-    );
 }
