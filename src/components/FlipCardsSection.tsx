@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Smartphone, Mail, MessageCircle, FileText, Phone, Briefcase } from "lucide-react";
 
-// All cards use the same gold color as "Clonagem de WhatsApp" (card index 2)
 const cardStyle = {
   gradient: "from-[#F5D77A] to-[#D4A535]",
   border: "border-[#F5D77A]/30",
@@ -33,11 +32,11 @@ const FlipCard = ({ index }: { index: number }) => {
             <Icon className={`w-6 h-6 ${cardStyle.text}`} />
           </div>
           <h3 className={`font-display text-lg font-bold ${cardStyle.text} text-center`}>{t(`flip.${index}.title`)}</h3>
-          <p className="text-muted-foreground text-sm text-center">{t("flip.hover")}</p>
+          <p className="text-muted-foreground text-center" style={{ fontSize: "16px" }}>{t("flip.hover")}</p>
         </div>
         <div className={`absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br ${cardStyle.gradient} ${cardStyle.border} border rounded-lg flex flex-col items-center justify-center p-6`}>
           <h3 className="font-display text-sm font-bold text-primary-foreground mb-3 text-center">{t(`flip.${index}.title`)}</h3>
-          <p className="text-primary-foreground/90 text-sm text-center leading-relaxed">{t(`flip.${index}.back`)}</p>
+          <p className="text-primary-foreground/90 text-center leading-relaxed" style={{ fontSize: "16px" }}>{t(`flip.${index}.back`)}</p>
         </div>
       </div>
     </div>
@@ -53,7 +52,7 @@ const FlipCardsSection = () => {
         <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
           {t("flip.title")} <span className="text-gradient-gold">{t("flip.title_highlight")}</span>
         </h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12" style={{ fontSize: "20px" }}>
           {t("flip.subtitle")}
         </p>
 

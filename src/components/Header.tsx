@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { Shield, ChevronDown, Globe } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import logo from "@/assets/cyberguard-logo.png";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -36,15 +37,12 @@ const Header = () => {
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const langLabels: Record<string, string> = { pt: "PT", en: "EN", es: "ES" };
 
   const serviceItems = [
     { key: "srv.verificador_seguranca", to: "" },
     { key: "srv.conversa_especialistas", to: "/especialistas" },
+    { key: "srv.assinaturas", to: "/assinaturas" },
     { key: "srv.servicos_page", to: "/servicos" },
   ];
 
@@ -73,7 +71,7 @@ const Header = () => {
             if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
             else navigate("/");
           }}>
-            <Shield className="w-8 h-8 text-primary" />
+            <img src={logo} alt="CyberGuard Logo" className="w-10 h-10 object-contain" />
             <span className="font-display text-xl font-bold text-foreground">
               Cyber<span className="text-gradient-gold">Guard</span>
             </span>
@@ -128,16 +126,14 @@ const Header = () => {
               )}
             </div>
 
-            <button onClick={() => {
-              if (location.pathname === "/") scrollTo("sobre");
-              else navigate("/sobre");
-            }} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
+            <Link to="/sobre" className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.sobre")}
-            </button>
+            </Link>
 
             <button onClick={() => {
-              if (location.pathname === "/") scrollTo("contato");
-              else navigate("/");
+              if (location.pathname === "/") {
+                document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" });
+              } else navigate("/");
             }} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.contato")}
             </button>

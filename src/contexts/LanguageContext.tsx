@@ -298,14 +298,8 @@ const translations: Record<string, Record<Lang, string>> = {
   "exp.title_highlight": { pt: "Especialistas", en: "Experts", es: "Especialistas" },
   "exp.subtitle": { pt: "Conecte-se com profissionais de cibersegurança para orientação personalizada.", en: "Connect with cybersecurity professionals for personalized guidance.", es: "Conéctate con profesionales de ciberseguridad para orientación personalizada." },
   "exp.our_experts": { pt: "Nossos Especialistas", en: "Our Experts", es: "Nuestros Especialistas" },
-  "exp.available": { pt: "Disponível", en: "Available", es: "Disponible" },
-  "exp.unavailable": { pt: "Indisponível", en: "Unavailable", es: "No disponible" },
   "exp.schedule": { pt: "Agendar Consulta", en: "Schedule Consultation", es: "Agendar Consulta" },
   "exp.confirm": { pt: "Confirmar Agendamento", en: "Confirm Booking", es: "Confirmar Agendamiento" },
-  "exp.chat": { pt: "Chat com Especialista", en: "Chat with Expert", es: "Chat con Especialista" },
-  "exp.chat_example": { pt: "Olá! Como posso ajudar com sua segurança digital hoje?", en: "Hello! How can I help with your digital security today?", es: "¡Hola! ¿Cómo puedo ayudarte con tu seguridad digital hoy?" },
-  "exp.chat_placeholder": { pt: "Digite sua mensagem...", en: "Type your message...", es: "Escribe tu mensaje..." },
-  "exp.send": { pt: "Enviar", en: "Send", es: "Enviar" },
   "exp.videos": { pt: "Vídeos de Instrução", en: "Instructional Videos", es: "Videos de Instrucción" },
 
   // Blog page
@@ -334,6 +328,42 @@ const translations: Record<string, Record<Lang, string>> = {
   "pol.privacy_text": { pt: "A CyberGuard respeita sua privacidade. Coletamos apenas dados necessários para o funcionamento do site, como e-mail para cadastro. Não compartilhamos seus dados com terceiros. Utilizamos cookies para melhorar sua experiência de navegação. Você pode solicitar a exclusão dos seus dados a qualquer momento entrando em contato conosco.", en: "CyberGuard respects your privacy. We only collect data necessary for the site's operation, such as email for registration. We do not share your data with third parties. We use cookies to improve your browsing experience. You can request the deletion of your data at any time by contacting us.", es: "CyberGuard respeta su privacidad. Solo recopilamos datos necesarios para el funcionamiento del sitio. No compartimos sus datos con terceros. Utilizamos cookies para mejorar su experiencia de navegación." },
   "pol.lgpd_title": { pt: "LGPD — Seus Direitos", en: "LGPD — Your Rights", es: "LGPD — Sus Derechos" },
   "pol.lgpd_text": { pt: "De acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018), você tem direito a: confirmação da existência de tratamento de seus dados; acesso aos dados; correção de dados incompletos ou desatualizados; anonimização, bloqueio ou eliminação de dados desnecessários; portabilidade dos dados; eliminação dos dados pessoais tratados com seu consentimento; e revogação do consentimento.", en: "According to the General Data Protection Law (Law 13.709/2018), you have the right to: confirmation of the existence of processing of your data; access to data; correction of incomplete or outdated data; anonymization, blocking, or deletion of unnecessary data; data portability; deletion of personal data processed with your consent; and revocation of consent.", es: "De acuerdo con la Ley General de Protección de Datos (Ley 13.709/2018), usted tiene derecho a: confirmación de la existencia de tratamiento de sus datos; acceso a los datos; corrección de datos incompletos o desactualizados; anonimización, bloqueo o eliminación de datos innecesarios." },
+
+  // Services dropdown - Assinaturas
+  "srv.assinaturas": { pt: "Assinaturas", en: "Subscriptions", es: "Suscripciones" },
+
+  // Subscription page
+  "sub.choose_plan": { pt: "Escolha seu plano", en: "Choose your plan", es: "Elige tu plan" },
+  "sub.benefit_1": { pt: "Sem compromisso, cancele quando quiser", en: "No commitment, cancel anytime", es: "Sin compromiso, cancela cuando quieras" },
+  "sub.benefit_2": { pt: "Proteção completa para seus dispositivos", en: "Complete protection for your devices", es: "Protección completa para tus dispositivos" },
+  "sub.benefit_3": { pt: "Monitore sua segurança em todos os aparelhos", en: "Monitor your security on all devices", es: "Monitorea tu seguridad en todos los dispositivos" },
+  "sub.next": { pt: "Próximo", en: "Next", es: "Siguiente" },
+  "sub.back": { pt: "Voltar", en: "Back", es: "Volver" },
+  "sub.select_plan": { pt: "Selecione o melhor plano para você", en: "Select the best plan for you", es: "Selecciona el mejor plan para ti" },
+  "sub.plan_basic": { pt: "Básico", en: "Basic", es: "Básico" },
+  "sub.plan_standard": { pt: "Padrão", en: "Standard", es: "Estándar" },
+  "sub.protection_essential": { pt: "Proteção essencial", en: "Essential protection", es: "Protección esencial" },
+  "sub.protection_advanced": { pt: "Proteção avançada", en: "Advanced protection", es: "Protección avanzada" },
+  "sub.protection_total": { pt: "Proteção total", en: "Total protection", es: "Protección total" },
+  "sub.device_1": { pt: "1 dispositivo", en: "1 device", es: "1 dispositivo" },
+  "sub.device_3": { pt: "3 dispositivos", en: "3 devices", es: "3 dispositivos" },
+  "sub.device_unlimited": { pt: "Dispositivos ilimitados", en: "Unlimited devices", es: "Dispositivos ilimitados" },
+  "sub.feat_realtime": { pt: "Proteção em tempo real", en: "Real-time protection", es: "Protección en tiempo real" },
+  "sub.feat_malware": { pt: "Detecção de malware", en: "Malware detection", es: "Detección de malware" },
+  "sub.feat_updates": { pt: "Atualizações automáticas", en: "Automatic updates", es: "Actualizaciones automáticas" },
+  "sub.feat_firewall": { pt: "Firewall avançado", en: "Advanced firewall", es: "Firewall avanzado" },
+  "sub.feat_antiphishing": { pt: "Anti-phishing", en: "Anti-phishing", es: "Anti-phishing" },
+  "sub.feat_vpn": { pt: "VPN inclusa", en: "VPN included", es: "VPN incluida" },
+  "sub.feat_vault": { pt: "Cofre digital", en: "Digital vault", es: "Cofre digital" },
+  "sub.popular": { pt: "Mais popular", en: "Most popular", es: "Más popular" },
+  "sub.month": { pt: "mês", en: "month", es: "mes" },
+  "sub.finish_setup": { pt: "Termine de configurar sua conta", en: "Finish setting up your account", es: "Termina de configurar tu cuenta" },
+  "sub.password": { pt: "Senha", en: "Password", es: "Contraseña" },
+  "sub.confirm_title": { pt: "Confirmação de assinatura", en: "Subscription confirmation", es: "Confirmación de suscripción" },
+  "sub.plan_label": { pt: "Plano", en: "Plan", es: "Plan" },
+  "sub.price_label": { pt: "Preço", en: "Price", es: "Precio" },
+  "sub.devices_label": { pt: "Dispositivos", en: "Devices", es: "Dispositivos" },
+  "sub.subscribe": { pt: "Assinar", en: "Subscribe", es: "Suscribir" },
 };
 
 const LanguageContext = createContext<LanguageContextType>({

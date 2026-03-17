@@ -43,10 +43,10 @@ const HeroCarousel = () => {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-tight">
               {titles[current]}
             </h1>
-            <p className="text-lg md:text-xl text-foreground/80 mb-6">{descs[current]}</p>
+            <p className="text-foreground/80 mb-6" style={{ fontSize: "20px" }}>{descs[current]}</p>
             <Link
               to="/saiba-mais"
-              className="btn-login bg-primary text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block hover:bg-primary/90 transition-colors"
+              className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block"
             >
               {t("hero.cta")}
             </Link>

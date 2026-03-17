@@ -54,15 +54,10 @@ const App = () => (
             } />
 
             <Route path="/antivirus" element={<Antivirus />} />
-
             <Route path="/servicos" element={<Services />} />
-
             <Route path="/especialistas" element={<Experts />} />
-
             <Route path="/blog" element={<Blog />} />
-
             <Route path="/politicas" element={<Policies />} />
-
             <Route path="/saiba-mais" element={<SaibaMais />} />
 
             <Route path="*" element={<NotFound />} />
