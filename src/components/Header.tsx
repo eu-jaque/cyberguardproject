@@ -93,7 +93,7 @@ const Header = () => {
 
           {/* 3. BOTÃO MOBILE (Gira e muda de cor) */}
           <button 
-            className={`lg:hidden p-2 z-[60] transition-all duration-500 rounded-full bg-primary ${
+            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full bg-primary ${
               mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
             }`} 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

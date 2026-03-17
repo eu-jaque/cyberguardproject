@@ -25,7 +25,7 @@ export default function Contact() {
             const payload = {
                 name: formData.get('nome'), // Certifique-se de adicionar 'name' aos inputs no JSX
                 email: formData.get('email'),
-                phone: phone, // Já está no estado 'phone'
+                phone: phone, // Já está no estado 'phone' 
                 subject: formData.get('assunto'),
                 message: formData.get('mensagem'),
                 status: 'open'

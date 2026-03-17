@@ -25,6 +25,7 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import Contact from "./pages/Contact.tsx";
+import TicketsPage from "./pages/ViewTickets.tsx";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,8 @@ const App = () => (
                   <Dash />
                 </ProtectedRoute>
               } />
+
+              <Route path="/tickets" element={<TicketsPage/>}></Route>
 
               <Route path="/antivirus" element={<Antivirus />} />
               <Route path="/servicos" element={<Services />} />
