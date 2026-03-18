@@ -1,4 +1,6 @@
+import { Filter } from "lucide-react";
 import { toast } from "sonner";
+import supabase from "../../utils/supabase";
 
 export default function TicketModal({ ticket, onClose }) {
     const statusMap: Record<string, string> = {
@@ -7,6 +9,28 @@ export default function TicketModal({ ticket, onClose }) {
         "closed": "Concluído",
         "urgent": "Urgente"
     };
+    async function handleAttStatus(newStatus) {
+        try {
+            console.log(newStatus);
+            const { error } = await supabase
+                .from("tickets")
+                .update({ status: newStatus })
+                .eq("id", ticket.id);
+
+            if (error) throw error;
+
+            // Feedback de sucesso
+            toast.success("Status atualizado!");
+
+            // Opcional: Recarregar a lista no componente pai ou atualizar o objeto localmente
+            // Se o seu componente pai tiver uma função fetchTickets, chame-a aqui via props
+            // Ex: onUpdate(); 
+
+        } catch (err) {
+            toast.error("Erro ao atualizar status");
+            console.error(err);
+        }
+    }
     const handleResponder = () => {
         const subject = encodeURIComponent(`Re: ${ticket.subject} (Chamado #${ticket.id})`);
         const body = encodeURIComponent(`Olá ${ticket.name},\n\nSobre o seu chamado: "${ticket.subject}"...\n\n---\nResposta do Suporte:`);
@@ -39,7 +63,17 @@ export default function TicketModal({ ticket, onClose }) {
                             </div>
                             <div>
                                 <p className="text-foreground/40 font-medium uppercase text-[10px]">Status</p>
-                                <p>{statusMap[ticket.status]}</p>
+                                <select
+                                    value={ticket.status}
+                                    onChange={(e) => handleAttStatus(e.target.value)}
+                                    className="bg-secondary/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
+                                >
+                                    <option value="all">Todos os Status</option>
+                                    <option value="open">Em Aberto</option>
+                                    <option value="in_progress">Em Análise</option>
+                                    <option value="closed">Concluídos</option>
+                                    <option value="urgent">Urgentes</option>
+                                </select>
                             </div>
                         </div>
 
