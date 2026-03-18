@@ -10,7 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { useLanguage } from "@/contexts/LanguageContext";
+
 
 
 
