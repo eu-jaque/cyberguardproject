@@ -55,9 +55,7 @@ const App = () => (
                   <Dash />
                 </ProtectedRoute>
               } />
-
               <Route path="/tickets" element={<TicketsPage/>}></Route>
-
               <Route path="/antivirus" element={<Antivirus />} />
               <Route path="/servicos" element={<Services />} />
               <Route path="/especialistas" element={<Experts />} />

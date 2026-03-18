@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import supabase from "../../utils/supabase";
 import { Loader2, AlertCircle, Ticket } from "lucide-react";
+import TicketModal from "./TicketModal";
 
 // 1. Defina uma interface clara para o Ticket
 interface Ticket {
@@ -15,13 +16,14 @@ interface Ticket {
 
 interface TicketListProps {
     searchTerm?: string;
+    statusFilterTerm?: string
 }
 
-export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
+export function TicketDataGrid({ searchTerm = "", statusFilterTerm = "all" }: TicketListProps) {
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    const [selectedTicket, setSelectedTicket] = useState(null);
     const statusMap: Record<string, string> = {
         "open": "Em Aberto",
         "in_progress": "Em Análise",
@@ -52,10 +54,17 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
     }
 
     // Lógica de filtragem local baseada no termo de busca
-    const filteredTickets = tickets.filter(ticket =>
-        ticket.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ticket.name?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredTickets = tickets.filter((ticket) => {
+        // Filtro por texto (nome ou assunto)
+        const matchesSearch =
+            ticket.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            ticket.subject.toLowerCase().includes(searchTerm.toLowerCase());
+
+        // Filtro por status
+        const matchesStatus = statusFilterTerm === "all" || ticket.status === statusFilterTerm;
+
+        return matchesSearch && matchesStatus;
+    });
 
     // Estado de Carregamento
     if (loading) {
@@ -102,18 +111,33 @@ export function TicketDataGrid({ searchTerm = "" }: TicketListProps) {
         return (
             <div className="divide-y divide-border">
                 {filteredTickets.map((ticket) => (
-                    <div key={ticket.id} className="p-4 hover:bg-secondary/20 transition-colors flex justify-between items-center group">
+                    <div
+                        key={ticket.id}
+                        // Adicionado: cursor-pointer e onClick
+                        className="p-4 hover:bg-secondary/20 transition-colors flex justify-between items-center group cursor-pointer"
+                        onClick={() => setSelectedTicket(ticket)}
+                    >
                         <div>
                             <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                                 {ticket.subject}
                             </h4>
-                            <p className="text-xs text-foreground/60">{ticket.name} • {new Date(ticket.created_at).toLocaleDateString()}</p>
+                            <p className="text-xs text-foreground/60">
+                                {ticket.name} • {new Date(ticket.created_at).toLocaleDateString()}
+                            </p>
                         </div>
                         <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
                             {statusMap[ticket.status] || "Pendente"}
                         </span>
                     </div>
                 ))}
+
+                {/* 2. Renderização Condicional do Modal */}
+                {selectedTicket && (
+                    <TicketModal
+                        ticket={selectedTicket}
+                        onClose={() => setSelectedTicket(null)}
+                    />
+                )}
             </div>
         );
     }

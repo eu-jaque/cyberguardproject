@@ -7,7 +7,7 @@ import { toast } from "sonner";
 export default function Contact() {
 
     const [loading, setLoading] = useState(false);
-  
+
     const containerMargin = "lg:ml-64 ml-0";
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -38,7 +38,6 @@ export default function Contact() {
             if (error) throw error;
 
             // Sucesso
-            console.log("Ticket criado com sucesso!");
             (e.target as HTMLFormElement).reset();
             setPhone('');
             toast.success("Mensagem enviada!", {
@@ -167,6 +166,9 @@ export default function Contact() {
                                 >
                                     {loading ? "Enviando..." : <><Send size={18} /> Enviar Mensagem</>}
                                 </button>
+                                <p className="text-sm italic text-foreground/60">
+                                    A resposta da nossa equipe de suporte será enviada para o seu e-mail cadastrado.
+                                </p>
                             </form>
                         </div>
 

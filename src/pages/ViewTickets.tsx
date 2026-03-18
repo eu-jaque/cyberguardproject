@@ -6,6 +6,7 @@ import { Ticket, Filter, Search, Plus } from 'lucide-react';
 export default function ViewTickets() {
     const [searchTerm, setSearchTerm] = useState('');
     const containerMargin = "lg:ml-64 ml-0";
+    const [statusFilter, setStatusFilter] = useState<string>("all");
 
     return (
         <div className="min-h-screen bg-background">
@@ -48,11 +49,16 @@ export default function ViewTickets() {
 
                             <div className="flex items-center gap-2 w-full md:w-auto">
                                 <Filter size={18} className="text-primary" />
-                                <select className="bg-secondary/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer">
-                                    <option>Todos os Status</option>
-                                    <option>Em Aberto</option>
-                                    <option>Em Análise</option>
-                                    <option>Concluídos</option>
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="bg-secondary/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
+                                >
+                                    <option value="all">Todos os Status</option>
+                                    <option value="open">Em Aberto</option>
+                                    <option value="in_progress">Em Análise</option>
+                                    <option value="closed">Concluídos</option>
+                                    <option value="urgent">Urgentes</option>
                                 </select>
                             </div>
                         </div>
@@ -68,7 +74,7 @@ export default function ViewTickets() {
 
                             <div className="p-0">
                                 {/* Componente de Lista que você solicitou */}
-                                <TicketDataGrid searchTerm={searchTerm} />
+                                <TicketDataGrid searchTerm={searchTerm} statusFilterTerm={statusFilter} />
                             </div>
                             {/* Empty State - Exibido quando a lista está vazia */}
 
