@@ -298,14 +298,8 @@ const translations: Record<string, Record<Lang, string>> = {
   "exp.title_highlight": { pt: "Especialistas", en: "Experts", es: "Especialistas" },
   "exp.subtitle": { pt: "Conecte-se com profissionais de cibersegurança para orientação personalizada.", en: "Connect with cybersecurity professionals for personalized guidance.", es: "Conéctate con profesionales de ciberseguridad para orientación personalizada." },
   "exp.our_experts": { pt: "Nossos Especialistas", en: "Our Experts", es: "Nuestros Especialistas" },
-  "exp.available": { pt: "Disponível", en: "Available", es: "Disponible" },
-  "exp.unavailable": { pt: "Indisponível", en: "Unavailable", es: "No disponible" },
   "exp.schedule": { pt: "Agendar Consulta", en: "Schedule Consultation", es: "Agendar Consulta" },
   "exp.confirm": { pt: "Confirmar Agendamento", en: "Confirm Booking", es: "Confirmar Agendamiento" },
-  "exp.chat": { pt: "Chat com Especialista", en: "Chat with Expert", es: "Chat con Especialista" },
-  "exp.chat_example": { pt: "Olá! Como posso ajudar com sua segurança digital hoje?", en: "Hello! How can I help with your digital security today?", es: "¡Hola! ¿Cómo puedo ayudarte con tu seguridad digital hoy?" },
-  "exp.chat_placeholder": { pt: "Digite sua mensagem...", en: "Type your message...", es: "Escribe tu mensaje..." },
-  "exp.send": { pt: "Enviar", en: "Send", es: "Enviar" },
   "exp.videos": { pt: "Vídeos de Instrução", en: "Instructional Videos", es: "Videos de Instrucción" },
 
   // Blog page
