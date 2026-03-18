@@ -4,7 +4,9 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
+import confettiLib from "canvas-confetti";
+
 
 import hackerBg from "@/assets/hacker-parallax.jpg";
 import expertsBg from "@/assets/experts-bg.jpg";
@@ -78,6 +80,8 @@ const experts = [
   },
 ];
 
+
+
 const videos = [
   { title: "Como identificar phishing em 5 passos", id: "EqQ-cDeKQLU" },
   { title: "Protegendo seu Wi-Fi doméstico", id: "DMkKcrwxlsc" },
@@ -119,6 +123,12 @@ const Experts = () => {
 
   const handleConfirm = () => {
     setViewState("confirmation");
+    confettiLib({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#4ade80', '#ffffff', '#fbbf24'],
+    });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -167,6 +177,8 @@ const Experts = () => {
   // Schedule view
   if (viewState === "schedule" && selectedExpert) {
     return (
+
+      
       <div className="min-h-screen bg-background">
         <Header />
         <section className="pt-32 pb-20">
@@ -234,11 +246,10 @@ const Experts = () => {
                     <button
                       key={i}
                       onClick={() => setSelectedDay(i)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium transition-all ${
-                        selectedDay === i
-                          ? "btn-gold-3d text-primary-foreground"
-                          : "bg-secondary text-foreground/70 hover:bg-secondary/80"
-                      }`}
+                      className={`px-5 py-3 rounded-lg text-sm font-medium transition-all ${selectedDay === i
+                        ? "btn-gold-3d text-primary-foreground"
+                        : "bg-secondary text-foreground/70 hover:bg-secondary/80"
+                        }`}
                     >
                       {day}
                     </button>
@@ -251,11 +262,10 @@ const Experts = () => {
                       <button
                         key={time}
                         onClick={() => setSelectedTime(time)}
-                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm transition-all ${
-                          selectedTime === time
-                            ? "btn-gold-3d text-primary-foreground"
-                            : "bg-secondary/50 text-foreground/70 hover:bg-secondary"
-                        }`}
+                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm transition-all ${selectedTime === time
+                          ? "btn-gold-3d text-primary-foreground"
+                          : "bg-secondary/50 text-foreground/70 hover:bg-secondary"
+                          }`}
                       >
                         <Clock className="w-3 h-3" /> {time}
                       </button>
@@ -444,3 +454,17 @@ const Experts = () => {
 };
 
 export default Experts;
+function confetti(args: { 
+  particleCount: number; 
+  spread: number; 
+  origin: { y: number; }; 
+  colors: string[]; 
+}) {
+  // Chamamos a biblioteca importada passando os argumentos recebidos
+  confettiLib({
+    particleCount: args.particleCount,
+    spread: args.spread,
+    origin: args.origin,
+    colors: args.colors
+  });
+}
