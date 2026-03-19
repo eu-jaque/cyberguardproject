@@ -61,6 +61,9 @@ const App = () => (
               <Route path="/politicas" element={<Policies />} />
               <Route path="/saiba-mais" element={<SaibaMais />} />
               <Route path="/contato" element={<Contact></Contact>}></Route>
+              <Route path="/cursos" element={
+                <Courses />
+              } />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
