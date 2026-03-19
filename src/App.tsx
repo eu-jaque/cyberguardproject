@@ -8,7 +8,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import About from "./pages/About";
-import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
 import Services from "./pages/Services";
@@ -17,10 +16,11 @@ import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
 import "./App.css";
-
+import Courses from "./pages/Courses.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -50,15 +50,21 @@ const App = () => (
               </ProtectedRoute>
             } />
 
+            
+
+            <Route path="/courses" element={
+              <ProtectedRoute>
+                <Courses />
+              </ProtectedRoute>
+            } />
+
             <Route path="/servicos" element={<Services />} />
             <Route path="/especialistas" element={<Experts />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/politicas" element={<Policies />} />
             <Route path="/saiba-mais" element={<SaibaMais />} />
-
-            <Route path="*" element={<NotFound />} />
-            
-          </Routes>
+            <Route path="/cursos" element={<Courses />} />
+           </Routes >
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

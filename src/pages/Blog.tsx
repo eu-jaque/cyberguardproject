@@ -2,8 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Calendar, ArrowRight, Search, Tag, Clock, User, Play, Mail } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 
 type PostType = "article" | "video" | "news";
@@ -333,28 +333,6 @@ const Blog = () => {
 
             {/* Sidebar */}
             <aside className="space-y-8">
-              {/* Categories */}
-              <div className="glass-card">
-                <h3 className="font-display text-sm font-bold text-gradient-gold mb-4 flex items-center gap-2">
-                  <Tag className="w-4 h-4 text-primary" /> Categorias
-                </h3>
-                <div className="space-y-2">
-                  {categories.filter(c => c !== "Todos").map((cat) => {
-                    const count = blogPosts.filter((p) => p.category === cat).length;
-                    return (
-                      <button
-                        key={cat}
-                        onClick={() => setActiveCategory(cat)}
-                        className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-secondary/50 hover:text-foreground transition-colors"
-                      >
-                        <span>{cat}</span>
-                        <span className="text-xs bg-secondary px-2 py-0.5 rounded-full">{count}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Popular Posts */}
               <div className="glass-card">
                 <h3 className="font-display text-sm font-bold text-gradient-gold mb-4">Mais Lidos</h3>
