@@ -2,8 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Calendar, ArrowRight, Search, Tag, Clock, User, Play, Mail } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 
 type PostType = "article" | "video" | "news";
