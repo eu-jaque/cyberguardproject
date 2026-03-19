@@ -22,6 +22,7 @@ import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
+import Courses from "./pages/Courses.tsx";
 
 
 const queryClient = new QueryClient();
@@ -43,12 +44,17 @@ const App = () => (
                   <Auth />
                 </AuthRoute>
               } />
+              <Route path="/courses" element={
+                <ProtectedRoute>
+                  <Courses />
+                </ProtectedRoute>
+              } />
               <Route path="/dash" element={
                 <ProtectedRoute>
                   <Dash />
                 </ProtectedRoute>
               } />
-              <Route path="/tickets" element={<TicketsPage/>}></Route>
+              <Route path="/tickets" element={<TicketsPage />}></Route>
               <Route path="/servicos" element={<Services />} />
               {/* <Route path="/especialistas" element={<Experts />} /> */}
               <Route path="/blog" element={<Blog />} />
