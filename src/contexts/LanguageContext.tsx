@@ -20,7 +20,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.email_placeholder": { pt: "Seu e-mail", en: "Your email", es: "Tu correo" },
   "nav.email_invalid": { pt: "E-mail inválido", en: "Invalid email", es: "Correo inválido" },
   "nav.email_success": { pt: "E-mail cadastrado com sucesso", en: "Email registered successfully", es: "Correo registrado con éxito" },
-
+  "nav.idioma":{pt:"Idioma", en:"Language", es:"Idioma"},
   // Services dropdown
   "srv.verificador_seguranca": { pt: "Verificador de Segurança", en: "Security Checker", es: "Verificador de Seguridad" },
   "srv.conversa_especialistas": { pt: "Conversa com Especialistas", en: "Talk to Experts", es: "Hablar con Expertos" },
@@ -242,37 +242,7 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Contáctenos: contato@cyberguard.com.br",
   },
 
-  // Antivirus page
-  "av.badge": { pt: "Antivírus Gratuito", en: "Free Antivirus", es: "Antivirus Gratuito" },
-  "av.title": { pt: "Defenda seu PC contra ciberameaças com nosso premiado", en: "Defend your PC against cyber threats with our award-winning", es: "Defiende tu PC contra ciberamenazas con nuestro premiado" },
-  "av.title_highlight": { pt: "antivírus gratuito CyberGuard", en: "free CyberGuard antivirus", es: "antivirus gratuito CyberGuard" },
-  "av.desc": {
-    pt: "Proteção em tempo real contra malware, ransomware, spyware e ameaças zero-day. Leve, rápido e completamente gratuito.",
-    en: "Real-time protection against malware, ransomware, spyware, and zero-day threats. Lightweight, fast, and completely free.",
-    es: "Protección en tiempo real contra malware, ransomware, spyware y amenazas zero-day. Ligero, rápido y completamente gratuito.",
-  },
-  "av.cta": { pt: "Download Gratuito", en: "Free Download", es: "Descarga Gratuita" },
-  "av.features_title": { pt: "Recursos de Proteção", en: "Protection Features", es: "Funciones de Protección" },
-  "av.features_desc": {
-    pt: "Tecnologia avançada para manter você seguro no mundo digital.",
-    en: "Advanced technology to keep you safe in the digital world.",
-    es: "Tecnología avanzada para mantenerte seguro en el mundo digital.",
-  },
-  "av.feat1.title": { pt: "Proteção em Tempo Real", en: "Real-Time Protection", es: "Protección en Tiempo Real" },
-  "av.feat1.desc": { pt: "Monitoramento constante contra ameaças, bloqueando malware antes que infecte seu sistema.", en: "Constant threat monitoring, blocking malware before it infects your system.", es: "Monitoreo constante contra amenazas, bloqueando malware antes de que infecte tu sistema." },
-  "av.feat2.title": { pt: "Análise Inteligente", en: "Smart Analysis", es: "Análisis Inteligente" },
-  "av.feat2.desc": { pt: "Motor de detecção com inteligência artificial que identifica ameaças desconhecidas.", en: "AI-powered detection engine that identifies unknown threats.", es: "Motor de detección con inteligencia artificial que identifica amenazas desconocidas." },
-  "av.feat3.title": { pt: "Proteção de Rede", en: "Network Protection", es: "Protección de Red" },
-  "av.feat3.desc": { pt: "Firewall integrado que monitora tráfego de rede e bloqueia conexões suspeitas.", en: "Integrated firewall that monitors network traffic and blocks suspicious connections.", es: "Firewall integrado que monitorea el tráfico de red y bloquea conexiones sospechosas." },
-  "av.feat4.title": { pt: "Cofre Digital", en: "Digital Vault", es: "Cofre Digital" },
-  "av.feat4.desc": { pt: "Armazene seus arquivos sensíveis em uma área criptografada e protegida.", en: "Store your sensitive files in an encrypted and protected area.", es: "Almacena tus archivos sensibles en un área encriptada y protegida." },
-  "av.feat5.title": { pt: "Anti-Rastreamento", en: "Anti-Tracking", es: "Anti-Rastreo" },
-  "av.feat5.desc": { pt: "Bloqueie rastreadores e proteja sua privacidade durante a navegação.", en: "Block trackers and protect your privacy while browsing.", es: "Bloquea rastreadores y protege tu privacidad durante la navegación." },
-  "av.feat6.title": { pt: "Atualizações Automáticas", en: "Automatic Updates", es: "Actualizaciones Automáticas" },
-  "av.feat6.desc": { pt: "Base de dados de ameaças atualizada automaticamente para proteção contra as últimas ameaças.", en: "Threat database automatically updated for protection against the latest threats.", es: "Base de datos de amenazas actualizada automáticamente para protección contra las últimas amenazas." },
-  "av.cta_title": { pt: "Pronto para se proteger?", en: "Ready to protect yourself?", es: "¿Listo para protegerte?" },
-  "av.cta_desc": { pt: "Baixe o CyberGuard Antivírus gratuitamente e tenha proteção completa para o seu computador.", en: "Download CyberGuard Antivirus for free and get complete protection for your computer.", es: "Descarga CyberGuard Antivirus gratis y ten protección completa para tu computadora." },
-
+  
   // Services page
   "svc.title": { pt: "Nossos", en: "Our", es: "Nuestros" },
   "svc.title_highlight": { pt: "Serviços", en: "Services", es: "Servicios" },

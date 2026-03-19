@@ -3,9 +3,10 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield, LogIn, Laugh } from "lucide-react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield } from "lucide-react";
+import { useState, useRef } from "react";
 import confettiLib from "canvas-confetti";
+
 
 import hackerBg from "@/assets/hacker-parallax.jpg";
 import expertsBg from "@/assets/experts-bg.jpg";
@@ -78,20 +79,6 @@ const experts = [
     convenios: ["CyberGuard Premium", "SocialGuard"],
   },
 ];
-
-export type Experts = ({
-  name?: string;
-  area?: string;
-  rating?: string;
-  available?: string;
-})
-
-export type expenses = {
-  name?: string,
-  value?: string
-}
-
-
 
 
 
