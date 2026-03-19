@@ -9,10 +9,8 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Article from "./pages/Article";
 import About from "./pages/About";
-import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
-import Antivirus from "./pages/Antivirus";
 import Services from "./pages/Services";
 import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
@@ -62,14 +60,12 @@ const App = () => (
               </ProtectedRoute>
             } />
 
-            <Route path="/antivirus" element={<Antivirus />} />
             <Route path="/servicos" element={<Services />} />
             <Route path="/especialistas" element={<Experts />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/politicas" element={<Policies />} />
             <Route path="/saiba-mais" element={<SaibaMais />} />
             <Route path="/cursos" element={<Courses />} />
-            <Route path="*" element={<NotFound />} />
            </Routes >
           </AuthProvider>
         </BrowserRouter>
