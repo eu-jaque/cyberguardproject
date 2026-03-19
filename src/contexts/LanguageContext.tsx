@@ -20,7 +20,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.email_placeholder": { pt: "Seu e-mail", en: "Your email", es: "Tu correo" },
   "nav.email_invalid": { pt: "E-mail inválido", en: "Invalid email", es: "Correo inválido" },
   "nav.email_success": { pt: "E-mail cadastrado com sucesso", en: "Email registered successfully", es: "Correo registrado con éxito" },
-
+  "nav.idioma":{pt:"Idioma", en:"Language", es:"Idioma"},
   // Services dropdown
   "srv.verificador_seguranca": { pt: "Verificador de Segurança", en: "Security Checker", es: "Verificador de Seguridad" },
   "srv.conversa_especialistas": { pt: "Conversa com Especialistas", en: "Talk to Experts", es: "Hablar con Expertos" },
