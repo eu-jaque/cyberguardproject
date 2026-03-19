@@ -7,9 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
-import Article from "./pages/Article";
 import About from "./pages/About";
-import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
 import Services from "./pages/Services";
@@ -17,14 +15,14 @@ import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
-import Assinaturas from "./pages/Assinaturas";
 import "./App.css";
-
+// import Courses from "./pages/Courses.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
 import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -39,16 +37,12 @@ const App = () => (
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/artigo/:slug" element={<Article />} />
-
               <Route path="/sobre" element={<About />} />
-
               <Route path="/auth" element={
                 <AuthRoute>
                   <Auth />
                 </AuthRoute>
               } />
-
               <Route path="/dash" element={
                 <ProtectedRoute>
                   <Dash />
@@ -60,8 +54,6 @@ const App = () => (
               <Route path="/blog" element={<Blog />} />
               <Route path="/politicas" element={<Policies />} />
               <Route path="/saiba-mais" element={<SaibaMais />} />
-              <Route path="/assinaturas" element={<Assinaturas />} />
-              <Route path="*" element={<NotFound />} />
               <Route path="/contato" element={<Contact></Contact>}></Route>
             </Routes>
           </AuthProvider>
