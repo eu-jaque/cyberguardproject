@@ -23,16 +23,19 @@ import {
 
 export default function CyberGuard() {
 
-   const { user, } = useAuth();
+  const { user, } = useAuth();
   const [view, setView] = useState<'explorer' | 'dashboard' | 'details'>('explorer');
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
   // Busca de dados com useCallback para performance
+
+  
   const fetchCourses = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('Courses').select("*");
+    const { data, error } = await supabase.from('courses').select("*");
+    console.log(data)
     if (!error && data) setCourses(data);
     setLoading(false);
   }, []);
@@ -105,7 +108,7 @@ function ExplorerView({ courses, setView }: any) {
         {courses.map((course: any) => (
           <div key={course.id} className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300">
             <div className="relative h-52">
-              <img src={course.image_url} alt={course.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={course.url} alt={course.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#001f3f]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <Badge className="absolute top-4 left-4 bg-[#D4AF37] text-[#001f3f] font-black border-none px-4 py-1">
                 {course.level}
