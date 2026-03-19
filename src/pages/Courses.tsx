@@ -28,8 +28,7 @@ export default function CyberGuard() {
   const [view, setView] = useState<'explorer' | 'dashboard' | 'details'>('explorer');
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeMod, setActiveMod] = useState<number | null>(1); // Começa com o 1º aberto
- const [modalOpen, setModalOpen] = useState(false);
+
 
   // Busca de dados com useCallback para performance
   const fetchCourses = useCallback(async () => {
@@ -139,7 +138,7 @@ interface Course {
   level: 'Iniciante' | 'Intermediário' | 'Avançado';
   status: string;
   rating: number;
-  students_count: number;
+  students: number;
 
 }
 
