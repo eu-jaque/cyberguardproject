@@ -57,7 +57,7 @@ export default function CyberGuard() {
       <AccessibilityWidget />
      
       {/* NAVEGAÇÃO ENTRE ABAS (Identidade Visual) */}
-      <nav className="bg-[#001f3f] py-4 flex justify-center gap-6 border-b border-white/10 shadow-lg">
+      {/* <nav className="bg-[#001f3f] py-4 flex justify-center gap-6 border-b border-white/10 shadow-lg">
         <button
           onClick={() => setView('explorer')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition-all ${view === 'explorer' ? 'bg-[#D4AF37] text-[#001f3f]' : 'text-white hover:bg-white/10'}`}
@@ -70,7 +70,7 @@ export default function CyberGuard() {
         >
           
         </button>
-      </nav>
+      </nav> */}
 
       {/* 2. CONTEÚDO DINÂMICO (VIEWS) */}
       <main className="flex-1">
