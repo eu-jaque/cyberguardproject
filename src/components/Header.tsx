@@ -45,14 +45,13 @@ const Header = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${
-          scrolled 
-            ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40" 
+        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled
+            ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
             : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
-          
+
           {/* 1. LOGO */}
           <div className="flex items-center gap-2 cursor-pointer shrink-0 z-50" onClick={() => handleNavClick("/")}>
             <img src={logo} alt="CyberGuard Logo" className="w-10 h-10 object-contain" />
@@ -65,10 +64,10 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-8">
             <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
             <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
-            <button className="nav-link-style">{t("nav.cursos")}</button>
+            <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
             <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
-            
+
             <div className="h-4 w-px bg-border/60 mx-2" />
 
             <div className="relative" ref={langRef}>
@@ -92,10 +91,9 @@ const Header = () => {
           </div>
 
           {/* 3. BOTÃO MOBILE (Gira e muda de cor) */}
-          <button 
-            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full bg-primary ${
-              mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
-            }`} 
+          <button
+            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full bg-primary ${mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
+              }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -110,12 +108,12 @@ const Header = () => {
             <button className="mobile-link text-left w-full">{t("nav.cursos")}</button>
             <Link to="/sobre" className="mobile-link w-full">{t("nav.sobre")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="mobile-link text-left w-full">{t("nav.contato")}</button>
-            
+
             <div className="w-full h-px bg-border/50 my-2" />
-            
+
             <div className="flex flex-col gap-4">
-               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("nav.idioma")}</span>
-               <div className="flex gap-4">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("nav.idioma")}</span>
+              <div className="flex gap-4">
                 {(["pt", "en", "es"] as const).map((l) => (
                   <button key={l} onClick={() => setLang(l)} className={`text-sm font-bold transition-all ${lang === l ? "text-primary scale-110" : "text-muted-foreground/50"}`}>
                     {langLabels[l]}
