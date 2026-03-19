@@ -1,8 +1,11 @@
 import { Filter } from "lucide-react";
 import { toast } from "sonner";
 import supabase from "../../utils/supabase";
+import { useState } from "react";
 
 export default function TicketModal({ ticket, onClose }) {
+    const [StatusAtual, setStatusAtual] = useState(ticket.status || "")
+
     const statusMap: Record<string, string> = {
         "open": "Em Aberto",
         "in_progress": "Em Análise",
@@ -11,13 +14,16 @@ export default function TicketModal({ ticket, onClose }) {
     };
     async function handleAttStatus(newStatus) {
         try {
-            console.log(newStatus);
+            setStatusAtual(newStatus);
             const { error } = await supabase
                 .from("tickets")
                 .update({ status: newStatus })
                 .eq("id", ticket.id);
 
-            if (error) throw error;
+            if (error) {
+                setStatusAtual(ticket.status)
+                throw error
+            };
 
             // Feedback de sucesso
             toast.success("Status atualizado!");
@@ -64,11 +70,10 @@ export default function TicketModal({ ticket, onClose }) {
                             <div>
                                 <p className="text-foreground/40 font-medium uppercase text-[10px]">Status</p>
                                 <select
-                                    value={ticket.status}
+                                    value={StatusAtual}
                                     onChange={(e) => handleAttStatus(e.target.value)}
                                     className="bg-secondary/50 border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none cursor-pointer"
                                 >
-                                    <option value="all">Todos os Status</option>
                                     <option value="open">Em Aberto</option>
                                     <option value="in_progress">Em Análise</option>
                                     <option value="closed">Concluídos</option>
