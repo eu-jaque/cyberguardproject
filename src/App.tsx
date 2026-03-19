@@ -12,7 +12,6 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
-import Antivirus from "./pages/Antivirus";
 import Services from "./pages/Services";
 import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
@@ -56,7 +55,6 @@ const App = () => (
                 </ProtectedRoute>
               } />
               <Route path="/tickets" element={<TicketsPage/>}></Route>
-              <Route path="/antivirus" element={<Antivirus />} />
               <Route path="/servicos" element={<Services />} />
               <Route path="/especialistas" element={<Experts />} />
               <Route path="/blog" element={<Blog />} />
