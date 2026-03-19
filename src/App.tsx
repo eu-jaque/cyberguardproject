@@ -19,10 +19,11 @@ import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
 import "./App.css";
-
+import Courses from "./pages/Courses.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
+
 
 const queryClient = new QueryClient();
 
@@ -53,16 +54,23 @@ const App = () => (
               </ProtectedRoute>
             } />
 
+            
+
+            <Route path="/courses" element={
+              <ProtectedRoute>
+                <Courses />
+              </ProtectedRoute>
+            } />
+
             <Route path="/antivirus" element={<Antivirus />} />
             <Route path="/servicos" element={<Services />} />
             <Route path="/especialistas" element={<Experts />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/politicas" element={<Policies />} />
             <Route path="/saiba-mais" element={<SaibaMais />} />
-
+            <Route path="/cursos" element={<Courses />} />
             <Route path="*" element={<NotFound />} />
-            
-          </Routes>
+           </Routes >
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

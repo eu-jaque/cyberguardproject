@@ -89,9 +89,9 @@ const Header = () => {
               {t("nav.blog")}
             </Link>
 
-            <button className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
+            <Link to="/cursos"className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.cursos")}
-            </button>
+            </Link>
 
             {/* Services dropdown */}
             <div className="relative" ref={servicesRef}>

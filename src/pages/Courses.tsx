@@ -16,9 +16,8 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 
 // Ícones (Incluindo os novos solicitados)
 import {
-  Star, Clock, Calendar, ChevronLeft, ChevronRight, Check,
-  Video, GraduationCap, Award, Shield, LogIn, Laugh,
-  Search, Heart, Users, ShieldCheck, BookOpen, PlayCircle,
+  Star, Clock, Award,
+  Search, ShieldCheck, BookOpen, PlayCircle,
   ArrowRight, Lock, Loader2, Globe
 } from "lucide-react";
 
