@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
-import Article from "./pages/Article";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
@@ -36,7 +35,6 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/artigo/:slug" element={<Article />} />
             
             <Route path="/sobre" element={<About />} />
 
