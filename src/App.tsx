@@ -11,7 +11,7 @@ import About from "./pages/About";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
 import Services from "./pages/Services";
-import Experts from "./pages/Experts";
+// import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
@@ -50,7 +50,7 @@ const App = () => (
               } />
               <Route path="/tickets" element={<TicketsPage/>}></Route>
               <Route path="/servicos" element={<Services />} />
-              <Route path="/especialistas" element={<Experts />} />
+              {/* <Route path="/especialistas" element={<Experts />} /> */}
               <Route path="/blog" element={<Blog />} />
               <Route path="/politicas" element={<Policies />} />
               <Route path="/saiba-mais" element={<SaibaMais />} />
