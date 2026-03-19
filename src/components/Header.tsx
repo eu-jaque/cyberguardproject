@@ -65,7 +65,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-8">
             <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
             <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
-            <button className="nav-link-style">{t("nav.cursos")}</button>
+              <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
             <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
             

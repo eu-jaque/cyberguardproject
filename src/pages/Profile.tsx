@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { Toast } from "@radix-ui/react-toast";
 
 export type Profile = {
   name?: string,
@@ -9,11 +10,41 @@ export type Profile = {
   birth?: string
 };
 
+export type Expense = {
+    name?: string
+    value?: number
+}
+
 export default function Profile(){
     const {user, signOutUser} =  useAuth();
 
     /*uma variavel que recebeu um tipo propio é um objeto*/
     const [prof, setProf] = useState<Profile>({});
+    //const [expenses, setExpenses] = useState<Expense[]>([]); quem tem relacionamento 1 pra 1 nao precisa disso
+
+    //funcao anonima, vetor de orbservados
+    // useEffect (() => {}, []);
+    useEffect (() => {
+       if(user) syncProfile(user.id);
+
+    }, []);
+
+    async function syncProfile(user_id: string): Promise<void>{
+        const {data, error} = await supabase.from('profiles')
+            .select('*').eq("user_id", user_id)
+            //ordenada('created_at', {ascending: false})
+            .single();
+
+            if(error){
+                alert(error.message)
+                return
+            }
+
+            setProf(data);
+
+    }
+
+
 
     async function handleProfile(){
         const data = {...prof, user_id: user?.id};
@@ -27,6 +58,9 @@ export default function Profile(){
 
             alert("Cadastrado com sucesso")
     }
+
+
+
 
     return (
         <>
@@ -67,6 +101,10 @@ export default function Profile(){
             />
 
             <button onClick={handleProfile}>Cadastrar</button>
+
+
+
+
 
         </>
     )

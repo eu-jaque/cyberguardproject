@@ -39,7 +39,6 @@ const Sidebar = () => {
   const serviceItems = [
     { key: "srv.verificador_seguranca", to: "/verificador" },
     { key: "srv.conversa_especialistas", to: "/especialistas" },
-    { key: "srv.assinaturas", to: "/assinaturas" },
     { key: "srv.servicos_page", to: "/servicos" },
   ];
 
