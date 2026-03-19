@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { Toast } from "@radix-ui/react-toast";
 
 export type Profile = {
   name?: string,
@@ -100,6 +101,10 @@ export default function Profile(){
             />
 
             <button onClick={handleProfile}>Cadastrar</button>
+
+
+
+
 
         </>
     )

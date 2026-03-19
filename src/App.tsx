@@ -18,7 +18,6 @@ import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
-// import Assinaturas from "./pages/Assinaturas";
 import "./App.css";
 
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -60,8 +59,6 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/politicas" element={<Policies />} />
             <Route path="/saiba-mais" element={<SaibaMais />} />
-            {/* <Route path="/assinaturas" element={<Assinaturas />} /> */}
-
             <Route path="*" element={<NotFound />} />
             
           </Routes>

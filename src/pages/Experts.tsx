@@ -6,84 +6,19 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield, LogIn, Laugh } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import confettiLib from "canvas-confetti";
-
+import supabase from "../../utils/supabase";
 import hackerBg from "@/assets/hacker-parallax.jpg";
 import expertsBg from "@/assets/experts-bg.jpg";
-import expert1 from "@/assets/expert-1.png";
-import expert2 from "@/assets/expert-2.png";
-import expert3 from "@/assets/expert-3.png";
-import expert4 from "@/assets/expert-4.png";
-import expert5 from "@/assets/expert-5.png";
-import expert6 from "@/assets/expert-6.png";
+import { useAuth } from "@/contexts/AuthContext";
 
-const experts = [
-  {
-    name: "Dr. Carlos Silva",
-    area: "Segurança de Redes",
-    rating: 4.9,
-    available: true,
-    avatar: expert1,
-    bio: "Doutor em Segurança da Informação pela USP. Mais de 15 anos de experiência em proteção de redes corporativas e consultoria para empresas Fortune 500.",
-    formation: "PhD Segurança da Informação — USP\nMBA Gestão de TI — FGV\nCISSP, CEH Certified",
-    convenios: ["CyberGuard Premium", "TechShield Pro", "NetSafe Enterprise"],
-  },
-  {
-    name: "Ana Rodrigues",
-    area: "Análise de Malware",
-    rating: 4.8,
-    available: true,
-    avatar: expert2,
-    bio: "Especialista em análise reversa de malware e resposta a incidentes. Certificada GREM e GCIH com experiência em investigações de ameaças avançadas.",
-    formation: "MSc Ciência da Computação — UNICAMP\nGREM, GCIH Certified\nPesquisadora em Threat Intelligence",
-    convenios: ["CyberGuard Premium", "MalwareGuard Plus"],
-  },
-  {
-    name: "Prof. Lucas Mendes",
-    area: "Forense Digital",
-    rating: 4.7,
-    available: true,
-    avatar: expert3,
-    bio: "Professor universitário e perito em computação forense. Atua como consultor em investigações digitais para órgãos públicos e empresas privadas.",
-    formation: "PhD Computação Forense — UFMG\nEnCE, ACE Certified\nPerito Judicial em Informática",
-    convenios: ["CyberGuard Premium", "ForenseTech"],
-  },
-  {
-    name: "Dra. Juliana Costa",
-    area: "LGPD e Compliance",
-    rating: 4.9,
-    available: true,
-    avatar: expert4,
-    bio: "Advogada especializada em direito digital e proteção de dados. Consultora LGPD para mais de 200 empresas brasileiras.",
-    formation: "Doutorado em Direito Digital — PUC-SP\nDPO Certified — EXIN\nISO 27001 Lead Auditor",
-    convenios: ["CyberGuard Premium", "LegalTech Shield"],
-  },
-  {
-    name: "Rafael Santos",
-    area: "Pentesting",
-    rating: 4.6,
-    available: true,
-    avatar: expert5,
-    bio: "Ethical hacker e pentester com mais de 500 testes de intrusão realizados. Especialista em segurança ofensiva e red team operations.",
-    formation: "BSc Segurança da Informação — FIAP\nOSCP, OSWE Certified\nBug Bounty Hunter Top 100",
-    convenios: ["CyberGuard Premium", "PenTest Pro"],
-  },
-  {
-    name: "Mariana Oliveira",
-    area: "Engenharia Social",
-    rating: 4.8,
-    available: true,
-    avatar: expert6,
-    bio: "Consultora em segurança comportamental e prevenção de ataques de engenharia social. Treinamentos para mais de 10.000 colaboradores.",
-    formation: "MSc Psicologia Organizacional — USP\nSocial Engineering Pentest Professional\nPhishing Defense Specialist",
-    convenios: ["CyberGuard Premium", "SocialGuard"],
-  },
-];
-
-export type Experts = ({
+export type Expert = ({
   name?: string;
   area?: string;
-  rating?: string;
-  available?: string;
+  rating?: number;
+  available?: boolean;
+  bio?: string;
+  formation?: string;
+  convenios?: string;
 })
 
 export type expenses = {
@@ -91,7 +26,62 @@ export type expenses = {
   value?: string
 }
 
+export default function Experts(){
+    const {user, signOutUser} = useAuth();
 
+    const [experts, setExperts] = useState<Expert[]>([]);
+    const [expert, setExpert] = useState<Expert  >();
+
+
+  useEffect(() => {
+        if(user) syncExperts(user.id);
+    }, []);
+
+    async function syncExperts(user_id: string ): Promise<void>{
+        const {data, error} = await supabase.from('experts') .select('*').eq("user_id", user_id) .single();
+
+        if(error){
+            alert(error.message)
+            return
+        }
+
+        setExperts(data);
+    }
+  
+   async function handleExperts(){
+        const data = {...experts, user_id: user?.id}; 
+
+        const { error} = await supabase.from('experts')
+            .insert(data);
+
+        if(error){
+            alert(error.message);
+            return;
+        }
+
+        alert("SUCESSO AO CADASTRAR ESPECIALISTA");
+    }
+     return(
+      <>
+        <div>
+          <h1>Especialistas</h1>
+          <input type="text" placeholder="nome" value={expert.name} onChange={(e) => setExpert({...expert, name: e.target.value})} />
+          <input type="text" placeholder="Área de Especialização" value={expert.area} onChange={(e) => setExpert({...expert, area: e.target.value})} />
+          <input type="number" placeholder="Avaliação" value={expert.rating} onChange={(e) => setExpert({...expert, rating: Number(e.target.value)})} />
+          <input type="checkbox" checked={expert.available}  onChange={(e) => setExpert({...expert, available: e.target.checked})} />
+          <input type="text" placeholder="BIO" value={expert.bio} onChange={(e) => setExpert({...expert, bio: e.target.value})} />
+          <input type="text" placeholder="Formação" value={expert.formation} onChange={(e) => setExpert({...expert, formation: e.target.value})} />
+          <input type="text" placeholder="convenios" value={expert.convenios} onChange={(e) => setExpert({...expert, convenios: e.target.value})} />
+
+          <button onClick={handleExperts} >Cadastrar Especialista</button>
+        </div>
+
+        <div>
+
+        </div>
+      </>
+     )
+  }
 
 
 
