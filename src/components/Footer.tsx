@@ -7,21 +7,31 @@ const Footer = () => {
 
   return (
     <footer id="contato" className="bg-card border-t border-border py-12">
-      <div className="max-w-[1366px] mx-auto px-[2%]">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div>
+      {/* Ajustei o max-width para 1200px para alinhar com o conteúdo superior */}
+      <div className="max-w-[1200px] mx-auto px-6">
+        
+        {/* Grid com 4 colunas no desktop para melhor distribuição */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          
+          {/* Coluna 1: Logo e Descrição - Ocupa 2 colunas para dar peso à marca */}
+          <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img src={logo} alt="CyberGuard Logo" className="w-8 h-8 object-contain" />
               <span className="font-display text-lg font-bold text-foreground">
                 Cyber<span className="text-gradient-gold">Guard</span>
               </span>
             </div>
-            <p className="text-muted-foreground text-sm">{t("footer.desc")}</p>
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
+              {t("footer.desc")}
+            </p>
           </div>
 
+          {/* Coluna 2: Links Rápidos */}
           <div>
-            <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.sobre")}</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="font-display text-sm font-bold text-gradient-gold mb-5 uppercase tracking-wider">
+              {t("footer.sobre")}
+            </h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
                 <Link to="/sobre" className="hover:text-primary transition-colors">{t("footer.sobre_link")}</Link>
               </li>
@@ -34,15 +44,19 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Coluna 3: Contato */}
           <div>
-            <h4 className="font-display text-sm font-bold text-gradient-gold mb-4">{t("footer.contato")}</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>contato@cyberguard.com.br</li>
+            <h4 className="font-display text-sm font-bold text-gradient-gold mb-5 uppercase tracking-wider">
+              {t("footer.contato")}
+            </h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li className="break-all">contato@cyberguard.com.br</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border text-center text-xs text-muted-foreground">
+        {/* Linha de Copyright mais discreta e espaçada */}
+        <div className="mt-16 pt-8 border-t border-border/50 text-center text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60">
           {t("footer.copy")}
         </div>
       </div>

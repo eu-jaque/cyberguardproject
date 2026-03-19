@@ -168,10 +168,10 @@ const tabs: { label: string; value: "all" | PostType }[] = [
 ];
 
 const categoryColors: Record<string, string> = {
-  Fraude: "bg-red-500/20 text-red-400 border-red-500/30",
-  Segurança: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  Tecnologia: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  Legislação: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  Fraude: "bg-primary/20 text-primary border-primary/30",
+  Segurança: "bg-primary/20 text-primary border-primary/30",
+  Tecnologia: "bg-primary/20 text-primary border-primary/30",
+  Legislação: "bg-primary/20 text-primary border-primary/30",
   Tutorial: "bg-primary/20 text-primary border-primary/30",
 };
 
@@ -230,11 +230,10 @@ const Blog = () => {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.value
+              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.value
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -254,11 +253,10 @@ const Blog = () => {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                      activeCategory === cat
+                    className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${activeCategory === cat
                         ? "bg-primary text-primary-foreground border-primary"
                         : "bg-card text-muted-foreground border-border hover:border-primary/50"
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>
@@ -292,9 +290,8 @@ const Blog = () => {
                           </div>
                         )}
                         <span
-                          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold border ${
-                            categoryColors[post.category] || "bg-card text-foreground border-border"
-                          }`}
+                          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold border ${categoryColors[post.category] || "bg-card text-foreground border-border"
+                            }`}
                         >
                           {post.category}
                         </span>
