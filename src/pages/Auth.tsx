@@ -54,11 +54,12 @@ export default function Auth() {
     if (user?.email && user?.pass) {
       setUsers([...users, user]);
 
-      //supabase.from('expenses').insert({})
+      supabase.from('expenses').insert({})
 
       const {data, error} = await supabase.auth.signUp({
         email: user.email,
         password: user.pass
+        
       });
 
       if (error) showToast("Erro ao cadastrar");
