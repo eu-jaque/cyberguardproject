@@ -5,7 +5,7 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield } from "lucide-react";
 import { useState, useRef } from "react";
-import confettiLib from "canvas-confetti";
+// import confettiLib from "canvas-confetti";
 
 
 import hackerBg from "@/assets/hacker-parallax.jpg";
@@ -123,12 +123,12 @@ const Experts = () => {
 
   const handleConfirm = () => {
     setViewState("confirmation");
-    confettiLib({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#4ade80', '#ffffff', '#fbbf24'],
-    });
+    // confettiLib({
+    //   particleCount: 150,
+    //   spread: 70,
+    //   origin: { y: 0.6 },
+    //   colors: ['#4ade80', '#ffffff', '#fbbf24'],
+    // });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -461,12 +461,12 @@ function confetti(args: {
   colors: string[]; 
 }) {
   // Chamamos a biblioteca importada passando os argumentos recebidos
-  confettiLib({
-    particleCount: args.particleCount,
-    spread: args.spread,
-    origin: args.origin,
-    colors: args.colors
-  });
+  // confettiLib({
+  //   particleCount: args.particleCount,
+  //   spread: args.spread,
+  //   origin: args.origin,
+  //   colors: args.colors
+  // });
 }
 
 
