@@ -70,7 +70,7 @@ export default function CyberGuard() {
         >
           
         </button>
-      </nav> */}
+      </nav> }
 
       {/* 2. CONTEÚDO DINÂMICO (VIEWS) */}
       <main className="flex-1">
@@ -99,8 +99,8 @@ function ExplorerView({ courses, setView }: any) {
           Torne-se um especialista em Cibersegurança com os melhores instrutores do mercado.
         </p>
         <div className="max-w-xl mx-auto relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" />
-          <Input placeholder="Buscar por hacking, redes, cloud..." className="pl-12 py-7 rounded-2xl border-none shadow-2xl text-slate-900 text-lg" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2  group-focus-:text-[white] transition-colors" />
+          <Input placeholder="Buscar por hacking, redes, cloud..." className=" group-focus-:text-[white] transition-colors pl-12 py-7 rounded-2xl border-none shadow-2xl text-white text-lg" />
         </div>
       </header>
 
@@ -115,7 +115,7 @@ function ExplorerView({ courses, setView }: any) {
               </Badge>
             </div>
             <div className="p-8 space-y-4">
-              <h3 className="text-xl font-black text-[#001f3f] leading-tight">{course.name}</h3>
+              <h3 className="text-xl font-black text-[#001f3f] leading-tight">{course.title}</h3>
               <div className="flex items-center gap-4 text-xs font-bold text-gray-400">
                 <span className="flex items-center gap-1"><Clock size={14}/> {course.duration}</span>
                 <span className="flex items-center gap-1"><Star size={14} className="text-[#D4AF37] fill-[#D4AF37]"/> {course.rating}</span>
@@ -165,7 +165,7 @@ function DashboardView({ user }: any) {
         {[1, 2].map(i => (
           <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8 items-center group">
             <div className="w-full md:w-64 h-40 bg-slate-200 rounded-xl overflow-hidden relative">
-              <img src="https://images.unsplash.com" className="w-full h-full object-cover" />
+              <img src="https://i.imgur.com/BnFx6e3.png" className="w-full h-full object-cover" />
               {i === 2 && <div className="absolute inset-0 bg-green-500/20 backdrop-blur-[2px] flex items-center justify-center"><Badge className="bg-green-600 text-white">Concluído</Badge></div>}
             </div>
             <div className="flex-1 w-full space-y-4">
@@ -206,8 +206,8 @@ function DetailsView({ setView, user }: any) {
       </section>
 
       <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-1 lg:grid-cols-4 gap-12">
-        <aside className="lg:col-span-1"><div className="sticky top-8 space-y-4 bg-gray-50 p-6 rounded-3xl border border-gray-100 font-bold text-gray-500">
-          {["Descrição", "Detalhes", "Conteúdo", "Benefícios", "Avaliações"].map(i => <button key={i} className="w-full text-left p-3 hover:text-[#001f3f] transition-colors">{i}</button>)}
+        <aside className="lg:col-span-1"><div className="sticky top-8 space-y-4 bg-black-50 p-6 rounded-3xl border border-black-100 font-bold text-black-">
+          {["Descrição", "Detalhes", "Conteúdo", "Benefícios", "Avaliações"].map(i => <button key={i} className="w-full text-left p-3 hover:text-[black] transition-colors">{i}</button>)}
         </div></aside>
 
         <main className="lg:col-span-3 space-y-12">
@@ -240,7 +240,7 @@ function DetailsView({ setView, user }: any) {
           <h2 className="text-3xl font-black text-[#001f3f]">Acesse sua conta para continuar</h2>
           <p className="text-gray-500">Para se matricular neste curso, você precisa estar logado na plataforma.</p>
           <div className="flex flex-col gap-4">
-            <Button className="py-6 bg-[#001f3f] font-bold rounded-2xl">Fazer Login</Button>
+            <Button className="py-6 bg-[black] font-bold rounded-2xl">Fazer Login</Button>
             <Button variant="outline" className="py-6 border-2 font-bold rounded-2xl">Criar Conta</Button>
             <button onClick={() => setModalOpen(false)} className="text-gray-400 text-sm font-bold underline">Fechar</button>
           </div>
