@@ -6,17 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Shield, Link2, Mail, Key, CheckCircle, XCircle, BookOpen, Gamepad2, CreditCard, ChevronRight, Lock, Wifi, Server, Eye, MonitorSmartphone, ShieldCheck } from "lucide-react";
+import  supabase  from '../../utils/supabase';
 
-const subscriptions = [
-  { name: "Norton 360", icon: Shield, active: true },
-  { name: "Kaspersky Premium", icon: Lock, active: false },
-  { name: "Bitdefender", icon: ShieldCheck, active: true },
-  { name: "NordVPN", icon: Wifi, active: false },
-  { name: "1Password", icon: Key, active: true },
-  { name: "Malwarebytes", icon: Server, active: false },
-];
-
-const courseLevels = [
+/*const courseLevels = [
   {
     level: "beginner",
     courses: [
@@ -49,7 +41,7 @@ const courseLevels = [
       { title: "Arquitetura de Segurança", lessons: 20, duration: "10h" },
     ],
   },
-];
+];*/
 
 const scamScenarios = [
   { text: "Você recebeu um e-mail do banco pedindo para atualizar dados clicando em um link", isScam: true },
@@ -69,9 +61,9 @@ export default function Dash() {
   const [emailResult, setEmailResult] = useState<"safe" | "danger" | null>(null);
   const [pixResult, setPixResult] = useState<"safe" | "danger" | null>(null);
   const [gameIndex, setGameIndex] = useState(0);
-  const [gameScore, setGameScore] = useState(0);
-  const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
-  const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);
+  //const [gameScore, setGameScore] = useState(0);
+  //const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
+  //const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);
 
   const checkLink = () => {
     if (!linkInput.trim()) return;
@@ -91,7 +83,7 @@ export default function Dash() {
     setPixResult(suspicious ? "danger" : "safe");
   };
 
-  const handleGameAnswer = (answeredScam: boolean) => {
+  /*const handleGameAnswer = (answeredScam: boolean) => {
     const correct = answeredScam === scamScenarios[gameIndex].isScam;
     if (correct) setGameScore((s) => s + 1);
     setGameAnswer(correct ? "correct" : "wrong");
@@ -101,7 +93,7 @@ export default function Dash() {
         setGameIndex((i) => i + 1);
       }
     }, 1200);
-  };
+  };*/
 
   const levelKeys = ["dash.beginner", "dash.intermediate", "dash.advanced", "dash.expert"];
 
@@ -196,7 +188,7 @@ export default function Dash() {
           </TabsList>
 
           {/* Subscriptions */}
-          <TabsContent value="subscriptions">
+          {/*<TabsContent value="subscriptions">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
               {subscriptions.map((sub, i) => (
                 <Card key={i} className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
@@ -217,10 +209,10 @@ export default function Dash() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
+          </TabsContent>*/}
 
           {/* Courses */}
-          <TabsContent value="courses">
+          {/*<TabsContent value="courses">
             <div className="mt-6">
               <div className="flex gap-2 mb-6 flex-wrap">
                 {levelKeys.map((key, i) => (
@@ -259,7 +251,7 @@ export default function Dash() {
                 ))}
               </div>
             </div>
-          </TabsContent>
+          </TabsContent>*/}
 
           {/* Verifiers */}
           <TabsContent value="verifiers">
@@ -351,7 +343,7 @@ export default function Dash() {
           </TabsContent>
 
           {/* Games */}
-          <TabsContent value="games">
+          {/*<TabsContent value="games">
             <div className="mt-6">
               <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 flex items-center gap-3">
                 <Eye className="w-5 h-5 text-primary shrink-0" />
@@ -412,12 +404,14 @@ export default function Dash() {
                           i === gameIndex ? "bg-primary" : i < gameIndex ? "bg-primary/40" : "bg-muted"
                         }`} />
                       ))}
+
+
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
+          </TabsContent>*/}
         </Tabs>
       </div>
 

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ChevronDown, Globe, Menu, X, Home, BookOpen, GraduationCap, Briefcase, Info, Mail } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/cyberguard-logo.png";
+import logo from "@/assets/logooriginal.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
