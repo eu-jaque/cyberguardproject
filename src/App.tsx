@@ -23,6 +23,7 @@ import { AuthProvider } from "./contexts/AuthContext.tsx";
 import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
 import Courses from "./pages/Courses.tsx";
+import Experts from "./pages/Experts.tsx";
 
 
 const queryClient = new QueryClient();
@@ -56,7 +57,7 @@ const App = () => (
               } />
               <Route path="/tickets" element={<TicketsPage />}></Route>
               <Route path="/servicos" element={<Services />} />
-              {/* <Route path="/especialistas" element={<Experts />} /> */}
+              <Route path="/especialistas" element={<Experts />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/politicas" element={<Policies />} />
               <Route path="/saiba-mais" element={<SaibaMais />} />

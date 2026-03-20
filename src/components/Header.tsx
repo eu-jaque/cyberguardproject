@@ -15,7 +15,10 @@ const Header = () => {
 
   const servicesRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
-
+  const serviceItems = [
+    { key: "srv.conversa_especialistas", to: "/especialistas" },
+    { key: "srv.assinaturas", to: "/assinaturas" },
+  ];
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -46,8 +49,8 @@ const Header = () => {
     <>
       <nav
         className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled
-            ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
-            : "bg-transparent"
+          ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
+          : "bg-transparent"
           }`}
       >
         <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
@@ -65,6 +68,43 @@ const Header = () => {
             <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
             <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
             <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
+            {/* 2.1. MENU DESKTOP - Trecho do Dropdown de Serviços */}
+            <div className="relative" ref={servicesRef}>
+              <button
+                onClick={() => setServicesOpen(!servicesOpen)}
+                className={`nav-link-style inline-flex items-center gap-1.5 py-2 ${servicesOpen ? "text-primary" : ""
+                  }`}
+              >
+                {t("nav.servicos")}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ${servicesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {servicesOpen && (
+                <div className="absolute top-[calc(100%+10px)] left-0 w-64 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] py-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                  <div className="px-3 py-2 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">
+                      {t("nav.servicos")}
+                    </span>
+                  </div>
+
+                  {serviceItems.map((item) => (
+                    <Link
+                      key={item.key}
+                      to={item.to || "#"}
+                      className="group flex items-center px-4 py-2.5 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all relative"
+                      onClick={() => setServicesOpen(false)}
+                    >
+                      {/* Indicador lateral no hover */}
+                      <span className="relative z-10 font-medium">
+                        {t(item.key)}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
 
