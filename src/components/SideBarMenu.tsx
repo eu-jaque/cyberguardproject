@@ -37,9 +37,9 @@ const Sidebar = () => {
 
   // 2. Itens do dropdown de serviços
   const serviceItems = [
-    { key: "srv.verificador_seguranca", to: "/verificador" },
+    // { key: "srv.verificador_seguranca", to: "/verificador" },
     { key: "srv.conversa_especialistas", to: "/especialistas" },
-    { key: "srv.servicos_page", to: "/servicos" },
+    // { key: "srv.servicos_page", to: "/servicos" },
   ];
 
   const handleNavigation = (item: typeof menuItems[0]) => {

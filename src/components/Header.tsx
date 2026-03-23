@@ -17,7 +17,7 @@ const Header = () => {
   const langRef = useRef<HTMLDivElement>(null);
   const serviceItems = [
     { key: "srv.conversa_especialistas", to: "/especialistas" },
-    { key: "srv.assinaturas", to: "/assinaturas" },
+    // { key: "srv.assinaturas", to: "/assinaturas" },
   ];
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
