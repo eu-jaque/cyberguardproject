@@ -269,59 +269,60 @@ const Blog = () => {
                   <p className="text-muted-foreground">Nenhum resultado encontrado para "{searchQuery}"</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredPosts.map((post) => (
+                <div className="space-y-0 divide-y divide-border/50">
+                  {/* Featured first post */}
+                  {filteredPosts.length > 0 && (() => {
+                    const feat = filteredPosts[0];
+                    return (
+                      <article key={feat.id} className="group cursor-pointer pb-8">
+                        <div className="aspect-[21/9] rounded-2xl overflow-hidden relative mb-5">
+                          <img src={feat.image} alt={feat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                          {feat.type === "video" && (
+                            <div className="absolute inset-0 bg-background/20 flex items-center justify-center">
+                              <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-xl"><Play className="w-7 h-7 text-primary-foreground ml-1" /></div>
+                            </div>
+                          )}
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-6">
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${categoryColors[feat.category] || "bg-card text-foreground border-border"}`}>{feat.category}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{feat.date}</span>
+                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{feat.readTime}</span>
+                          <span className="flex items-center gap-1"><User className="w-3 h-3" />{feat.author}</span>
+                        </div>
+                        <h3 className="font-display text-xl md:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{feat.title}</h3>
+                        <p className="text-muted-foreground text-sm max-w-2xl">{feat.summary}</p>
+                      </article>
+                    );
+                  })()}
+
+                  {/* Rest as horizontal feed cards */}
+                  {filteredPosts.slice(1).map((post) => (
                     <article
                       key={post.id}
-                      className="glass-card group cursor-pointer hover:border-primary/30 transition-all"
+                      className="group cursor-pointer flex gap-5 py-6 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors"
                     >
-                      <div className="aspect-video bg-secondary/30 rounded-lg mb-4 overflow-hidden relative">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                        />
+                      <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden relative">
+                        <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         {post.type === "video" && (
                           <div className="absolute inset-0 bg-background/30 flex items-center justify-center">
-                            <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
-                              <Play className="w-6 h-6 text-primary-foreground ml-1" />
-                            </div>
+                            <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center"><Play className="w-4 h-4 text-primary-foreground ml-0.5" /></div>
                           </div>
                         )}
-                        <span
-                          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold border ${categoryColors[post.category] || "bg-card text-foreground border-border"
-                            }`}
-                        >
-                          {post.category}
-                        </span>
                       </div>
-
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
-                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
-                        <span className="flex items-center gap-1"><User className="w-3 h-3" />{post.author}</span>
+                      <div className="flex flex-col justify-center min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${categoryColors[post.category] || "bg-card text-foreground border-border"}`}>{post.category}</span>
+                          <span className="text-[11px] text-muted-foreground flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+                        </div>
+                        <h3 className="font-display text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
+                        <p className="text-muted-foreground text-xs md:text-sm line-clamp-2 hidden sm:block">{post.summary}</p>
+                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
+                          <span className="flex items-center gap-1"><User className="w-3 h-3" />{post.author}</span>
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
+                        </div>
                       </div>
-
-                      <h3 className="font-display text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{post.summary}</p>
-
-                      {post.type === "video" && post.videoId ? (
-                        <a
-                          href={`https://www.youtube.com/watch?v=${post.videoId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
-                        >
-                          Assistir vídeo <Play className="w-3 h-3" />
-                        </a>
-                      ) : (
-                        <span className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                          {t("blog.read_more")} <ArrowRight className="w-3 h-3" />
-                        </span>
-                      )}
                     </article>
                   ))}
                 </div>
