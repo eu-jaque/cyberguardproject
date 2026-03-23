@@ -220,14 +220,16 @@ function DetailsView({ setView, user }: any) {
         
           </div>
 
-          <Button onClick={() => !user && setModalOpen(true)} className="w-full py-8 text-2xl font-black bg-[#D4AF37] text-[#001f3f] hover:bg-[#b8972f] rounded-3xl shadow-xl transform hover:scale-[1.01] transition-all">MATRICULE-SE GRÁTIS AGORA!</Button>
+         <Button 
+  onClick={() => window.location.href = '/auth'} 
+  className="w-full py-8 text-2xl font-black bg-[#D4AF37] text-[#001f3f] hover:bg-[#b8972f] rounded-3xl shadow-xl transform hover:scale-[1.01] transition-all">MATRICULE-SE GRÁTIS AGORA!</Button>
 
           <section className="space-y-4">
             <h2 className="text-3xl font-black text-[#001f3f] mb-6">Conteúdo Programático</h2>
             {[1,2,3,4,5,6,7,8].map(m => (
               <div key={m} className="border border-gray-200 rounded-2xl overflow-hidden">
                 <button onClick={() => setActiveMod(m)} className="w-full p-5 flex justify-between font-bold bg-white hover:bg-gray-50 text-[#001f3f]">Módulo {m} - Tópicos da Segurança Digital </button>
-                {activeMod === m && <div className="p-6 bg-gray-50 text-gray-600 border-t">Conteúdo detalhado com videoaulas, laboratórios práticos e materiais complementares em PDF.</div>}
+                {activeMod === m && <div className="p-6 bg-gray-50 text-gray-600 border-t">Fundamentos e Legislação Forense</div>}
               </div>
             ))}
           </section>
