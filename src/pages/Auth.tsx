@@ -155,10 +155,11 @@ export default function Auth() {
 //CERTO
 const { t } = useLanguage();
   return (
+    
     <div >
     <Header />
     <main>
-    
+    <ParallaxAuth >
     <div className="wrapper">
       <div className="background">
         <div className="left">
@@ -264,8 +265,9 @@ const { t } = useLanguage();
       </div>
 
 
-    <ParallaxAuth />
+    </ParallaxAuth>
     </main>
+
     <Footer />
     <AccessibilityWidget />
     </div>
