@@ -11,15 +11,6 @@ const ParallaxSection = () => {
       style={{ backgroundImage: `url(${parallaxBgAuth})` }}
     >
       <div className="absolute inset-0 bg-background/60" />
-      <div className="relative z-10 text-center max-w-3xl px-4">
-       
-        <Link
-          to="/saiba-mais"
-          className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block"
-        >
-          {t("hero.cta")}
-        </Link>
-      </div>
     </section>
   );
 };
