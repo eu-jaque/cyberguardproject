@@ -3,15 +3,25 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield, LogIn, Laugh } from "lucide-react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { Star, Clock, Calendar, ChevronLeft, ChevronRight, Check, Video, GraduationCap, Award, Shield } from "lucide-react";
+import { useState,useEffect, useRef } from "react";
 import confettiLib from "canvas-confetti";
 import supabase from "../../utils/supabase";
 import hackerBg from "@/assets/hacker-parallax.jpg";
-import expertsBg from "@/assets/experts-bg.jpg";
 import { useAuth } from "@/contexts/AuthContext";
+import ExpertVideo from "@/components/ExpertVideo";
+
+const ExpertVideoSection = () => { 
+  return (
+    <div>
+      {/* Agora o React sabe que este é o componente que veio do import */}
+      <ExpertVideo /> 
+    </div>
+  );
+};
 
 export type Expert = ({
+  id?:string;
   name?: string;
   area?: string;
   rating?: number;
@@ -21,110 +31,56 @@ export type Expert = ({
   convenios?: string;
 })
 
-export type expenses = {
-  name?: string,
-  value?: string
-}
+type ViewState = "list" | "schedule" | "confirmation";
+
+const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex"];
+const timeSlots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
 
 export default function Experts(){
-    const {user, signOutUser} = useAuth();
-
+    const {user} = useAuth();
+    const { t } = useLanguage();
     const [experts, setExperts] = useState<Expert[]>([]);
-    const [expert, setExpert] = useState<Expert  >();
+    const [expert, setExpert] = useState<Expert>({ name: '', area: '', rating: 5, available: true });
+    const [selectedExpert, setSelectedExpert] = useState<Expert | null>(null);
+    const [viewState, setViewState] = useState<ViewState>("list");
+    const [selectedDay, setSelectedDay] = useState<number | null>(null);
+    const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const [isPaused, setIsPaused] = useState(false);
+    const carouselRef = useRef<HTMLDivElement>(null);
 
-
+// --- Efeitos e Supabase ---
   useEffect(() => {
-        if(user) syncExperts(user.id);
+        if(user) syncExperts();
     }, []);
 
-    async function syncExperts(user_id: string ): Promise<void>{
-        const {data, error} = await supabase.from('experts') .select('*').eq("user_id", user_id) .single();
-
+    async function syncExperts(): Promise<void>{
+        const {data, error} = await supabase.from('experts') .select('*');
         if(error){
             alert(error.message)
             return
         }
 
-        setExperts(data);
+        setExperts(data || [] );
     }
   
-   async function handleExperts(){
-        const data = {...experts, user_id: user?.id}; 
-
-        const { error} = await supabase.from('experts')
-            .insert(data);
-
-        if(error){
-            alert(error.message);
-            return;
-        }
-
-        alert("SUCESSO AO CADASTRAR ESPECIALISTA");
+   async function handleCreateExpert(){
+    const { error} = await supabase.from('experts').insert([experts]);
+      if(error){
+        alert(error.message);
+      }else {
+      alert("Especialista cadastrado!");
+      syncExperts();
+      setExpert({ name: '', area: '', rating: 5, available: true }); // Limpa form
     }
-     return(
-      <>
-        <div>
-          <h1>Especialistas</h1>
-          <input type="text" placeholder="nome" value={expert.name} onChange={(e) => setExpert({...expert, name: e.target.value})} />
-          <input type="text" placeholder="Área de Especialização" value={expert.area} onChange={(e) => setExpert({...expert, area: e.target.value})} />
-          <input type="number" placeholder="Avaliação" value={expert.rating} onChange={(e) => setExpert({...expert, rating: Number(e.target.value)})} />
-          <input type="checkbox" checked={expert.available}  onChange={(e) => setExpert({...expert, available: e.target.checked})} />
-          <input type="text" placeholder="BIO" value={expert.bio} onChange={(e) => setExpert({...expert, bio: e.target.value})} />
-          <input type="text" placeholder="Formação" value={expert.formation} onChange={(e) => setExpert({...expert, formation: e.target.value})} />
-          <input type="text" placeholder="convenios" value={expert.convenios} onChange={(e) => setExpert({...expert, convenios: e.target.value})} />
-
-          <button onClick={handleExperts} >Cadastrar Especialista</button>
-        </div>
-
-        <div>
-
-        </div>
-      </>
-     )
-  }
-
-
-
-const videos = [
-  { title: "Como identificar phishing em 5 passos", id: "EqQ-cDeKQLU" },
-  { title: "Protegendo seu Wi-Fi doméstico", id: "DMkKcrwxlsc" },
-  { title: "Senhas seguras: guia completo", id: "zefv-bNtZwg" },
-  { title: "O que fazer após um vazamento de dados", id: "3uJszS1bk28" },
-];
-
-const daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex"];
-const timeSlots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
-
-type ViewState = "list" | "schedule" | "confirmation";
-
-const Experts = () => {
-  const { t } = useLanguage();
-  const [isPaused, setIsPaused] = useState(false);
-  const [selectedExpert, setSelectedExpert] = useState<typeof experts[0] | null>(null);
-  const [viewState, setViewState] = useState<ViewState>("list");
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const scrollCarousel = (direction: "left" | "right") => {
-    if (carouselRef.current) {
-      const scrollAmount = 320;
-      carouselRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
     }
-  };
-
-  const handleSchedule = (expert: typeof experts[0]) => {
-    setSelectedExpert(expert);
+    const handleSchedule = (exp: Expert) => {
+    setSelectedExpert(exp);
     setViewState("schedule");
     setSelectedDay(null);
     setSelectedTime(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const handleConfirm = () => {
+    const handleConfirm = () => {
     setViewState("confirmation");
     confettiLib({
       particleCount: 150,
@@ -135,14 +91,40 @@ const Experts = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleBackToList = () => {
+    const handleBackToList = () => {
     setViewState("list");
     setSelectedExpert(null);
     setSelectedDay(null);
     setSelectedTime(null);
   };
+ 
+  const scrollCarousel = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const scrollAmount = 320;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+    function confetti(args: { 
+  particleCount: number; 
+  spread: number; 
+  origin: { y: number; }; 
+  colors: string[]; 
+}) {
+  // Chamamos a biblioteca importada passando os argumentos recebidos
+  confettiLib({
+    particleCount: args.particleCount,
+    spread: args.spread,
+    origin: args.origin,
+    colors: args.colors
+  });
+}
+};
 
-  // Confirmation view
+ // --- Renderização Condicional ---
+
+  // 1. TELA DE CONFIRMAÇÃO
   if (viewState === "confirmation" && selectedExpert) {
     return (
       <div className="min-h-screen bg-background">
@@ -170,284 +152,149 @@ const Experts = () => {
             </button>
           </div>
         </div>
-        <Footer />
-        <Chatbot />
-        <AccessibilityWidget />
+       
       </div>
     );
   }
+    // 2. TELA DE LISTAGEM E CADASTRO
+     return(
+      <div className="p-8 max-w-4xl mx-auto">
+      {viewState === "list" ? (
+      <>
+          <section className="mb-12 p-6 bg-slate-50 rounded-xl border"></section>
+          <h1>Especialistas</h1>
+          <div className="grid grid-cols-2 gap-4"> </div>
+          <input type="text" placeholder="nome" value={expert.name} onChange={(e) => setExpert({...expert, name: e.target.value})} />
+          <input type="text" placeholder="Área de Especialização" value={expert.area} onChange={(e) => setExpert({...expert, area: e.target.value})} />
+          <input type="number" placeholder="Avaliação" value={expert.rating} onChange={(e) => setExpert({...expert, rating: Number(e.target.value)})} />
+          <input type="checkbox" checked={expert.available}  onChange={(e) => setExpert({...expert, available: e.target.checked})} />
+          <input type="text" placeholder="BIO" value={expert.bio} onChange={(e) => setExpert({...expert, bio: e.target.value})} />
+          <input type="text" placeholder="Formação" value={expert.formation} onChange={(e) => setExpert({...expert, formation: e.target.value})} />
+          <input type="text" placeholder="convenios" value={expert.convenios} onChange={(e) => setExpert({...expert, convenios: e.target.value})} />
 
-  // Schedule view
-  if (viewState === "schedule" && selectedExpert) {
-    return (
+          <button onClick={handleCreateExpert}className="col-span-2 bg-blue-600 text-white p-2 rounded hover:bg-blue-700"> Cadastrar Especialista </button>
+        <div>
+        <section>
 
+        </section>
+        <h2 className="mt-8">Lista de Especialistas</h2>
+        <div className="grid gap-4">
+           {experts.map((exp) => (
+          <div key={exp.id} className="p-4 border rounded-lg flex justify-between items-center bg-white shadow-sm"> </div>
+          <div>
+          <h3 className="font-bold text-lg">{exp.name}</h3>
+          <p className="text-gray-600">{exp.area} • {exp.rating}⭐</p>
+          </div>
+           <button 
+                    onClick={() => handleSchedule(exp)}
+                    className="bg-gold-500 border border-amber-400 px-4 py-2 rounded-md hover:bg-amber-50"
+                  >
+                    Agendar Horário
+                  </button>
+                
+        ))}
+       </div>
+      </section>
       
-      <div className="min-h-screen bg-background">
-        <Header />
-        <section className="pt-32 pb-20">
-          <div className="max-w-[1100px] mx-auto px-[2%]">
-            <button
-              onClick={handleBackToList}
-              className="flex items-center gap-2 text-primary mb-8 hover:underline font-medium"
-            >
-              <ChevronLeft className="w-4 h-4" /> Voltar aos especialistas
-            </button>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left - Profile */}
-              <div className="glass-card">
-                <div className="flex flex-col items-center mb-6">
-                  <div className="w-28 h-28 rounded-full border-4 border-primary overflow-hidden mb-4">
-                    <img src={selectedExpert.avatar} alt={selectedExpert.name} className="w-full h-full object-cover" />
-                  </div>
-                  <h2 className="font-display text-lg font-bold text-foreground">{selectedExpert.name}</h2>
-                  <p className="text-primary text-sm font-medium">{selectedExpert.area}</p>
-                  <div className="flex items-center gap-1 mt-2">
-                    <Star className="w-4 h-4 text-primary fill-primary" />
-                    <span className="text-sm text-primary font-bold">{selectedExpert.rating}</span>
-                  </div>
-                </div>
+    </>
+  );
 
-                <div className="space-y-5">
-                  <div>
-                    <h3 className="font-display text-sm font-bold text-gradient-gold mb-2 flex items-center gap-2">
-                      <Shield className="w-4 h-4 text-primary" /> Apresentação
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{selectedExpert.bio}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-bold text-gradient-gold mb-2 flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4 text-primary" /> Formação
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed whitespace-pre-line">{selectedExpert.formation}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-bold text-gradient-gold mb-2 flex items-center gap-2">
-                      <Award className="w-4 h-4 text-primary" /> Convênios
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedExpert.convenios.map((c, i) => (
-                        <span key={i} className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
-                          {c}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+    return (
+      <div className="min-h-screen bg-background pt-20 px-4">
+        <div className="max-w-[1100px] mx-auto">
+          <button onClick={handleBackToList} className="flex items-center gap-2 text-primary mb-8 hover:underline">
+            <ChevronLeft className="w-4 h-4" /> Voltar
+          </button>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Coluna Esquerda: Perfil */}
+            <div className="glass-card p-6">
+              <div className="flex flex-col items-center mb-6">
+                <img src={selectedExpert.avatar || '/placeholder.png'} className="w-28 h-28 rounded-full border-4 border-primary object-cover mb-4" alt="" />
+                <h2 className="text-xl font-bold">{selectedExpert.name}</h2>
+                <p className="text-primary">{selectedExpert.area}</p>
+                <div className="flex items-center gap-1 mt-2">
+                  <Star className="w-4 h-4 fill-primary text-primary" />
+                  <span className="font-bold">{selectedExpert.rating}</span>
                 </div>
               </div>
-
-              {/* Right - Calendar */}
-              <div className="glass-card">
-                <div className="flex items-center gap-2 mb-6">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  <h2 className="font-display text-lg font-bold text-gradient-gold">{t("exp.schedule")}</h2>
+              <div className="space-y-6">
+                <div>
+                   <h3 className="flex items-center gap-2 font-bold text-gradient-gold mb-2"><Shield className="w-4 h-4"/> Bio</h3>
+                   <p className="text-sm text-muted-foreground">{selectedExpert.bio}</p>
                 </div>
+                <div>
+                   <h3 className="flex items-center gap-2 font-bold text-gradient-gold mb-2"><GraduationCap className="w-4 h-4"/> Formação</h3>
+                   <p className="text-sm text-muted-foreground whitespace-pre-line">{selectedExpert.formation}</p>
+                </div>
+                <div>
+                   <h3 className="flex items-center gap-2 font-bold text-gradient-gold mb-2"><Award className="w-4 h-4"/> Convênios</h3>
+                   <div className="flex flex-wrap gap-2">
+                      {selectedExpert.convenios?.map((c, i) => (
+                        <span key={i} className="text-[10px] px-3 py-1 rounded-full bg-primary/10 border border-primary/20">{c}</span>
+                      ))}
+                   </div>
+                </div>
+              </div>
+            </div>
 
-                <p className="text-muted-foreground text-sm mb-6">Selecione o dia e horário desejado:</p>
-
-                <div className="flex gap-3 mb-6 flex-wrap">
-                  {daysOfWeek.map((day, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedDay(i)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium transition-all ${selectedDay === i
-                        ? "btn-gold-3d text-primary-foreground"
-                        : "bg-secondary text-foreground/70 hover:bg-secondary/80"
-                        }`}
-                    >
-                      {day}
+            {/* Coluna Direita: Horários */}
+            <div className="glass-card p-6">
+              <h2 className="text-lg font-bold text-gradient-gold mb-6 flex items-center gap-2"><Calendar className="w-5 h-5"/> Selecione o Horário</h2>
+              <div className="flex gap-2 mb-6 flex-wrap">
+                {daysOfWeek.map((day, i) => (
+                  <button key={i} onClick={() => setSelectedDay(i)} className={`px-4 py-2 rounded-lg text-sm ${selectedDay === i ? 'btn-gold-3d' : 'bg-secondary'}`}>{day}</button>
+                ))}
+              </div>
+              {selectedDay !== null && (
+                <div className="grid grid-cols-3 gap-2">
+                  {timeSlots.map(time => (
+                    <button key={time} onClick={() => setSelectedTime(time)} className={`p-3 rounded-lg text-sm flex items-center justify-center gap-2 ${selectedTime === time ? 'btn-gold-3d' : 'bg-secondary/50'}`}>
+                      <Clock className="w-3 h-3"/> {time}
                     </button>
                   ))}
                 </div>
-
-                {selectedDay !== null && (
-                  <div className="grid grid-cols-3 gap-3 mb-6">
-                    {timeSlots.map((time) => (
-                      <button
-                        key={time}
-                        onClick={() => setSelectedTime(time)}
-                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm transition-all ${selectedTime === time
-                          ? "btn-gold-3d text-primary-foreground"
-                          : "bg-secondary/50 text-foreground/70 hover:bg-secondary"
-                          }`}
-                      >
-                        <Clock className="w-3 h-3" /> {time}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {selectedDay !== null && selectedTime && (
-                  <div className="text-center mt-6">
-                    <p className="text-foreground/70 text-sm mb-4">
-                      {daysOfWeek[selectedDay]} às {selectedTime} com {selectedExpert.name}
-                    </p>
-                    <button
-                      onClick={handleConfirm}
-                      className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-lg text-sm font-bold"
-                    >
-                      {t("exp.confirm")}
-                    </button>
-                  </div>
-                )}
-              </div>
+              )}
+              {selectedTime && (
+                <button onClick={handleConfirm} className="btn-gold-3d w-full mt-8 py-3 rounded-lg font-bold">Confirmar Agendamento</button>
+              )}
             </div>
           </div>
-        </section>
-        <Footer />
-        <Chatbot />
-        <AccessibilityWidget />
+        </div>
       </div>
     );
-  }
+  
 
-  // Main list view
+  // 3. TELA PRINCIPAL (LISTA)
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
-      {/* Hero Parallax */}
-      <section
-        className="parallax-section relative h-[500px] flex items-center justify-center"
-        style={{ backgroundImage: `url(${hackerBg})` }}
-      >
-        <div className="absolute inset-0 bg-background/70" />
-        <div className="relative z-10 text-center max-w-3xl px-4">
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {t("exp.title")} <span className="text-gradient-gold">{t("exp.title_highlight")}</span>
-          </h1>
-          <p className="text-foreground/80 text-xl">{t("exp.subtitle")}</p>
+      {/* Seção Hero */}
+      <section className="h-[400px] flex items-center justify-center text-center px-4 bg-slate-900 text-white">
+        <div>
+          <h1 className="text-4xl font-bold mb-4">Nossos <span className="text-amber-400">Especialistas</span></h1>
+          <p className="text-gray-300">Encontre o profissional ideal para sua jornada.</p>
         </div>
       </section>
 
-      {/* Expert Carousel */}
-      <section className="py-16 bg-background">
-        <div className="max-w-[1366px] mx-auto px-[2%]">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-10 text-center">
-            <span className="text-gradient-gold">{t("exp.our_experts")}</span>
-          </h2>
-
-          <div className="relative">
-            {/* Arrows */}
-            <button
-              onClick={() => scrollCarousel("left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:border-primary transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5 text-foreground" />
-            </button>
-            <button
-              onClick={() => scrollCarousel("right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:border-primary transition-colors"
-            >
-              <ChevronRight className="w-5 h-5 text-foreground" />
-            </button>
-
-            {/* Carousel container */}
-            <div
-              className="overflow-hidden mx-12"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              <div
-                ref={carouselRef}
-                className="flex gap-6 overflow-x-auto scrollbar-hide"
-                style={{
-                  scrollSnapType: "x mandatory",
-                  scrollBehavior: "smooth",
-                }}
-              >
-                {/* Auto-scrolling wrapper */}
-                <div
-                  className={`flex gap-6 ${!isPaused ? "animate-carousel-scroll" : ""}`}
-                  style={{ minWidth: "max-content" }}
-                >
-                  {[...experts, ...experts].map((expert, i) => (
-                    <div
-                      key={i}
-                      className="expert-card flex-shrink-0 w-[300px] glass-card flex flex-col items-center text-center"
-                      style={{ scrollSnapAlign: "start" }}
-                    >
-                      <div className="w-24 h-24 rounded-full border-[3px] border-primary overflow-hidden mb-4 shadow-lg shadow-primary/20">
-                        <img
-                          src={expert.avatar}
-                          alt={expert.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h3 className="font-display text-sm font-bold text-foreground mb-1">{expert.name}</h3>
-                      <p className="text-muted-foreground text-xs mb-3">{expert.area}</p>
-                      <div className="flex items-center gap-1 mb-3">
-                        <Star className="w-3 h-3 text-primary fill-primary" />
-                        <span className="text-xs text-primary font-bold">{expert.rating}</span>
-                      </div>
-                      <p className="text-muted-foreground text-xs mb-4 line-clamp-3 px-2">{expert.bio}</p>
-                      <button
-                        onClick={() => handleSchedule(expert)}
-                        className="btn-gold-3d text-primary-foreground px-6 py-2 rounded-lg text-xs font-bold mt-auto"
-                      >
-                        Agendar Consulta
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      {/* Seção Carrossel */}
+      <section className="py-16 max-w-[1200px] mx-auto relative px-10">
+        <button onClick={() => scrollCarousel("left")} className="absolute left-0 top-1/2 z-10 p-2 bg-white rounded-full shadow-md"><ChevronLeft/></button>
+        <button onClick={() => scrollCarousel("right")} className="absolute right-0 top-1/2 z-10 p-2 bg-white rounded-full shadow-md"><ChevronRight/></button>
+        
+        <div ref={carouselRef} className="flex gap-6 overflow-x-auto scrollbar-hide snap-x">
+          {experts.map((exp, i) => (
+            <div key={i} className="expert-card flex-shrink-0 w-[280px] snap-start glass-card p-6 flex flex-col items-center">
+              <img src={exp.avatar || '/placeholder.png'} className="w-20 h-20 rounded-full mb-4 border-2 border-primary" alt="" />
+              <h3 className="font-bold">{exp.name}</h3>
+              <p className="text-xs text-primary mb-4">{exp.area}</p>
+              <button onClick={() => handleSchedule(exp)} className="btn-gold-3d w-full py-2 rounded-md text-sm font-bold">Ver Perfil</button>
             </div>
-
-            {/* Dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {experts.map((_, i) => (
-                <button
-                  key={i}
-                  className="w-2 h-2 rounded-full bg-primary/30 hover:bg-primary transition-colors"
-                  onClick={() => {
-                    if (carouselRef.current) {
-                      carouselRef.current.scrollTo({ left: i * 320, behavior: "smooth" });
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
+    </div>
+  );
 
-      {/* Videos Section */}
-      <section
-        className="py-16 relative"
-        style={{ backgroundImage: `url(${expertsBg})`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}
-      >
-        <div className="absolute inset-0 bg-background/85" />
-        <div className="max-w-[1366px] mx-auto px-[2%] relative z-10">
-          <div className="flex items-center justify-center gap-2 mb-10">
-            <Video className="w-6 h-6 text-primary" />
-            <h2 className="font-display text-2xl font-bold text-gradient-gold">{t("exp.videos")}</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {videos.map((video, i) => (
-              <a
-                key={i}
-                href={`https://www.youtube.com/watch?v=${video.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-card group cursor-pointer block"
-              >
-                <div className="aspect-video rounded-lg overflow-hidden mb-3 border border-primary/30 relative">
-                  <img
-                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-background/30 group-hover:bg-background/10 transition-colors flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center">
-                      <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-primary-foreground border-b-[8px] border-b-transparent ml-1" />
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-foreground text-sm font-semibold">{video.title}</h3>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <Footer />
       <Chatbot />
@@ -456,19 +303,5 @@ const Experts = () => {
   );
 };
 
-export default Experts;
-function confetti(args: { 
-  particleCount: number; 
-  spread: number; 
-  origin: { y: number; }; 
-  colors: string[]; 
-}) {
-  // Chamamos a biblioteca importada passando os argumentos recebidos
-  confettiLib({
-    particleCount: args.particleCount,
-    spread: args.spread,
-    origin: args.origin,
-    colors: args.colors
-  });
-}
+
 

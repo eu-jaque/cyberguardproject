@@ -42,7 +42,6 @@ const Header = () => {
   const serviceItems = [
     { key: "srv.verificador_seguranca", to: "" },
     { key: "srv.conversa_especialistas", to: "/especialistas" },
-    { key: "srv.assinaturas", to: "/assinaturas" },
     { key: "srv.servicos_page", to: "/servicos" },
   ];
 
@@ -89,9 +88,9 @@ const Header = () => {
               {t("nav.blog")}
             </Link>
 
-            <button className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
+            <Link to="/cursos"className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
               {t("nav.cursos")}
-            </button>
+            </Link>
 
             {/* Services dropdown */}
             <div className="relative" ref={servicesRef}>
