@@ -68,7 +68,7 @@ const Header = () => {
         className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled
           ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
           : "bg-transparent"
-        }`}
+          }`}
       >
         <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
 
@@ -85,7 +85,7 @@ const Header = () => {
             <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
             <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
             <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
-            
+
             {/* Dropdown de Serviços */}
             <div className="relative" ref={servicesRef}>
               <button
@@ -144,8 +144,8 @@ const Header = () => {
             </div>
 
             {/* 🌙 Alternar Tema Desktop */}
-            <button 
-              onClick={toggleTheme} 
+            <button
+              onClick={toggleTheme}
               className="nav-link-style p-2 rounded-full hover:bg-secondary/60 flex items-center justify-center transition-all"
               aria-label="Alternar tema"
             >
@@ -192,8 +192,8 @@ const Header = () => {
             {/* 🌙 Alternar Tema Mobile */}
             <div className="flex flex-col gap-4 w-full">
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Aparência</span>
-              <button 
-                onClick={toggleTheme} 
+              <button
+                onClick={toggleTheme}
                 className="flex items-center gap-2 text-base font-medium text-foreground/80 hover:text-primary transition-all w-full"
               >
                 {theme === "dark" ? (
