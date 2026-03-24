@@ -1,23 +1,37 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, Globe } from "lucide-react";
+import { ChevronDown, Globe, Menu, X, Sun, Moon } from "lucide-react"; // Importando os ícones Sun e Moon
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/cyberguard-logo.png";
+import { useTheme } from "next-themes"; // Importando o useTheme
+import logo from "@/assets/logooriginal.png";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [toast, setToast] = useState<{ msg: string; type: "error" | "success" } | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, lang, setLang } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Next-Themes
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   const servicesRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
+  const serviceItems = [
+    { key: "srv.conversa_especialistas", to: "/especialistas" },
+  ];
+
+  // Evita Hydration Mismatch
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -31,51 +45,50 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  useEffect(() => {
-    if (!toast) return;
-    const timer = setTimeout(() => setToast(null), 5000);
-    return () => clearTimeout(timer);
-  }, [toast]);
-
   const langLabels: Record<string, string> = { pt: "PT", en: "EN", es: "ES" };
 
+<<<<<<< HEAD
   const serviceItems = [
     { key: "srv.verificador_seguranca", to: "" },
     { key: "srv.conversa_especialistas", to: "/especialistas" },
     { key: "srv.servicos_page", to: "/servicos" },
   ];
+=======
+  const handleNavClick = (path: string, isAnchor?: boolean) => {
+    if (location.pathname === path && isAnchor) {
+      document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(path);
+    }
+    setMobileMenuOpen(false);
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  if (!mounted) return null; // Espera montar no cliente para renderizar e evitar o clarão no carregamento
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 
   return (
     <>
-      {toast && (
-        <div
-          className={`fixed top-4 right-4 z-[9999] px-4 py-3 rounded-lg text-sm font-medium shadow-lg ${
-            toast.type === "error"
-              ? "bg-destructive text-destructive-foreground"
-              : "bg-green-600 text-white"
-          }`}
-          style={{ minWidth: 190 }}
-        >
-          {toast.msg}
-        </div>
-      )}
-
       <nav
-        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${
-          scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled
+          ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
+          : "bg-transparent"
         }`}
       >
-        <div className="w-full max-w-[1366px] mx-auto px-[2%] flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer shrink-0" onClick={() => {
-            if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
-            else navigate("/");
-          }}>
+        <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
+
+          {/* 1. LOGO */}
+          <div className="flex items-center gap-2 cursor-pointer shrink-0 z-50" onClick={() => handleNavClick("/")}>
             <img src={logo} alt="CyberGuard Logo" className="w-10 h-10 object-contain" />
             <span className="font-display text-xl font-bold text-foreground">
               Cyber<span className="text-gradient-gold">Guard</span>
             </span>
           </div>
 
+<<<<<<< HEAD
           <div className="flex items-center gap-3 flex-wrap">
             <button onClick={() => {
               if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
@@ -93,68 +106,64 @@ const Header = () => {
             </Link>
 
             {/* Services dropdown */}
+=======
+          {/* 2. MENU DESKTOP */}
+          <div className="hidden lg:flex items-center gap-8">
+            <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
+            <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
+            <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
+            
+            {/* Dropdown de Serviços */}
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
             <div className="relative" ref={servicesRef}>
               <button
                 onClick={() => setServicesOpen(!servicesOpen)}
-                className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium inline-flex items-center gap-1"
+                className={`nav-link-style inline-flex items-center gap-1.5 py-2 ${servicesOpen ? "text-primary" : ""}`}
               >
-                {t("nav.servicos")} <ChevronDown className="w-3 h-3" />
+                {t("nav.servicos")}
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ${servicesOpen ? "rotate-180" : ""}`}
+                />
               </button>
+
               {servicesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border rounded-lg shadow-xl z-[100] py-2">
+                <div className="absolute top-[calc(100%+10px)] left-0 w-64 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] py-2 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                  <div className="px-3 py-2 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">
+                      {t("nav.servicos")}
+                    </span>
+                  </div>
+
                   {serviceItems.map((item) => (
-                    item.to ? (
-                      <Link
-                        key={item.key}
-                        to={item.to}
-                        className="block w-full text-left px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-colors"
-                        onClick={() => setServicesOpen(false)}
-                      >
+                    <Link
+                      key={item.key}
+                      to={item.to || "#"}
+                      className="group flex items-center px-4 py-2.5 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all relative"
+                      onClick={() => setServicesOpen(false)}
+                    >
+                      <span className="relative z-10 font-medium">
                         {t(item.key)}
-                      </Link>
-                    ) : (
-                      <button
-                        key={item.key}
-                        className="block w-full text-left px-4 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary transition-colors"
-                      >
-                        {t(item.key)}
-                      </button>
-                    )
+                      </span>
+                    </Link>
                   ))}
                 </div>
               )}
             </div>
 
-            <Link to="/sobre" className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
-              {t("nav.sobre")}
-            </Link>
+            <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
+            <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
 
-            <button onClick={() => {
-              if (location.pathname === "/") {
-                document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" });
-              } else navigate("/");
-            }} className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium">
-              {t("nav.contato")}
-            </button>
+            <div className="h-4 w-px bg-border/60 mx-2" />
 
-            {/* Language selector */}
+            {/* Idioma */}
             <div className="relative" ref={langRef}>
-              <button
-                onClick={() => setLangOpen(!langOpen)}
-                className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium inline-flex items-center gap-1"
-              >
+              <button onClick={() => setLangOpen(!langOpen)} className="nav-link-style flex items-center gap-1">
                 <Globe className="w-4 h-4" /> {langLabels[lang]}
               </button>
               {langOpen && (
-                <div className="absolute top-full right-0 mt-2 w-32 bg-card border border-border rounded-lg shadow-xl z-[100] py-2">
+                <div className="absolute top-full right-0 mt-2 w-24 bg-card border border-border rounded-lg shadow-xl py-1 overflow-hidden animate-in fade-in zoom-in-95">
                   {(["pt", "en", "es"] as const).map((l) => (
-                    <button
-                      key={l}
-                      onClick={() => { setLang(l); setLangOpen(false); }}
-                      className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                        lang === l ? "text-primary font-bold" : "text-foreground/80 hover:bg-secondary hover:text-primary"
-                      }`}
-                    >
+                    <button key={l} onClick={() => { setLang(l); setLangOpen(false); }} className={`block w-full text-left px-4 py-2 text-xs hover:bg-secondary ${lang === l ? "text-primary font-bold" : "text-foreground/70"}`}>
                       {langLabels[l]}
                     </button>
                   ))}
@@ -162,12 +171,83 @@ const Header = () => {
               )}
             </div>
 
-            <Link to="/auth" className="btn-gold-3d text-primary-foreground px-5 py-1.5 rounded-[5px] text-sm font-semibold cursor-pointer">
+            {/* 🌙 Alternar Tema Desktop */}
+            <button 
+              onClick={toggleTheme} 
+              className="nav-link-style p-2 rounded-full hover:bg-secondary/60 flex items-center justify-center transition-all"
+              aria-label="Alternar tema"
+            >
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
+            <Link to="/auth" className="btn-gold-3d px-5 py-1.5 rounded-[5px] text-sm font-semibold">
+              {t("nav.login")}
+            </Link>
+          </div>
+
+          {/* 3. BOTÃO MOBILE (Gira e muda de cor) */}
+          <button
+            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full ${mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
+              }`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* 4. SIDEBAR MOBILE (Mimetiza o fundo da página) */}
+        <div className={`fixed top-0 right-0 h-screen w-[280px] bg-background border-l border-border transition-transform duration-500 ease-in-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"} z-50 pt-24 px-8`}>
+          <div className="flex flex-col gap-8 items-start h-full pb-10 overflow-y-auto">
+            <button onClick={() => handleNavClick("/")} className="mobile-link text-left w-full">{t("nav.inicio")}</button>
+            <Link to="/blog" className="mobile-link w-full">{t("nav.blog")}</Link>
+            <button className="mobile-link text-left w-full">{t("nav.cursos")}</button>
+            <Link to="/sobre" className="mobile-link w-full">{t("nav.sobre")}</Link>
+            <button onClick={() => handleNavClick("/Contato", true)} className="mobile-link text-left w-full">{t("nav.contato")}</button>
+
+            <div className="w-full h-px bg-border/50 my-2" />
+
+            <div className="flex flex-col gap-4 w-full">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("nav.idioma")}</span>
+              <div className="flex gap-4">
+                {(["pt", "en", "es"] as const).map((l) => (
+                  <button key={l} onClick={() => setLang(l)} className={`text-sm font-bold transition-all ${lang === l ? "text-primary scale-110" : "text-muted-foreground/50"}`}>
+                    {langLabels[l]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 🌙 Alternar Tema Mobile */}
+            <div className="flex flex-col gap-4 w-full">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Aparência</span>
+              <button 
+                onClick={toggleTheme} 
+                className="flex items-center gap-2 text-base font-medium text-foreground/80 hover:text-primary transition-all w-full"
+              >
+                {theme === "dark" ? (
+                  <><Sun size={18} /> Modo Claro</>
+                ) : (
+                  <><Moon size={18} /> Modo Escuro</>
+                )}
+              </button>
+            </div>
+
+            <Link to="/auth" className="btn-gold-3d w-full text-center py-3 rounded-lg font-bold mt-auto shadow-lg">
               {t("nav.login")}
             </Link>
           </div>
         </div>
+
+        {/* Overlay Simples */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-40 lg:hidden transition-opacity duration-500" onClick={() => setMobileMenuOpen(false)} />
+        )}
       </nav>
+
+      <style>{`
+        .nav-link-style { @apply text-foreground/70 hover:text-primary transition-all text-sm font-medium; }
+        .mobile-link { @apply text-xl font-medium text-foreground/80 hover:text-primary transition-all; }
+      `}</style>
     </>
   );
 };
