@@ -5,7 +5,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
+
+  /* ☀️ TEMA CLARO SUAVE (Soft/Slate Light - Sem cansar a vista) */
   :root {
+    --background: 210 20% 98%;
+    /* Cinza azulado bem clarinho em vez de branco puro */
+    --foreground: 216 71% 12%;
+    /* Azul escuro quase preto para os textos */
+
+    --card: 210 20% 96%;
+    /* Cards levemente mais escuros que o fundo */
+    --card-foreground: 216 71% 12%;
+
+    --popover: 214 20% 99%;
+    --popover-foreground: 216 71% 12%;
+
+    --primary: 40 85% 50%;
+    /* Dourado mais saturado para ler bem no fundo claro */
+    --primary-foreground: 216 71% 10%;
+
+    --secondary: 214 20% 90%;
+    /* Divisores e hovers cinzas e suaves */
+    --secondary-foreground: 216 71% 12%;
+
+    --muted: 214 20% 92%;
+    --muted-foreground: 215 16% 45%;
+
+    --accent: 40 85% 50%;
+    --accent-foreground: 216 71% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 20% 88%;
+    /* Bordas visíveis mas suaves */
+    --input: 214 20% 88%;
+    --ring: 40 85% 50%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 214 20% 93%;
+    --sidebar-foreground: 216 71% 12%;
+    --sidebar-primary: 40 85% 50%;
+    --sidebar-primary-foreground: 210 20% 98%;
+    --sidebar-accent: 214 20% 88%;
+    --sidebar-accent-foreground: 216 71% 12%;
+    --sidebar-border: 214 20% 85%;
+    --sidebar-ring: 40 85% 50%;
+
+    --gold-light: 40 85% 60%;
+    --gold-dark: 35 75% 45%;
+  }
+
+  /* 🌙 TEMA ESCURO (Cyberpunk Clássico original) */
+  .dark {
     --background: 216 71% 10%;
     --foreground: 210 40% 98%;
 
@@ -34,8 +87,6 @@
     --input: 216 40% 20%;
     --ring: 40 76% 55%;
 
-    --radius: 0.5rem;
-
     --sidebar-background: 216 71% 8%;
     --sidebar-foreground: 210 40% 98%;
     --sidebar-primary: 40 76% 55%;
@@ -44,9 +95,6 @@
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 216 40% 20%;
     --sidebar-ring: 40 76% 55%;
-
-    --gold-light: 43 80% 65%;
-    --gold-dark: 36 72% 42%;
   }
 }
 
@@ -56,16 +104,23 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
     font-family: 'Montserrat', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply transition-colors duration-300;
     font-family: 'Orbitron', sans-serif;
   }
 }
 
 
+<<<<<<< HEAD
 
 
 
@@ -77,11 +132,14 @@
 
 
 /*AUTH*/
+=======
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 *{
   margin: 0;
   padding: 0;
 }
 
+<<<<<<< HEAD
 /*body{
   background-image: url(cyberguardproject/src/assets/parallax-bg.jpg);
 }*/
@@ -104,6 +162,8 @@
 
 
 
+=======
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 button:hover{
   cursor: pointer;
 }
@@ -226,8 +286,8 @@ input[type="email"]{
   color: #FC7D5F;
   text-decoration: underline;
 }
-/*fim AUTH*/
 
+<<<<<<< HEAD
 
 
 
@@ -235,6 +295,8 @@ input[type="email"]{
 
 
 /* Gold gradient utilities */
+=======
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 .bg-gradient-gold {
   background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
 }
@@ -261,12 +323,10 @@ input[type="email"]{
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.15) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.15) 50%,
+      transparent 70%);
   animation: shimmer 3s infinite;
 }
 
@@ -281,11 +341,15 @@ input[type="email"]{
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) rotate(45deg); }
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
 }
 
-/* Custom button effects */
 .btn-login {
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.2s ease;
@@ -299,11 +363,14 @@ input[type="email"]{
   box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
 
+<<<<<<< HEAD
 
 
 
 
 /* Header email input */
+=======
+>>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 .header-email-input {
   border: solid 2px hsl(var(--border));
   box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
@@ -314,6 +381,7 @@ input[type="email"]{
   font-size: 0.8rem;
   width: 160px;
   outline: none;
+  transition: all 0.3s ease;
 }
 
 .header-email-input::placeholder {
@@ -338,7 +406,6 @@ input[type="email"]{
   }
 }
 
-/* Flip card 3D */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -376,14 +443,31 @@ input[type="email"]{
 
 /* Chatbot animations */
 @keyframes bounce-in {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes typing-ball {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .animate-bounce-in {
@@ -416,20 +500,30 @@ input[type="email"]{
   box-shadow: 0 10px 40px rgba(212, 165, 53, 0.15);
 }
 
-/* Float animation for cards */
 @keyframes float-card {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .animate-float {
   animation: float-card 4s ease-in-out infinite;
 }
 
-/* Expert carousel auto-scroll */
 @keyframes carousel-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-carousel-scroll {
@@ -440,27 +534,35 @@ input[type="email"]{
   animation-play-state: paused;
 }
 
-/* Hide scrollbar */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* Scale in animation for confirmation */
 @keyframes scale-in {
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-scale-in {
   animation: scale-in 0.5s ease-out forwards;
 }
 
-/* Expert card hover */
 .expert-card {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -471,7 +573,6 @@ input[type="email"]{
   box-shadow: 0 15px 40px rgba(212, 165, 53, 0.2);
 }
 
-/* Video card electric border */
 .video-card {
   background: linear-gradient(135deg, rgba(212, 165, 53, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
   border: 2px solid hsl(var(--border));
@@ -488,7 +589,6 @@ input[type="email"]{
   box-shadow: 0 0 25px rgba(212, 165, 53, 0.3), 0 0 50px rgba(212, 165, 53, 0.1);
 }
 
-/* Vulnerability card */
 .vuln-card {
   background: linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
   border: 2px solid hsl(var(--border));
