@@ -66,6 +66,16 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
 /*AUTH*/
 *{
   margin: 0;
@@ -75,6 +85,24 @@
 /*body{
   background-image: url(cyberguardproject/src/assets/parallax-bg.jpg);
 }*/
+
+/*PARALLAX AUTH*/
+
+.parallax-section {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .parallax-section {
+    background-attachment: scroll;
+  }
+}
+
+/*fim PARALLAX AUTH*/
+
+
 
 button:hover{
   cursor: pointer;
@@ -202,6 +230,10 @@ input[type="email"]{
 
 
 
+
+
+
+
 /* Gold gradient utilities */
 .bg-gradient-gold {
   background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
@@ -266,6 +298,10 @@ input[type="email"]{
 .btn-login:active {
   box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
+
+
+
+
 
 /* Header email input */
 .header-email-input {
