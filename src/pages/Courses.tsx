@@ -23,7 +23,6 @@ import {
 
 export default function CyberGuard() {
 
-<<<<<<< HEAD
    const { user, } = useAuth();
   const [view, setView] = useState<'explorer' | 'dashboard' | 'details'>('explorer');
   const [courses, setCourses] = useState<any[]>([]);
@@ -34,21 +33,6 @@ export default function CyberGuard() {
   const fetchCourses = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase.from('Courses').select("*");
-=======
-  const { user, } = useAuth();
-  const [view, setView] = useState<'explorer' | 'dashboard' | 'details'>('explorer');
-  const [courses, setCourses] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
-
-  // Busca de dados com useCallback para performance
-
-  
-  const fetchCourses = useCallback(async () => {
-    setLoading(true);
-    const { data, error } = await supabase.from('courses').select("*");
-    console.log(data)
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
     if (!error && data) setCourses(data);
     setLoading(false);
   }, []);
@@ -70,11 +54,7 @@ export default function CyberGuard() {
       <AccessibilityWidget />
      
       {/* NAVEGAÇÃO ENTRE ABAS (Identidade Visual) */}
-<<<<<<< HEAD
       <nav className="bg-[#001f3f] py-4 flex justify-center gap-6 border-b border-white/10 shadow-lg">
-=======
-      {/* <nav className="bg-[#001f3f] py-4 flex justify-center gap-6 border-b border-white/10 shadow-lg">
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
         <button
           onClick={() => setView('explorer')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition-all ${view === 'explorer' ? 'bg-[#D4AF37] text-[#001f3f]' : 'text-white hover:bg-white/10'}`}
@@ -87,11 +67,7 @@ export default function CyberGuard() {
         >
           
         </button>
-<<<<<<< HEAD
       </nav>
-=======
-      </nav> }
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 
       {/* 2. CONTEÚDO DINÂMICO (VIEWS) */}
       <main className="flex-1">
@@ -120,13 +96,8 @@ function ExplorerView({ courses, setView }: any) {
           Torne-se um especialista em Cibersegurança com os melhores instrutores do mercado.
         </p>
         <div className="max-w-xl mx-auto relative group">
-<<<<<<< HEAD
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" />
           <Input placeholder="Buscar por hacking, redes, cloud..." className="pl-12 py-7 rounded-2xl border-none shadow-2xl text-slate-900 text-lg" />
-=======
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2  group-focus-:text-[white] transition-colors" />
-          <Input placeholder="Buscar por hacking, redes, cloud..." className=" group-focus-:text-[white] transition-colors pl-12 py-7 rounded-2xl border-none shadow-2xl text-white text-lg" />
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
         </div>
       </header>
 
@@ -134,22 +105,14 @@ function ExplorerView({ courses, setView }: any) {
         {courses.map((course: any) => (
           <div key={course.id} className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-300">
             <div className="relative h-52">
-<<<<<<< HEAD
               <img src={course.image_url} alt={course.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-=======
-              <img src={course.url} alt={course.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
               <div className="absolute inset-0 bg-gradient-to-t from-[#001f3f]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <Badge className="absolute top-4 left-4 bg-[#D4AF37] text-[#001f3f] font-black border-none px-4 py-1">
                 {course.level}
               </Badge>
             </div>
             <div className="p-8 space-y-4">
-<<<<<<< HEAD
               <h3 className="text-xl font-black text-[#001f3f] leading-tight">{course.name}</h3>
-=======
-              <h3 className="text-xl font-black text-[#001f3f] leading-tight">{course.title}</h3>
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
               <div className="flex items-center gap-4 text-xs font-bold text-gray-400">
                 <span className="flex items-center gap-1"><Clock size={14}/> {course.duration}</span>
                 <span className="flex items-center gap-1"><Star size={14} className="text-[#D4AF37] fill-[#D4AF37]"/> {course.rating}</span>
@@ -199,11 +162,7 @@ function DashboardView({ user }: any) {
         {[1, 2].map(i => (
           <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8 items-center group">
             <div className="w-full md:w-64 h-40 bg-slate-200 rounded-xl overflow-hidden relative">
-<<<<<<< HEAD
               <img src="https://images.unsplash.com" className="w-full h-full object-cover" />
-=======
-              <img src="https://i.imgur.com/BnFx6e3.png" className="w-full h-full object-cover" />
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
               {i === 2 && <div className="absolute inset-0 bg-green-500/20 backdrop-blur-[2px] flex items-center justify-center"><Badge className="bg-green-600 text-white">Concluído</Badge></div>}
             </div>
             <div className="flex-1 w-full space-y-4">
@@ -244,13 +203,8 @@ function DetailsView({ setView, user }: any) {
       </section>
 
       <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-1 lg:grid-cols-4 gap-12">
-<<<<<<< HEAD
         <aside className="lg:col-span-1"><div className="sticky top-8 space-y-4 bg-gray-50 p-6 rounded-3xl border border-gray-100 font-bold text-gray-500">
           {["Descrição", "Detalhes", "Conteúdo", "Benefícios", "Avaliações"].map(i => <button key={i} className="w-full text-left p-3 hover:text-[#001f3f] transition-colors">{i}</button>)}
-=======
-        <aside className="lg:col-span-1"><div className="sticky top-8 space-y-4 bg-black-50 p-6 rounded-3xl border border-black-100 font-bold text-black-">
-          {["Descrição", "Detalhes", "Conteúdo", "Benefícios", "Avaliações"].map(i => <button key={i} className="w-full text-left p-3 hover:text-[black] transition-colors">{i}</button>)}
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
         </div></aside>
 
         <main className="lg:col-span-3 space-y-12">
@@ -263,24 +217,14 @@ function DetailsView({ setView, user }: any) {
         
           </div>
 
-<<<<<<< HEAD
           <Button onClick={() => !user && setModalOpen(true)} className="w-full py-8 text-2xl font-black bg-[#D4AF37] text-[#001f3f] hover:bg-[#b8972f] rounded-3xl shadow-xl transform hover:scale-[1.01] transition-all">MATRICULE-SE GRÁTIS AGORA!</Button>
-=======
-         <Button 
-  onClick={() => window.location.href = '/auth'} 
-  className="w-full py-8 text-2xl font-black bg-[#D4AF37] text-[#001f3f] hover:bg-[#b8972f] rounded-3xl shadow-xl transform hover:scale-[1.01] transition-all">MATRICULE-SE GRÁTIS AGORA!</Button>
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 
           <section className="space-y-4">
             <h2 className="text-3xl font-black text-[#001f3f] mb-6">Conteúdo Programático</h2>
             {[1,2,3,4,5,6,7,8].map(m => (
               <div key={m} className="border border-gray-200 rounded-2xl overflow-hidden">
                 <button onClick={() => setActiveMod(m)} className="w-full p-5 flex justify-between font-bold bg-white hover:bg-gray-50 text-[#001f3f]">Módulo {m} - Tópicos da Segurança Digital </button>
-<<<<<<< HEAD
                 {activeMod === m && <div className="p-6 bg-gray-50 text-gray-600 border-t">Conteúdo detalhado com videoaulas, laboratórios práticos e materiais complementares em PDF.</div>}
-=======
-                {activeMod === m && <div className="p-6 bg-gray-50 text-gray-600 border-t">Fundamentos e Legislação Forense</div>}
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
               </div>
             ))}
           </section>
@@ -293,11 +237,7 @@ function DetailsView({ setView, user }: any) {
           <h2 className="text-3xl font-black text-[#001f3f]">Acesse sua conta para continuar</h2>
           <p className="text-gray-500">Para se matricular neste curso, você precisa estar logado na plataforma.</p>
           <div className="flex flex-col gap-4">
-<<<<<<< HEAD
             <Button className="py-6 bg-[#001f3f] font-bold rounded-2xl">Fazer Login</Button>
-=======
-            <Button className="py-6 bg-[black] font-bold rounded-2xl">Fazer Login</Button>
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
             <Button variant="outline" className="py-6 border-2 font-bold rounded-2xl">Criar Conta</Button>
             <button onClick={() => setModalOpen(false)} className="text-gray-400 text-sm font-bold underline">Fechar</button>
           </div>
