@@ -6,7 +6,7 @@
 
 @layer base {
 
-  /* ☀️ TEMA CLARO SUAVE (Soft/Slate Light - Sem cansar a vista) */
+  /* TEMA CLARO SUAVE (Soft/Slate Light - Sem cansar a vista) */
   :root {
     --background: 210 20% 98%;
     /* Cinza azulado bem clarinho em vez de branco puro */
@@ -120,7 +120,6 @@
 }
 
 
-<<<<<<< HEAD
 
 
 
@@ -132,14 +131,11 @@
 
 
 /*AUTH*/
-=======
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 *{
   margin: 0;
   padding: 0;
 }
 
-<<<<<<< HEAD
 /*body{
   background-image: url(cyberguardproject/src/assets/parallax-bg.jpg);
 }*/
@@ -162,8 +158,6 @@
 
 
 
-=======
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 button:hover{
   cursor: pointer;
 }
@@ -287,7 +281,6 @@ input[type="email"]{
   text-decoration: underline;
 }
 
-<<<<<<< HEAD
 
 
 
@@ -295,8 +288,6 @@ input[type="email"]{
 
 
 /* Gold gradient utilities */
-=======
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 .bg-gradient-gold {
   background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
 }
@@ -363,14 +354,11 @@ input[type="email"]{
   box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
 
-<<<<<<< HEAD
 
 
 
 
 /* Header email input */
-=======
->>>>>>> 984199c62444b8ac3f9527ea468bb68b43c749a3
 .header-email-input {
   border: solid 2px hsl(var(--border));
   box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
