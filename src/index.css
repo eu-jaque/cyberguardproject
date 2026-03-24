@@ -115,7 +115,7 @@
   h5,
   h6 {
     @apply transition-colors duration-300;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 }
 
@@ -142,20 +142,13 @@
 
 /*PARALLAX AUTH*/
 
-.parallax-section {
-  background-attachment: fixed;
+.parallax-section-auth {
+
   background-size: cover;
   background-position: center;
 }
 
-@supports (-webkit-touch-callout: none) {
-  .parallax-section {
-    background-attachment: scroll;
-  }
-}
-
-/*fim PARALLAX AUTH*/
-
+/*fim PARALLAX-AUTH*/
 
 
 button:hover{

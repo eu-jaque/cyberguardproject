@@ -153,14 +153,12 @@ export default function Auth() {
 
 
 //CERTO
+const { t } = useLanguage();
   return (
     <div >
     <Header />
-
     <main>
-    <ParallaxAuth />
-
-
+    
     <div className="wrapper">
       <div className="background">
         <div className="left">
@@ -178,9 +176,12 @@ export default function Auth() {
 
       <div className="form-container">
 
+
+
+
         <div className="sign-up">
           <h2 className="form-header">Cadastrar</h2>
-
+                  
           <input 
             type="text" 
             placeholder="Digite o nome completo"
@@ -189,13 +190,17 @@ export default function Auth() {
           <input 
             type="text" 
             placeholder="Email"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
           ></input>
 
           <input 
             type="password" 
             placeholder="Senha"
+            onChange={(e) => setUser({ ...user, pass: e.target.value })}
             ></input>
-          <button className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block">Cadastrar</button>
+          <button className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block">
+            Cadastrar
+          </button>
         </div>
 
 
@@ -205,18 +210,30 @@ export default function Auth() {
           <input 
             type="text" 
             placeholder="Email"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
           ></input>
 
           <input 
             type="password"
             placeholder="Password"
+            onChange={(e) => setUser({ ...user, pass: e.target.value })}
           ></input>
-          <button className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block">Entrar</button>
-        </div>
+          <button className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block">
+            Entrar
+          </button>
 
+        </div>
       </div>
     </div>
       
+
+
+
+
+
+
+
+
 
 
       <div >
@@ -227,17 +244,9 @@ export default function Auth() {
         )}
      
 
-        <input
-          type="email"
-          placeholder="E-mail"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-        />
+   
 
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={(e) => setUser({ ...user, pass: e.target.value })}
-        />
+     
 
         {login ? (
           <button className="btn-login bg-primary text-primary-foreground px-5 py-2 rounded-[5px] text-sm font-semibold" onClick={checkedLogin}>
@@ -255,8 +264,10 @@ export default function Auth() {
       </div>
 
 
-
+    <ParallaxAuth />
     </main>
+    <Footer />
+    <AccessibilityWidget />
     </div>
 
   );
