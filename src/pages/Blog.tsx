@@ -233,18 +233,10 @@ const Blog = () => {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-<<<<<<< HEAD
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.value
-                  ? "border-primary text-primary"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-=======
               className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.value
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
->>>>>>> a5461d5ec87796e88a719eafa73518dc8e76519b
             >
               {tab.label}
             </button>
@@ -264,18 +256,10 @@ const Blog = () => {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-<<<<<<< HEAD
-                    className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                      activeCategory === cat
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card text-muted-foreground border-border hover:border-primary/50"
-                    }`}
-=======
                     className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${activeCategory === cat
                         ? "bg-primary text-primary-foreground border-primary"
                         : "bg-card text-muted-foreground border-border hover:border-primary/50"
                       }`}
->>>>>>> a5461d5ec87796e88a719eafa73518dc8e76519b
                   >
                     {cat}
                   </button>
@@ -288,62 +272,6 @@ const Blog = () => {
                   <p className="text-muted-foreground">Nenhum resultado encontrado para "{searchQuery}"</p>
                 </div>
               ) : (
-<<<<<<< HEAD
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredPosts.map((post) => (
-                    <article
-                      key={post.id}
-                      className="glass-card group cursor-pointer hover:border-primary/30 transition-all"
-                    >
-                      <div className="aspect-video bg-secondary/30 rounded-lg mb-4 overflow-hidden relative">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                        {post.type === "video" && (
-                          <div className="absolute inset-0 bg-background/30 flex items-center justify-center">
-                            <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
-                              <Play className="w-6 h-6 text-primary-foreground ml-1" />
-                            </div>
-                          </div>
-                        )}
-                        <span
-                          className={`absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold border ${
-                            categoryColors[post.category] || "bg-card text-foreground border-border"
-                          }`}
-                        >
-                          {post.category}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
-                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
-                        <span className="flex items-center gap-1"><User className="w-3 h-3" />{post.author}</span>
-                      </div>
-
-                      <h3 className="font-display text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{post.summary}</p>
-
-                      {post.type === "video" && post.videoId ? (
-                        <a
-                          href={`https://www.youtube.com/watch?v=${post.videoId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
-                        >
-                          Assistir vídeo <Play className="w-3 h-3" />
-                        </a>
-                      ) : (
-                        <span className="text-primary text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                          {t("blog.read_more")} <ArrowRight className="w-3 h-3" />
-                        </span>
-                      )}
-=======
                 <div className="space-y-0 divide-y divide-border/50">
                   {/* Featured first post */}
                   {filteredPosts.length > 0 && (() => {
@@ -395,7 +323,6 @@ const Blog = () => {
                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
                         </div>
                       </div>
->>>>>>> a5461d5ec87796e88a719eafa73518dc8e76519b
                     </article>
                   ))}
                 </div>
