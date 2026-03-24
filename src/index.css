@@ -437,6 +437,14 @@ input[type="email"]{
   backdrop-filter: blur(10px);
 }
 
+.glass-card-static {
+  background: linear-gradient(135deg, rgba(212, 165, 53, 0.03) 0%, rgba(0, 212, 255, 0.03) 100%);
+  border: 2px solid hsl(var(--border));
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  /* Sem transições ou hovers de movimento */
+}
+
 .glass-card:hover {
   border-color: hsl(var(--primary));
   transform: translateY(-4px);
