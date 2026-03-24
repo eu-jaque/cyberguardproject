@@ -34,7 +34,7 @@ const videos = [
   { title: "O que fazer após um vazamento de dados", id: "3uJszS1bk28" },
 ];
 
-type ViewState = "list" | "schedule" | "confirmation";
+type ViewState = "list" | "confirmation"; // "schedule" agora é controlado pelo modal
 
 export default function Experts() {
   const { t } = useLanguage();
@@ -49,7 +49,22 @@ export default function Experts() {
   const [pendingSchedule, setPendingSchedule] = useState<{ day: string; time: string } | null>(null);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
 
+  // 🔒 Trava o scroll do body quando qualquer modal abre
+  useEffect(() => {
+    if (isLoginModalOpen || isScheduleModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // Função de limpeza (cleanup) caso o componente seja desmontado
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isLoginModalOpen, isScheduleModalOpen]);
+  
   useEffect(() => {
     async function fetchExperts() {
       const { data, error } = await supabase
@@ -66,8 +81,7 @@ export default function Experts() {
 
   const handleExpertSelected = (expert: Expert) => {
     setSelectedExpert(expert);
-    setViewState("schedule");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsScheduleModalOpen(true); // 🔥 Abre o modal ao selecionar
   };
 
   const handleConfirmSchedule = (day: string, time: string) => {
@@ -81,6 +95,7 @@ export default function Experts() {
 
   const executeSchedule = (day: string, time: string) => {
     setConfirmedDetails({ day, time });
+    setIsScheduleModalOpen(false); // 🔥 Fecha o modal de agendamento
     setViewState("confirmation");
 
     confettiLib({
@@ -94,6 +109,7 @@ export default function Experts() {
 
   const handleBackToList = () => {
     setViewState("list");
+    setIsScheduleModalOpen(false);
     setSelectedExpert(null);
     setConfirmedDetails(null);
     setPendingSchedule(null);
@@ -119,11 +135,8 @@ export default function Experts() {
 
       {/* 🌌 Hero Futurista Premium com Aura Radiante */}
       <section className="relative h-[480px] flex flex-col items-center justify-center overflow-hidden border-b border-slate-800/60">
-        {/* Glow Effects de Fundo */}
         <div className="absolute top-[-100px] left-1/3 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-100px] right-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-        {/* Linhas de Grade Sutil de Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
 
         <div className="relative z-10 text-center max-w-4xl px-6">
@@ -168,22 +181,10 @@ export default function Experts() {
           </div>
         )}
 
-        {/* 📅 VISTA 2: AGENDAMENTO */}
-        {viewState === "schedule" && selectedExpert && (
-          <div className="py-16 animate-in fade-in slide-in-from-bottom-6 duration-700">
-            <ScheduleForm
-              expert={selectedExpert}
-              onBack={handleBackToList}
-              onConfirm={handleConfirmSchedule}
-            />
-          </div>
-        )}
-
-        {/* 🎉 VISTA 3: SUCESSO (ESTILO APP MOBILE PREMIUM) */}
+        {/* 🎉 VISTA 2: SUCESSO (ESTILO APP MOBILE PREMIUM) */}
         {viewState === "confirmation" && selectedExpert && (
           <section className="py-24 flex items-center justify-center animate-in zoom-in-95 duration-500">
             <div className="relative w-full max-w-md bg-slate-900/80 backdrop-blur-2xl p-10 rounded-[32px] border border-slate-800/80 shadow-[0_30px_70px_rgba(0,0,0,0.5)] overflow-hidden">
-              {/* Top Gradient Border */}
               <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500" />
               <div className="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -230,6 +231,27 @@ export default function Experts() {
       <Footer />
       <Chatbot />
       <AccessibilityWidget />
+
+      {/* 📅 MODAL DE AGENDAMENTO (NOVO) */}
+      {isScheduleModalOpen && selectedExpert && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#030712]/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900/90 backdrop-blur-2xl p-8 md:p-10 rounded-[28px] border border-slate-800 shadow-[0_40px_80px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-300">
+
+            <button
+              onClick={() => setIsScheduleModalOpen(false)}
+              className="absolute top-5 right-5 z-10 text-slate-400 hover:text-white p-1.5 rounded-full bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 transition-all duration-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <ScheduleForm
+              expert={selectedExpert}
+              onBack={() => setIsScheduleModalOpen(false)}
+              onConfirm={handleConfirmSchedule}
+            />
+          </div>
+        </div>
+      )}
 
       {/* 🔐 MODAL DE LOGIN (PREMIUM GLASSMORPHISM) */}
       {isLoginModalOpen && (

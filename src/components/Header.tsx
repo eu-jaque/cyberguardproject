@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, Globe, Menu, X } from "lucide-react";
+import { ChevronDown, Globe, Menu, X, Sun, Moon } from "lucide-react"; // Importando os ícones Sun e Moon
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "next-themes"; // Importando o useTheme
 import logo from "@/assets/logooriginal.png";
 
 const Header = () => {
@@ -13,12 +14,22 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Next-Themes
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   const servicesRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
+
   const serviceItems = [
     { key: "srv.conversa_especialistas", to: "/especialistas" },
-    // { key: "srv.assinaturas", to: "/assinaturas" },
   ];
+
+  // Evita Hydration Mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -45,13 +56,19 @@ const Header = () => {
     setMobileMenuOpen(false);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  if (!mounted) return null; // Espera montar no cliente para renderizar e evitar o clarão no carregamento
+
   return (
     <>
       <nav
         className={`fixed top-0 left-0 w-full z-50 h-[80px] flex items-center transition-all duration-300 ${scrolled
           ? "bg-background/90 backdrop-blur-md shadow-md border-b border-border/40"
           : "bg-transparent"
-          }`}
+        }`}
       >
         <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
 
@@ -68,12 +85,12 @@ const Header = () => {
             <button onClick={() => handleNavClick("/")} className="nav-link-style">{t("nav.inicio")}</button>
             <Link to="/blog" className="nav-link-style">{t("nav.blog")}</Link>
             <Link className="nav-link-style" to="/cursos">{t("nav.cursos")}</Link>
-            {/* 2.1. MENU DESKTOP - Trecho do Dropdown de Serviços */}
+            
+            {/* Dropdown de Serviços */}
             <div className="relative" ref={servicesRef}>
               <button
                 onClick={() => setServicesOpen(!servicesOpen)}
-                className={`nav-link-style inline-flex items-center gap-1.5 py-2 ${servicesOpen ? "text-primary" : ""
-                  }`}
+                className={`nav-link-style inline-flex items-center gap-1.5 py-2 ${servicesOpen ? "text-primary" : ""}`}
               >
                 {t("nav.servicos")}
                 <ChevronDown
@@ -96,7 +113,6 @@ const Header = () => {
                       className="group flex items-center px-4 py-2.5 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary transition-all relative"
                       onClick={() => setServicesOpen(false)}
                     >
-                      {/* Indicador lateral no hover */}
                       <span className="relative z-10 font-medium">
                         {t(item.key)}
                       </span>
@@ -105,11 +121,13 @@ const Header = () => {
                 </div>
               )}
             </div>
+
             <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
 
             <div className="h-4 w-px bg-border/60 mx-2" />
 
+            {/* Idioma */}
             <div className="relative" ref={langRef}>
               <button onClick={() => setLangOpen(!langOpen)} className="nav-link-style flex items-center gap-1">
                 <Globe className="w-4 h-4" /> {langLabels[lang]}
@@ -125,6 +143,15 @@ const Header = () => {
               )}
             </div>
 
+            {/* 🌙 Alternar Tema Desktop */}
+            <button 
+              onClick={toggleTheme} 
+              className="nav-link-style p-2 rounded-full hover:bg-secondary/60 flex items-center justify-center transition-all"
+              aria-label="Alternar tema"
+            >
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
             <Link to="/auth" className="btn-gold-3d px-5 py-1.5 rounded-[5px] text-sm font-semibold">
               {t("nav.login")}
             </Link>
@@ -132,7 +159,7 @@ const Header = () => {
 
           {/* 3. BOTÃO MOBILE (Gira e muda de cor) */}
           <button
-            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full bg-primary ${mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
+            className={`lg:hidden p-2 z-[60] bg-primary transition-all duration-500 rounded-full ${mobileMenuOpen ? "rotate-180 text-primary bg-secondary/80 backdrop-blur-sm" : "text-foreground"
               }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -142,7 +169,7 @@ const Header = () => {
 
         {/* 4. SIDEBAR MOBILE (Mimetiza o fundo da página) */}
         <div className={`fixed top-0 right-0 h-screen w-[280px] bg-background border-l border-border transition-transform duration-500 ease-in-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"} z-50 pt-24 px-8`}>
-          <div className="flex flex-col gap-8 items-start">
+          <div className="flex flex-col gap-8 items-start h-full pb-10 overflow-y-auto">
             <button onClick={() => handleNavClick("/")} className="mobile-link text-left w-full">{t("nav.inicio")}</button>
             <Link to="/blog" className="mobile-link w-full">{t("nav.blog")}</Link>
             <button className="mobile-link text-left w-full">{t("nav.cursos")}</button>
@@ -151,7 +178,7 @@ const Header = () => {
 
             <div className="w-full h-px bg-border/50 my-2" />
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full">
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("nav.idioma")}</span>
               <div className="flex gap-4">
                 {(["pt", "en", "es"] as const).map((l) => (
@@ -162,7 +189,22 @@ const Header = () => {
               </div>
             </div>
 
-            <Link to="/auth" className="btn-gold-3d w-full text-center py-3 rounded-lg font-bold mt-4 shadow-lg">
+            {/* 🌙 Alternar Tema Mobile */}
+            <div className="flex flex-col gap-4 w-full">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Aparência</span>
+              <button 
+                onClick={toggleTheme} 
+                className="flex items-center gap-2 text-base font-medium text-foreground/80 hover:text-primary transition-all w-full"
+              >
+                {theme === "dark" ? (
+                  <><Sun size={18} /> Modo Claro</>
+                ) : (
+                  <><Moon size={18} /> Modo Escuro</>
+                )}
+              </button>
+            </div>
+
+            <Link to="/auth" className="btn-gold-3d w-full text-center py-3 rounded-lg font-bold mt-auto shadow-lg">
               {t("nav.login")}
             </Link>
           </div>
