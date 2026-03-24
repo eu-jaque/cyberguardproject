@@ -6,6 +6,7 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 import Footer from "@/components/Footer";
 import { Toast } from "@/components/Toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ParallaxAuth from "@/components/ParallaxAuth";
 import  supabase  from '../../utils/supabase';
 
 
@@ -155,6 +156,11 @@ export default function Auth() {
   return (
     <div >
     <Header />
+
+    <main>
+    <ParallaxAuth />
+
+
     <div className="wrapper">
       <div className="background">
         <div className="left">
@@ -249,6 +255,8 @@ export default function Auth() {
       </div>
 
 
+
+    </main>
     </div>
 
   );
