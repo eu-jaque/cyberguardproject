@@ -5,6 +5,8 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { Calendar, ArrowRight, Search, Tag, Clock, User, Play, Mail } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
+import Comments from "@/components/comments";
+import Reactions from "@/components/reactions";
 
 type PostType = "article" | "video" | "news";
 
@@ -176,6 +178,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const Blog = () => {
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | PostType>("all");
@@ -274,7 +277,7 @@ const Blog = () => {
                   {filteredPosts.length > 0 && (() => {
                     const feat = filteredPosts[0];
                     return (
-                      <article key={feat.id} className="group cursor-pointer pb-8">
+                     <article key={feat.id} className="group cursor-pointer pb-8" onClick={() => setSelectedPost(feat)}>
                         <div className="aspect-[21/9] rounded-2xl overflow-hidden relative mb-5">
                           <img src={feat.image} alt={feat.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                           {feat.type === "video" && (
@@ -299,10 +302,7 @@ const Blog = () => {
 
                   {/* Rest as horizontal feed cards */}
                   {filteredPosts.slice(1).map((post) => (
-                    <article
-                      key={post.id}
-                      className="group cursor-pointer flex gap-5 py-6 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors"
-                    >
+                    <article key={post.id} className="group cursor-pointer flex gap-5 py-6 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors" onClick={() => setSelectedPost(post)}>
                       <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden relative">
                         <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         {post.type === "video" && (
@@ -414,6 +414,34 @@ const Blog = () => {
           </div>
         </div>
       </section>
+      {selectedPost && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          onClick={() => setSelectedPost(null)}
+        >
+          <div
+            className="bg-[#111] text-white p-6 rounded-xl w-[90%] max-w-2xl max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedPost(null)}
+              className="mb-4 text-sm text-gray-400 hover:text-white"
+            >
+              Fechar 
+            </button>
+
+            <h2 className="text-xl font-bold mb-2">
+              {selectedPost.title}
+            </h2>
+
+            <p className="text-gray-400 mb-4">
+              {selectedPost.summary}
+            </p>
+            <Reactions />
+            <Comments />
+          </div>
+        </div>
+      )}
 
       <Footer />
       <Chatbot />
