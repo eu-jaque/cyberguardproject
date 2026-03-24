@@ -26,6 +26,7 @@ import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
 
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
