@@ -48,9 +48,9 @@ const App = () => (
                   </AuthRoute>
                 } />
                 <Route path="/courses" element={
-                  <ProtectedRoute>
+                  
                     <Courses />
-                  </ProtectedRoute>
+                  
                 } />
                 <Route path="/dash" element={
                   <ProtectedRoute>
