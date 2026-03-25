@@ -24,7 +24,7 @@ export type Expert = {
   bio: string;
   formation: string;
   convenios: string;
-  avatar: string;
+  image: string;
 };
 
 const videos = [
