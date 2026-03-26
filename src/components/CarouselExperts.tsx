@@ -6,7 +6,7 @@ type Expert = {
   area: string;
   rating: number;
   bio: string;
-  avatar: string;
+  image: string;
 };
 
 interface ExpertsCarouselProps {
@@ -42,9 +42,9 @@ export default function ExpertsGrid({ experts, onSelectExpert, title = "Nossos E
                 {/* Topo do Card: Avatar + Badge */}
                 <div className="flex items-center justify-between mb-5">
                   <div className="w-16 h-16 rounded-2xl border-2 border-primary/40 hover:border-primary overflow-hidden shadow-md bg-secondary flex items-center justify-center transition-all duration-500">
-                    {expert.avatar ? (
+                    {expert.image ? (
                       <img
-                        src={expert.avatar}
+                        src={expert.image}
                         alt={`Foto de ${expert.name}`}
                         className="w-full h-full object-cover transition-transform duration-500"
                         loading="lazy"
