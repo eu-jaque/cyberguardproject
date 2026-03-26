@@ -60,7 +60,7 @@ export default function Dash() {
   const [linkResult, setLinkResult] = useState<"safe" | "danger" | null>(null);
   const [emailResult, setEmailResult] = useState<"safe" | "danger" | null>(null);
   const [pixResult, setPixResult] = useState<"safe" | "danger" | null>(null);
-  const [gameIndex, setGameIndex] = useState(0);
+  //const [gameIndex, setGameIndex] = useState(0);
   //const [gameScore, setGameScore] = useState(0);
   //const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
   //const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);
