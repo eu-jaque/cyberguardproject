@@ -24,6 +24,9 @@ import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
 import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
+import AuthV2 from "./pages/AuthV2.tsx";
+import Chatbot from "./components/Chatbot.tsx";
+import ChatBotView from "./pages/ChatBotView.tsx";
 
 
 
@@ -47,6 +50,11 @@ const App = () => (
                     <Auth />
                   </AuthRoute>
                 } />
+                 <Route path="/authv2" element={
+                  <AuthRoute>
+                    <AuthV2 />
+                  </AuthRoute>
+                } />
                 <Route path="/courses" element={
                   <ProtectedRoute>
                     <Courses />
@@ -56,6 +64,11 @@ const App = () => (
                   <ProtectedRoute>
                     <Dash />
                   </ProtectedRoute>
+                } />
+                <Route path="/chatBot" element={
+                  // <ProtectedRoute>
+                    <ChatBotView/>
+                  // </ProtectedRoute>
                 } />
                 <Route path="/tickets" element={<TicketsPage />}></Route>
                 <Route path="/servicos" element={<Services />} />
