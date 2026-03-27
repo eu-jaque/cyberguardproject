@@ -27,6 +27,9 @@ import Experts from "./pages/Experts.tsx";
 import AuthV2 from "./pages/AuthV2.tsx";
 import Chatbot from "./components/Chatbot.tsx";
 import ChatBotView from "./pages/ChatBotView.tsx";
+import StudentDashboard from "./pages/StudentDashboard.tsx";
+import ArticlePage from "./pages/ArticlePage.tsx";
+import ExpertProfile from "./components/experts/ExpertProfile.tsx";
 
 
 
@@ -76,9 +79,14 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/politicas" element={<Policies />} />
                 <Route path="/saiba-mais" element={<SaibaMais />} />
-                <Route path="/contato" element={<Contact></Contact>}></Route>
-                <Route path="/cursos" element={
-                  <Courses />
+                <Route path="/contato" element={<Contact />} />
+                <Route path="/cursos" element={<Courses />} />
+                <Route path="/student-dashboard" element={
+                  <ProtectedRoute><StudentDashboard /></ProtectedRoute>
+                } />
+                <Route path="/blog/:slug" element={<ArticlePage />} />
+                <Route path="/expert-profile" element={
+                  <ProtectedRoute><ExpertProfile /></ProtectedRoute>
                 } />
               </Routes>
             </AuthProvider>
