@@ -18,7 +18,7 @@ import {
 type Module = {
   id: string;
   title: string;
-  content: string;
+  description: string;
 };
 
 export type Course = {
@@ -30,7 +30,6 @@ export type Course = {
   level: 'Iniciante' | 'Intermediário' | 'Avançado';
   status: string;
   rating: number;
-  students: number;
   url: string;
   modules: Module[]; 
 };
@@ -213,7 +212,7 @@ function DetailsView({ course, onBack }: DetailsProps) {
                   </button>
                   {activeMod === (m.id || index.toString()) && (
                     <div className="p-6 bg-gray-50 text-gray-600 border-t border-gray-200 animate-in slide-in-from-top-2 duration-300">
-                      <p className="leading-relaxed">{m.content}</p>
+                      <p className="leading-relaxed">{m.description}</p>
                     </div>
                   )}
                 </div>
@@ -229,8 +228,8 @@ function DetailsView({ course, onBack }: DetailsProps) {
         <aside className="lg:col-span-1 order-1 lg:order-2">
             <div className="sticky top-8 p-8 bg-white rounded-[32px] border border-gray-200 shadow-xl text-center space-y-6">
                 <div className="space-y-2">
-                  <p className="text-gray-400 font-bold text-sm uppercase tracking-widest">Investimento</p>
-                  <p className="text-4xl font-black text-[#001f3f]">GRÁTIS</p>
+                  <p className="text-gray-400 font-bold text-sm uppercase tracking-widest"></p>
+                  <p className="text-4xl font-black text-[#001f3f]"></p>
                 </div>
                 <Button 
                   onClick={handleEnrollClick}
