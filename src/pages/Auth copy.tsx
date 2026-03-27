@@ -80,42 +80,88 @@ export default function Auth() {
     <Header />
     <main>
     <ParallaxAuth >
-
     <div className="wrapper">
+
       <div className="background">
         <div className="left">
           <h2 className="back-header">Não tem uma conta ainda?</h2>
           <p className="back-p">Cadastre-se agora!</p>
           <button className="back-btn signup-but"
-          onClick={() => setIsLogin(false)}>Cadastrar</button>
+          onClick={() => setIsLogin(false)} >Cadastrar</button>
         </div>
 
         <div className="right">
           <h2 className="back-header">Já tem uma conta?</h2>
           <p className="back-p">Entre agora!</p>
           <button className="back-btn login-but"
-          onClick={() => setIsLogin(true)}>Entrar</button>
+          onClick={() => setIsLogin(true)}>
+            Entrar
+          </button>
         </div>
       </div>
+  
 
-      <div className="sign">
+      <div className="form-container">
         <div className={`sign-up absolute top-[-25px] w-[375px] h-[350px] bg-white text-black shadow-xl p-6 transition-all duration-300 ${
-            isLogin ? "left-[350px]" : "left-[0px]"
+            isLogin ? "left-[400px]" : "left-[10px]"
           }`}>
-            
-          <h2 className="form-header">Cadastrar</h2>
-          <input type="text" placeholder="Digite o nome completo"/>
-          <input type="email" placeholder="Email"/>
-          <input type="password" placeholder="Password"/>
-          <button className="form-btn">Cadastrar</button>
-        </div>
 
-      <div className="login hide">
-        
-        <h2 className="form-header">Entrar</h2>
-        <input type="text" placeholder="Email"/>
-        <input type="password" placeholder="Password"/>
-        <button className="form-btn">Entrar</button>
+          {!isLogin ? (
+            <div>  
+          <h2 className="form-header text-2xl text-[#FC7D5F] mb-4">
+            Cadastrar
+          </h2> 
+          <input 
+            type="text" 
+            placeholder="Digite o nome completo" className="block"
+            >
+          </input>
+
+          <input 
+            type="email" 
+            placeholder="Email"
+            className="block"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}>
+            </input>
+
+          <input 
+            type="password" 
+            placeholder="Senha"
+            className="block w-full border-b mb-4 outline-none"
+            onChange={(e) => setUser({ ...user, pass: e.target.value })}>
+            </input>
+
+
+          <button onClick={handleRegister} className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block mt-4 bg-[#FC7D5F] text-white px-4 py-2 hover:bg-[#C53716]">
+            Cadastrar
+          </button>
+        </div>
+         ) : (
+         
+         <div>
+          <h2 className="form-header text-2xl text-[#FC7D5F] mb-4">
+            Entrar
+          </h2>
+
+          <input 
+            type="email" 
+            placeholder="Email"
+            className="block w-full border-b mb-4 outline-none"
+            onChange={(e) => setUser({ ...user, email: e.target.value })}>
+          </input>
+
+          <input 
+            type="password"
+            placeholder="Password"
+            className="block w-full border-b mb-4 outline-none"
+            onChange={(e) => setUser({ ...user, pass: e.target.value })}>
+          </input>
+
+          <button  onClick={checkedLogin} className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block mt-4 bg-[#FC7D5F] text-white px-4 py-2 hover:bg-[#C53716]">
+            Entrar
+          </button>
+        </div>
+         )}
       </div>
     </div>
     </div>
