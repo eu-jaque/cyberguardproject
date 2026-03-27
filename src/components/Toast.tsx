@@ -18,7 +18,7 @@ export function useToast(){
     const [message, setMessage] = useState("");
     const timeOutRef = useRef<number | null>(null);
 
-    function showToast(msg: string, duration = 5000){
+    function showToast(msg: string, duration = 2000){
         setMessage(msg);
 
         if(timeOutRef.current){

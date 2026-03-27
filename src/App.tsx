@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { ThemeProvider } from "next-themes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -24,6 +24,13 @@ import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
 import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
+import AuthV2 from "./pages/AuthV2.tsx";
+import Chatbot from "./components/Chatbot.tsx";
+import ChatBotView from "./pages/ChatBotView.tsx";
+import StudentDashboard from "./pages/StudentDashboard.tsx";
+import ArticlePage from "./pages/ArticlePage.tsx";
+import ExpertProfile from "./components/experts/ExpertProfile.tsx";
+
 
 
 const queryClient = new QueryClient();
@@ -31,44 +38,61 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
 
-        <BrowserRouter>
-          <AuthProvider>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/sobre" element={<About />} />
-              <Route path="/auth" element={
-                <AuthRoute>
-                  <Auth />
-                </AuthRoute>
-              } />
-              <Route path="/courses" element={
-                <ProtectedRoute>
-                  <Courses />
-                </ProtectedRoute>
-              } />
-              <Route path="/dash" element={
-                <ProtectedRoute>
-                  <Dash />
-                </ProtectedRoute>
-              } />
-              <Route path="/tickets" element={<TicketsPage />}></Route>
-              <Route path="/servicos" element={<Services />} />
-              <Route path="/especialistas" element={<Experts />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/politicas" element={<Policies />} />
-              <Route path="/saiba-mais" element={<SaibaMais />} />
-              <Route path="/contato" element={<Contact></Contact>}></Route>
-              <Route path="/cursos" element={
-                <Courses />
-              } />
-            </Routes>
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/sobre" element={<About />} />
+                <Route path="/auth" element={
+                  <AuthRoute>
+                    <Auth />
+                  </AuthRoute>
+                } />
+                 <Route path="/authv2" element={
+                  <AuthRoute>
+                    <AuthV2 />
+                  </AuthRoute>
+                } />
+                <Route path="/courses" element={
+                  
+                    <Courses />
+                  
+                } />
+                <Route path="/dash" element={
+                  <ProtectedRoute>
+                    <Dash />
+                  </ProtectedRoute>
+                } />
+                <Route path="/chatBot" element={
+                  // <ProtectedRoute>
+                    <ChatBotView/>
+                  // </ProtectedRoute>
+                } />
+                <Route path="/tickets" element={<TicketsPage />}></Route>
+                <Route path="/servicos" element={<Services />} />
+                <Route path="/especialistas" element={<Experts />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/politicas" element={<Policies />} />
+                <Route path="/saiba-mais" element={<SaibaMais />} />
+                <Route path="/contato" element={<Contact />} />
+                <Route path="/cursos" element={<Courses />} />
+                <Route path="/student-dashboard" element={
+                  <ProtectedRoute><StudentDashboard /></ProtectedRoute>
+                } />
+                <Route path="/blog/:slug" element={<ArticlePage />} />
+                <Route path="/expert-profile" element={
+                  <ProtectedRoute><ExpertProfile /></ProtectedRoute>
+                } />
+              </Routes>
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
     </LanguageProvider>
   </QueryClientProvider>
 );
