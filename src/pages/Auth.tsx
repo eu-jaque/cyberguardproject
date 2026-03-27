@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -13,32 +9,26 @@ import ParallaxAuth from "@/components/ParallaxAuth";
 import supabase from "../../utils/supabase";
 import { Mail, Lock, User } from "lucide-react";
 
-export type UserForm = {
+export type User = {
   email: string;
   pass: string;
   name?: string;
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
 export default function Auth() {
   const nav = useNavigate();
-<<<<<<< HEAD
   const{message, showToast} = useToast(); 
 
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>({
+    email:'',
+    pass:'',
+    name:''
+  });
 
-=======
-  const { message, showToast } = useToast();
-  const [isLogin, setIsLogin] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<UserForm>({ email: "", pass: "", name: "" });
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
+
   const { t } = useLanguage();
 
   async function checkedLogin() {
@@ -58,7 +48,6 @@ export default function Auth() {
     }
     showToast("Login realizado com sucesso.");
     nav("/dash", { replace: true });
-<<<<<<< HEAD
     return;
      
   }
@@ -68,14 +57,6 @@ export default function Auth() {
     if(user?.email && user?.pass){
 
         const { error } = await supabase.auth.signUp({
-=======
-  }
-
-  async function handleRegister() {
-    if (user?.email && user?.pass) {
-      setLoading(true);
-      const { error } = await supabase.auth.signUp({
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
         email: user.email,
         password: user.pass,
       });
@@ -89,12 +70,8 @@ export default function Auth() {
     } else {
       showToast("E-mail e senha obrigatórios");
     }
-<<<<<<< HEAD
   }   
 
-=======
-  }
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
 
   return (
     <div>
@@ -140,51 +117,11 @@ export default function Auth() {
                 </div>
               </div>
 
-<<<<<<< HEAD
     <Header />
-    <main>
-    <ParallaxAuth >
+ </div>
+ </div>
 
-    <div className="wrapper">
-      <div className="background">
-        <div className="left">
-          <h2 className="back-header">Não tem uma conta ainda?</h2>
-          <p className="back-p">Cadastre-se agora!</p>
-          <button className="back-btn signup-but"
-          onClick={() => setIsLogin(false)}>Cadastrar</button>
-        </div>
-
-        <div className="right">
-          <h2 className="back-header">Já tem uma conta?</h2>
-          <p className="back-p">Entre agora!</p>
-          <button className="back-btn login-but"
-          onClick={() => setIsLogin(true)}>Entrar</button>
-        </div>
-      </div>
-
-      <div className="sign">
-        <div className={`sign-up absolute top-[-25px] w-[375px] h-[350px] bg-white text-black shadow-xl p-6 transition-all duration-300 ${
-            isLogin ? "left-[350px]" : "left-[0px]"
-          }`}>
-            
-          <h2 className="form-header">Cadastrar</h2>
-          <input type="text" placeholder="Digite o nome completo"/>
-          <input type="email" placeholder="Email"/>
-          <input type="password" placeholder="Password"/>
-          <button className="form-btn">Cadastrar</button>
-        </div>
-
-      <div className="login hide">
-        
-        <h2 className="form-header">Entrar</h2>
-        <input type="text" placeholder="Email"/>
-        <input type="password" placeholder="Password"/>
-        <button className="form-btn">Entrar</button>
-      </div>
-    </div>
-    </div>
-      
-
+   
     </ParallaxAuth>
     </main>
 
@@ -192,121 +129,5 @@ export default function Auth() {
     <AccessibilityWidget />
     </div>
 
-=======
-              {/* Sliding form container */}
-              <div
-                className="absolute top-[-20px] w-[400px] bg-card border border-border/50 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-500 ease-in-out z-10"
-                style={{
-                  left: isLogin ? "calc(100% - 420px)" : "20px",
-                  height: "420px",
-                }}
-              >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-gold rounded-t-2xl" />
-
-                {/* Login Form */}
-                {isLogin && (
-                  <div className="p-10 animate-fade-in">
-                    <h2 className="text-3xl font-bold text-gradient-gold mb-8">
-                      Entrar
-                    </h2>
-
-                    <div className="space-y-5">
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          type="email"
-                          placeholder="Email"
-                          value={user.email}
-                          onChange={(e) => setUser({ ...user, email: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-transparent border-b-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        />
-                      </div>
-
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          type="password"
-                          placeholder="Senha"
-                          value={user.pass}
-                          onChange={(e) => setUser({ ...user, pass: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-transparent border-b-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        />
-                      </div>
-
-                      <button
-                        onClick={checkedLogin}
-                        disabled={loading}
-                        className="btn-gold-3d text-primary-foreground w-full py-3 rounded-lg font-bold text-sm uppercase tracking-wider mt-4 disabled:opacity-50"
-                      >
-                        {loading ? "Entrando..." : "ENTRAR"}
-                      </button>
-
-                      <a href="#" className="text-xs text-muted-foreground hover:text-primary transition-colors block text-center mt-2">
-                        Esqueceu a senha?
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {/* Sign Up Form */}
-                {!isLogin && (
-                  <div className="p-10 animate-fade-in">
-                    <h2 className="text-3xl font-bold text-gradient-gold mb-6">
-                      Cadastrar
-                    </h2>
-
-                    <div className="space-y-4">
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          type="text"
-                          placeholder="Nome completo"
-                          value={user.name || ""}
-                          onChange={(e) => setUser({ ...user, name: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-transparent border-b-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        />
-                      </div>
-
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          type="email"
-                          placeholder="Email"
-                          value={user.email}
-                          onChange={(e) => setUser({ ...user, email: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-transparent border-b-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        />
-                      </div>
-
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                          type="password"
-                          placeholder="Senha"
-                          value={user.pass}
-                          onChange={(e) => setUser({ ...user, pass: e.target.value })}
-                          className="w-full pl-10 pr-4 py-3 bg-transparent border-b-2 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        />
-                      </div>
-
-                      <button
-                        onClick={handleRegister}
-                        disabled={loading}
-                        className="btn-gold-3d text-primary-foreground w-full py-3 rounded-lg font-bold text-sm uppercase tracking-wider mt-2 disabled:opacity-50"
-                      >
-                        {loading ? "Criando conta..." : "CADASTRAR"}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </ParallaxAuth>
-      </main>
-      <Footer />
-      <AccessibilityWidget />
-    </div>
->>>>>>> ca0774b27a7f82a9bff668f894d869281092dad7
   );
 }
