@@ -40,10 +40,7 @@ export default function ChatBotView() {
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // 🎯 CORREÇÃO 1: Sempre que mudar o chat ativo, troca as mensagens!
     useEffect(() => {
-        // No futuro, aqui você fará um fetch no Supabase buscando mensagens por `activeChatId`
-        // Por enquanto, vamos simular resetando a conversa com a mensagem inicial
         setMessages([
             {
                 id: crypto.randomUUID(),
@@ -52,8 +49,8 @@ export default function ChatBotView() {
                 timestamp: new Date()
             }
         ]);
-        setInput(""); // Limpa a caixa de texto ao trocar de chat
-    }, [activeChatId]); // 👈 Escuta a mudança de chat!
+        setInput("");
+    }, [activeChatId]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
