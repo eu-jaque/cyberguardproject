@@ -3,6 +3,7 @@ import Sidebar from "@/components/SideBarMenu";
 import { Mail, Phone, User, MessageSquare, Send } from "lucide-react";
 import supabase from "../../utils/supabase";
 import { toast } from "sonner";
+import Header from "@/components/Header";
 
 export default function Contact() {
 
@@ -75,10 +76,10 @@ export default function Contact() {
     };
     return (
         <div className="min-h-screen bg-background">
-            <Sidebar />
+            <Header />
 
             {/* Main Content - Ajustado para dar espaço à Sidebar */}
-            <main className={`flex-1 p-6 md:p-12 transition-all duration-300 ${containerMargin}`}>
+            <main className={`flex-1 mt-20 p-6 md:p-12 transition-all duration-300 ${containerMargin}`}>
                 <div className="max-w-6xl mx-auto">
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">

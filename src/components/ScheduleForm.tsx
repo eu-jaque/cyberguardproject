@@ -34,7 +34,7 @@ export default function ScheduleForm({ expert, onBack, onConfirm }: ScheduleForm
           <div className="glass-card-static p-6 transition-colors duration-300">
             <div className="flex flex-col items-center mb-6">
               <div className="w-24 h-24 rounded-full border-4 border-primary overflow-hidden mb-4 transition-all">
-                <img src={expert.avatar} alt={expert.name} className="w-full h-full object-cover" />
+                <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
               </div>
               <h2 className="font-display text-lg font-bold text-foreground transition-colors">{expert.name}</h2>
               <p className="text-primary text-sm font-medium transition-colors">{expert.area}</p>
