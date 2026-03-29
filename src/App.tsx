@@ -24,6 +24,12 @@ import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
 import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
+import AuthV2 from "./pages/AuthV2.tsx";
+import Chatbot from "./components/Chatbot.tsx";
+import ChatBotView from "./pages/ChatBotView.tsx";
+import StudentDashboard from "./pages/StudentDashboard.tsx";
+import ArticlePage from "./pages/ArticlePage.tsx";
+import ExpertProfile from "./components/experts/ExpertProfile.tsx";
 
 
 
@@ -47,15 +53,25 @@ const App = () => (
                     <Auth />
                   </AuthRoute>
                 } />
+                 <Route path="/authv2" element={
+                  <AuthRoute>
+                    <AuthV2 />
+                  </AuthRoute>
+                } />
                 <Route path="/courses" element={
-                  <ProtectedRoute>
+                  
                     <Courses />
-                  </ProtectedRoute>
+                  
                 } />
                 <Route path="/dash" element={
                   <ProtectedRoute>
                     <Dash />
                   </ProtectedRoute>
+                } />
+                <Route path="/chatBot" element={
+                  // <ProtectedRoute>
+                    <ChatBotView/>
+                  // </ProtectedRoute>
                 } />
                 <Route path="/tickets" element={<TicketsPage />}></Route>
                 <Route path="/servicos" element={<Services />} />
@@ -63,9 +79,14 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/politicas" element={<Policies />} />
                 <Route path="/saiba-mais" element={<SaibaMais />} />
-                <Route path="/contato" element={<Contact></Contact>}></Route>
-                <Route path="/cursos" element={
-                  <Courses />
+                <Route path="/contato" element={<Contact />} />
+                <Route path="/cursos" element={<Courses />} />
+                <Route path="/student-dashboard" element={
+                  <ProtectedRoute><StudentDashboard /></ProtectedRoute>
+                } />
+                <Route path="/blog/:slug" element={<ArticlePage />} />
+                <Route path="/expert-profile" element={
+                  <ProtectedRoute><ExpertProfile /></ProtectedRoute>
                 } />
               </Routes>
             </AuthProvider>

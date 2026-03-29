@@ -10,7 +10,7 @@ import  supabase  from '../../utils/supabase';
 
 /*const courseLevels = [
   {
-    level: "beginner",
+    level: "beginne",
     courses: [
       { title: "Introdução à Segurança Digital", lessons: 12, duration: "4h" },
       { title: "Proteja suas Senhas", lessons: 8, duration: "2h" },
@@ -60,7 +60,7 @@ export default function Dash() {
   const [linkResult, setLinkResult] = useState<"safe" | "danger" | null>(null);
   const [emailResult, setEmailResult] = useState<"safe" | "danger" | null>(null);
   const [pixResult, setPixResult] = useState<"safe" | "danger" | null>(null);
-  const [gameIndex, setGameIndex] = useState(0);
+  //const [gameIndex, setGameIndex] = useState(0);
   //const [gameScore, setGameScore] = useState(0);
   //const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
   //const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);

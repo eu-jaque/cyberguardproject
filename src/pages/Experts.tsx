@@ -24,7 +24,7 @@ export type Expert = {
   bio: string;
   formation: string;
   convenios: string;
-  avatar: string;
+  image: string;
 };
 
 const videos = [
@@ -289,4 +289,26 @@ export default function Experts() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+};
+
+export default Experts;
+function confetti(args: { 
+  particleCount: number; 
+  spread: number; 
+  origin: { y: number; }; 
+  colors: string[]; 
+}) {
+  // Chamamos a biblioteca importada passando os argumentos recebidos
+  // confettiLib({
+  //   particleCount: args.particleCount,
+  //   spread: args.spread,
+  //   origin: args.origin,
+  //   colors: args.colors
+  // });
+}
+
+
+>>>>>>> prod
