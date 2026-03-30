@@ -161,10 +161,10 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
-type TabType = "todos" | "posts" | "artigos" | "noticias" | "videos"| "cyberlab"; 
+type TabType = "all" | "posts" | "artigos" | "noticias" | "videos"| "cyberlab"; 
 const categories = ["Todos", "Fraude", "Segurança", "Tecnologia", "Legislação", "Tutorial"];
 const tabs: { label: string; value: TabType}[] = [
-  { label: "Todos", value: "todos" },
+  { label: "Todos", value: "all" },
   { label: "Posts", value: "posts" },
   { label: "Vídeos", value: "videos" },
   { label: "Notícias", value: "noticias" },
