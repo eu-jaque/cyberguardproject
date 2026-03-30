@@ -10,7 +10,7 @@ import  supabase  from '../../utils/supabase';
 
 /*const courseLevels = [
   {
-    level: "beginner",
+    level: "beginne",
     courses: [
       { title: "Introdução à Segurança Digital", lessons: 12, duration: "4h" },
       { title: "Proteja suas Senhas", lessons: 8, duration: "2h" },
