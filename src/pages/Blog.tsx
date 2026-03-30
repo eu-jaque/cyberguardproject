@@ -16,6 +16,7 @@ import type { VideoPost } from "@/components/blog/VideoModal";
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
+<<<<<<< HEAD
 interface BlogPost {
   id: string;
   title: string;
@@ -174,6 +175,14 @@ const tabs: { label: string; value: TabType}[] = [
   { label: "Posts", value: "posts" },
   { label: "Vídeos", value: "videos" },
   { label: "Notícias", value: "noticias" },
+=======
+const tabs: { label: string; value: ContentType }[] = [
+  { label: "Todos", value: "all" },
+  { label: "Posts", value: "posts" },
+  { label: "Artigos", value: "articles" },
+  { label: "Vídeos", value: "videos" },
+  { label: "Notícias", value: "news" },
+>>>>>>> f7834488b832f60456f7c4b3fe3071d157cfad62
   { label: "CyberLab", value: "cyberlab" },
 ];
 
@@ -257,6 +266,7 @@ const Blog = () => {
 
       {/* Tabs */}
       <section className="border-b border-border bg-background sticky top-[72px] z-20">
+<<<<<<< HEAD
         <div className="max-w-[1366px] mx-auto px-[2%] flex gap-1 overflow-x-auto">
           {tabs.map((t) => (
             <button
@@ -266,6 +276,16 @@ const Blog = () => {
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
+=======
+        <div className="max-w-[1366px] mx-auto px-[2%] flex gap-1 overflow-x-auto scrollbar-hide">
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+>>>>>>> f7834488b832f60456f7c4b3fe3071d157cfad62
             >
               {t.value == "cyberlab"} {t.label}
             </button>
@@ -278,6 +298,7 @@ const Blog = () => {
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
             <div>
+<<<<<<< HEAD
               {/* Filtro de Categorias */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {categories.map((cat) => (
@@ -336,6 +357,48 @@ const Blog = () => {
                         {post.type === "video" && (
                           <div className="absolute inset-0 bg-background/30 flex items-center justify-center">
                             <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center"><Play className="w-4 h-4 text-primary-foreground ml-0.5" /></div>
+=======
+              {/* POSTS TAB */}
+              {(activeTab === "all" || activeTab === "posts") && (
+                <div className="space-y-6 mb-10">
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📝 Posts Recentes</h2>}
+                  {socialPosts
+                    .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map((post, i) => (
+                      <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} viewport={{ once: true }}>
+                        <PostCard post={post} onOpen={() => setSelectedPost(post)} />
+                      </motion.div>
+                    ))}
+                </div>
+              )}
+
+              {/* ARTICLES TAB */}
+              {(activeTab === "all" || activeTab === "articles") && (
+                <div className="space-y-4 mb-10">
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📄 Artigos</h2>}
+                  {articles
+                    .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map((article, i) => (
+                      <motion.article
+                        key={article.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        viewport={{ once: true }}
+                        onClick={() => navigate(`/blog/${article.id}`)}
+                        className="group cursor-pointer flex gap-5 py-5 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors border-b border-border/30"
+                      >
+                        <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden">
+                          <img src={article.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div className="flex flex-col justify-center min-w-0 flex-1">
+                          <span className="text-[10px] font-bold text-primary mb-1">{article.category}</span>
+                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{article.summary}</p>
+                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
+                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{article.author}</span>
+                            <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{article.readTime}</span>
+>>>>>>> f7834488b832f60456f7c4b3fe3071d157cfad62
                           </div>
                         </div>
                       </motion.article>
@@ -462,6 +525,7 @@ const Blog = () => {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Video Section */}
       <section className="py-16 bg-card">
         <div className="max-w-[1366px] mx-auto px-[2%]">
@@ -529,6 +593,11 @@ const Blog = () => {
           </div>
         </div>
       )}
+=======
+      {/* Modals */}
+      {selectedPost && <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />}
+      {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
+>>>>>>> f7834488b832f60456f7c4b3fe3071d157cfad62
 
       <Footer />
       <Chatbot />
