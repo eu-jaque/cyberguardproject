@@ -161,12 +161,14 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
+type TabType = "todos" | "posts" | "artigos" | "noticias" | "videos"| "cyberlab"; 
 const categories = ["Todos", "Fraude", "Segurança", "Tecnologia", "Legislação", "Tutorial"];
-const tabs: { label: string; value: "all" | PostType }[] = [
-  { label: "Todos", value: "all" },
-  { label: "Artigos", value: "article" },
-  { label: "Vídeos", value: "video" },
-  { label: "Notícias", value: "news" },
+const tabs: { label: string; value: TabType}[] = [
+  { label: "Todos", value: "todos" },
+  { label: "Posts", value: "posts" },
+  { label: "Vídeos", value: "videos" },
+  { label: "Notícias", value: "noticias" },
+  { label: "CyberLab", value: "cyberlab" },
 ];
 
 const categoryColors: Record<string, string> = {
@@ -229,16 +231,16 @@ const Blog = () => {
       {/* Tabs */}
       <section className="border-b border-border bg-background sticky top-[72px] z-20">
         <div className="max-w-[1366px] mx-auto px-[2%] flex gap-1 overflow-x-auto">
-          {tabs.map((tab) => (
+          {tabs.map((t) => (
             <button
-              key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.value
+              key={t.value}
+              onClick={() => setActiveTab(t.value)}
+              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === t.value
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
             >
-              {tab.label}
+              {t.value == "cyberlab"} {t.label}
             </button>
           ))}
         </div>
@@ -250,7 +252,7 @@ const Blog = () => {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
             {/* Main */}
             <div>
-              {/* Category filters */}
+              {/* Filtro de Categorias */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {categories.map((cat) => (
                   <button
@@ -273,7 +275,7 @@ const Blog = () => {
                 </div>
               ) : (
                 <div className="space-y-0 divide-y divide-border/50">
-                  {/* Featured first post */}
+                 
                   {filteredPosts.length > 0 && (() => {
                     const feat = filteredPosts[0];
                     return (
@@ -300,7 +302,7 @@ const Blog = () => {
                     );
                   })()}
 
-                  {/* Rest as horizontal feed cards */}
+                
                   {filteredPosts.slice(1).map((post) => (
                     <article key={post.id} className="group cursor-pointer flex gap-5 py-6 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors" onClick={() => setSelectedPost(post)}>
                       <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden relative">
@@ -437,8 +439,8 @@ const Blog = () => {
             <p className="text-gray-400 mb-4">
               {selectedPost.summary}
             </p>
-            <Reactions />
-            <Comments />
+           <Reactions postId={selectedPost.id} />
+           <Comments postId={selectedPost.id} />
           </div>
         </div>
       )}

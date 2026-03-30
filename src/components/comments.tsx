@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Comments() {
+export default function Comments({ postId }: { postId: string }) {
   const [comments, setComments] = useState<string[]>([]);
   const [newComment, setNewComment] = useState("");
 
