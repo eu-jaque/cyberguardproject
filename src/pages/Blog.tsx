@@ -21,7 +21,7 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "Posts", value: "posts" },
   { label: "Artigos", value: "articles" },
   { label: "Vídeos", value: "videos" },
-  { label: "Notíciass", value: "news" },
+  { label: "Notícias", value: "news" },
   { label: "CyberLab", value: "cyberlab" },
 ];
 
