@@ -114,7 +114,7 @@ const Blog = () => {
                 activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {/* {t.value == "cyberlab"} {t.label} */}
+              {tab.label}
             </button>
           ))}
         </div>
