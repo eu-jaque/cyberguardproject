@@ -13,6 +13,11 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
+import ParallaxSectionBlog from "@/components/ParallaxSectionBlog";
+import news from "@/assets/news.jpeg";
+ 
+
+
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -84,6 +89,7 @@ const Blog = () => {
       <Header />
 
       {/* Hero */}
+      <ParallaxSectionBlog>
       <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
         <div className="max-w-[1366px] mx-auto px-[2%] text-center">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
@@ -102,6 +108,7 @@ const Blog = () => {
           </div>
         </div>
       </section>
+      </ParallaxSectionBlog>
 
       {/* Tabs */}
       <section className="border-b border-border bg-background sticky top-[72px] z-20">
