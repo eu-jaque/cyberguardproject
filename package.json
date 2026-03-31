@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "node scripts/generate-report.cjs",
     "test:watch": "vitest"
   },
   "dependencies": {
