@@ -128,7 +128,7 @@ const Blog = () => {
               {/* POSTS TAB */}
               {(activeTab === "all" || activeTab === "posts") && (
                 <div className="space-y-6 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📝 Posts Recentes</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Posts Recentes</h2>}
                   {socialPosts
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
@@ -142,7 +142,7 @@ const Blog = () => {
               {/* ARTICLES TAB */}
               {(activeTab === "all" || activeTab === "articles") && (
                 <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📄 Artigos</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Artigos</h2>}
                   {articles
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
