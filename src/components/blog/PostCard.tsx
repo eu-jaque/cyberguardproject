@@ -60,10 +60,8 @@ export default function PostCard({
           </p>
         </div>
       </div>
-
       {/* Content */}
       <p className="px-4 pb-3 text-sm text-foreground/90">{post.content}</p>
-
       {/* Image */}
       <div
         className="aspect-video overflow-hidden cursor-pointer"
