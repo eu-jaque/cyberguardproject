@@ -7,6 +7,7 @@ import SidebarMenu from "@/components/SideBarMenu";
 import ChatBotComponent from "@/components/ChatBotComponent";
 import { useAuth } from "@/contexts/AuthContext";
 import Swal from 'sweetalert2';
+import supabase from "../../utils/supabase";
 
 interface Message {
     id: string;
@@ -26,12 +27,36 @@ export default function ChatBotView() {
     const { user } = useAuth();
     const currentUserId = user?.id || 'id-temporario-local';
 
-    const [conversations, setConversations] = useState<Conversation[]>([
-        { id: '1', name: 'Como proteger senhas', date: '2026-03-25', user_id: currentUserId },
-        { id: '2', name: 'Explicação de Phishing', date: '2026-03-24', user_id: currentUserId }
-    ]);
+    const [conversations, setConversations] = useState<Conversation[]>([]);
 
-    const [activeChatId, setActiveChatId] = useState<string>('1');
+    const [activeChatId, setActiveChatId] = useState<string>('');
+
+    // Busca das conversas iniciais no Supabase
+    useEffect(() => {
+        if (!user) return;
+
+        const fetchConversations = async () => {
+            const { data, error } = await supabase
+                .from('conversations')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('date', { ascending: false });
+
+            if (error) {
+                console.error("Erro ao buscar conversas:", error);
+                return;
+            }
+
+            if (data) {
+                setConversations(data);
+                if (data.length > 0 && !activeChatId) {
+                    setActiveChatId(data[0].id);
+                }
+            }
+        };
+
+        fetchConversations();
+    }, [user]);
 
     // Inicializamos as mensagens vazias
     const [messages, setMessages] = useState<Message[]>([]);
@@ -61,16 +86,28 @@ export default function ChatBotView() {
     }, [messages, isTyping]);
 
 
-    const handleNewChat = () => {
-        const newId = crypto.randomUUID();
+    const handleNewChat = async () => {
+        const newChat = {
+            name: 'Novo Chat',
+            user_id: currentUserId,
+        };
 
-        setConversations(prev => [
-            { id: newId, name: 'Novo Chat', date: new Date().toISOString(), user_id: currentUserId },
-            ...prev
-        ]);
+        const { data, error } = await supabase
+            .from('conversations')
+            .insert([newChat])
+            .select()
+            .single();
 
-        setActiveChatId(newId);
-        // O useEffect acima cuidará de carregar a mensagem padrão para esse newId!
+        if (error) {
+            console.error("Erro ao criar conversa:", error);
+            Swal.fire('Erro', 'Não foi possível criar o chat.', 'error');
+            return;
+        }
+
+        if (data) {
+            setConversations(prev => [data, ...prev]);
+            setActiveChatId(data.id);
+        }
     };
 
 
@@ -102,8 +139,18 @@ export default function ChatBotView() {
     };
 
 
-    const handleRenameChat = (id: string, newTitle: string) => {
-        // 🎯 PEQUENO AJUSTE: Trocado 'title' por 'name' para bater com sua interface
+    const handleRenameChat = async (id: string, newTitle: string) => {
+        const { error } = await supabase
+            .from('conversations')
+            .update({ name: newTitle })
+            .eq('id', id);
+
+        if (error) {
+            console.error("Erro ao renomear conversa:", error);
+            Swal.fire('Erro', 'Não foi possível renomear.', 'error');
+            return;
+        }
+
         setConversations(prev => prev.map(c => c.id === id ? { ...c, name: newTitle } : c));
     };
 
@@ -123,6 +170,17 @@ export default function ChatBotView() {
         });
 
         if (result.isConfirmed) {
+            const { error } = await supabase
+                .from('conversations')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                console.error("Erro ao remover conversa:", error);
+                Swal.fire('Erro', 'Não foi possível excluir o chat.', 'error');
+                return;
+            }
+
             setConversations(prev => {
                 const filtered = prev.filter(c => c.id !== id);
 
