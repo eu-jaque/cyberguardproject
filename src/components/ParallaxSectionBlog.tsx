@@ -1,31 +1,22 @@
-import { useLanguage } from "@/contexts/LanguageContext";
-import { Link } from "react-router-dom";
 import news from "@/assets/news.jpeg";
 import { ReactNode } from "react";
-import { useState } from "react";
-import {Search} from "lucide-react";
 
-const ParallaxSectionBlog = ({children}: { children?: ReactNode}) => {
-  const { t } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState("");
-
+const ParallaxSectionBlog = ({ children }: { children?: ReactNode }) => {
   return (
-    <div>
-    <input
-              type="text"
-              placeholder="Buscar conteúdo..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-<section
-      className="parallax-section-auth relative min-h-[600px] flex items-center justify-center"
+    <section
+      className="relative min-h-[340px] md:min-h-[420px] flex items-center justify-center bg-fixed bg-cover bg-center"
       style={{ backgroundImage: `url(${news})` }}
     >
-      <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
-      {children}
+      {/* Dark navy overlay with blur */}
+      <div className="absolute inset-0 bg-[#00215E]/85 backdrop-blur-[2px]" />
+      {/* Subtle golden gradient accent */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#FFD700]/5" />
+      {/* Bottom golden line */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700]/40 to-transparent" />
+      <div className="relative z-10 w-full">
+        {children}
+      </div>
     </section>
-    </div>
   );
 };
 
