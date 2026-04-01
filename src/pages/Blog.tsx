@@ -97,13 +97,13 @@ const Blog = () => {
             </h1>
             <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
             <div className="max-w-xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFD700]/60" />
               <input
                 type="text"
                 placeholder="Buscar conteúdo..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 focus:border-[#FFD700]/30 backdrop-blur-sm transition-all"
+                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-[#FFD700] placeholder:text-[#FFD700]/50 focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 focus:border-[#FFD700]/30 backdrop-blur-sm transition-all"
               />
             </div>
           </div>
