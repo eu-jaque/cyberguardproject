@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Calendar, Search, Clock, User, Play, Mail, Eye, Shield, Lock, Zap } from "lucide-react";
+import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
 import ParallaxSectionBlog from "@/components/ParallaxSectionBlog";
 import news from "@/assets/news.jpeg";
-import shieldBadge from "@/assets/shield-badge.png";
  
 
 
@@ -126,51 +125,6 @@ const Blog = () => {
             </button>
           ))}
         </div>
-      </section>
-
-      {/* Parallax Banner */}
-      <section
-        className="relative py-10 bg-fixed bg-cover bg-center overflow-hidden"
-        style={{ backgroundImage: `url(${news})` }}
-      >
-        <div className="absolute inset-0 bg-[#00215E]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700]/5 via-transparent to-[#FFD700]/5" />
-        <div className="relative z-10 max-w-[1366px] mx-auto px-[2%] flex items-center justify-between gap-6">
-          <div className="flex items-center gap-8 flex-1">
-            <motion.img
-              src={shieldBadge}
-              alt="CyberGuard Shield"
-              className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            />
-            <div>
-              <h3 className="text-white font-bold text-lg md:text-xl mb-1">
-                Proteja-se com <span className="text-[#FFD700]">conhecimento</span>
-              </h3>
-              <p className="text-white/60 text-sm md:text-base">
-                Explore nossos conteúdos e mantenha-se à frente das ameaças digitais.
-              </p>
-            </div>
-          </div>
-          <div className="hidden md:flex items-center gap-6 text-white/50">
-            <div className="flex flex-col items-center gap-1">
-              <Shield className="w-5 h-5 text-[#FFD700]/70" />
-              <span className="text-xs">Segurança</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Lock className="w-5 h-5 text-[#FFD700]/70" />
-              <span className="text-xs">Privacidade</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Zap className="w-5 h-5 text-[#FFD700]/70" />
-              <span className="text-xs">Alertas</span>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700]/30 to-transparent" />
       </section>
 
       {/* Content */}
