@@ -167,6 +167,7 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Educating and protecting people against digital fraud and scams.",
     es: "Educando y protegiendo personas contra fraudes y estafas digitales.",
   },
+
   "footer.sobre": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
   "footer.sobre_link": { pt: "Sobre nós", en: "About us", es: "Sobre nosotros" },
   "footer.blog_link": { pt: "Blog", en: "Blog", es: "Blog" },
@@ -177,6 +178,10 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Copyright \u00A9 2026 CyberGuard. All rights reserved.",
     es: "Copyright \u00A9 2026 CyberGuard. Todos los derechos reservados.",
   },
+
+
+
+
 
   // About
   "about.title": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
