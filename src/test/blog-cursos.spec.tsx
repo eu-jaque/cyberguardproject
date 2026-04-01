@@ -94,10 +94,33 @@ describe("Teste da página de cursos em blog.tsx", () => {
     fireEvent.click(cursoNoDash);
 
     // Completar todos os 6 vídeos fictícios para teste de confete
-    const completionButtons = await screen.findAllByRole('button');
-    // Filtrar apenas o botão principal do vídeo ativo
-    // Encontramos o SVG play/check circular na área principal
-    // Devido à limitação de data-testids, vamos testar apenas a simulação de chamada
-    // (A execução completa dessa ação de UI depende da ordem dos elementos)
+    const totalVideosCount = 6;
+    for (let i = 0; i < totalVideosCount; i++) {
+        // Encontrar o player grande
+        const allButtons = screen.getAllByRole('button');
+        const mainPlayBtn = allButtons.find(b => b.className.includes('w-20 h-20'));
+        if (mainPlayBtn) {
+            fireEvent.click(mainPlayBtn);
+        }
+        
+        // Passar para o próximo vídeo se não for o último
+        if (i < totalVideosCount - 1) {
+            const nextIdx = i + 1;
+            // No Dashboard, os vídeos têm títulos como "v1", "v2" ou os títulos do mock
+            // Vamos buscar pelo índice ou pelo container da lista de vídeos
+            const thumbs = screen.getAllByRole('button').filter(b => b.className.includes('aspect-video'));
+            if (thumbs[nextIdx]) {
+                fireEvent.click(thumbs[nextIdx]);
+            }
+        }
+    }
+
+    // Verificar se o confete foi disparado
+    await waitFor(() => {
+        expect(confettiLib).toHaveBeenCalled();
+    });
+
+    // Verificar se o progresso chegou a 100%
+    expect(screen.getByText('100% concluído')).toBeInTheDocument();
   });
 });

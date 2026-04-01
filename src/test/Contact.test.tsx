@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Contact from './Contact';
+import Contact from '../pages/Contact';
 import { BrowserRouter } from 'react-router-dom';
 import supabase from '../../utils/supabase';
 import { toast } from 'sonner';
