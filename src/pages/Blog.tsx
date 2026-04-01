@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
+import { Calendar, Search, Clock, User, Play, Mail, Eye, Shield, Lock, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
 import ParallaxSectionBlog from "@/components/ParallaxSectionBlog";
 import news from "@/assets/news.jpeg";
+import shieldBadge from "@/assets/shield-badge.png";
  
 
 
