@@ -13,11 +13,6 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
-import ParallaxSectionBlog from "@/components/ParallaxSectionBlog";
-import news from "@/assets/news.jpeg";
- 
-
-
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -42,11 +37,11 @@ const socialPosts: SocialPost[] = [
   },
   {
     id: "post-3", author: "Prof. Lucas Mendes", authorRole: "Pesquisador em IA e Segurança", authorAvatar: "https://i.pravatar.cc/100?img=12",
-    date: "12 Mar 2026", content: "🧠 Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41,
+    date: "12 Mar 2026", content: "Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41,
   },
   {
     id: "post-4", author: "Mariana Oliveira", authorRole: "Consultora LGPD", authorAvatar: "https://i.pravatar.cc/100?img=9",
-    date: "10 Mar 2026", content: "📋 Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28,
+    date: "10 Mar 2026", content: "Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28,
   },
 ];
 
@@ -88,27 +83,25 @@ const Blog = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero with Parallax */}
-      <ParallaxSectionBlog>
-        <div className="pt-32 pb-14 px-[2%]">
-          <div className="max-w-[1366px] mx-auto text-center">
-            <h1 className="font-display text-3xl md:text-5xl font-bold text-white mb-4">
-              Blog <span className="text-gradient-gold">CyberGuard</span>
-            </h1>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
-            <div className="max-w-xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#FFD700]/60" />
-              <input
-                type="text"
-                placeholder="Buscar conteúdo..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-[#FFD700] placeholder:text-[#FFD700]/50 focus:outline-none focus:ring-2 focus:ring-[#FFD700]/50 focus:border-[#FFD700]/30 backdrop-blur-sm transition-all"
-              />
-            </div>
+      {/* Hero */}
+      <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+            Blog <span className="text-gradient-gold">CyberGuard</span>
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
+          <div className="max-w-xl mx-auto relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Buscar conteúdo..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            />
           </div>
         </div>
-      </ParallaxSectionBlog>
+      </section>
 
       {/* Tabs */}
       <section className="border-b border-border bg-background sticky top-[72px] z-20">
@@ -135,7 +128,7 @@ const Blog = () => {
               {/* POSTS TAB */}
               {(activeTab === "all" || activeTab === "posts") && (
                 <div className="space-y-6 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Posts Recentes</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Papo & Meme</h2>}
                   {socialPosts
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
@@ -149,7 +142,7 @@ const Blog = () => {
               {/* ARTICLES TAB */}
               {(activeTab === "all" || activeTab === "articles") && (
                 <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Artigos</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Leitura Segura</h2>}
                   {articles
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
@@ -182,7 +175,7 @@ const Blog = () => {
               {/* VIDEOS TAB */}
               {(activeTab === "all" || activeTab === "videos") && (
                 <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">🎬 Vídeos</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Aprenda Assistindo</h2>}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {videoPosts
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -221,7 +214,7 @@ const Blog = () => {
               {/* NEWS TAB */}
               {(activeTab === "all" || activeTab === "news") && (
                 <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📰 Notícias</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem  Fake News? Temos!</h2>}
                   {newsItems
                     .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((news, i) => (
@@ -238,7 +231,7 @@ const Blog = () => {
                           <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-red-400 mb-1">🔴 {news.category}</span>
+                          <span className="text-[10px] font-bold text-red-400 mb-1">{news.category}</span>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
@@ -254,7 +247,7 @@ const Blog = () => {
               {/* CYBERLAB TAB */}
               {(activeTab === "all" || activeTab === "cyberlab") && (
                 <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">🧪 CyberLab — Desafios</h2>}
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Divirta-se com o CyberLab</h2>}
                   <CyberLabSection />
                 </div>
               )}
