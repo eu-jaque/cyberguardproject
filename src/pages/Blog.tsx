@@ -256,7 +256,7 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem  Fake News? Temos!</h2>}
                   {newsItems
-                    .filter(n => matchesTheme(n, activeTheme))
+                    
                     .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((news, i) => (
                       <motion.article
