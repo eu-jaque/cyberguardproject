@@ -26,40 +26,8 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "CyberLab", value: "cyberlab" },
 ];
 
-// Theme tags
-const allThemes = [
-  "Todos",
-  "Iniciante",
-  "Intermediário",
-  "Avançado",
-  "Segurança",
-  "Fraude",
-  "Tecnologia",
-  "Legislação",
-  "Privacidade",
-  "IA",
-  "Redes Sociais",
-  "Educação",
-];
 
-// Level tag color mapping
-const levelColors: Record<string, { text: string; border: string; bg: string }> = {
-  "Iniciante": { text: "text-yellow-400", border: "border-yellow-400/30", bg: "bg-yellow-400/15" },
-  "Intermediário": { text: "text-orange-400", border: "border-orange-400/30", bg: "bg-orange-400/15" },
-  "Avançado": { text: "text-blue-900 dark:text-blue-300", border: "border-blue-900/30 dark:border-blue-300/30", bg: "bg-blue-900/15 dark:bg-blue-300/15" },
-};
 
-function getTagClasses(tag: string, active?: boolean) {
-  const level = levelColors[tag];
-  if (level) {
-    return active
-      ? `${level.bg} ${level.text} ${level.border} shadow-md`
-      : `bg-transparent ${level.text} ${level.border} hover:${level.border}`;
-  }
-  return active
-    ? "bg-primary/20 text-primary border-primary/40 shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
-    : "bg-transparent text-primary/70 border-primary/20 hover:border-primary/40 hover:text-primary";
-}
 
 // Social Posts data
 const socialPosts: SocialPost[] = [
@@ -106,11 +74,6 @@ const videoPosts: VideoPost[] = [
   { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Intermediário", "Tecnologia", "Segurança"] },
 ];
 
-// Helper to filter by theme
-function matchesTheme<T extends { tags?: string[] }>(item: T, theme: string) {
-  if (theme === "Todos") return true;
-  return item.tags?.includes(theme) ?? false;
-}
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -120,7 +83,7 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
-  const [activeTheme, setActiveTheme] = useState("Todos");
+  
 
   return (
     <div className="min-h-screen bg-background">
@@ -184,22 +147,6 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Theme Filter Tags */}
-      <section className="bg-background pt-6 pb-2">
-        <div className="max-w-[1366px] mx-auto px-[2%]">
-          <div className="flex gap-2 flex-wrap">
-            {allThemes.map((theme) => (
-              <button
-                key={theme}
-                onClick={() => setActiveTheme(theme)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${getTagClasses(theme, activeTheme === theme)}`}
-              >
-                {theme}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Content */}
       <section className="py-8 bg-background">
@@ -211,7 +158,7 @@ const Blog = () => {
                 <div className="space-y-6 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Papo & Meme</h2>}
                   {socialPosts
-                    .filter(p => matchesTheme(p, activeTheme))
+                    
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
                       <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} viewport={{ once: true }}>
@@ -226,7 +173,7 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Leitura Segura</h2>}
                   {articles
-                    .filter(a => matchesTheme(a, activeTheme))
+                    
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
                       <motion.article
@@ -244,7 +191,7 @@ const Blog = () => {
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <div className="flex gap-1.5 mb-1.5 flex-wrap">
                             {article.tags?.map(tag => (
-                              <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
+                              <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
                             ))}
                           </div>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
@@ -265,7 +212,7 @@ const Blog = () => {
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Aprenda Assistindo</h2>}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {videoPosts
-                      .filter(v => matchesTheme(v, activeTheme))
+                      
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((video, i) => (
                         <motion.div
@@ -289,7 +236,7 @@ const Blog = () => {
                           <div className="p-4">
                             <div className="flex gap-1.5 mb-2 flex-wrap">
                               {video.tags?.map(tag => (
-                                <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
+                                <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
                               ))}
                             </div>
                             <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{video.title}</h3>
@@ -309,7 +256,7 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem  Fake News? Temos!</h2>}
                   {newsItems
-                    .filter(n => matchesTheme(n, activeTheme))
+                    
                     .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((news, i) => (
                       <motion.article
@@ -327,7 +274,7 @@ const Blog = () => {
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <div className="flex gap-1.5 mb-1.5 flex-wrap">
                             {news.tags?.map(tag => (
-                              <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
+                              <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
                             ))}
                           </div>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
