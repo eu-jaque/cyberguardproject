@@ -1,4 +1,4 @@
-import { X, Play, Eye, Clock, User } from "lucide-react";
+import { X, Eye, Clock, User } from "lucide-react";
 
 export interface VideoPost {
   id: string;
