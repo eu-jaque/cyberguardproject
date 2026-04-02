@@ -120,7 +120,7 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
-  const [activeTheme, setActiveTheme] = useState("Todos");
+  
 
   return (
     <div className="min-h-screen bg-background">
