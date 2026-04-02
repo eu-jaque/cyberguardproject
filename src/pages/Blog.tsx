@@ -13,7 +13,7 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
-import news from "@/assets/news.jpeg";
+import blogParallax from "@/assets/blog-parallax.jpg";
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
