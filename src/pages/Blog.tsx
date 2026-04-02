@@ -192,11 +192,7 @@ const Blog = () => {
               <button
                 key={theme}
                 onClick={() => setActiveTheme(theme)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
-                  activeTheme === theme
-                    ? "bg-primary/20 text-primary border-primary/40 shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
-                    : "bg-transparent text-primary/70 border-primary/20 hover:border-primary/40 hover:text-primary"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${getTagClasses(theme, activeTheme === theme)}`}
               >
                 {theme}
               </button>
