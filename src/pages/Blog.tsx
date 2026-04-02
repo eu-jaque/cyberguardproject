@@ -29,6 +29,9 @@ const tabs: { label: string; value: ContentType }[] = [
 // Theme tags
 const allThemes = [
   "Todos",
+  "Iniciante",
+  "Intermediário",
+  "Avançado",
   "Segurança",
   "Fraude",
   "Tecnologia",
@@ -39,49 +42,68 @@ const allThemes = [
   "Educação",
 ];
 
+// Level tag color mapping
+const levelColors: Record<string, { text: string; border: string; bg: string }> = {
+  "Iniciante": { text: "text-yellow-400", border: "border-yellow-400/30", bg: "bg-yellow-400/15" },
+  "Intermediário": { text: "text-orange-400", border: "border-orange-400/30", bg: "bg-orange-400/15" },
+  "Avançado": { text: "text-blue-900 dark:text-blue-300", border: "border-blue-900/30 dark:border-blue-300/30", bg: "bg-blue-900/15 dark:bg-blue-300/15" },
+};
+
+function getTagClasses(tag: string, active?: boolean) {
+  const level = levelColors[tag];
+  if (level) {
+    return active
+      ? `${level.bg} ${level.text} ${level.border} shadow-md`
+      : `bg-transparent ${level.text} ${level.border} hover:${level.border}`;
+  }
+  return active
+    ? "bg-primary/20 text-primary border-primary/40 shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
+    : "bg-transparent text-primary/70 border-primary/20 hover:border-primary/40 hover:text-primary";
+}
+
 // Social Posts data
 const socialPosts: SocialPost[] = [
   {
     id: "post-1", author: "Dr. Carlos Silva", authorRole: "Especialista em Cibersegurança", authorAvatar: "https://i.pravatar.cc/100?img=11",
-    date: "15 Mar 2026", content: "🔒 Dica do dia: Sempre ative a autenticação em dois fatores (2FA) em todas as suas contas. É a barreira extra que pode salvar seus dados!", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", likes: 127, comments: 23, tags: ["Segurança", "Privacidade"],
+    date: "15 Mar 2026", content: "🔒 Dica do dia: Sempre ative a autenticação em dois fatores (2FA) em todas as suas contas. É a barreira extra que pode salvar seus dados!", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", likes: 127, comments: 23, tags: ["Iniciante", "Segurança", "Privacidade"],
   },
   {
     id: "post-2", author: "Ana Rodrigues", authorRole: "Analista de Segurança", authorAvatar: "https://i.pravatar.cc/100?img=5",
-    date: "14 Mar 2026", content: "⚠️ Alerta: Nova campanha de phishing usando IA para gerar e-mails extremamente convincentes. Fiquem atentos!", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", likes: 89, comments: 15, tags: ["Fraude", "IA"],
+    date: "14 Mar 2026", content: "⚠️ Alerta: Nova campanha de phishing usando IA para gerar e-mails extremamente convincentes. Fiquem atentos!", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", likes: 89, comments: 15, tags: ["Intermediário", "Fraude", "IA"],
   },
   {
     id: "post-3", author: "Prof. Lucas Mendes", authorRole: "Pesquisador em IA e Segurança", authorAvatar: "https://i.pravatar.cc/100?img=12",
-    date: "12 Mar 2026", content: "Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41, tags: ["IA", "Tecnologia"],
+    date: "12 Mar 2026", content: "Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41, tags: ["Avançado", "IA", "Tecnologia"],
   },
   {
     id: "post-4", author: "Mariana Oliveira", authorRole: "Consultora LGPD", authorAvatar: "https://i.pravatar.cc/100?img=9",
-    date: "10 Mar 2026", content: "Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28, tags: ["Legislação", "Privacidade"],
+    date: "10 Mar 2026", content: "Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28, tags: ["Intermediário", "Legislação", "Privacidade"],
   },
 ];
 
 // Articles data
 const articles = [
-  { id: "golpes-pix", title: "Os 5 golpes via Pix mais perigosos de 2026", summary: "Conheça as táticas mais recentes usadas por criminosos para roubar dinheiro via Pix.", category: "Fraude", date: "15 Mar 2026", readTime: "6 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", tags: ["Fraude", "Segurança"] },
-  { id: "phishing-2026", title: "Phishing em 2026: como identificar e-mails falsos", summary: "Técnicas avançadas de phishing estão enganando até os mais experientes.", category: "Segurança", date: "10 Mar 2026", readTime: "8 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", tags: ["Segurança", "Fraude"] },
-  { id: "senhas-seguras", title: "Senhas seguras: o guia definitivo para 2026", summary: "Como criar senhas fortes e usar gerenciadores de senha de forma prática.", category: "Tecnologia", date: "20 Fev 2026", readTime: "5 min", author: "Rafael Santos", image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop", tags: ["Tecnologia", "Privacidade"] },
-  { id: "engenharia-social", title: "Engenharia social: a arte de manipular pessoas", summary: "Criminosos usam psicologia para enganar vítimas. Descubra as técnicas mais comuns.", category: "Segurança", date: "25 Fev 2026", readTime: "6 min", author: "Mariana Oliveira", image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop", tags: ["Segurança", "Educação"] },
-  { id: "whatsapp-clonagem", title: "Clonagem de WhatsApp: como se proteger", summary: "Golpistas estão clonando contas do WhatsApp para aplicar golpes nos seus contatos.", category: "Fraude", date: "10 Fev 2026", readTime: "5 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop", tags: ["Fraude", "Redes Sociais"] },
+  { id: "golpes-pix", title: "Os 5 golpes via Pix mais perigosos de 2026", summary: "Conheça as táticas mais recentes usadas por criminosos para roubar dinheiro via Pix.", category: "Fraude", date: "15 Mar 2026", readTime: "6 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", tags: ["Iniciante", "Fraude", "Segurança"] },
+  { id: "phishing-2026", title: "Phishing em 2026: como identificar e-mails falsos", summary: "Técnicas avançadas de phishing estão enganando até os mais experientes.", category: "Segurança", date: "10 Mar 2026", readTime: "8 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", tags: ["Intermediário", "Segurança", "Fraude"] },
+  { id: "senhas-seguras", title: "Senhas seguras: o guia definitivo para 2026", summary: "Como criar senhas fortes e usar gerenciadores de senha de forma prática.", category: "Tecnologia", date: "20 Fev 2026", readTime: "5 min", author: "Rafael Santos", image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop", tags: ["Iniciante", "Tecnologia", "Privacidade"] },
+  { id: "engenharia-social", title: "Engenharia social: a arte de manipular pessoas", summary: "Criminosos usam psicologia para enganar vítimas. Descubra as técnicas mais comuns.", category: "Segurança", date: "25 Fev 2026", readTime: "6 min", author: "Mariana Oliveira", image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop", tags: ["Intermediário", "Segurança", "Educação"] },
+  { id: "whatsapp-clonagem", title: "Clonagem de WhatsApp: como se proteger", summary: "Golpistas estão clonando contas do WhatsApp para aplicar golpes nos seus contatos.", category: "Fraude", date: "10 Fev 2026", readTime: "5 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop", tags: ["Iniciante", "Fraude", "Redes Sociais"] },
 ];
 
 // News data
 const newsItems = [
-  { id: "ransomware-empresas", title: "Ransomware: o pesadelo das empresas brasileiras", summary: "Ataques de ransomware cresceram 150% no Brasil em 2026.", category: "Tecnologia", date: "01 Mar 2026", readTime: "9 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop", tags: ["Tecnologia", "Segurança"] },
-  { id: "vazamento-dados", title: "O que fazer após um vazamento de dados", summary: "Seus dados foram expostos? Saiba os passos imediatos.", category: "Segurança", date: "15 Fev 2026", readTime: "7 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&h=400&fit=crop", tags: ["Segurança", "Privacidade"] },
-  { id: "deepfake-perigos", title: "Deepfakes: a nova arma dos golpistas digitais", summary: "IA está sendo usada para criar vídeos falsos ultra-realistas.", category: "Tecnologia", date: "05 Fev 2026", readTime: "8 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", tags: ["IA", "Tecnologia"] },
-  { id: "lgpd-direitos", title: "LGPD: conheça seus direitos sobre seus dados pessoais", summary: "A Lei Geral de Proteção de Dados garante direitos importantes.", category: "Legislação", date: "05 Mar 2026", readTime: "7 min", author: "Dra. Juliana Costa", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", tags: ["Legislação", "Privacidade"] },
+  { id: "ransomware-empresas", title: "Ransomware: o pesadelo das empresas brasileiras", summary: "Ataques de ransomware cresceram 150% no Brasil em 2026.", category: "Tecnologia", date: "01 Mar 2026", readTime: "9 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop", tags: ["Avançado", "Tecnologia", "Segurança"] },
+  { id: "vazamento-dados", title: "O que fazer após um vazamento de dados", summary: "Seus dados foram expostos? Saiba os passos imediatos.", category: "Segurança", date: "15 Fev 2026", readTime: "7 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&h=400&fit=crop", tags: ["Iniciante", "Segurança", "Privacidade"] },
+  { id: "deepfake-perigos", title: "Deepfakes: a nova arma dos golpistas digitais", summary: "IA está sendo usada para criar vídeos falsos ultra-realistas.", category: "Tecnologia", date: "05 Fev 2026", readTime: "8 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", tags: ["Avançado", "IA", "Tecnologia"] },
+  { id: "lgpd-direitos", title: "LGPD: conheça seus direitos sobre seus dados pessoais", summary: "A Lei Geral de Proteção de Dados garante direitos importantes.", category: "Legislação", date: "05 Mar 2026", readTime: "7 min", author: "Dra. Juliana Costa", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", tags: ["Intermediário", "Legislação", "Privacidade"] },
 ];
 
 // Videos data
 const videoPosts: VideoPost[] = [
-  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA", tags: ["Segurança", "Educação"] },
-  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo", tags: ["Segurança", "Tecnologia"] },
-  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI", tags: ["Privacidade", "Educação"] },
-  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Tecnologia", "Segurança"] },
+  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA", tags: ["Iniciante", "Segurança", "Educação"] },
+  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo", tags: ["Avançado", "Segurança", "Tecnologia"] },
+  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI", tags: ["Iniciante", "Privacidade", "Educação"] },
+  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Intermediário", "Tecnologia", "Segurança"] },
 ];
 
 // Helper to filter by theme
@@ -170,11 +192,7 @@ const Blog = () => {
               <button
                 key={theme}
                 onClick={() => setActiveTheme(theme)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
-                  activeTheme === theme
-                    ? "bg-primary/20 text-primary border-primary/40 shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
-                    : "bg-transparent text-primary/70 border-primary/20 hover:border-primary/40 hover:text-primary"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${getTagClasses(theme, activeTheme === theme)}`}
               >
                 {theme}
               </button>
@@ -226,7 +244,7 @@ const Blog = () => {
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <div className="flex gap-1.5 mb-1.5 flex-wrap">
                             {article.tags?.map(tag => (
-                              <span key={tag} className="text-[10px] font-bold text-primary border border-primary/20 rounded-full px-2 py-0.5">{tag}</span>
+                              <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
                             ))}
                           </div>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
@@ -271,7 +289,7 @@ const Blog = () => {
                           <div className="p-4">
                             <div className="flex gap-1.5 mb-2 flex-wrap">
                               {video.tags?.map(tag => (
-                                <span key={tag} className="text-[10px] font-bold text-primary border border-primary/20 rounded-full px-2 py-0.5">{tag}</span>
+                                <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
                               ))}
                             </div>
                             <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{video.title}</h3>
@@ -309,7 +327,7 @@ const Blog = () => {
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <div className="flex gap-1.5 mb-1.5 flex-wrap">
                             {news.tags?.map(tag => (
-                              <span key={tag} className="text-[10px] font-bold text-primary border border-primary/20 rounded-full px-2 py-0.5">{tag}</span>
+                              <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
                             ))}
                           </div>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
