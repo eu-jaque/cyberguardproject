@@ -29,6 +29,9 @@ const tabs: { label: string; value: ContentType }[] = [
 // Theme tags
 const allThemes = [
   "Todos",
+  "Iniciante",
+  "Intermediário",
+  "Avançado",
   "Segurança",
   "Fraude",
   "Tecnologia",
@@ -38,6 +41,25 @@ const allThemes = [
   "Redes Sociais",
   "Educação",
 ];
+
+// Level tag color mapping
+const levelColors: Record<string, { text: string; border: string; bg: string }> = {
+  "Iniciante": { text: "text-yellow-400", border: "border-yellow-400/30", bg: "bg-yellow-400/15" },
+  "Intermediário": { text: "text-orange-400", border: "border-orange-400/30", bg: "bg-orange-400/15" },
+  "Avançado": { text: "text-blue-900 dark:text-blue-300", border: "border-blue-900/30 dark:border-blue-300/30", bg: "bg-blue-900/15 dark:bg-blue-300/15" },
+};
+
+function getTagClasses(tag: string, active?: boolean) {
+  const level = levelColors[tag];
+  if (level) {
+    return active
+      ? `${level.bg} ${level.text} ${level.border} shadow-md`
+      : `bg-transparent ${level.text} ${level.border} hover:${level.border}`;
+  }
+  return active
+    ? "bg-primary/20 text-primary border-primary/40 shadow-[0_0_8px_hsl(var(--primary)/0.3)]"
+    : "bg-transparent text-primary/70 border-primary/20 hover:border-primary/40 hover:text-primary";
+}
 
 // Social Posts data
 const socialPosts: SocialPost[] = [
