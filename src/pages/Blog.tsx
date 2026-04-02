@@ -173,7 +173,7 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Leitura Segura</h2>}
                   {articles
-                    .filter(a => matchesTheme(a, activeTheme))
+                    
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
                       <motion.article
