@@ -236,7 +236,7 @@ const Blog = () => {
                           <div className="p-4">
                             <div className="flex gap-1.5 mb-2 flex-wrap">
                               {video.tags?.map(tag => (
-                                <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
+                                <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
                               ))}
                             </div>
                             <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{video.title}</h3>
