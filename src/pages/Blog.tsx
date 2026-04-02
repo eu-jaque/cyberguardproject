@@ -191,7 +191,7 @@ const Blog = () => {
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <div className="flex gap-1.5 mb-1.5 flex-wrap">
                             {article.tags?.map(tag => (
-                              <span key={tag} className={`text-[10px] font-bold rounded-full px-2 py-0.5 border ${getTagClasses(tag, false)}`}>{tag}</span>
+                              <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
                             ))}
                           </div>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
