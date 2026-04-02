@@ -184,22 +184,6 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Theme Filter Tags */}
-      <section className="bg-background pt-6 pb-2">
-        <div className="max-w-[1366px] mx-auto px-[2%]">
-          <div className="flex gap-2 flex-wrap">
-            {allThemes.map((theme) => (
-              <button
-                key={theme}
-                onClick={() => setActiveTheme(theme)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${getTagClasses(theme, activeTheme === theme)}`}
-              >
-                {theme}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Content */}
       <section className="py-8 bg-background">
