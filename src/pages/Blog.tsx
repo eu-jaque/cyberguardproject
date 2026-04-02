@@ -64,10 +64,10 @@ const newsItems = [
 
 // Videos data
 const videoPosts: VideoPost[] = [
-  { id: "v1", title: "Como identificar phishing em 5 passos", description: "Guia prático para reconhecer tentativas de phishing.", thumbnail: "https://img.youtube.com/vi/EqQ-cDeKQLU/hqdefault.jpg", duration: "12:34", views: "15.2K", author: "CyberGuard", date: "08 Mar 2026", videoId: "EqQ-cDeKQLU" },
-  { id: "v2", title: "Protegendo seu Wi-Fi doméstico", description: "Configure seu roteador de forma segura.", thumbnail: "https://img.youtube.com/vi/DMkKcrwxlsc/hqdefault.jpg", duration: "15:20", views: "8.7K", author: "CyberGuard", date: "28 Fev 2026", videoId: "DMkKcrwxlsc" },
-  { id: "v3", title: "Senhas seguras: guia completo", description: "Tutorial completo sobre criação e gerenciamento de senhas.", thumbnail: "https://img.youtube.com/vi/zefv-bNtZwg/hqdefault.jpg", duration: "10:45", views: "12.1K", author: "CyberGuard", date: "18 Fev 2026", videoId: "zefv-bNtZwg" },
-  { id: "v4", title: "O que fazer após um vazamento de dados", description: "Passos imediatos para proteger suas contas.", thumbnail: "https://img.youtube.com/vi/3uJszS1bk28/hqdefault.jpg", duration: "8:15", views: "6.3K", author: "CyberGuard", date: "10 Fev 2026", videoId: "3uJszS1bk28" },
+  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA" },
+  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo" },
+  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI" },
+  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM" },
 ];
 
 const Blog = () => {
