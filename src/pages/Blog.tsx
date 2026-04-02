@@ -158,7 +158,7 @@ const Blog = () => {
                 <div className="space-y-6 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Papo & Meme</h2>}
                   {socialPosts
-                    .filter(p => matchesTheme(p, activeTheme))
+                    
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
                       <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} viewport={{ once: true }}>
