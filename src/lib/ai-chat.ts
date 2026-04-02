@@ -1,6 +1,6 @@
-const SUPABASE_URL = "https://ohcitblnqeqoetfghbwu.supabase.co";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const CHAT_URL = `${SUPABASE_URL}/functions/v1/chat`;
-const SUPABASE_ANON_KEY = "sb_publishable_UX3p_fIMWQFCxGko6elJbQ_ftrUZUL6";
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export type AiMessage = { role: "user" | "assistant"; content: string };
 

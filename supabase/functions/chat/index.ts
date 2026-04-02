@@ -6,7 +6,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-serve(async (req) => {
+serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -62,7 +62,7 @@ Suas responsabilidades:
       }
       if (response.status === 402) {
         return new Response(
-          JSON.stringify({ error: "Créditos de IA esgotados. Adicione créditos no workspace." }),
+          JSON.stringify({ error: "Créditos de IA esgotados. Tente novamente amanhã." }),
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
@@ -71,7 +71,7 @@ Suas responsabilidades:
       return new Response(
         JSON.stringify({ error: "Erro ao conectar com a IA" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+      );
     }
 
     return new Response(response.body, {

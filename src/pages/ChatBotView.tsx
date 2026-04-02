@@ -44,7 +44,7 @@ export default function ChatBotView() {
                 .from('conversations')
                 .select('*')
                 .eq('user_id', user.id)
-                .order('date', { ascending: false });
+                .order('created_at', { ascending: false });
 
             if (error) { console.error("Erro ao buscar conversas:", error); return; }
             if (data) {
@@ -73,6 +73,7 @@ export default function ChatBotView() {
     }, [messages, isTyping]);
 
     const handleNewChat = async () => {
+        console.log(currentUserId)
         const { data, error } = await supabase
             .from('conversations')
             .insert([{ name: 'Novo Chat', user_id: currentUserId }])
