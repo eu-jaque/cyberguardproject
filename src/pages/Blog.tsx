@@ -106,11 +106,6 @@ const videoPosts: VideoPost[] = [
   { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Intermediário", "Tecnologia", "Segurança"] },
 ];
 
-// Helper to filter by theme
-function matchesTheme<T extends { tags?: string[] }>(item: T, theme: string) {
-  if (theme === "Todos") return true;
-  return item.tags?.includes(theme) ?? false;
-}
 
 const Blog = () => {
   const navigate = useNavigate();
