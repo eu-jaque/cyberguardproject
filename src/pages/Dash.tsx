@@ -47,53 +47,84 @@ export default function Dash() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
-      {/* Profile Hero*/}
+      
+      {/*Hero da DashBoard User*/}
       <div className="relative pt-[80px]">
+        <Tabs>
+          <TabsList className="w-full flex flex-wrap gap-1 h-auto bg-card border border-border p-1">
 
-        {/* Background with matrix-like effect */}
-        <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
-          
-          {/* Subtle grid pattern overlay */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }} />
-          
-    
-
-          {/* Profile content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-            {/* Avatar with border glow */}
-            <div className="relative mb-4">
-              <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
-                boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
-              }}>
-                <Shield className="w-12 h-12 text-primary" />
+            {/* Profile content */}
+            <Tabs className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+              {/* Avatar with border glow */}
+              <div className="relative mb-4">
+                <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                  boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+                }}>
+                  <Shield className="w-12 h-12 text-primary" />
+                </div>
+                {/* Online indicator */}
+                <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
               </div>
-              {/* Online indicator */}
-              <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
-            </div>
+              </div>
+            </Tabs>
+
+            {/* Name */}
+            <Tabs className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+                nome
+              </h1>
+            </Tabs>
 
             
 
-            {/* Name */}
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
-              nome
-            </h1>
+            
 
-            {/* Stats row */}
-            <div className="flex items-center gap-8">
+          </TabsList>
+          
+        </Tabs>
+
+
+        
+        {/* Profile Hero*/}
+        
+        <div>
+
+          {/* Background with matrix-like effect */}
+          <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
+            
+            {/* Subtle grid pattern overlay */}
+            <div className="absolute inset-0 opacity-10" style={{
+              backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }} />
+            
+      
+
+            {/* Profile content */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+              {/* Avatar with border glow */}
+              <div className="relative mb-4">
+                <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                  boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+                }}>
+                  <Shield className="w-12 h-12 text-primary" />
+                </div>
+                {/* Online indicator */}
+                <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
+              </div>
+
             </div>
           </div>
         </div>
+
       </div>
 
 
-      {/* Main Content */}
-
-
       
+      
+      
+      {/*Conteúdo Principal DashBoard User*/}
       <div className="max-w-[1366px] mx-auto px-[2%] py-10">
         <Tabs defaultValue="subscriptions" className="w-full">
 
@@ -209,8 +240,6 @@ export default function Dash() {
               </Card>
             </div>
           </TabsContent>
-
-        
         </Tabs>
       </div>
 
