@@ -13,7 +13,7 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
-import news from "@/assets/news.jpeg";
+import blogParallax from "@/assets/blog-parallax.jpg";
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -92,7 +92,7 @@ const Blog = () => {
       {/* Parallax Hero */}
       <section
         className="relative min-h-[380px] md:min-h-[440px] flex items-center justify-center bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url(${news})` }}
+        style={{ backgroundImage: `url(${blogParallax})` }}
       >
         <div className="absolute inset-0 bg-[hsl(var(--background))]/80 backdrop-blur-[2px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[hsl(var(--primary))]/5" />
