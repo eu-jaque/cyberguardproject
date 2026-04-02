@@ -30,6 +30,7 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="break-all">contato@cyberguard.com.br</li>
               <li className="break-all">Rua da Alegria</li>
+              <li className="break-all">+55 (16) 1234-5678</li>
             </ul>
           </div>
 
