@@ -100,10 +100,10 @@ const newsItems = [
 
 // Videos data
 const videoPosts: VideoPost[] = [
-  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA", tags: ["Segurança", "Educação"] },
-  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo", tags: ["Segurança", "Tecnologia"] },
-  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI", tags: ["Privacidade", "Educação"] },
-  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Tecnologia", "Segurança"] },
+  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA", tags: ["Iniciante", "Segurança", "Educação"] },
+  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo", tags: ["Avançado", "Segurança", "Tecnologia"] },
+  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI", tags: ["Iniciante", "Privacidade", "Educação"] },
+  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Intermediário", "Tecnologia", "Segurança"] },
 ];
 
 // Helper to filter by theme
