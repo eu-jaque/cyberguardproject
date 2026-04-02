@@ -212,7 +212,7 @@ const Blog = () => {
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Aprenda Assistindo</h2>}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {videoPosts
-                      .filter(v => matchesTheme(v, activeTheme))
+                      
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((video, i) => (
                         <motion.div
