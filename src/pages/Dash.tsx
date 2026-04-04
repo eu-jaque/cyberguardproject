@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,49 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Shield, Link2, Mail, Key, CheckCircle, XCircle, BookOpen, Gamepad2, CreditCard, ChevronRight, Lock, Wifi, Server, Eye, MonitorSmartphone, ShieldCheck } from "lucide-react";
 import  supabase  from '../../utils/supabase';
 
-/*const courseLevels = [
-  {
-    level: "beginne",
-    courses: [
-      { title: "Introdução à Segurança Digital", lessons: 12, duration: "4h" },
-      { title: "Proteja suas Senhas", lessons: 8, duration: "2h" },
-      { title: "Navegação Segura na Internet", lessons: 10, duration: "3h" },
-    ],
-  },
-  {
-    level: "intermediate",
-    courses: [
-      { title: "Engenharia Social e Phishing", lessons: 15, duration: "6h" },
-      { title: "Segurança em Redes Wi-Fi", lessons: 10, duration: "4h" },
-      { title: "Proteção de Dados Pessoais", lessons: 12, duration: "5h" },
-    ],
-  },
-  {
-    level: "advanced",
-    courses: [
-      { title: "Análise de Malware", lessons: 20, duration: "10h" },
-      { title: "Criptografia Aplicada", lessons: 18, duration: "8h" },
-      { title: "Resposta a Incidentes", lessons: 16, duration: "7h" },
-    ],
-  },
-  {
-    level: "expert",
-    courses: [
-      { title: "Pentest e Ethical Hacking", lessons: 25, duration: "15h" },
-      { title: "Forense Digital", lessons: 22, duration: "12h" },
-      { title: "Arquitetura de Segurança", lessons: 20, duration: "10h" },
-    ],
-  },
-];*/
 
-const scamScenarios = [
-  { text: "Você recebeu um e-mail do banco pedindo para atualizar dados clicando em um link", isScam: true },
-  { text: "Seu banco ligou para o número oficial e pediu para comparecer à agência", isScam: false },
-  { text: "Um desconhecido no WhatsApp oferece investimento com retorno de 300% em 24h", isScam: true },
-  { text: "Você recebeu uma notificação do app oficial do banco sobre uma compra que fez", isScam: false },
-  { text: "Alguém pede seu código de verificação por SMS dizendo ser do suporte técnico", isScam: true },
-  { text: "A empresa onde você trabalha enviou um e-mail interno sobre treinamento de segurança", isScam: false },
-];
+
 
 export default function Dash() {
   const { t } = useLanguage();
@@ -60,10 +20,7 @@ export default function Dash() {
   const [linkResult, setLinkResult] = useState<"safe" | "danger" | null>(null);
   const [emailResult, setEmailResult] = useState<"safe" | "danger" | null>(null);
   const [pixResult, setPixResult] = useState<"safe" | "danger" | null>(null);
-  //const [gameIndex, setGameIndex] = useState(0);
-  //const [gameScore, setGameScore] = useState(0);
-  //const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
-  //const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);
+  
 
   const checkLink = () => {
     if (!linkInput.trim()) return;
@@ -83,182 +40,121 @@ export default function Dash() {
     setPixResult(suspicious ? "danger" : "safe");
   };
 
-  /*const handleGameAnswer = (answeredScam: boolean) => {
-    const correct = answeredScam === scamScenarios[gameIndex].isScam;
-    if (correct) setGameScore((s) => s + 1);
-    setGameAnswer(correct ? "correct" : "wrong");
-    setTimeout(() => {
-      setGameAnswer(null);
-      if (gameIndex < scamScenarios.length - 1) {
-        setGameIndex((i) => i + 1);
-      }
-    }, 1200);
-  };*/
 
-  const levelKeys = ["dash.beginner", "dash.intermediate", "dash.advanced", "dash.expert"];
+
+  
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
-      {/* Profile Hero - Premium Design */}
+      
+      {/*Hero da DashBoard User*/}
       <div className="relative pt-[80px]">
-        {/* Background with matrix-like effect */}
-        <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
-          {/* Subtle grid pattern overlay */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }} />
-          {/* Gold glow from center */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-[400px] h-[400px] rounded-full opacity-10" style={{
-              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)'
-            }} />
-          </div>
+        <Tabs>
+          <TabsList className="w-full flex flex-wrap gap-1 h-auto bg-card border border-border p-1">
 
-          {/* Profile content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full">
-            {/* Avatar with border glow */}
-            <div className="relative mb-4">
-              <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
-                boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
-              }}>
-                <Shield className="w-12 h-12 text-primary" />
+            {/* Profile content */}
+            <Tabs className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+              {/* Avatar with border glow */}
+              <div className="relative mb-4">
+                <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                  boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+                }}>
+                  <Shield className="w-12 h-12 text-primary" />
+                </div>
+                {/* Online indicator */}
+                <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
               </div>
-              {/* Online indicator */}
-              <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
-            </div>
-
-            {/* Label */}
-            <span className="text-primary/70 text-xs tracking-[0.3em] uppercase mb-1">Perfil Protegido</span>
+              </div>
+            </Tabs>
 
             {/* Name */}
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
-              Carlos Silva
-            </h1>
+            <Tabs className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+                nome
+              </h1>
+            </Tabs>
 
-            {/* Stats row */}
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-primary/70" />
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Nível</span>
-                  <p className="text-sm font-bold text-primary">Avançado</p>
+            
+
+            
+
+          </TabsList>
+          
+        </Tabs>
+
+
+        
+        {/* Profile Hero*/}
+        
+        <div>
+
+          {/* Background with matrix-like effect */}
+          <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
+            
+            {/* Subtle grid pattern overlay */}
+            <div className="absolute inset-0 opacity-10" style={{
+              backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }} />
+            
+      
+
+            {/* Profile content */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full">
+              {/* Avatar with border glow */}
+              <div className="relative mb-4">
+                <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                  boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+                }}>
+                  <Shield className="w-12 h-12 text-primary" />
                 </div>
+                {/* Online indicator */}
+                <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
               </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-primary/70" />
-                <div className="text-center">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Verificações</span>
-                  <p className="text-sm font-bold text-primary">147</p>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
+
       </div>
 
-      {/* Tip Bar */}
-      <div className="bg-primary/10 border-y border-primary/20 py-3">
-        <div className="max-w-[1366px] mx-auto px-[2%] flex items-center gap-3">
-          <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
-          <p className="text-sm text-foreground/80">
-            <span className="font-bold text-primary">{t("dash.tip_title")}:</span> {t("dash.tip1")}
-          </p>
-        </div>
-      </div>
 
-      {/* Main Content */}
+      
+      
+      
+      {/*Conteúdo Principal DashBoard User*/}
       <div className="max-w-[1366px] mx-auto px-[2%] py-10">
         <Tabs defaultValue="subscriptions" className="w-full">
+
           <TabsList className="w-full flex flex-wrap gap-1 h-auto bg-card border border-border p-1">
-            <TabsTrigger value="subscriptions" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              <CreditCard className="w-4 h-4" /> {t("dash.subscriptions")}
-            </TabsTrigger>
+          
+
             <TabsTrigger value="courses" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <BookOpen className="w-4 h-4" /> {t("dash.courses")}
             </TabsTrigger>
+
             <TabsTrigger value="verifiers" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Shield className="w-4 h-4" /> {t("dash.verifiers")}
             </TabsTrigger>
+
             <TabsTrigger value="games" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Gamepad2 className="w-4 h-4" /> {t("dash.games")}
             </TabsTrigger>
+
+            <TabsTrigger value="liked" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <div className="w-4 h-4" /> {t("dash.liked")}
+            </TabsTrigger>
+
           </TabsList>
-
-          {/* Subscriptions */}
-          {/*<TabsContent value="subscriptions">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-              {subscriptions.map((sub, i) => (
-                <Card key={i} className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
-                  <CardHeader className="flex flex-row items-center gap-3 pb-2">
-                    <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <sub.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <CardTitle className="text-base font-semibold">{sub.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
-                      sub.active ? "bg-green-500/10 text-green-400" : "bg-muted text-muted-foreground"
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${sub.active ? "bg-green-400" : "bg-muted-foreground"}`} />
-                      {sub.active ? t("dash.active") : t("dash.inactive")}
-                    </span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>*/}
-
-          {/* Courses */}
-          {/*<TabsContent value="courses">
-            <div className="mt-6">
-              <div className="flex gap-2 mb-6 flex-wrap">
-                {levelKeys.map((key, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedCourseLevel(i)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                      selectedCourseLevel === i
-                        ? "bg-primary text-primary-foreground shadow-lg"
-                        : "bg-card border border-border text-foreground/70 hover:border-primary/50"
-                    }`}
-                  >
-                    {t(key)}
-                  </button>
-                ))}
-              </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {courseLevels[selectedCourseLevel].courses.map((course, i) => (
-                  <Card key={i} className="group cursor-pointer hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
-                    <CardHeader className="pb-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-lg bg-primary/10">
-                          <BookOpen className="w-5 h-5 text-primary" />
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                      </div>
-                      <CardTitle className="text-base mt-3">{course.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex gap-3 text-xs text-muted-foreground">
-                        <span>{course.lessons} lições</span>
-                        <span>{course.duration}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </TabsContent>*/}
-
 
           
 
           {/* Verifiers */}
           <TabsContent value="verifiers">
             <div className="grid md:grid-cols-3 gap-6 mt-6">
+
               {/* Link Checker */}
               <Card>
                 <CardHeader>
@@ -344,81 +240,11 @@ export default function Dash() {
               </Card>
             </div>
           </TabsContent>
-
-          {/* Games */}
-          {/*<TabsContent value="games">
-            <div className="mt-6">
-              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 flex items-center gap-3">
-                <Eye className="w-5 h-5 text-primary shrink-0" />
-                <p className="text-sm text-foreground/80">
-                  <span className="font-bold text-primary">{t("dash.tip_title")}:</span> {t("dash.tip2")}
-                </p>
-              </div>
-
-              <Card className="max-w-2xl mx-auto">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <Gamepad2 className="w-5 h-5 text-primary" /> {t("dash.scam_game")}
-                      </CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">{t("dash.scam_game_desc")}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">{t("dash.score")}</p>
-                      <p className="text-2xl font-display font-bold text-primary">{gameScore}/{scamScenarios.length}</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="bg-secondary/50 rounded-lg p-6 min-h-[100px] flex items-center justify-center text-center">
-                      <p className="text-foreground text-lg">{scamScenarios[gameIndex].text}</p>
-                    </div>
-
-                    {gameAnswer && (
-                      <div className={`text-center text-lg font-bold p-3 rounded-lg transition-all ${
-                        gameAnswer === "correct" ? "bg-green-500/10 text-green-400" : "bg-destructive/10 text-destructive"
-                      }`}>
-                        {gameAnswer === "correct" ? t("dash.correct") : t("dash.wrong")}
-                      </div>
-                    )}
-
-                    {!gameAnswer && (
-                      <div className="flex gap-4">
-                        <button
-                          onClick={() => handleGameAnswer(true)}
-                          className="flex-1 bg-destructive/10 border border-destructive/30 text-destructive py-3 rounded-lg font-medium hover:bg-destructive/20 transition-colors"
-                        >
-                          {t("dash.scam")}
-                        </button>
-                        <button
-                          onClick={() => handleGameAnswer(false)}
-                          className="flex-1 bg-green-500/10 border border-green-500/30 text-green-400 py-3 rounded-lg font-medium hover:bg-green-500/20 transition-colors"
-                        >
-                          {t("dash.legit")}
-                        </button>
-                      </div>
-                    )}
-
-                    <div className="flex justify-center gap-1.5 pt-2">
-                      {scamScenarios.map((_, i) => (
-                        <div key={i} className={`w-2 h-2 rounded-full transition-colors ${
-                          i === gameIndex ? "bg-primary" : i < gameIndex ? "bg-primary/40" : "bg-muted"
-                        }`} />
-                      ))}
-
-
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>*/}
         </Tabs>
       </div>
 
       <Footer />
+      <AccessibilityWidget />
     </div>
   );
 }
