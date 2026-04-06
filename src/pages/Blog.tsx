@@ -62,7 +62,6 @@ const Blog = () => {
 
     fetchContents();
   }, []);
-
   const socialPosts = contents
     .filter(c => c.type === "post")
     .map(c => ({
@@ -150,9 +149,8 @@ const Blog = () => {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
             >
               {tab.label}
             </button>
