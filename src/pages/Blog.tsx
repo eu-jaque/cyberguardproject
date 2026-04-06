@@ -46,7 +46,7 @@ const Blog = () => {
             profiles (
               name,
               role,
-              avatar_url
+              avatars
             )
           `)
         .order("created_at", { ascending: false });
@@ -69,7 +69,7 @@ const Blog = () => {
       id: c.id,
       author: c.profiles?.name ?? "Autor",
       authorRole: c.profiles?.role ?? "",
-      authorAvatar: c.profiles?.avatar_url ?? "",
+      authorAvatar: c.profiles?.avatars ?? "",
       date: c.extra?.date,
       content: c.content,
       image: c.image,
@@ -88,7 +88,7 @@ const Blog = () => {
       date: c.extra?.date,
       readTime: c.extra?.readTime,
       author: c.profiles?.name,
-      authorAvatar: c.profiles?.avatar_url ?? "",
+      authorAvatar: c.profiles?.avatars ?? "",
       image: c.image
     }));
 
@@ -102,7 +102,7 @@ const Blog = () => {
       date: c.extra?.date,
       readTime: c.extra?.readTime,
       author: c.profiles?.name,
-      authorAvatar: c.profiles?.avatar_url ?? "",
+      authorAvatar: c.profiles?.avatars ?? "",
       image: c.image
     }));
 
