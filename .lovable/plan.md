@@ -1,127 +1,138 @@
-# Plano de Implementação — 4 Áreas Principais
 
-Este é um projeto massivo com 4 grandes áreas. Devido à complexidade, o plano será executado em etapas sequenciais.
 
----
+## Plan: Redesign Unificado das Dashboards + Expert Profile
 
-## ETAPA 1: Página Auth (Login/Cadastro)
-
-Reestruturar `src/pages/Auth.tsx` com um layout de formulário flip/slide inspirado no exemplo.zip (CSS de card que gira entre login e cadastro), mantendo o `ParallaxAuth` como fundo.
-
-**Arquivos modificados:**
-
-- `src/pages/Auth.tsx` — Layout completo com card animado (frente: login, verso: cadastro), inputs estilizados com ícones Lucide, botões dourados 3D, transição CSS entre modos
-- `src/index.css` — Keyframes para flip animation do card auth
-
-**Detalhes técnicos:**
-
-- Card central com `perspective` e `rotateY` para transição entre login/cadastro
-- Wrapper com fundo parallax existente, overlay escuro
-- Inputs com borda dourada no focus, ícones (Mail, Lock, User) integrados
-- Manter lógica Supabase existente (signInWithPassword, signUp)
+This is a large-scope request with multiple interconnected features. Here's the structured plan:
 
 ---
 
-## ETAPA 2: Página Blog — Sistema Completo de Abas
+### Overview
 
-Reescrever `src/pages/Blog.tsx` com 6 abas e comportamentos distintos por tipo de conteúdo.
-
-**Novos arquivos:**
-
-- `src/components/blog/PostCard.tsx` — Card estilo Facebook (avatar, nome, cargo, imagem 16:9, curtidas/comentários)
-- `src/components/blog/PostModal.tsx` — Modal de post completo com comentários interativos
-- `src/components/blog/ArticlePage.tsx` — Página dedicada de leitura com renderização markdown (react-markdown)
-- `src/components/blog/VideoModal.tsx` — Modal de player com thumbnail, info do vídeo, botão play
-- `src/components/blog/CyberLabSection.tsx` — Quizzes/desafios com filtro por nível, QuizPlayer funcional (4 alternativas, feedback, barra de progresso, resultado final com troféu)
-
-**Arquivos modificados:**
-
-- `src/pages/Blog.tsx` — 6 abas: Todos, Posts, Artigos, Vídeos, Notícias, CyberLab
-- `src/App.tsx` — Rota `/blog/:slug` para artigos/notícias em página dedicada
-
-&nbsp;
-
-**Detalhes técnicos:**
-
-- Aba "Posts": cards com avatar, reactions sociais (Like, Love, Wow, etc.), modal com comentários(o usuário só poderá reagir com os posts se ele tiver logado, se não ele será redirecionado para se cadastrar/logar, depois de cadastrar/logar, ele será redirecionado para a publicação que ele queria interagir
-- Aba "Artigos"/"Notícias": sem curtidas, ao clicar navega para `/blog/:slug` com markdown renderizado
-- Aba "Vídeos": thumbnail com duração overlay, modal com player simulado
-- Aba "CyberLab": dados mock de quizzes, QuizPlayer com estado (pergunta atual, score, explicações)(o usuário só verá a resposta no final e se ele estiver logado, se não ele será redirecionado para se cadastrar/logar, depois de cadastrar/logar, ele será redirecionado para o resultado do quizz que ele terminou
-- Framer Motion: fade-up no scroll com `motion.div` e `whileInView`
-- Estatísticas do CyberLab: total desafios, participantes, questões
+Merge the Student Dashboard and User Dashboard into a single unified dashboard (`/dash`) with a tech-circuit background, gradient metric cards, timeline/CRM, edit profile modal with avatar suggestions, and multiple tabs (Blog, Cursos, Certificados, Comunidade, Quiz/Jogos, Verificadores). Also update ExpertProfile with dynamic patient list, same circuit background, and gradient cards. Connect Experts page to ExpertProfile.
 
 ---
 
-## ETAPA 3: Página Cursos + Painel do Aluno
+### Part 1: Unified Dashboard (`/dash` + `/student-dashboard` merged)
 
-Reestruturar a experiência de cursos em duas partes: vitrine pública e painel autenticado.
+**1.1 — Circuit Board Background (shared component)**
+- Create `src/components/CircuitBackground.tsx` — a fixed SVG/CSS overlay with:
+  - Radial gradient base: `#0a0e17` center to black edges
+  - Amber/orange neon circuit lines at low opacity, converging from edges
+  - `drop-shadow` glow on line endpoints
+  - `bg-fixed` positioning so content scrolls over it
 
-**Novos arquivos:**
+**1.2 — Top Header Bar**
+- User avatar + name on the right side (fetched from `profiles` table or auth)
+- Sidebar with tabs: Blog, Cursos, Certificados, Comunidade, Quiz & Jogos, Verificadores, Editar Perfil, Sair
 
-- `src/pages/StudentDashboard.tsx` — Painel do aluno com sidebar retrátil glassmorphism
-- `src/components/courses/CourseSidebar.tsx` — Sidebar fixa com ícones Lucide (Dashboard, Meus Cursos, Certificados, Comunidade), efeito glassmorphism, ícones brilham dourado no hover
-- `src/components/courses/CoursePlayer.tsx` — Grade de 6 vídeos por módulo + player + seção de comentários com reactions
-- `src/components/courses/ProgressBar.tsx` — Barras de progresso douradas vibrantes
-- `src/components/courses/CertificateSection.tsx` — Download de certificado com selo brilhante + confetti (canvas-confetti)
-- `src/components/courses/CommunityFeed.tsx` — Feed de dúvidas com status (respondida/pendente)
+**1.3 — Gradient Metric Cards (3 horizontal)**
+- Card 1 (cyan→teal): Courses enrolled count + Clock icon
+- Card 2 (pink→orange): Completed courses + Lightbulb icon
+- Card 3 (navy→green): Certificates count + LineChart icon
+- All cards: `bg-slate-900/60 backdrop-blur-md` translucent style
 
-**Arquivos modificados:**
+**1.4 — Blog Tab (first/highlighted tab)**
+- Show posts liked by the user from the Blog page
+- Sub-tabs: "Mais Recentes" / "Mais Antigas"
+- Post cards with author avatar, name, date, 3-dot menu
+- Action bar: Like, Comment, Share
 
-- `src/pages/Courses.tsx` — CSS alinhado à identidade visual (azul marinho + dourado)
-- `src/App.tsx` — Rota `/student-dashboard` protegida
+**1.5 — Cursos Tab**
+- List enrolled courses (in-progress + completed)
+- Completed courses show: course image, title, final grade, completion date, hours, 100% progress bar
+- CTA buttons: View Certificate, Download PDF, Share on LinkedIn
+- Click on in-progress course → redirect to course player
 
-**Detalhes técnicos:**
+**1.6 — Certificados Tab**
+- Blue-to-yellow gradient card design
+- List completed courses only
+- "Emitir Certificado" button per course
 
-- Sidebar com `backdrop-blur-xl bg-[#001f3f]/80`, borda lateral dourada no item ativo
-- Player de vídeo: grid 2x3 de thumbnails de módulo, ao clicar expande o player
-- Progresso salvo em localStorage (ou Supabase se disponível)
-- Ao 100%: canvas-confetti dispara, botão vira "Baixar Certificado" com selo dourado animado
-- Modal de logout com confirmação e fade-out
-- Comentários com reactions sociais (👍❤️🔥💡)
+**1.7 — Comunidade Tab**
+- Interactive feed with messages from students/professors
+- Message input field + reactions (thumbs up, heart, fire, lightbulb)
+- Comments display with author avatars
 
----
+**1.8 — Quiz & Jogos Tab**
+- Pull quiz data from CyberLab section
+- Show started vs completed challenges
+- Progress indicators
 
-## ETAPA 4: Página Especialistas — Perfil com Sidebar
-
-Criar componente de perfil do especialista com sidebar de gestão.
-
-**Novos arquivos:**
-
-- `src/components/experts/ExpertProfile.tsx` — Sidebar premium com glassmorphism (#00215E), itens: Dashboard, Agendamentos, Notificações, Relatórios, Inbox
-- Item ativo: fundo azul suave + borda esquerda 3px dourada
-- Hover dourado nos ícones e textos, fade-in nos itens
-
-**Funcionalidades:**
-
-- **Agendamentos (Sheet):** Gaveta lateral com tabs Próximos/Histórico. Se role=especialista, aba extra "Minha Agenda" com botões Confirmar/Concluir/Reagendar
-- **Badges:** Verde (Confirmado), Vermelho (Cancelado), Cinza (Concluído)
-- **Regras 24h:** Botões bloqueados com Tooltip explicativo se faltam <24h
-- **Perfil:** Modal para atualizar Nome e Foto, avatar com borda dourada
-- **Logout:** Botão "Sair" no rodapé, signOut Supabase, redirect `/auth`
-
-**Arquivos modificados:**
-
-- `src/App.tsx` — Rota para perfil do especialista
-- Migração SQL: `CREATE UNIQUE INDEX unique_active_appointment ON appointments (specialist_id, date) WHERE (status != 'Cancelado')`
-
-**Detalhes técnicos:**
-
-- Usar shadcn Sheet para gaveta de agendamentos
-- Skeleton loaders para estados de carregamento
-- Nunca deletar registros — apenas alterar status para 'Cancelado'
-- Validação de conflito de horário no frontend antes de confirmar
+**1.9 — Verificadores Tab**
+- Keep existing link/email/pix checkers from current Dash
 
 ---
 
-## Dependências a Instalar
+### Part 2: Edit Profile Modal
 
-- `framer-motion` — animações de scroll e transições
-- `react-markdown` + `remark-gfm` — renderização de markdown nos artigos
-- `canvas-confetti` — já instalado (usado em Experts.tsx)
+- Animated modal (`modal-in` keyframe: opacity 0→1, scale 0.95→1, translateY 20px→0, 0.3s ease-out)
+- Overlay: `backdrop-blur-sm bg-black/60`
+- Golden-bordered avatar circle with "Alterar foto" text
+- Grid of 20 DiceBear avatar suggestions (4 columns, scrollable `max-h-40 overflow-y-auto`)
+  - `backgroundColor=facc15` parameter
+  - `ring-2 ring-yellow-500` on selected
+  - Hover: `drop-shadow(0 0 8px rgba(250,204,21,0.5))` + `scale(1.1)`
+- Name input field (dark bg, "NOME" label)
+- Save button: `bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold`
+- Upload validation: max 2MB, only .jpg/.png/.webp, spinner during upload
+- Supabase integration: upload to `avatars` bucket, upsert `profiles` table (full_name, avatar_url)
+- Toast notifications on save
 
-## Ordem de Execução Sugerida
+---
 
-1. Auth (menor escopo, desbloqueia testes das outras áreas)
-2. Blog (independente, muitos componentes novos)
-3. Cursos + Painel do Aluno (depende de auth funcional)
-4. Especialistas Perfil (depende de auth + tabelas Supabase)
+### Part 3: Expert Profile Updates
+
+**3.1 — Circuit Background**
+- Apply same `CircuitBackground` component
+
+**3.2 — Gradient Metric Cards**
+- Card 1 (cyan→teal): "Agendamentos para Hoje" + Clock icon
+- Card 2 (pink→orange): "Agendamentos para Amanhã" + Lightbulb icon  
+- Card 3 (navy→green): "Agendas" + LineChart icon
+
+**3.3 — Activity Timeline/CRM**
+- Vertical feed with left connection line + colored category icons
+- Top action input: "Discutir no bate-papo" with blue "+" icon
+- Highlight card (scheduling): yellow bg, calendar icon, "Confirmado" (green badge) + "Hoje" (blue badge), action buttons (Visualizar, Enviar Mensagem, Cancelar)
+- Activity list: white cards with title, client name, time
+- Section dividers: "Coisas a fazer" (green), "Hoje" (blue)
+- Timeline line hides on mobile
+
+**3.4 — Dynamic Patient List**
+- "Próximos Agendamentos" shows real patient cards with actions
+
+**3.5 — Edit Profile**
+- Same modal as Part 2, connected to Supabase profiles table
+
+---
+
+### Part 4: Experts → ExpertProfile Connection
+
+- On Experts page, add navigation to `/expert-profile` for authenticated experts
+- Check user role to determine if they should see the expert dashboard
+
+---
+
+### Technical Details
+
+**Files to create:**
+- `src/components/CircuitBackground.tsx` — shared tech background
+- `src/components/EditProfileModal.tsx` — shared edit profile modal
+- `src/components/ActivityTimeline.tsx` — timeline/CRM component
+
+**Files to heavily modify:**
+- `src/pages/Dash.tsx` — complete rewrite merging StudentDashboard features
+- `src/pages/StudentDashboard.tsx` — redirect to `/dash` or remove
+- `src/components/experts/ExpertProfile.tsx` — add circuit bg, gradient cards, timeline
+- `src/pages/Experts.tsx` — add link to expert-profile for experts
+- `src/App.tsx` — update routes (possibly merge `/student-dashboard` into `/dash`)
+- `src/index.css` — add `modal-in` keyframe, avatar hover effects
+
+**Database:**
+- Uses existing `profiles` table (full_name, avatar_url)
+- Uses existing `courses` table
+- Supabase `avatars` storage bucket for uploads
+
+**Dependencies:**
+- `browser-image-compression` for avatar upload optimization (compress to 200KB, 500px, WebP)
+
