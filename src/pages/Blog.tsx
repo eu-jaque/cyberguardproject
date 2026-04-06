@@ -15,6 +15,7 @@ import type { VideoPost } from "@/components/blog/VideoModal";
 import { useEffect, useState } from "react";
 import supabase from "../../utils/supabase";
 
+
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
 const tabs: { label: string; value: ContentType }[] = [
@@ -278,7 +279,7 @@ const Blog = () => {
                           <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-red-400 mb-1">{news.category}</span>
+                          <span className="text-[10px] font-bold text-amber-400 mb-1">{news.category}</span>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
