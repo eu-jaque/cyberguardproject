@@ -1,622 +1,424 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import supabase from "../../utils/supabase";
-import confettiLib from "canvas-confetti";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  BookOpen, Award, MessageSquare, Shield, Gamepad2, LogOut,
-  ChevronLeft, ChevronRight, Play, CheckCircle, Download, Share2,
-  ThumbsUp, Heart, Flame, Lightbulb, Send, Menu, X, Loader2,
-  Link2, Mail, Key, XCircle, Clock, LineChart, Edit,
-  MoreHorizontal, ExternalLink, FileText
-} from "lucide-react";
-import CircuitBackground from "@/components/CircuitBackground";
-import EditProfileModal from "@/components/EditProfileModal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import type { Course } from "./Courses";
+import { Shield, Link2, Mail, Key, CheckCircle, XCircle, BookOpen, Gamepad2, CreditCard, ChevronRight, Lock, Wifi, Server, Eye, MonitorSmartphone, ShieldCheck } from "lucide-react";
+import  supabase  from '../../utils/supabase';
 
-type SidebarItem = { icon: typeof BookOpen; label: string; key: string };
+/*const courseLevels = [
+  {
+    level: "beginne",
+    courses: [
+      { title: "Introdução à Segurança Digital", lessons: 12, duration: "4h" },
+      { title: "Proteja suas Senhas", lessons: 8, duration: "2h" },
+      { title: "Navegação Segura na Internet", lessons: 10, duration: "3h" },
+    ],
+  },
+  {
+    level: "intermediate",
+    courses: [
+      { title: "Engenharia Social e Phishing", lessons: 15, duration: "6h" },
+      { title: "Segurança em Redes Wi-Fi", lessons: 10, duration: "4h" },
+      { title: "Proteção de Dados Pessoais", lessons: 12, duration: "5h" },
+    ],
+  },
+  {
+    level: "advanced",
+    courses: [
+      { title: "Análise de Malware", lessons: 20, duration: "10h" },
+      { title: "Criptografia Aplicada", lessons: 18, duration: "8h" },
+      { title: "Resposta a Incidentes", lessons: 16, duration: "7h" },
+    ],
+  },
+  {
+    level: "expert",
+    courses: [
+      { title: "Pentest e Ethical Hacking", lessons: 25, duration: "15h" },
+      { title: "Forense Digital", lessons: 22, duration: "12h" },
+      { title: "Arquitetura de Segurança", lessons: 20, duration: "10h" },
+    ],
+  },
+];*/
 
-const sidebarItems: SidebarItem[] = [
-  { icon: FileText, label: "Blog", key: "blog" },
-  { icon: BookOpen, label: "Cursos", key: "courses" },
-  { icon: Award, label: "Certificados", key: "certificates" },
-  { icon: MessageSquare, label: "Comunidade", key: "community" },
-  { icon: Gamepad2, label: "Quiz & Jogos", key: "quiz" },
-  { icon: Shield, label: "Verificadores", key: "verifiers" },
-];
-
-const reactions = [
-  { icon: ThumbsUp, label: "👍" },
-  { icon: Heart, label: "❤️" },
-  { icon: Flame, label: "🔥" },
-  { icon: Lightbulb, label: "💡" },
-];
-
-const mockVideos = [
-  { id: "v1", title: "Introdução ao módulo", duration: "12:30", thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=200&fit=crop" },
-  { id: "v2", title: "Conceitos fundamentais", duration: "15:45", thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=200&fit=crop" },
-  { id: "v3", title: "Prática guiada", duration: "20:10", thumbnail: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&h=200&fit=crop" },
-  { id: "v4", title: "Estudo de caso", duration: "18:00", thumbnail: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=300&h=200&fit=crop" },
-  { id: "v5", title: "Exercícios práticos", duration: "22:15", thumbnail: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=300&h=200&fit=crop" },
-  { id: "v6", title: "Revisão e avaliação", duration: "10:00", thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&h=200&fit=crop" },
-];
-
-const communityQuestions = [
-  { id: "1", author: "Maria", avatar: "M", question: "Como configurar firewall no Ubuntu?", status: "respondida", replies: 3 },
-  { id: "2", author: "João", avatar: "J", question: "Melhor antivírus para Windows 2026?", status: "pendente", replies: 0 },
-  { id: "3", author: "Ana", avatar: "A", question: "Dúvida sobre certificado SSL/TLS", status: "respondida", replies: 5 },
-  { id: "4", author: "Pedro", avatar: "P", question: "Como detectar keylogger?", status: "pendente", replies: 1 },
-];
-
-const mockBlogPosts = [
-  { id: "1", author: "Dr. Carlos Silva", role: "Especialista em Cibersegurança", date: "15 Mar 2026", avatar: "C", title: "Como proteger seus dados em redes públicas", content: "Redes Wi-Fi públicas são um prato cheio para hackers. Neste artigo, explico as melhores práticas para se manter seguro.", likes: 24, comments: 8 },
-  { id: "2", author: "Ana Beatriz", role: "Pesquisadora de Segurança", date: "12 Mar 2026", avatar: "A", title: "Os 5 golpes mais comuns no Pix em 2026", content: "O Pix revolucionou os pagamentos, mas também abriu portas para novos golpes. Conheça os mais frequentes.", likes: 42, comments: 15 },
-  { id: "3", author: "Prof. Ricardo Lopes", role: "Instrutor de Cybersecurity", date: "10 Mar 2026", avatar: "R", title: "Firewall: seu primeiro escudo digital", content: "Entenda como configurar um firewall doméstico e proteger toda a sua rede.", likes: 18, comments: 5 },
-];
-
-const mockQuizzes = [
-  { id: "1", title: "Identificando Phishing", status: "concluído", score: "8/10", progress: 100 },
-  { id: "2", title: "Segurança de Senhas", status: "em andamento", score: "—", progress: 60 },
-  { id: "3", title: "Golpes no Pix", status: "não iniciado", score: "—", progress: 0 },
-  { id: "4", title: "Privacidade Online", status: "concluído", score: "10/10", progress: 100 },
+const scamScenarios = [
+  { text: "Você recebeu um e-mail do banco pedindo para atualizar dados clicando em um link", isScam: true },
+  { text: "Seu banco ligou para o número oficial e pediu para comparecer à agência", isScam: false },
+  { text: "Um desconhecido no WhatsApp oferece investimento com retorno de 300% em 24h", isScam: true },
+  { text: "Você recebeu uma notificação do app oficial do banco sobre uma compra que fez", isScam: false },
+  { text: "Alguém pede seu código de verificação por SMS dizendo ser do suporte técnico", isScam: true },
+  { text: "A empresa onde você trabalha enviou um e-mail interno sobre treinamento de segurança", isScam: false },
 ];
 
 export default function Dash() {
   const { t } = useLanguage();
-  const { user, signOutUser } = useAuth();
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeSection, setActiveSection] = useState("blog");
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [showEditProfile, setShowEditProfile] = useState(false);
-  const [profileName, setProfileName] = useState("");
-  const [profileAvatar, setProfileAvatar] = useState("");
-  const [blogSubTab, setBlogSubTab] = useState<"recent" | "old">("recent");
-
-  // Course player
-  const [activeCourse, setActiveCourse] = useState<Course | null>(null);
-  const [activeVideoIdx, setActiveVideoIdx] = useState(0);
-  const [completedVideos, setCompletedVideos] = useState<Set<string>>(new Set());
-
-  // Community
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([
-    { id: "1", author: "Aluno", text: "Ótima aula!", reaction: "👍" },
-    { id: "2", author: "Professor", text: "Obrigado pelo feedback!", reaction: "❤️" },
-  ]);
-
-  // Verifiers
   const [linkInput, setLinkInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [pixInput, setPixInput] = useState("");
   const [linkResult, setLinkResult] = useState<"safe" | "danger" | null>(null);
   const [emailResult, setEmailResult] = useState<"safe" | "danger" | null>(null);
   const [pixResult, setPixResult] = useState<"safe" | "danger" | null>(null);
+  //const [gameIndex, setGameIndex] = useState(0);
+  //const [gameScore, setGameScore] = useState(0);
+  //const [gameAnswer, setGameAnswer] = useState<"correct" | "wrong" | null>(null);
+  //const [selectedCourseLevel, setSelectedCourseLevel] = useState(0);
 
-  useEffect(() => {
-    async function load() {
-      const { data } = await supabase.from("courses").select("*");
-      if (data) setCourses(data as Course[]);
+  const checkLink = () => {
+    if (!linkInput.trim()) return;
+    const suspicious = linkInput.includes("bit.ly") || linkInput.includes("encurtador") || !linkInput.startsWith("https");
+    setLinkResult(suspicious ? "danger" : "safe");
+  };
 
-      // Load profile
-      if (user) {
-        const { data: profile } = await supabase.from("profiles").select("full_name, avatar_url").eq("id", user.id).single();
-        if (profile) {
-          setProfileName(profile.full_name || user.email?.split("@")[0] || "Usuário");
-          setProfileAvatar(profile.avatar_url || "");
-        } else {
-          setProfileName(user.email?.split("@")[0] || "Usuário");
-        }
+  const checkEmail = () => {
+    if (!emailInput.trim()) return;
+    const suspicious = emailInput.includes("temp") || emailInput.includes("fake") || !emailInput.includes("@");
+    setEmailResult(suspicious ? "danger" : "safe");
+  };
+
+  const checkPix = () => {
+    if (!pixInput.trim()) return;
+    const suspicious = pixInput.length < 5;
+    setPixResult(suspicious ? "danger" : "safe");
+  };
+
+  /*const handleGameAnswer = (answeredScam: boolean) => {
+    const correct = answeredScam === scamScenarios[gameIndex].isScam;
+    if (correct) setGameScore((s) => s + 1);
+    setGameAnswer(correct ? "correct" : "wrong");
+    setTimeout(() => {
+      setGameAnswer(null);
+      if (gameIndex < scamScenarios.length - 1) {
+        setGameIndex((i) => i + 1);
       }
-      setLoading(false);
-    }
-    load();
-  }, [user]);
+    }, 1200);
+  };*/
 
-  const totalVideos = mockVideos.length;
-  const completedCount = completedVideos.size;
-  const progressPct = Math.round((completedCount / totalVideos) * 100);
-  const isComplete = progressPct === 100;
-
-  const markComplete = (videoId: string) => {
-    const newSet = new Set(completedVideos);
-    newSet.add(videoId);
-    setCompletedVideos(newSet);
-    if (newSet.size === totalVideos) {
-      confettiLib({ particleCount: 200, spread: 100, origin: { y: 0.5 }, colors: ["#D4A535", "#F5D77A", "#B8860B", "#FFD700"] });
-    }
-  };
-
-  const addComment = () => {
-    if (!comment.trim()) return;
-    setComments(prev => [...prev, { id: Date.now().toString(), author: user?.email || "Você", text: comment, reaction: "" }]);
-    setComment("");
-  };
-
-  const handleLogout = async () => {
-    await signOutUser();
-    navigate("/auth", { replace: true });
-  };
-
-  const checkLink = () => { if (!linkInput.trim()) return; setLinkResult(linkInput.includes("bit.ly") || !linkInput.startsWith("https") ? "danger" : "safe"); };
-  const checkEmail = () => { if (!emailInput.trim()) return; setEmailResult(emailInput.includes("temp") || !emailInput.includes("@") ? "danger" : "safe"); };
-  const checkPix = () => { if (!pixInput.trim()) return; setPixResult(pixInput.length < 5 ? "danger" : "safe"); };
-
-  if (loading) return (
-    <div className="h-screen flex items-center justify-center bg-background">
-      <Loader2 className="animate-spin text-primary" size={48} />
-    </div>
-  );
-
-  const avatarSrc = profileAvatar || `https://api.dicebear.com/7.x/initials/svg?seed=${profileName}&backgroundColor=facc15`;
+  const levelKeys = ["dash.beginner", "dash.intermediate", "dash.advanced", "dash.expert"];
 
   return (
-    <div className="min-h-screen flex relative">
-      <CircuitBackground />
+    <div className="min-h-screen bg-background">
+      <Header />
 
-      {/* Sidebar */}
-      <aside className={`fixed top-0 left-0 h-full z-40 transition-all duration-300 ${sidebarOpen ? "w-64" : "w-16"} flex flex-col`}
-        style={{ background: "rgba(10,14,23,0.92)", backdropFilter: "blur(20px)" }}>
-
-        {/* Profile in sidebar */}
-        <div className="flex items-center justify-between p-4 border-b border-border/20">
-          {sidebarOpen && (
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full border-2 border-yellow-400 overflow-hidden">
-                <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-foreground truncate max-w-[140px]">{profileName}</p>
-                <p className="text-[10px] text-muted-foreground">Estudante</p>
-              </div>
-            </div>
-          )}
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-secondary/30 text-muted-foreground">
-            {sidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-          </button>
-        </div>
-
-        <nav className="flex-1 px-2 py-4 space-y-1">
-          {sidebarItems.map((item, i) => (
-            <motion.div key={item.key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}>
-              <button
-                onClick={() => { setActiveSection(item.key); setActiveCourse(null); }}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${
-                  activeSection === item.key
-                    ? "bg-primary/10 text-primary border-l-[3px] border-primary"
-                    : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
-                }`}
-              >
-                <item.icon className={`w-5 h-5 flex-shrink-0 transition-colors ${activeSection === item.key ? "text-primary" : "group-hover:text-primary"}`} />
-                {sidebarOpen && <span className="font-medium">{item.label}</span>}
-              </button>
-            </motion.div>
-          ))}
-        </nav>
-
-        <div className="p-3 space-y-1 border-t border-border/20">
-          <button onClick={() => setShowEditProfile(true)}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-primary hover:bg-secondary/20 transition-all">
-            <Edit className="w-4 h-4" />
-            {sidebarOpen && <span>Editar Perfil</span>}
-          </button>
-          <button onClick={() => setShowLogoutModal(true)}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-500/10 transition-all">
-            <LogOut className="w-4 h-4" />
-            {sidebarOpen && <span>Sair</span>}
-          </button>
-        </div>
-      </aside>
-
-      {/* Main */}
-      <div className={`flex-1 relative z-10 transition-all duration-300 ${sidebarOpen ? "ml-64" : "ml-16"}`}>
-        {/* Top bar with user name on right */}
-        <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/10">
-          <div className="lg:hidden">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg bg-secondary/30">
-              <Menu className="w-5 h-5 text-foreground" />
-            </button>
+      {/* Profile Hero - Premium Design */}
+      <div className="relative pt-[80px]">
+        {/* Background with matrix-like effect */}
+        <div className="relative h-[320px] overflow-hidden bg-gradient-to-b from-background via-card to-background">
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: `linear-gradient(rgba(212, 165, 53, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 165, 53, 0.1) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
+          }} />
+          {/* Gold glow from center */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-[400px] h-[400px] rounded-full opacity-10" style={{
+              background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)'
+            }} />
           </div>
-          <div className="hidden lg:block">
-            <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-foreground">{profileName}</span>
-            <div className="w-8 h-8 rounded-full border-2 border-yellow-400 overflow-hidden">
-              <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </header>
 
-        <div className="p-6 md:p-10">
-          {/* Gradient Metric Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="rounded-xl p-5 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0891b2, #115e59)" }}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-3xl font-bold text-white">{courses.length}</p>
-                  <p className="text-xs text-white/80 mt-1">Cursos Matriculados</p>
-                </div>
-                <Clock className="w-6 h-6 text-white/60" />
+          {/* Profile content */}
+          <div className="relative z-10 flex flex-col items-center justify-center h-full">
+            {/* Avatar with border glow */}
+            <div className="relative mb-4">
+              <div className="w-24 h-24 rounded-full border-2 border-primary/40 bg-card flex items-center justify-center shadow-lg" style={{
+                boxShadow: '0 0 30px rgba(212, 165, 53, 0.2)'
+              }}>
+                <Shield className="w-12 h-12 text-primary" />
               </div>
+              {/* Online indicator */}
+              <div className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-card" />
             </div>
-            <div className="rounded-xl p-5 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #e11d48, #ea580c)" }}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-3xl font-bold text-white">{completedCount}</p>
-                  <p className="text-xs text-white/80 mt-1">Aulas Concluídas</p>
+
+            {/* Label */}
+            <span className="text-primary/70 text-xs tracking-[0.3em] uppercase mb-1">Perfil Protegido</span>
+
+            {/* Name */}
+            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+              Carlos Silva
+            </h1>
+
+            {/* Stats row */}
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-primary/70" />
+                <div className="text-center">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Nível</span>
+                  <p className="text-sm font-bold text-primary">Avançado</p>
                 </div>
-                <Lightbulb className="w-6 h-6 text-white/60" />
               </div>
-            </div>
-            <div className="rounded-xl p-5 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1e3a5f, #10b981)" }}>
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-3xl font-bold text-white">{isComplete ? 1 : 0}</p>
-                  <p className="text-xs text-white/80 mt-1">Certificados</p>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-primary/70" />
+                <div className="text-center">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">Verificações</span>
+                  <p className="text-sm font-bold text-primary">147</p>
                 </div>
-                <LineChart className="w-6 h-6 text-white/60" />
               </div>
             </div>
           </div>
-
-          {/* ====== BLOG TAB ====== */}
-          {activeSection === "blog" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <div className="flex items-center gap-3">
-                <button onClick={() => setBlogSubTab("recent")}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${blogSubTab === "recent" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary/30"}`}>
-                  Mais Recentes
-                </button>
-                <button onClick={() => setBlogSubTab("old")}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${blogSubTab === "old" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary/30"}`}>
-                  Mais Antigas
-                </button>
-              </div>
-
-              {(blogSubTab === "old" ? [...mockBlogPosts].reverse() : mockBlogPosts).map(post => (
-                <div key={post.id} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-5 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
-                        <span className="text-sm font-bold text-primary">{post.avatar}</span>
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-foreground">{post.author}</p>
-                        <p className="text-[11px] text-muted-foreground">{post.role} · {post.date}</p>
-                      </div>
-                    </div>
-                    <button className="p-1.5 rounded-full hover:bg-secondary/30 text-muted-foreground">
-                      <MoreHorizontal className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-foreground mb-1">{post.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{post.content}</p>
-                  </div>
-                  <div className="flex items-center gap-6 pt-2 border-t border-border/20">
-                    <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors">
-                      <ThumbsUp className="w-4 h-4" /> Curtir ({post.likes})
-                    </button>
-                    <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors">
-                      <MessageSquare className="w-4 h-4" /> Comentar ({post.comments})
-                    </button>
-                    <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors">
-                      <Share2 className="w-4 h-4" /> Compartilhar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          )}
-
-          {/* ====== COURSES TAB ====== */}
-          {activeSection === "courses" && !activeCourse && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <h2 className="text-xl font-bold text-foreground">Meus Cursos</h2>
-
-              {/* Completed courses portal */}
-              {isComplete && courses.length > 0 && (
-                <div className="bg-card/60 backdrop-blur-md border border-primary/30 rounded-2xl p-6 space-y-4">
-                  <div className="flex gap-4">
-                    <img src={courses[0]?.url} alt="" className="w-24 h-24 rounded-xl object-cover" />
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-foreground">{courses[0]?.title}</h3>
-                      <p className="text-xs text-muted-foreground mb-2">Concluído em 15/03/2026 · 40 horas</p>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-2xl font-bold text-primary">9,5/10</span>
-                        <span className="text-xs text-muted-foreground">Nota Final</span>
-                      </div>
-                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-gold rounded-full w-full" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <button className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 hover:bg-primary/90 transition-colors">
-                      <Award className="w-4 h-4" /> Visualizar Certificado
-                    </button>
-                    <button className="px-4 py-2 rounded-xl bg-secondary/50 text-foreground text-xs font-bold flex items-center gap-1.5 hover:bg-secondary/70 transition-colors">
-                      <Download className="w-4 h-4" /> Baixar PDF
-                    </button>
-                    <button className="px-4 py-2 rounded-xl bg-blue-500/20 text-blue-400 text-xs font-bold flex items-center gap-1.5 hover:bg-blue-500/30 transition-colors">
-                      <ExternalLink className="w-4 h-4" /> LinkedIn
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {courses.map(c => (
-                  <div key={c.id} onClick={() => setActiveCourse(c)}
-                    className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl overflow-hidden cursor-pointer hover:border-primary/40 transition-all group">
-                    <img src={c.url} alt="" className="w-full h-40 object-cover" />
-                    <div className="p-4 space-y-2">
-                      <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{c.title}</h3>
-                      <p className="text-xs text-muted-foreground">{c.level} · {c.duration}</p>
-                      <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-gold rounded-full" style={{ width: `${progressPct}%` }} />
-                      </div>
-                      <span className="text-[10px] text-muted-foreground">{progressPct}% concluído</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* ====== COURSE PLAYER ====== */}
-          {activeSection === "courses" && activeCourse && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <button onClick={() => setActiveCourse(null)} className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
-                <ChevronLeft className="w-4 h-4" /> Voltar
-              </button>
-              <h2 className="text-xl font-bold text-foreground">{activeCourse.title}</h2>
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Progresso do Curso</span><span>{progressPct}%</span>
-                </div>
-                <div className="h-3 bg-secondary rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-gold rounded-full transition-all duration-700" style={{ width: `${progressPct}%` }} />
-                </div>
-              </div>
-              <div className="aspect-video bg-card/60 backdrop-blur-md border border-border/30 rounded-2xl overflow-hidden relative">
-                <img src={mockVideos[activeVideoIdx].thumbnail} alt="" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-background/40 flex items-center justify-center">
-                  <button onClick={() => markComplete(mockVideos[activeVideoIdx].id)}
-                    className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
-                    {completedVideos.has(mockVideos[activeVideoIdx].id)
-                      ? <CheckCircle className="w-8 h-8 text-primary-foreground" />
-                      : <Play className="w-8 h-8 text-primary-foreground ml-1" />}
-                  </button>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {mockVideos.map((v, i) => (
-                  <button key={v.id} onClick={() => setActiveVideoIdx(i)}
-                    className={`relative rounded-xl overflow-hidden border-2 transition-all ${i === activeVideoIdx ? "border-primary shadow-lg" : "border-border/30 hover:border-primary/40"}`}>
-                    <div className="aspect-video">
-                      <img src={v.thumbnail} alt="" className="w-full h-full object-cover" />
-                      {completedVideos.has(v.id) && (
-                        <div className="absolute inset-0 bg-emerald-500/20 flex items-center justify-center">
-                          <CheckCircle className="w-6 h-6 text-emerald-500" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-2 bg-card/80">
-                      <p className="text-[11px] font-medium text-foreground truncate">{v.title}</p>
-                      <p className="text-[10px] text-muted-foreground">{v.duration}</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-              {/* Comments */}
-              <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-2xl p-5 space-y-4">
-                <h3 className="text-sm font-bold text-foreground">Comentários</h3>
-                <div className="space-y-3 max-h-60 overflow-y-auto">
-                  {comments.map(c => (
-                    <div key={c.id} className="flex gap-3">
-                      <div className="w-8 h-8 rounded-full bg-secondary/50 flex items-center justify-center text-xs font-bold text-foreground">{c.author[0]}</div>
-                      <div className="flex-1 bg-secondary/20 rounded-xl px-3 py-2">
-                        <span className="text-xs font-bold text-foreground">{c.author}</span>
-                        <p className="text-xs text-foreground/80">{c.text}</p>
-                        {c.reaction && <span className="text-sm">{c.reaction}</span>}
-                        <div className="flex gap-1 mt-1">
-                          {reactions.map(r => (<button key={r.label} className="text-sm hover:scale-125 transition-transform">{r.label}</button>))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <input value={comment} onChange={e => setComment(e.target.value)} onKeyDown={e => e.key === "Enter" && addComment()}
-                    placeholder="Escreva um comentário..."
-                    className="flex-1 bg-secondary/30 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-                  <button onClick={addComment} className="p-2.5 rounded-xl bg-primary text-primary-foreground">
-                    <Send className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* ====== CERTIFICATES TAB ====== */}
-          {activeSection === "certificates" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <h2 className="text-xl font-bold text-foreground">Certificados</h2>
-              {isComplete ? (
-                <div className="rounded-2xl p-8 text-center space-y-4 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1e3a5f, #d4a535)" }}>
-                  <div className="text-6xl">🏅</div>
-                  <h3 className="text-lg font-bold text-white">Parabéns! Certificado Disponível</h3>
-                  <p className="text-sm text-white/80">Você concluiu 100% do curso.</p>
-                  <button className="bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 mx-auto hover:bg-white/30 transition-colors border border-white/20">
-                    <Download className="w-5 h-5" /> Emitir Certificado
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-2xl p-12 text-center">
-                  <Award className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                  <p className="text-muted-foreground">Complete 100% de um curso para receber seu certificado.</p>
-                  <p className="text-sm text-muted-foreground mt-2">Progresso atual: {progressPct}%</p>
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {/* ====== COMMUNITY TAB ====== */}
-          {activeSection === "community" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <h2 className="text-xl font-bold text-foreground">Comunidade</h2>
-              {/* Message input */}
-              <div className="flex gap-2">
-                <input value={comment} onChange={e => setComment(e.target.value)} onKeyDown={e => e.key === "Enter" && addComment()}
-                  placeholder="Escreva uma mensagem para a comunidade..."
-                  className="flex-1 bg-card/60 backdrop-blur-md border border-border/30 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-                <button onClick={addComment} className="p-3 rounded-xl bg-primary text-primary-foreground">
-                  <Send className="w-4 h-4" />
-                </button>
-              </div>
-              {/* Feed */}
-              <div className="space-y-3">
-                {comments.map(c => (
-                  <div key={c.id} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-4 flex gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-xs font-bold text-primary">{c.author[0]}</div>
-                    <div className="flex-1">
-                      <span className="text-xs font-bold text-foreground">{c.author}</span>
-                      <p className="text-xs text-foreground/80 mt-0.5">{c.text}</p>
-                      <div className="flex gap-2 mt-2">
-                        {reactions.map(r => (
-                          <button key={r.label} className="text-sm hover:scale-125 transition-transform">{r.label}</button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                {communityQuestions.map(q => (
-                  <div key={q.id} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-secondary/50 flex items-center justify-center text-xs font-bold text-foreground">{q.avatar}</div>
-                      <div>
-                        <h4 className="text-sm font-bold text-foreground">{q.question}</h4>
-                        <p className="text-xs text-muted-foreground">Por {q.author} · {q.replies} respostas</p>
-                      </div>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${q.status === "respondida" ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"}`}>
-                      {q.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* ====== QUIZ & JOGOS TAB ====== */}
-          {activeSection === "quiz" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <h2 className="text-xl font-bold text-foreground">Quiz & Jogos</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {mockQuizzes.map(q => (
-                  <div key={q.id} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-5 space-y-3">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-sm font-bold text-foreground">{q.title}</h3>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                        q.status === "concluído" ? "bg-emerald-500/20 text-emerald-400" :
-                        q.status === "em andamento" ? "bg-amber-500/20 text-amber-400" :
-                        "bg-secondary/50 text-muted-foreground"
-                      }`}>{q.status}</span>
-                    </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-gold rounded-full transition-all" style={{ width: `${q.progress}%` }} />
-                    </div>
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>Pontuação: {q.score}</span>
-                      <span>{q.progress}%</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* ====== VERIFIERS TAB ====== */}
-          {activeSection === "verifiers" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-              <h2 className="text-xl font-bold text-foreground">{t("dash.verifiers")}</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                {/* Link */}
-                <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-5 space-y-3">
-                  <div className="flex items-center gap-2"><Link2 className="w-5 h-5 text-primary" /><span className="text-sm font-bold text-foreground">{t("dash.check_link")}</span></div>
-                  <Input value={linkInput} onChange={e => { setLinkInput(e.target.value); setLinkResult(null); }} placeholder={t("dash.enter_link")} />
-                  <button onClick={checkLink} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">{t("dash.verify")}</button>
-                  {linkResult && (
-                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md ${linkResult === "safe" ? "bg-emerald-500/10 text-emerald-400" : "bg-destructive/10 text-destructive"}`}>
-                      {linkResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-                      {linkResult === "safe" ? "Seguro" : t("dash.danger")}
-                    </div>
-                  )}
-                </div>
-                {/* Email */}
-                <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-5 space-y-3">
-                  <div className="flex items-center gap-2"><Mail className="w-5 h-5 text-primary" /><span className="text-sm font-bold text-foreground">{t("dash.check_email")}</span></div>
-                  <Input value={emailInput} onChange={e => { setEmailInput(e.target.value); setEmailResult(null); }} placeholder={t("dash.enter_email")} />
-                  <button onClick={checkEmail} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">{t("dash.verify")}</button>
-                  {emailResult && (
-                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md ${emailResult === "safe" ? "bg-emerald-500/10 text-emerald-400" : "bg-destructive/10 text-destructive"}`}>
-                      {emailResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-                      {emailResult === "safe" ? "Seguro" : t("dash.danger")}
-                    </div>
-                  )}
-                </div>
-                {/* Pix */}
-                <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-5 space-y-3">
-                  <div className="flex items-center gap-2"><Key className="w-5 h-5 text-primary" /><span className="text-sm font-bold text-foreground">{t("dash.check_pix")}</span></div>
-                  <Input value={pixInput} onChange={e => { setPixInput(e.target.value); setPixResult(null); }} placeholder={t("dash.enter_pix")} />
-                  <button onClick={checkPix} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">{t("dash.verify")}</button>
-                  {pixResult && (
-                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md ${pixResult === "safe" ? "bg-emerald-500/10 text-emerald-400" : "bg-destructive/10 text-destructive"}`}>
-                      {pixResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-                      {pixResult === "safe" ? "Seguro" : t("dash.danger")}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          )}
         </div>
       </div>
 
-      {/* Edit Profile Modal */}
-      <EditProfileModal
-        open={showEditProfile}
-        onClose={() => setShowEditProfile(false)}
-        currentName={profileName}
-        currentAvatar={profileAvatar}
-        onSaved={(name, avatar) => { setProfileName(name); setProfileAvatar(avatar); }}
-      />
+      {/* Tip Bar */}
+      <div className="bg-primary/10 border-y border-primary/20 py-3">
+        <div className="max-w-[1366px] mx-auto px-[2%] flex items-center gap-3">
+          <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
+          <p className="text-sm text-foreground/80">
+            <span className="font-bold text-primary">{t("dash.tip_title")}:</span> {t("dash.tip1")}
+          </p>
+        </div>
+      </div>
 
-      {/* Logout Modal */}
-      <AnimatePresence>
-        {showLogoutModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
-              className="bg-card border border-border rounded-2xl p-8 max-w-sm w-full mx-4 text-center space-y-4">
-              <LogOut className="w-10 h-10 text-red-400 mx-auto" />
-              <h3 className="text-lg font-bold text-foreground">Deseja sair?</h3>
-              <p className="text-sm text-muted-foreground">Seu progresso está salvo.</p>
-              <div className="flex gap-3">
-                <button onClick={() => setShowLogoutModal(false)} className="flex-1 py-2.5 rounded-xl border border-border text-foreground font-medium hover:bg-secondary/30 transition-colors">Cancelar</button>
-                <button onClick={handleLogout} className="flex-1 py-2.5 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition-colors">Sair</button>
+      {/* Main Content */}
+      <div className="max-w-[1366px] mx-auto px-[2%] py-10">
+        <Tabs defaultValue="subscriptions" className="w-full">
+          <TabsList className="w-full flex flex-wrap gap-1 h-auto bg-card border border-border p-1">
+            <TabsTrigger value="subscriptions" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <CreditCard className="w-4 h-4" /> {t("dash.subscriptions")}
+            </TabsTrigger>
+            <TabsTrigger value="courses" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <BookOpen className="w-4 h-4" /> {t("dash.courses")}
+            </TabsTrigger>
+            <TabsTrigger value="verifiers" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Shield className="w-4 h-4" /> {t("dash.verifiers")}
+            </TabsTrigger>
+            <TabsTrigger value="games" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Gamepad2 className="w-4 h-4" /> {t("dash.games")}
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Subscriptions */}
+          {/*<TabsContent value="subscriptions">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+              {subscriptions.map((sub, i) => (
+                <Card key={i} className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                  <CardHeader className="flex flex-row items-center gap-3 pb-2">
+                    <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                      <sub.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <CardTitle className="text-base font-semibold">{sub.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
+                      sub.active ? "bg-green-500/10 text-green-400" : "bg-muted text-muted-foreground"
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${sub.active ? "bg-green-400" : "bg-muted-foreground"}`} />
+                      {sub.active ? t("dash.active") : t("dash.inactive")}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>*/}
+
+          {/* Courses */}
+          {/*<TabsContent value="courses">
+            <div className="mt-6">
+              <div className="flex gap-2 mb-6 flex-wrap">
+                {levelKeys.map((key, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedCourseLevel(i)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      selectedCourseLevel === i
+                        ? "bg-primary text-primary-foreground shadow-lg"
+                        : "bg-card border border-border text-foreground/70 hover:border-primary/50"
+                    }`}
+                  >
+                    {t(key)}
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {courseLevels[selectedCourseLevel].courses.map((course, i) => (
+                  <Card key={i} className="group cursor-pointer hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-lg bg-primary/10">
+                          <BookOpen className="w-5 h-5 text-primary" />
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                      <CardTitle className="text-base mt-3">{course.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex gap-3 text-xs text-muted-foreground">
+                        <span>{course.lessons} lições</span>
+                        <span>{course.duration}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>*/}
+
+
+          
+
+          {/* Verifiers */}
+          <TabsContent value="verifiers">
+            <div className="grid md:grid-cols-3 gap-6 mt-6">
+              {/* Link Checker */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <Link2 className="w-5 h-5 text-primary" />
+                    <CardTitle className="text-base">{t("dash.check_link")}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Input
+                    value={linkInput}
+                    onChange={(e) => { setLinkInput(e.target.value); setLinkResult(null); }}
+                    placeholder={t("dash.enter_link")}
+                  />
+                  <button onClick={checkLink} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+                    {t("dash.verify")}
+                  </button>
+                  {linkResult && (
+                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md transition-all ${
+                      linkResult === "safe" ? "bg-green-500/10 text-green-400" : "bg-destructive/10 text-destructive"
+                    }`}>
+                      {linkResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                      {linkResult === "safe" ? t("dash.safe") : t("dash.danger")}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Email Checker */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-5 h-5 text-primary" />
+                    <CardTitle className="text-base">{t("dash.check_email")}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Input
+                    value={emailInput}
+                    onChange={(e) => { setEmailInput(e.target.value); setEmailResult(null); }}
+                    placeholder={t("dash.enter_email")}
+                  />
+                  <button onClick={checkEmail} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+                    {t("dash.verify")}
+                  </button>
+                  {emailResult && (
+                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md transition-all ${
+                      emailResult === "safe" ? "bg-green-500/10 text-green-400" : "bg-destructive/10 text-destructive"
+                    }`}>
+                      {emailResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                      {emailResult === "safe" ? t("dash.safe") : t("dash.danger")}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Pix Checker */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <Key className="w-5 h-5 text-primary" />
+                    <CardTitle className="text-base">{t("dash.check_pix")}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Input
+                    value={pixInput}
+                    onChange={(e) => { setPixInput(e.target.value); setPixResult(null); }}
+                    placeholder={t("dash.enter_pix")}
+                  />
+                  <button onClick={checkPix} className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+                    {t("dash.verify")}
+                  </button>
+                  {pixResult && (
+                    <div className={`flex items-center gap-2 text-sm p-2 rounded-md transition-all ${
+                      pixResult === "safe" ? "bg-green-500/10 text-green-400" : "bg-destructive/10 text-destructive"
+                    }`}>
+                      {pixResult === "safe" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                      {pixResult === "safe" ? t("dash.safe") : t("dash.danger")}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Games */}
+          {/*<TabsContent value="games">
+            <div className="mt-6">
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 flex items-center gap-3">
+                <Eye className="w-5 h-5 text-primary shrink-0" />
+                <p className="text-sm text-foreground/80">
+                  <span className="font-bold text-primary">{t("dash.tip_title")}:</span> {t("dash.tip2")}
+                </p>
+              </div>
+
+              <Card className="max-w-2xl mx-auto">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <Gamepad2 className="w-5 h-5 text-primary" /> {t("dash.scam_game")}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground mt-1">{t("dash.scam_game_desc")}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">{t("dash.score")}</p>
+                      <p className="text-2xl font-display font-bold text-primary">{gameScore}/{scamScenarios.length}</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="bg-secondary/50 rounded-lg p-6 min-h-[100px] flex items-center justify-center text-center">
+                      <p className="text-foreground text-lg">{scamScenarios[gameIndex].text}</p>
+                    </div>
+
+                    {gameAnswer && (
+                      <div className={`text-center text-lg font-bold p-3 rounded-lg transition-all ${
+                        gameAnswer === "correct" ? "bg-green-500/10 text-green-400" : "bg-destructive/10 text-destructive"
+                      }`}>
+                        {gameAnswer === "correct" ? t("dash.correct") : t("dash.wrong")}
+                      </div>
+                    )}
+
+                    {!gameAnswer && (
+                      <div className="flex gap-4">
+                        <button
+                          onClick={() => handleGameAnswer(true)}
+                          className="flex-1 bg-destructive/10 border border-destructive/30 text-destructive py-3 rounded-lg font-medium hover:bg-destructive/20 transition-colors"
+                        >
+                          {t("dash.scam")}
+                        </button>
+                        <button
+                          onClick={() => handleGameAnswer(false)}
+                          className="flex-1 bg-green-500/10 border border-green-500/30 text-green-400 py-3 rounded-lg font-medium hover:bg-green-500/20 transition-colors"
+                        >
+                          {t("dash.legit")}
+                        </button>
+                      </div>
+                    )}
+
+                    <div className="flex justify-center gap-1.5 pt-2">
+                      {scamScenarios.map((_, i) => (
+                        <div key={i} className={`w-2 h-2 rounded-full transition-colors ${
+                          i === gameIndex ? "bg-primary" : i < gameIndex ? "bg-primary/40" : "bg-muted"
+                        }`} />
+                      ))}
+
+
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>*/}
+        </Tabs>
+      </div>
+
+      <Footer />
     </div>
   );
 }

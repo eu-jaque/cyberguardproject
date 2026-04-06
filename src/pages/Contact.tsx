@@ -4,8 +4,6 @@ import { Mail, Phone, User, MessageSquare, Send } from "lucide-react";
 import supabase from "../../utils/supabase";
 import { toast } from "sonner";
 import Header from "@/components/Header";
-import AccessibilityWidget from "@/components/AccessibilityWidget";
-import Footer from "@/components/Footer";
 
 export default function Contact() {
 
@@ -221,7 +219,6 @@ export default function Contact() {
                     </div>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }
