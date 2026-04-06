@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import supabase from "../../utils/supabase";
 import { toast } from "sonner";
 
+
 const AVATAR_STYLES = ["adventurer", "avataaars", "bottts", "fun-emoji", "lorelei"];
 const AVATAR_SEEDS = ["Felix", "Aneka", "Milo", "Sasha", "Leo", "Luna", "Kai", "Zara", "Rio", "Nova",
   "Axel", "Ivy", "Orion", "Sage", "Jade", "Blaze", "Echo", "Wren", "Finn", "Aria"];
