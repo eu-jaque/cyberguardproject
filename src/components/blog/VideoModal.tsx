@@ -10,7 +10,6 @@ export interface VideoPost {
   author: string;
   date: string;
   videoId?: string;
-  tags?: string[];
 }
 
 export default function VideoModal({ video, onClose }: { video: VideoPost; onClose: () => void }) {
