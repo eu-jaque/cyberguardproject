@@ -62,7 +62,10 @@ export default function EditProfileModal({ open, onClose, currentName, currentAv
 
       const path = `${user?.id}/avatar.webp`;
       const { error } = await supabase.storage.from("avatars").upload(path, compressed, { upsert: true });
-      if (error) throw error;
+      if (error) {
+        alert("teste")
+        throw error;
+      }
 
       const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(path);
       setAvatarUrl(`${urlData.publicUrl}?t=${Date.now()}`);
@@ -84,11 +87,18 @@ export default function EditProfileModal({ open, onClose, currentName, currentAv
     if (!user) return;
     setSaving(true);
     try {
-      const { error } = await supabase.from("profiles").upsert({
-        id: user.id,
-        full_name: name,
-        avatar_url: avatarUrl,
-      });
+      const { error } = await supabase
+        .from("profiles")
+        .upsert({
+          user_id: user.id,
+          name: name,
+          full_name: name,
+          type: "adm",
+          avatars: avatarUrl,
+          avatar_url: avatarUrl
+        }, {
+          onConflict: 'user_id' // 🔥 ESSENCIAL
+        });
       if (error) throw error;
       onSaved(name, avatarUrl);
       toast.success("Perfil atualizado!");
@@ -135,9 +145,8 @@ export default function EditProfileModal({ open, onClose, currentName, currentAv
               <button
                 key={i}
                 onClick={() => handleSelectSuggestion(url)}
-                className={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-200 avatar-suggestion ${
-                  selectedSuggestion === url ? "ring-2 ring-yellow-500 border-yellow-400" : "border-border/40 hover:border-yellow-400/50"
-                }`}
+                className={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-200 avatar-suggestion ${selectedSuggestion === url ? "ring-2 ring-yellow-500 border-yellow-400" : "border-border/40 hover:border-yellow-400/50"
+                  }`}
               >
                 <img src={url} alt="" className="w-full h-full" />
               </button>
