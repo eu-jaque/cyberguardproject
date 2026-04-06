@@ -9,6 +9,7 @@ interface LanguageContextType {
 }
 
 const translations: Record<string, Record<Lang, string>> = {
+  
   // Header
   "nav.inicio": { pt: "Início", en: "Home", es: "Inicio" },
   "nav.blog": { pt: "Blog", en: "Blog", es: "Blog" },
@@ -21,7 +22,9 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.email_invalid": { pt: "E-mail inválido", en: "Invalid email", es: "Correo inválido" },
   "nav.email_success": { pt: "E-mail cadastrado com sucesso", en: "Email registered successfully", es: "Correo registrado con éxito" },
   "nav.idioma":{pt:"Idioma", en:"Language", es:"Idioma"},
-  // Services dropdown
+  
+  
+  // Services dropdown header
   "srv.verificador_seguranca": { pt: "Verificador de Segurança", en: "Security Checker", es: "Verificador de Seguridad" },
   "srv.conversa_especialistas": { pt: "Conversa com Especialistas", en: "Talk to Experts", es: "Hablar con Expertos" },
   "srv.servicos_page": { pt: "Serviços", en: "Services", es: "Servicios" },
@@ -161,12 +164,14 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Ve testimonios de personas que reconocieron estafas a tiempo gracias a la información.",
   },
 
+
   // Footer
   "footer.desc": {
     pt: "Educando e protegendo pessoas contra fraudes e golpes digitais.",
     en: "Educating and protecting people against digital fraud and scams.",
     es: "Educando y protegiendo personas contra fraudes y estafas digitales.",
   },
+
   "footer.sobre": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
   "footer.sobre_link": { pt: "Sobre nós", en: "About us", es: "Sobre nosotros" },
   "footer.blog_link": { pt: "Blog", en: "Blog", es: "Blog" },
@@ -178,6 +183,10 @@ const translations: Record<string, Record<Lang, string>> = {
     es: "Copyright \u00A9 2026 CyberGuard. Todos los derechos reservados.",
   },
 
+
+
+
+
   // About
   "about.title": { pt: "Sobre a CyberGuard", en: "About CyberGuard", es: "Acerca de CyberGuard" },
   "about.desc": {
@@ -188,42 +197,34 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Dash
   "dash.profile": { pt: "Perfil do Usuário", en: "User Profile", es: "Perfil del Usuario" },
-  "dash.subscriptions": { pt: "Assinaturas", en: "Subscriptions", es: "Suscripciones" },
   "dash.courses": { pt: "Cursos", en: "Courses", es: "Cursos" },
   "dash.verifiers": { pt: "Verificadores", en: "Verifiers", es: "Verificadores" },
   "dash.games": { pt: "Quiz e Jogos", en: "Quiz & Games", es: "Quiz y Juegos" },
+  "dash.liked": { pt: "Curtidas", en: "Liked", es: "Me Gusta" },
+  
+
   "dash.welcome": { pt: "Bem-vindo de volta", en: "Welcome back", es: "Bienvenido de vuelta" },
   "dash.member_since": { pt: "Membro desde", en: "Member since", es: "Miembro desde" },
   "dash.active": { pt: "Ativo", en: "Active", es: "Activo" },
   "dash.inactive": { pt: "Inativo", en: "Inactive", es: "Inactivo" },
-  "dash.beginner": { pt: "Iniciante", en: "Beginner", es: "Principiante" },
-  "dash.intermediate": { pt: "Intermediário", en: "Intermediate", es: "Intermedio" },
-  "dash.advanced": { pt: "Avançado", en: "Advanced", es: "Avanzado" },
   "dash.expert": { pt: "Especialista", en: "Expert", es: "Especialista" },
   "dash.check_link": { pt: "Verificar Link", en: "Check Link", es: "Verificar Enlace" },
   "dash.check_email": { pt: "Verificar E-mail", en: "Check Email", es: "Verificar Correo" },
   "dash.check_pix": { pt: "Verificar Chave Pix", en: "Check Pix Key", es: "Verificar Clave Pix" },
   "dash.verify": { pt: "Verificar", en: "Verify", es: "Verificar" },
-  "dash.safe": { pt: "Seguro — Nenhuma ameaça detectada", en: "Safe — No threats detected", es: "Seguro — Ninguna amenaza detectada" },
+  
   "dash.danger": { pt: "Perigo — Ameaça detectada", en: "Danger — Threat detected", es: "Peligro — Amenaza detectada" },
   "dash.enter_link": { pt: "Cole o link aqui...", en: "Paste the link here...", es: "Pega el enlace aquí..." },
   "dash.enter_email": { pt: "Digite o e-mail...", en: "Enter the email...", es: "Escribe el correo..." },
   "dash.enter_pix": { pt: "Digite a chave Pix...", en: "Enter the Pix key...", es: "Escribe la clave Pix..." },
-  "dash.scam_game": { pt: "Identifique o Golpe", en: "Identify the Scam", es: "Identifica la Estafa" },
   "dash.scam_game_desc": { pt: "Classifique cada situação como golpe ou legítimo", en: "Classify each situation as scam or legitimate", es: "Clasifica cada situación como estafa o legítima" },
   "dash.scam": { pt: "Golpe", en: "Scam", es: "Estafa" },
   "dash.legit": { pt: "Legítimo", en: "Legitimate", es: "Legítimo" },
-  "dash.correct": { pt: "Correto!", en: "Correct!", es: "¡Correcto!" },
-  "dash.wrong": { pt: "Errado!", en: "Wrong!", es: "¡Incorrecto!" },
   "dash.next": { pt: "Próximo", en: "Next", es: "Siguiente" },
   "dash.score": { pt: "Pontuação", en: "Score", es: "Puntuación" },
-  "dash.tip_title": { pt: "Dica Rápida", en: "Quick Tip", es: "Consejo Rápido" },
-  "dash.tip1": { pt: "Ative a verificação em duas etapas em todas as suas contas", en: "Enable two-factor authentication on all your accounts", es: "Activa la verificación en dos pasos en todas tus cuentas" },
-  "dash.tip2": { pt: "Nunca compartilhe códigos de verificação recebidos por SMS", en: "Never share verification codes received via SMS", es: "Nunca compartas códigos de verificación recibidos por SMS" },
 
   // Chatbot - Cyntia
   "chat.title": { pt: "CYNTIA ASSISTENTE", en: "CYNTIA ASSISTANT", es: "CYNTIA ASISTENTE" },
-  "chat.subtitle": { pt: "@CYNTIA", en: "@CYNTIA", es: "@CYNTIA" },
   "chat.welcome": {
     pt: "Olá! Sou a Cyntia, assistente de segurança digital da CyberGuard. Pergunte sobre qualquer tipo de golpe ou fraude e vou te ajudar a se proteger.",
     en: "Hello! I am Cyntia, CyberGuard's digital security assistant. Ask about any type of scam or fraud and I will help you protect yourself.",
@@ -299,8 +300,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "pol.lgpd_title": { pt: "LGPD — Seus Direitos", en: "LGPD — Your Rights", es: "LGPD — Sus Derechos" },
   "pol.lgpd_text": { pt: "De acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018), você tem direito a: confirmação da existência de tratamento de seus dados; acesso aos dados; correção de dados incompletos ou desatualizados; anonimização, bloqueio ou eliminação de dados desnecessários; portabilidade dos dados; eliminação dos dados pessoais tratados com seu consentimento; e revogação do consentimento.", en: "According to the General Data Protection Law (Law 13.709/2018), you have the right to: confirmation of the existence of processing of your data; access to data; correction of incomplete or outdated data; anonymization, blocking, or deletion of unnecessary data; data portability; deletion of personal data processed with your consent; and revocation of consent.", es: "De acuerdo con la Ley General de Protección de Datos (Ley 13.709/2018), usted tiene derecho a: confirmación de la existencia de tratamiento de sus datos; acceso a los datos; corrección de datos incompletos o desactualizados; anonimización, bloqueo o eliminación de datos innecesarios." },
 
-  // Services dropdown - Assinaturas
-  "srv.assinaturas": { pt: "Assinaturas", en: "Subscriptions", es: "Suscripciones" },
+
 
   // Subscription page
   "sub.choose_plan": { pt: "Escolha seu plano", en: "Choose your plan", es: "Elige tu plan" },

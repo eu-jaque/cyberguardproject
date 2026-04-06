@@ -1,4 +1,4 @@
-import { X, Play, Eye, Clock, User } from "lucide-react";
+import { X, Eye, Clock, User } from "lucide-react";
 
 export interface VideoPost {
   id: string;
@@ -10,6 +10,7 @@ export interface VideoPost {
   author: string;
   date: string;
   videoId?: string;
+  tags?: string[];
 }
 
 export default function VideoModal({ video, onClose }: { video: VideoPost; onClose: () => void }) {
@@ -22,14 +23,18 @@ export default function VideoModal({ video, onClose }: { video: VideoPost; onClo
         </div>
 
         {/* Player area */}
-        <div className="aspect-video bg-background/50 relative group cursor-pointer">
-          <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-background/40 flex items-center justify-center group-hover:bg-background/30 transition-colors">
-            <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-              <Play className="w-8 h-8 text-primary-foreground ml-1" />
-            </div>
-          </div>
-          <div className="absolute bottom-3 right-3 bg-background/80 px-2 py-1 rounded text-xs font-bold text-foreground">{video.duration}</div>
+        <div className="aspect-video bg-background/50">
+          {video.videoId ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&rel=0`}
+              title={video.title}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
+          )}
         </div>
 
         {/* Info */}

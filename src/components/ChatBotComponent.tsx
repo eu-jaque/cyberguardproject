@@ -1,5 +1,7 @@
 import React from 'react';
-import { Bot, User, Sparkles, SendHorizontal } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Bot, User, Sparkles, SendHorizontal, Loader2 } from 'lucide-react';
 
 export default function ChatBotComponent({
     messages,
@@ -7,7 +9,8 @@ export default function ChatBotComponent({
     input,
     setInput,
     handleSendMessage,
-    chatName
+    chatName,
+    isTyping
 }) {
     return (
         <main className="flex-1 flex flex-col h-full relative min-w-0">
@@ -17,7 +20,7 @@ export default function ChatBotComponent({
                     <div className="flex items-center gap-2">
                         <span className="font-medium text-slate-200">{chatName}</span>
                         <span className="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full flex items-center gap-1">
-                            <Sparkles className="h-3 w-3" /> Beta
+                            <Sparkles className="h-3 w-3" /> IA
                         </span>
                     </div>
                 </div>
@@ -34,7 +37,7 @@ export default function ChatBotComponent({
                                         <div className="h-6 w-6 rounded-md bg-amber-500 flex items-center justify-center text-white">
                                             <Bot size={14} />
                                         </div>
-                                        CYNTIA ASSISTENT
+                                        CYNTIA IA
                                     </>
                                 ) : (
                                     <>
@@ -46,12 +49,33 @@ export default function ChatBotComponent({
                                 )}
                             </div>
 
-                            <div className={`pl-8 text-base leading-relaxed text-slate-100 ${msg.sender === 'user' ? 'bg-slate-800/30 p-4 rounded-xl ml-8' : ''
-                                }`}>
-                                <p className="whitespace-pre-wrap">{msg.text}</p>
+                            <div className={`pl-8 text-base leading-relaxed text-slate-100 ${msg.sender === 'user' ? 'bg-slate-800/30 p-4 rounded-xl ml-8' : ''}`}>
+                                {msg.sender === 'bot' ? (
+                                    <div className="prose prose-sm prose-invert max-w-none prose-p:my-1 prose-li:my-0.5 prose-headings:text-amber-400">
+                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+                                    </div>
+                                ) : (
+                                    <p className="whitespace-pre-wrap">{msg.text}</p>
+                                )}
                             </div>
                         </div>
                     ))}
+
+                    {isTyping && (
+                        <div className="flex flex-col space-y-2">
+                            <div className="flex items-center gap-2 text-sm font-medium text-slate-300">
+                                <div className="h-6 w-6 rounded-md bg-amber-500 flex items-center justify-center text-white">
+                                    <Bot size={14} />
+                                </div>
+                                CYNTIA IA
+                            </div>
+                            <div className="pl-8 flex items-center gap-2 text-slate-400">
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                <span className="text-sm">Pensando...</span>
+                            </div>
+                        </div>
+                    )}
+
                     <div ref={messagesEndRef} />
                 </div>
             </div>
@@ -64,6 +88,12 @@ export default function ChatBotComponent({
                             placeholder="Pergunte ao CyberGuard..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSendMessage(e);
+                                }
+                            }}
                             rows={1}
                             className="flex-1 bg-transparent py-4 pl-4 pr-16 resize-none focus:outline-none text-base text-white placeholder:text-slate-400 max-h-48"
                         />

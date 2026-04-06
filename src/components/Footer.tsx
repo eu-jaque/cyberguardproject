@@ -21,9 +21,17 @@ const Footer = () => {
                 Cyber<span className="text-gradient-gold">Guard</span>
               </span>
             </div>
+
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
               {t("footer.desc")}
             </p>
+            <br></br>
+
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li className="break-all">contato@cyberguard.com.br</li>
+              <li className="break-all">Rua da Alegria</li>
+              <li className="break-all">+55 (16) 1234-5678</li>
+            </ul>
           </div>
 
           {/* Coluna 2: Links Rápidos */}
@@ -49,9 +57,7 @@ const Footer = () => {
             <h4 className="font-display text-sm font-bold text-gradient-gold mb-5 uppercase tracking-wider">
               {t("footer.contato")}
             </h4>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li className="break-all">contato@cyberguard.com.br</li>
-            </ul>
+            
           </div>
         </div>
 

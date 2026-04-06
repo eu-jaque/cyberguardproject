@@ -253,7 +253,8 @@ export default function Experts() {
       )}
 
       {/* 🔐 MODAL DE LOGIN (PREMIUM GLASSMORPHISM) */}
-      {isLoginModalOpen && (
+      {isLoginModalOpen && 
+      (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md animate-in fade-in duration-300">
           <div className="relative bg-card/90 backdrop-blur-2xl w-full max-w-md p-10 rounded-[28px] border border-border shadow-2xl animate-in zoom-in-95 duration-300 transition-colors duration-300">
 
