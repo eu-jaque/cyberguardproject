@@ -4,7 +4,6 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PostCard from "@/components/blog/PostCard";
@@ -13,6 +12,8 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
+import { useEffect, useState } from "react";
+import supabase from "../../utils/supabase";
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -25,52 +26,9 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "CyberLab", value: "cyberlab" },
 ];
 
-// Social Posts data
-const socialPosts: SocialPost[] = [
-  {
-    id: "post-1", author: "Dr. Carlos Silva", authorRole: "Especialista em Cibersegurança", authorAvatar: "https://i.pravatar.cc/100?img=11",
-    date: "15 Mar 2026", content: "🔒 Dica do dia: Sempre ative a autenticação em dois fatores (2FA) em todas as suas contas. É a barreira extra que pode salvar seus dados!", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", likes: 127, comments: 23,
-  },
-  {
-    id: "post-2", author: "Ana Rodrigues", authorRole: "Analista de Segurança", authorAvatar: "https://i.pravatar.cc/100?img=5",
-    date: "Analista de Segurança", content: "⚠️ Alerta: Nova campanha de phishing usando IA para gerar e-mails extremamente convincentes. Fiquem atentos!", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", likes: 89, comments: 15,
-  },
-  {
-    id: "post-3", author: "Prof. Lucas Mendes", authorRole: "Pesquisador em IA e Segurança", authorAvatar: "https://i.pravatar.cc/100?img=12",
-    date: "12 Mar 2026", content: "Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41,
-  },
-  {
-    id: "post-4", author: "Mariana Oliveira", authorRole: "Consultora LGPD", authorAvatar: "https://i.pravatar.cc/100?img=9",
-    date: "10 Mar 2026", content: "Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28,
-  },
-];
-
-// Articles data
-const articles = [
-  { id: "golpes-pix", title: "Os 5 golpes via Pix mais perigosos de 2026", summary: "Conheça as táticas mais recentes usadas por criminosos para roubar dinheiro via Pix.", category: "Fraude", date: "15 Mar 2026", readTime: "6 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" },
-  { id: "phishing-2026", title: "Phishing em 2026: como identificar e-mails falsos", summary: "Técnicas avançadas de phishing estão enganando até os mais experientes.", category: "Segurança", date: "10 Mar 2026", readTime: "8 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop" },
-  { id: "senhas-seguras", title: "Senhas seguras: o guia definitivo para 2026", summary: "Como criar senhas fortes e usar gerenciadores de senha de forma prática.", category: "Tecnologia", date: "20 Fev 2026", readTime: "5 min", author: "Rafael Santos", image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop" },
-  { id: "engenharia-social", title: "Engenharia social: a arte de manipular pessoas", summary: "Criminosos usam psicologia para enganar vítimas. Descubra as técnicas mais comuns.", category: "Segurança", date: "25 Fev 2026", readTime: "6 min", author: "Mariana Oliveira", image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop" },
-  { id: "whatsapp-clonagem", title: "Clonagem de WhatsApp: como se proteger", summary: "Golpistas estão clonando contas do WhatsApp para aplicar golpes nos seus contatos.", category: "Fraude", date: "10 Fev 2026", readTime: "5 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop" },
-];
-
-// News data
-const newsItems = [
-  { id: "ransomware-empresas", title: "Ransomware: o pesadelo das empresas brasileiras", summary: "Ataques de ransomware cresceram 150% no Brasil em 2026.", category: "Tecnologia", date: "01 Mar 2026", readTime: "9 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop" },
-  { id: "vazamento-dados", title: "O que fazer após um vazamento de dados", summary: "Seus dados foram expostos? Saiba os passos imediatos.", category: "Segurança", date: "15 Fev 2026", readTime: "7 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&h=400&fit=crop" },
-  { id: "deepfake-perigos", title: "Deepfakes: a nova arma dos golpistas digitais", summary: "IA está sendo usada para criar vídeos falsos ultra-realistas.", category: "Tecnologia", date: "05 Fev 2026", readTime: "8 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop" },
-  { id: "lgpd-direitos", title: "LGPD: conheça seus direitos sobre seus dados pessoais", summary: "A Lei Geral de Proteção de Dados garante direitos importantes.", category: "Legislação", date: "05 Mar 2026", readTime: "7 min", author: "Dra. Juliana Costa", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop" },
-];
-
-// Videos data
-const videoPosts: VideoPost[] = [
-  { id: "v1", title: "Como identificar phishing em 5 passos", description: "Guia prático para reconhecer tentativas de phishing.", thumbnail: "https://img.youtube.com/vi/EqQ-cDeKQLU/hqdefault.jpg", duration: "12:34", views: "15.2K", author: "CyberGuard", date: "08 Mar 2026", videoId: "EqQ-cDeKQLU" },
-  { id: "v2", title: "Protegendo seu Wi-Fi doméstico", description: "Configure seu roteador de forma segura.", thumbnail: "https://img.youtube.com/vi/DMkKcrwxlsc/hqdefault.jpg", duration: "15:20", views: "8.7K", author: "CyberGuard", date: "28 Fev 2026", videoId: "DMkKcrwxlsc" },
-  { id: "v3", title: "Senhas seguras: guia completo", description: "Tutorial completo sobre criação e gerenciamento de senhas.", thumbnail: "https://img.youtube.com/vi/zefv-bNtZwg/hqdefault.jpg", duration: "10:45", views: "12.1K", author: "CyberGuard", date: "18 Fev 2026", videoId: "zefv-bNtZwg" },
-  { id: "v4", title: "O que fazer após um vazamento de dados", description: "Passos imediatos para proteger suas contas.", thumbnail: "https://img.youtube.com/vi/3uJszS1bk28/hqdefault.jpg", duration: "8:15", views: "6.3K", author: "CyberGuard", date: "10 Fev 2026", videoId: "3uJszS1bk28" },
-];
-
 const Blog = () => {
+  const [contents, setContents] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,10 +37,92 @@ const Blog = () => {
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    const fetchContents = async () => {
+      const { data, error } = await supabase
+        .from("contents")
+        .select(`
+            *,
+            profiles (
+              name,
+              role,
+              avatar_url
+            )
+          `)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setContents(data);
+      setLoading(false);
+    };
+
+    fetchContents();
+  }, []);
+
+  const socialPosts = contents
+    .filter(c => c.type === "post")
+    .map(c => ({
+      id: c.id,
+      author: c.profiles?.name ?? "Autor",
+      authorRole: c.profiles?.role ?? "",
+      authorAvatar: c.profiles?.avatar_url ?? "",
+      date: c.extra?.date,
+      content: c.content,
+      image: c.image,
+      likes: c.extra?.likes,
+      comments: c.extra?.comments
+    }));
+
+
+  const articles = contents
+    .filter(c => c.type === "article")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatar_url ?? "",
+      image: c.image
+    }));
+
+  const newsItems = contents
+    .filter(c => c.type === "news")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatar_url ?? "",
+      image: c.image
+    }));
+
+  const videoPosts = contents
+    .filter(c => c.type === "video")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      description: c.content,
+      thumbnail: c.image,
+      duration: c.extra?.duration,
+      views: c.extra?.views,
+      videoId: c.extra?.videoId,
+      author: c.extra?.author, // ✅ FIX
+      date: c.created_at
+    }));
+  console.log(contents)
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       {/* Hero */}
       <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
         <div className="max-w-[1366px] mx-auto px-[2%] text-center">
@@ -163,7 +203,14 @@ const Blog = () => {
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{article.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{article.author}</span>
+                            <span className="flex items-center gap-1">
+                              {article.authorAvatar ? (
+                                <img src={article.authorAvatar} alt={article.author} className="w-5 h-5 rounded-full object-cover" />
+                              ) : (
+                                <User className="w-3 h-3" />
+                              )}
+                              {article.author}
+                            </span>
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{article.readTime}</span>
                           </div>
                         </div>
@@ -235,7 +282,14 @@ const Blog = () => {
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{news.author}</span>
+                            <span className="flex items-center gap-1">
+                              {news.authorAvatar ? (
+                                <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                              ) : (
+                                <User className="w-3 h-3" />
+                              )}
+                              {news.author}
+                            </span>
                             <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{news.date}</span>
                           </div>
                         </div>
