@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import supabase from "../../../utils/supabase";
 import {
   LayoutDashboard, Calendar, Bell, BarChart3, Mail, LogOut,
-  ChevronLeft, ChevronRight, X, Edit, Check, Clock, AlertCircle,
+  ChevronLeft, ChevronRight,Plus, X, Edit, Check, Clock, AlertCircle,
   Lightbulb, LineChart
 } from "lucide-react";
 import {
@@ -19,11 +19,10 @@ import ActivityTimeline from "@/components/ActivityTimeline";
 type SidebarItemType = { icon: typeof LayoutDashboard; label: string; key: string };
 
 const sidebarItems: SidebarItemType[] = [
-  { icon: LayoutDashboard, label: "Dashboard", key: "dashboard" },
+  { icon: LayoutDashboard, label: "Perfil", key: "Perfil" },
   { icon: Calendar, label: "Agendamentos", key: "appointments" },
   { icon: Bell, label: "Notificações", key: "notifications" },
-  { icon: BarChart3, label: "Relatórios", key: "reports" },
-  { icon: Mail, label: "Inbox", key: "inbox" },
+
 ];
 
 type Appointment = {
@@ -58,6 +57,27 @@ export default function ExpertProfile() {
   const [appointments, setAppointments] = useState(mockAppointments);
   const [appointmentTab, setAppointmentTab] = useState<"proximos" | "historico" | "agenda">("proximos");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+
+    const hours = Array.from({ length: 12 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
+  
+  const days = [
+    { name: 'SEGUNDA', date: '15' },
+    { name: 'TERÇA', date: '16' },
+    { name: 'QUARTA', date: '17' },
+    { name: 'QUINTA', date: '18' },
+    { name: 'SEXTA', date: '19' },
+    { name: 'SÁBADO', date: '20' },
+    { name: 'DOMINGO', date: '21' },
+  ];
+
+  const Calendar = [
+    { day: 1, time: '08:30', name: 'Ana Paula', color: 'bg-blue-500/10 border-blue-500/50', initial: 'A' },
+    { day: 2, time: '13:00', name: 'MAICON SILVA', color: 'bg-emerald-500/20 border-emerald-500/50', initial: 'M' },
+    { day: 2, time: '16:00', name: 'JOÃO PEDRO', color: 'bg-amber-500/10 border-amber-500/50', initial: 'J' },
+    { day: 2, time: '17:30', name: 'LUCAS MENDES', color: 'bg-amber-500/10 border-amber-500/50', initial: 'L' },
+    { day: 3, time: '14:30', name: 'Paulo Souza', color: 'bg-slate-500/10 border-slate-500/50', initial: 'P' },
+  ];
 
   useEffect(() => {
     async function loadProfile() {
@@ -187,72 +207,147 @@ export default function ExpertProfile() {
               </div>
 
               {/* Próximos Agendamentos - Dynamic Patient List */}
-              <div>
-                <h2 className="text-lg font-bold text-foreground mb-4">Próximos Agendamentos</h2>
-                <div className="space-y-3">
-                  {upcoming.map(a => (
-                    <div key={a.id} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-4 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
-                          <span className="text-sm font-bold text-primary">{a.client[0]}</span>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-bold text-foreground">{a.client}</h4>
-                          <p className="text-xs text-muted-foreground">{a.date} às {a.time}</p>
-                        </div>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${statusColors[a.status]}`}>{a.status}</span>
-                    </div>
-                  ))}
-                </div>
+       
+    <div className="min-h-screen bg-[#05070a] text-slate-300 p-6 font-sans">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold text-white">Próximos Agendamentos</h1>
+        <div className="flex items-center gap-4 bg-[#0f1218] p-1 rounded-lg border border-slate-800">
+          <button className="px-4 py-1.5 rounded-md hover:bg-slate-800 transition-colors text-sm">Hoje</button>
+          <button className="px-4 py-1.5 rounded-md bg-slate-800 text-white text-sm">Semana</button>
+          <button className="px-4 py-1.5 rounded-md hover:bg-slate-800 transition-colors text-sm">Mês</button>
+          <div className="flex items-center gap-2 ml-4 pr-2 border-l border-slate-700 pl-4">
+            <span className="text-sm">15 Jan - 21 Jan 2024</span>
+            <ChevronRight size={16} />
+          </div>
+        </div>
+      </div>
+
+      {/* Calendar Grid */}
+      <div className="flex border border-slate-800 rounded-xl overflow-hidden bg-[#0a0d12]">
+        {/* Time Column */}
+        <div className="w-20 border-r border-slate-800 pt-16">
+          {hours.map(hour => (
+            <div key={hour} className="h-16 flex items-start justify-center text-xs text-slate-500 border-b border-slate-800/50">
+              {hour}
+            </div>
+          ))}
+        </div>
+
+        {/* Days Columns */}
+        <div className="flex-1 grid grid-cols-7">
+          {days.map((day, idx) => (
+            <div key={idx} className="border-r border-slate-800 last:border-0">
+              <div className="h-16 flex flex-col items-center justify-center border-b border-slate-800 bg-[#0f1218]/50">
+                <span className="text-[10px] font-bold tracking-widest text-slate-400">{day.name}, {day.date}</span>
               </div>
+              <div className="relative h-full min-h-[768px]">
+                {/* Grid Lines */}
+                {hours.map((_, i) => (
+                  <div key={i} className="h-16 border-b border-slate-800/30" />
+                ))}
+                
+                {/* Appointments */}
+                {Calendar.filter(a => a.day === idx).map((apt, i) => (
+                  <div 
+                    key={i}
+                    className={`absolute left-2 right-2 p-3 rounded-lg border cursor-pointer hover:brightness-125 transition-all ${apt.color}`}
+                    style={{ top: `${(parseInt(apt.time.split(':')[0]) - 8) * 64 + (parseInt(apt.time.split(':')[1]) / 60) * 64}px` }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold border border-slate-700">
+                        {apt.initial}
+                      </div>
+                      <div className="overflow-hidden">
+                        <p className="text-xs font-bold text-white truncate">{apt.name}</p>
+                        <p className="text-[10px] text-slate-400 truncate">{apt.time} a Term</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
 
               {/* Activity Timeline */}
               <div>
-                <h2 className="text-lg font-bold text-foreground mb-4">Atividades</h2>
+                <h2 className="text-lg font-bold text-foreground mb-4">Ranking</h2>
                 <ActivityTimeline />
               </div>
             </motion.div>
           )}
+          
+ {/* notifications sidebar*/}
 
           {activeSection === "notifications" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h1 className="text-2xl font-bold text-foreground mb-6">Notificações</h1>
-              <div className="space-y-3">
-                {[
-                  { text: "Novo agendamento de Maria Silva", time: "Há 2h" },
-                  { text: "Consulta com João Pedro confirmada", time: "Há 5h" },
-                  { text: "Ana Costa avaliou sua consulta ⭐⭐⭐⭐⭐", time: "Há 1d" },
-                ].map((n, i) => (
-                  <div key={i} className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-4 flex items-center gap-3">
-                    <Bell className="w-4 h-4 text-primary flex-shrink-0" />
-                    <div className="flex-1"><p className="text-sm text-foreground">{n.text}</p></div>
-                    <span className="text-[10px] text-muted-foreground">{n.time}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative">
+    {/* Título Estilizado */}
+    <div className="flex items-center gap-3 mb-8">
+      <Bell className="w-7 h-7 text-[#ffcc00] fill-[#ffcc00] drop-shadow-[0_0_8px_rgba(255,204,0,0.8)]" />
+      <h1 className="text-3xl font-black italic tracking-tighter text-[#ff007a] drop-shadow-[0_0_10px_rgba(255,0,122,0.6)] uppercase">
+        Notificações
+      </h1>
+      <span className="ml-auto bg-gradient-to-r from-[#ff007a] to-[#ff7a00] px-3 py-1 rounded-full text-[10px] font-bold text-white shadow-lg uppercase tracking-wider">
+        3 Novas
+      </span>
+    </div>
 
-          {activeSection === "reports" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h1 className="text-2xl font-bold text-foreground mb-6">Relatórios</h1>
-              <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-12 text-center">
-                <BarChart3 className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                <p className="text-muted-foreground">Relatórios detalhados serão exibidos aqui.</p>
-              </div>
-            </motion.div>
-          )}
+    <div className="space-y-4 relative">
+      {/* Barra de scroll visual à direita */}
+      <div className="absolute -right-2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#ff007a] via-[#ff7a00] to-transparent rounded-full opacity-40" />
 
-          {activeSection === "inbox" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h1 className="text-2xl font-bold text-foreground mb-6">Inbox</h1>
-              <div className="bg-card/60 backdrop-blur-md border border-border/30 rounded-xl p-12 text-center">
-                <Mail className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                <p className="text-muted-foreground">Sua caixa de entrada está vazia.</p>
-              </div>
-            </motion.div>
-          )}
+      {[
+        { text: "Novo agendamento de Maria Silva", type: "Novo Agendamento", time: "Há 2h", color: "text-[#ff007a]" },
+        { text: "Consulta com João Pedro confirmada", type: "Confirmação", time: "Há 5h", color: "text-cyan-400" },
+        { text: "Ana Costa avaliou sua consulta", type: "Avaliação", time: "Há 1d", color: "text-[#ffcc00]", stars: true },
+      ].map((n, i) => (
+        <div 
+          key={i} 
+          className="group bg-[#1a1a24]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-5 flex items-center gap-5 relative overflow-hidden transition-all hover:bg-white/5 hover:border-white/10"
+        >
+          {/* Indicador lateral interno */}
+          <div className={`absolute left-0 top-0 bottom-0 w-1 bg-current ${n.color}`} />
+
+          {/* Ícone com fundo escuro */}
+          <div className={`p-3 rounded-xl bg-black/40 border border-white/10 ${n.color}`}>
+            <Bell className="w-5 h-5 drop-shadow-md" />
+          </div>
+
+          <div className="flex-1">
+            <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 font-bold mb-1 block">
+              {n.type}
+            </span>
+            <div className="flex flex-col">
+              <p className="text-sm md:text-base font-medium text-white/90 leading-tight">
+                {n.text}
+              </p>
+              {n.stars && (
+                <div className="flex gap-1 mt-1.5">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-[#ffcc00] text-xs drop-shadow-[0_0_5px_rgba(255,204,0,0.5)]">⭐</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col items-end gap-3">
+             {/* Ponto de notificação "Glow" */}
+            <div className="w-2 h-2 rounded-full bg-[#ff007a] shadow-[0_0_10px_#ff007a]" />
+            <span className="text-[10px] font-mono text-white/30 tracking-tighter italic">
+              {n.time}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </motion.div>
+)}
+         
         </div>
       </div>
 

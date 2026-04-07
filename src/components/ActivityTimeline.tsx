@@ -1,135 +1,142 @@
-import { Calendar, MessageSquare, Info, Plus, Eye, Send, X } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import supabase from '../../utils/supabase';
+import { Star, CheckCircle2, UserCheck, MessageSquare, Zap, Trophy, Medal, Crown } from 'lucide-react';
 
-type TimelineItem = {
-  id: string;
-  type: "message" | "appointment" | "info";
-  title: string;
-  client: string;
-  time: string;
-  section: "todo" | "today";
-  badges?: { label: string; color: string }[];
-};
+const ProgressBar = ({ label, value, icon: Icon, color }) => (
+  <div className="mb-3">
+    <div className="flex justify-between text-[9px] text-blue-200/50 mb-1 uppercase font-bold tracking-tighter">
+      <span className="flex items-center gap-1"><Icon size={10} /> {label}</span>
+      <span>{value}%</span>
+    </div>
+    <div className="w-full bg-black/40 h-1 rounded-full overflow-hidden border border-white/5">
+      <div 
+        className={`h-full rounded-full transition-all duration-1000 ${color}`}
+        style={{ width: `${value || 0}%` }}
+      />
+    </div>
+  </div>
+);
 
-const mockTimeline: TimelineItem[] = [
-  {
-    id: "1", type: "appointment", title: "Consulta de Segurança",
-    client: "Alex Araujo", time: "14:00",
-    section: "today",
-    badges: [
-      { label: "Confirmado", color: "bg-emerald-500/20 text-emerald-400" },
-      { label: "Hoje", color: "bg-blue-500/20 text-blue-400" },
-    ],
-  },
-  {
-    id: "2", type: "message", title: "Análise de Vulnerabilidade",
-    client: "Maria Silva", time: "10:30", section: "today",
-  },
-  {
-    id: "3", type: "info", title: "Revisão de Firewall",
-    client: "João Pedro", time: "Amanhã, 09:00", section: "todo",
-  },
-  {
-    id: "4", type: "message", title: "Treinamento de Equipe",
-    client: "Ana Costa", time: "Quinta, 15:00", section: "todo",
-  },
-];
+const ExpertCard = ({ expert, position }) => {
+  const isTop1 = position === 0;
 
-const iconMap = {
-  message: { icon: MessageSquare, color: "bg-blue-500/20 text-blue-400" },
-  appointment: { icon: Calendar, color: "bg-yellow-500/20 text-yellow-400" },
-  info: { icon: Info, color: "bg-purple-500/20 text-purple-400" },
-};
-
-export default function ActivityTimeline() {
-  const todoItems = mockTimeline.filter(i => i.section === "todo");
-  const todayItems = mockTimeline.filter(i => i.section === "today");
-
-  const renderItem = (item: TimelineItem, isHighlight = false) => {
-    const { icon: Icon, color } = iconMap[item.type];
-
-    return (
-      <div key={item.id} className="flex gap-3 relative">
-        {/* Timeline dot */}
-        <div className="flex flex-col items-center z-10">
-          <div className={`w-9 h-9 rounded-full flex items-center justify-center ${color}`}>
-            <Icon className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className={`flex-1 rounded-xl p-4 mb-3 ${
-          isHighlight
-            ? "bg-yellow-500/10 border border-yellow-500/20"
-            : "bg-card/60 backdrop-blur-sm border border-border/30"
-        }`}>
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <h4 className="text-sm font-semibold text-foreground">{item.title}</h4>
-              <p className="text-xs text-muted-foreground font-medium">{item.client}</p>
-            </div>
-            <span className="text-[10px] text-muted-foreground">{item.time}</span>
-          </div>
-
-          {item.badges && (
-            <div className="flex gap-2 mb-3">
-              {item.badges.map(b => (
-                <span key={b.label} className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${b.color}`}>
-                  {b.label}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {isHighlight && (
-            <div className="flex gap-2 mt-2">
-              <button className="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 text-xs font-bold hover:bg-blue-500/30 transition-colors flex items-center gap-1">
-                <Eye className="w-3 h-3" /> Visualizar
-              </button>
-              <button className="px-3 py-1.5 rounded-lg bg-secondary/50 text-foreground text-xs font-bold hover:bg-secondary/70 transition-colors flex items-center gap-1">
-                <Send className="w-3 h-3" /> Mensagem
-              </button>
-              <button className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-bold hover:bg-red-500/30 transition-colors flex items-center gap-1">
-                <X className="w-3 h-3" /> Cancelar
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
+  const getMedal = (pos) => {
+    if (pos === 0) return <Trophy className="text-amber-400 animate-pulse w-6 h-6 md:w-7 md:h-7" />;
+    if (pos === 1) return <Medal className="text-blue-300/70 w-5 h-5 md:w-6 md:h-6" />;
+    if (pos === 2) return <Medal className="text-amber-600/70 w-5 h-5 md:w-6 md:h-6" />;
+    return <span className="text-blue-900/40 font-bold text-lg">#{pos + 1}</span>;
   };
 
   return (
-    <div className="space-y-6">
-      {/* Action input */}
-      <div className="flex items-center gap-3 bg-card/60 backdrop-blur-sm border border-border/30 rounded-xl px-4 py-3">
-        <input
-          placeholder="Discutir no bate-papo..."
-          className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-        />
-        <button className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center hover:bg-blue-500/30 transition-colors">
-          <Plus className="w-4 h-4" />
-        </button>
+    <div className={`
+      relative p-5 md:p-6 flex flex-col rounded-[2rem] transition-all duration-500 group
+      ${isTop1 
+        ? 'bg-gradient-to-br from-[#1a1c2c] to-[#0f101a] border-2 border-amber-500/40 shadow-[0_0_40px_-12px_rgba(245,158,11,0.2)] md:scale-105 z-10' 
+        : 'bg-[#0a0c14] border border-blue-900/30 hover:border-amber-500/30 shadow-2xl'}
+    `}>
+      {isTop1 && (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none rounded-[2rem]" />
+      )}
+
+      <div className="absolute top-5 right-6">{getMedal(position)}</div>
+
+      {isTop1 && (
+        <div className="flex items-center gap-1 text-[9px] font-black text-amber-500 mb-2 uppercase tracking-[0.2em]">
+          <Crown size={10} /> Expert de Elite
+        </div>
+      )}
+
+      <div className="flex items-center gap-3 md:gap-4 mb-5 md:mb-6">
+        <div className="relative shrink-0">
+          <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl p-0.5 ${isTop1 ? 'bg-amber-500' : 'bg-blue-800'}`}>
+            <img 
+              src={expert.image || `https://dicebear.com{expert.name}`} 
+              className="w-full h-full bg-[#0a0c14] rounded-[14px] object-cover"
+              alt="Avatar"
+            />
+          </div>
+          {/* Mostra check azul se 'available' for true no Supabase */}
+          <div className={`absolute -bottom-1 -right-1 rounded-full p-1 border-2 border-[#0a0c14] ${expert.available ? 'bg-blue-500' : 'bg-gray-600'}`}>
+            <CheckCircle2 size={10} className="text-[#0a0c14]" />
+          </div>
+        </div>
+        <div className="overflow-hidden">
+          <h3 className="text-blue-50 font-bold text-base md:text-lg leading-tight truncate group-hover:text-amber-400 transition-colors">
+            {expert.name}
+          </h3>
+          <p className="text-amber-500/80 text-[9px] font-black tracking-widest uppercase mt-1 truncate">
+            {expert.area}
+          </p>
+        </div>
       </div>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* Vertical line - hidden on mobile */}
-        <div className="absolute left-[17px] top-0 bottom-0 w-px bg-border/30 hidden md:block" />
+      {/* Como sua tabela não tem as porcentagens, usei valores fixos ou você pode adicionar as colunas depois */}
+      <div className={`p-4 rounded-2xl border mb-5 ${isTop1 ? 'bg-black/40 border-amber-500/20' : 'bg-black/20 border-blue-900/20'}`}>
+        <ProgressBar label="Avaliação" value={expert.rating * 20} icon={Star} color="bg-amber-500" />
+        <ProgressBar label="Disponibilidade" value={expert.available ? 100 : 0} icon={Zap} color="bg-blue-600" />
+        <p className="text-[10px] text-blue-100/60 mt-2 line-clamp-2 italic">"{expert.bio}"</p>
+      </div>
 
-        {/* Today section */}
-        <div className="mb-6">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-4">
-            Hoje
-          </div>
-          {todayItems.map((item, i) => renderItem(item, i === 0))}
+      <div className="flex items-center justify-between mt-auto">
+        <div className="flex items-center gap-1.5">
+          <Star size={12} className="text-amber-500" fill="currentColor" />
+          <span className="text-blue-100 font-bold text-xs md:text-sm">{expert.rating}</span>
+        </div>
+        <button className={`
+          text-[9px] font-bold uppercase tracking-widest px-3 py-2 rounded-lg transition-all
+          ${isTop1 ? 'bg-amber-500 text-black hover:bg-amber-400' : 'text-amber-500 border border-amber-500/20 hover:bg-amber-500/10'}
+        `}>
+          Ver Perfil
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default function RankingElite() {
+  const [experts, setExperts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchExperts() {
+      const { data, error } = await supabase
+        .from('experts') // Nome da sua tabela
+        .select('*')
+        .order('rating', { ascending: false });
+
+      if (error) {
+        console.error('Erro:', error);
+      } else {
+        setExperts(data);
+      }
+      setLoading(false);
+    }
+    fetchExperts();
+  }, []);
+
+  if (loading) return <div className="min-h-screen bg-[#020408] flex items-center justify-center text-amber-500 animate-pulse uppercase tracking-widest">Carregando especialistas...</div>;
+
+  return (
+    <div className="min-h-screen bg-[#020408] p-6 md:p-12 lg:p-20 font-sans relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-[-10%] left-[-10%] w-[150%] h-[40%] bg-blue-900/20 -rotate-12 transform" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[150%] h-[50%] bg-blue-900/10 -rotate-12 transform" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-10 md:mb-16">
+          <h1 className="text-3xl md:text-5xl text-white font-black italic tracking-tighter mb-3 uppercase">
+            Ranking dos <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-amber-400 to-blue-600 bg-[length:200%_auto] animate-pulse">Especialistas</span>
+          </h1>
+          <p className="text-blue-300/40 text-[9px] md:text-xs max-w-[280px] md:max-w-lg mx-auto uppercase tracking-[0.3em] font-bold">
+            Performance e Qualificações Verificadas
+          </p>
         </div>
 
-        {/* Todo section */}
-        <div>
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold mb-4">
-            Coisas a fazer
-          </div>
-          {todoItems.map(item => renderItem(item))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10 items-stretch">
+          {experts.map((e, index) => (
+            <ExpertCard key={e.id} expert={e} position={index} />
+          ))}
         </div>
       </div>
     </div>
