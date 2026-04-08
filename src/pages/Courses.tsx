@@ -19,7 +19,7 @@ export type Module = {
   id: string;
   title: string;
   description: string;
-  urlvideo:string;
+  urlvideo?: string;
 };
 
 export type Course = {
@@ -278,19 +278,10 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
               course.modules.map((m, index) => (
                 <div key={m.id || index} className="border border-border/50 rounded-xl overflow-hidden">
                   <button
-                    onClick={() => {
-                      if (!user) {
-                        navigate("/auth");
-                        return;
-                      }
-                      setActiveMod(activeMod === (m.id || index.toString()) ? null : (m.id || index.toString()));
-                    }}
+                    onClick={() => setActiveMod(activeMod === (m.id || index.toString()) ? null : (m.id || index.toString()))}
                     className="w-full p-5 flex justify-between items-center font-bold bg-card hover:bg-secondary/30 text-foreground transition-all"
                   >
-                    <span className="flex items-center gap-2">
-                      {!user && <Lock size={16} className="text-muted-foreground" />}
-                      Módulo {index + 1}: {m.title}
-                    </span>
+                    <span>Módulo {index + 1}: {m.title}</span>
                     <ChevronDown className={`transition-transform duration-300 text-primary ${activeMod === (m.id || index.toString()) ? "rotate-180" : ""}`} />
                   </button>
                   {activeMod === (m.id || index.toString()) && (

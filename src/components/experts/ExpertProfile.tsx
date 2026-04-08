@@ -9,7 +9,7 @@ import {
   Lightbulb, LineChart, X
 } from "lucide-react";
 import {
-  Tooltip, TooltipContent, TooltipTrigger 
+  Tooltip, TooltipContent, TooltipTrigger
 } from "@/components/ui/tooltip";
 import { CircuitBackground, EditProfileModal, RankingElite } from "@/components";
 
@@ -22,9 +22,9 @@ const sidebarItems: SidebarItemType[] = [
 ];
 
 type Appointment = {
-  id: string; 
-  client_name: string; 
-  date: string; 
+  id: string;
+  client_name: string;
+  date: string;
   time: string;
   status: "Confirmado" | "Rejeitado" | "Concluído" | "Pendente";
   specialty?: string;
@@ -57,7 +57,7 @@ export default function ExpertProfile() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const hours = Array.from({ length: 12 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
-  
+
   const days = [
     { name: 'SEGUNDA', date: '15' },
     { name: 'TERÇA', date: '16' },
@@ -97,7 +97,7 @@ export default function ExpertProfile() {
 
     async function fetchAppointments() {
       if (!user) return;
-      
+
       // Buscar o ID do registro de especialista para este usuário
       const { data: expertRecord } = await supabase
         .from("experts")
@@ -111,7 +111,7 @@ export default function ExpertProfile() {
           .select("*")
           .eq("experts_id", expertRecord.id)
           .order("date", { ascending: true });
-        
+
         if (!error && data) {
           setAppointments(data as Appointment[]);
         }
@@ -132,7 +132,7 @@ export default function ExpertProfile() {
       .from("schedules")
       .update({ status })
       .eq("id", id);
-    
+
     if (!error) {
       setAppointments(prev => prev.map(a => a.id === id ? { ...a, status } : a));
     }
@@ -178,9 +178,8 @@ export default function ExpertProfile() {
             <motion.div key={item.key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
               <button
                 onClick={() => setActiveSection(item.key)}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${
-                  activeSection === item.key ? "bg-primary/10 text-primary border-l-[3px] border-primary" : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
-                }`}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${activeSection === item.key ? "bg-primary/10 text-primary border-l-[3px] border-primary" : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
+                  }`}
               >
                 <item.icon className={`w-5 h-5 flex-shrink-0 ${activeSection === item.key ? "text-primary" : "group-hover:text-primary"} transition-colors`} />
                 {sidebarOpen && <span>{item.label}</span>}
@@ -278,12 +277,12 @@ export default function ExpertProfile() {
                           {hours.map((_, i) => (
                             <div key={i} className="h-16 border-b border-slate-800/30" />
                           ))}
-                          
+
                           {calendarEvents.filter(apt => {
                             const aptDate = new Date(apt.date).getDate().toString();
                             return aptDate === day.date;
                           }).map((apt, i) => (
-                            <div 
+                            <div
                               key={i}
                               className={`absolute left-1 right-1 p-2 rounded-lg border cursor-pointer hover:brightness-125 transition-all z-20 ${apt.color}`}
                               style={{ top: `${(parseInt(apt.time.split(':')[0]) - 8) * 64 + (parseInt(apt.time.split(':')[1]) / 60) * 64}px` }}
@@ -334,8 +333,8 @@ export default function ExpertProfile() {
                   { text: "Consulta com João Pedro confirmada", type: "Confirmação", time: "Há 5h", color: "text-cyan-400" },
                   { text: "Ana Costa avaliou sua consulta", type: "Avaliação", time: "Há 1d", color: "text-[#ffcc00]", stars: true },
                 ].map((n, i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="group bg-[#1a1a24]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-5 flex items-center gap-5 relative overflow-hidden transition-all hover:bg-white/5 hover:border-white/10"
                   >
                     <div className={`absolute left-0 top-0 bottom-0 w-1 bg-current ${n.color}`} />
@@ -376,14 +375,14 @@ export default function ExpertProfile() {
               <div>
                 <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Ações Pendentes</h1>
                 <p className="text-sm text-slate-500 mt-2 italic font-medium">Usuários que clicaram em "Conversar com especialista".</p>
-                
+
                 <div className="flex gap-6 mt-8 overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-primary/20">
                   {pendingActions.length > 0 ? pendingActions.map(a => (
                     <div key={a.id} className="min-w-[320px] bg-slate-900/40 border-2 border-slate-800/50 rounded-[2rem] p-6 hover:border-primary/30 transition-all group backdrop-blur-sm relative overflow-hidden">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10 group-hover:bg-primary/10 transition-colors" />
                       <div className="flex gap-4 items-center mb-6">
                         <div className="w-16 h-16 rounded-3xl border-2 border-yellow-500/50 bg-slate-800 flex items-center justify-center text-2xl font-bold text-white overflow-hidden shadow-[0_0_15px_rgba(234,179,8,0.2)]">
-                           <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${a.client_name}`} alt="" />
+                          <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${a.client_name}`} alt="" />
                         </div>
                         <div>
                           <h4 className="text-lg font-bold text-white group-hover:text-yellow-500 transition-colors">{a.client_name}</h4>
@@ -412,7 +411,7 @@ export default function ExpertProfile() {
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-2xl font-bold text-white">Histórico de Agendamentos</h2>
                 </div>
-                
+
                 <div className="bg-[#0a0e17]/80 backdrop-blur-md rounded-[2.5rem] border border-slate-800/50 overflow-hidden shadow-2xl">
                   <table className="w-full text-left">
                     <thead>
@@ -427,7 +426,7 @@ export default function ExpertProfile() {
                       {appointmentHistory.map(a => (
                         <tr key={a.id} className="hover:bg-slate-800/20 transition-colors group">
                           <td className="px-8 py-6 text-sm font-medium text-slate-300">
-                             {new Date(a.date).toLocaleDateString()} às {a.time}
+                            {new Date(a.date).toLocaleDateString()} às {a.time}
                           </td>
                           <td className="px-8 py-6">
                             <div className="flex items-center gap-3">
@@ -436,7 +435,7 @@ export default function ExpertProfile() {
                             </div>
                           </td>
                           <td className="px-8 py-6">
-                             <span className="text-sm font-medium text-slate-400">Especialista {profileName}</span>
+                            <span className="text-sm font-medium text-slate-400">Especialista {profileName}</span>
                           </td>
                           <td className="px-8 py-6">
                             <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border flex items-center gap-2 w-fit ${statusColors[a.status]}`}>
