@@ -131,7 +131,7 @@
 
 
 /*AUTH*/
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -151,72 +151,86 @@
 /*fim PARALLAX-AUTH*/
 
 
-button:hover{
+button:hover {
   cursor: pointer;
 }
-.hide{
+
+.hide {
   display: none;
 }
-.wrapper{
-  background: rgba(0,0,0,0.6);
+
+.wrapper {
+  background: rgba(0, 0, 0, 0.6);
   position: relative;
   width: 800px;
   height: 300px;
   margin: 0 auto;
   margin-top: 150px;
 }
+
 .left,
-.right{
+.right {
   width: 50%;
 }
-.left{
+
+.left {
   float: left;
 }
-.right{
+
+.right {
   float: right
 }
+
 .back-header,
-.back-p{
+.back-p {
   margin: 20px;
   color: #fafafa;
   letter-spacing: 1px;
-  
+
 }
-.back-header{
+
+.back-header {
   font-size: 30px;
   font-weight: 500;
 }
-.back-p{
+
+.back-p {
   letter-spacing: 1px;
   font-size: 20px;
   line-height: 30px;
   margin-right: 60px;
 }
-.background button{
+
+.background button {
   position: absolute;
   left: 0;
   bottom: 60px;
 }
-.background .left button{
+
+.background .left button {
   left: 20px;
 }
-.background .right button{
+
+.background .right button {
   left: 420px;
 }
-.form-container{
+
+.form-container {
   position: absolute;
   width: 375px;
   height: 350px;
   background-color: white;
   top: -25px;
   left: 10px;
-  box-shadow: 9px 13px 16px 0px rgba(0,0,0,0.75);
+  box-shadow: 9px 13px 16px 0px rgba(0, 0, 0, 0.75);
 }
+
 .sign-up,
-.login{
+.login {
   margin: 40px;
 }
-.back-btn{
+
+.back-btn {
   width: 100px;
   height: 30px;
   font-size: 15px;
@@ -227,21 +241,24 @@ button:hover{
   color: #fafafa;
   transition: .3s all;
 }
-.back-btn:hover{
+
+.back-btn:hover {
   background-color: #145977;
   border: 1px solid #145977;
 }
 
 
 .sign-up button:hover,
-.login button:hover{
+.login button:hover {
   background-color: #C53716;
 }
-.form-header{
+
+.form-header {
   font-size: 32px;
   color: #FC7D5F;
 }
-.form-container input{
+
+.form-container input {
   margin-top: 20px;
   width: 80%;
   height: 30px;
@@ -250,26 +267,28 @@ button:hover{
 }
 
 input[type="text"],
-input[type="email"]{
+input[type="email"] {
   color: #555;
 }
-.form-container i{
+
+.form-container i {
   margin-left: 10px;
   margin-bottom: -5px;
   color: #888;
 }
 
 .login button,
-.forgot
-{
+.forgot {
   display: inline-block;
 }
-.forgot{
+
+.forgot {
   margin-left: 15px;
   text-decoration: none;
   color: black;
 }
-.forgot:hover{
+
+.forgot:hover {
   color: #FC7D5F;
   text-decoration: underline;
 }
@@ -592,31 +611,4 @@ input[type="email"]{
 .vuln-card:hover {
   border-color: hsl(var(--primary));
   box-shadow: 0 10px 40px rgba(212, 165, 53, 0.15);
-}
-
-/* Modal animations */
-@keyframes modal-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes modal-overlay {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Avatar suggestion hover */
-.avatar-suggestion {
-  transition: all 0.2s ease;
-}
-
-.avatar-suggestion:hover {
-  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.5));
-  transform: scale(1.1);
 }

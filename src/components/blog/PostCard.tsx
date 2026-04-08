@@ -13,7 +13,6 @@ export interface SocialPost {
   image: string;
   likes: number;
   comments: number;
-  tags?: string[];
 }
 
 const reactions = [

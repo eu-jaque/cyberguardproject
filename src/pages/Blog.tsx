@@ -4,7 +4,6 @@ import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PostCard from "@/components/blog/PostCard";
@@ -13,7 +12,9 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
-import blogParallax from "@/assets/blog-parallax.jpg";
+import { useEffect, useState } from "react";
+import supabase from "../../utils/supabase";
+
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -26,56 +27,9 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "CyberLab", value: "cyberlab" },
 ];
 
-
-
-
-// Social Posts data
-const socialPosts: SocialPost[] = [
-  {
-    id: "post-1", author: "Dr. Carlos Silva", authorRole: "Especialista em Cibersegurança", authorAvatar: "https://i.pravatar.cc/100?img=11",
-    date: "15 Mar 2026", content: "🔒 Dica do dia: Sempre ative a autenticação em dois fatores (2FA) em todas as suas contas. É a barreira extra que pode salvar seus dados!", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", likes: 127, comments: 23, tags: ["Iniciante", "Segurança", "Privacidade"],
-  },
-  {
-    id: "post-2", author: "Ana Rodrigues", authorRole: "Analista de Segurança", authorAvatar: "https://i.pravatar.cc/100?img=5",
-    date: "14 Mar 2026", content: "⚠️ Alerta: Nova campanha de phishing usando IA para gerar e-mails extremamente convincentes. Fiquem atentos!", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", likes: 89, comments: 15, tags: ["Intermediário", "Fraude", "IA"],
-  },
-  {
-    id: "post-3", author: "Prof. Lucas Mendes", authorRole: "Pesquisador em IA e Segurança", authorAvatar: "https://i.pravatar.cc/100?img=12",
-    date: "12 Mar 2026", content: "Acabei de publicar um estudo sobre como deepfakes estão sendo usados em ataques de engenharia social corporativa. Link nos comentários!", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", likes: 234, comments: 41, tags: ["Avançado", "IA", "Tecnologia"],
-  },
-  {
-    id: "post-4", author: "Mariana Oliveira", authorRole: "Consultora LGPD", authorAvatar: "https://i.pravatar.cc/100?img=9",
-    date: "10 Mar 2026", content: "Empresas que não se adequaram à LGPD até agora estão correndo sérios riscos. Veja o checklist que preparei para adequação rápida.", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", likes: 156, comments: 28, tags: ["Intermediário", "Legislação", "Privacidade"],
-  },
-];
-
-// Articles data
-const articles = [
-  { id: "golpes-pix", title: "Os 5 golpes via Pix mais perigosos de 2026", summary: "Conheça as táticas mais recentes usadas por criminosos para roubar dinheiro via Pix.", category: "Fraude", date: "15 Mar 2026", readTime: "6 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop", tags: ["Iniciante", "Fraude", "Segurança"] },
-  { id: "phishing-2026", title: "Phishing em 2026: como identificar e-mails falsos", summary: "Técnicas avançadas de phishing estão enganando até os mais experientes.", category: "Segurança", date: "10 Mar 2026", readTime: "8 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop", tags: ["Intermediário", "Segurança", "Fraude"] },
-  { id: "senhas-seguras", title: "Senhas seguras: o guia definitivo para 2026", summary: "Como criar senhas fortes e usar gerenciadores de senha de forma prática.", category: "Tecnologia", date: "20 Fev 2026", readTime: "5 min", author: "Rafael Santos", image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop", tags: ["Iniciante", "Tecnologia", "Privacidade"] },
-  { id: "engenharia-social", title: "Engenharia social: a arte de manipular pessoas", summary: "Criminosos usam psicologia para enganar vítimas. Descubra as técnicas mais comuns.", category: "Segurança", date: "25 Fev 2026", readTime: "6 min", author: "Mariana Oliveira", image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=600&h=400&fit=crop", tags: ["Intermediário", "Segurança", "Educação"] },
-  { id: "whatsapp-clonagem", title: "Clonagem de WhatsApp: como se proteger", summary: "Golpistas estão clonando contas do WhatsApp para aplicar golpes nos seus contatos.", category: "Fraude", date: "10 Fev 2026", readTime: "5 min", author: "Ana Rodrigues", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop", tags: ["Iniciante", "Fraude", "Redes Sociais"] },
-];
-
-// News data
-const newsItems = [
-  { id: "ransomware-empresas", title: "Ransomware: o pesadelo das empresas brasileiras", summary: "Ataques de ransomware cresceram 150% no Brasil em 2026.", category: "Tecnologia", date: "01 Mar 2026", readTime: "9 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop", tags: ["Avançado", "Tecnologia", "Segurança"] },
-  { id: "vazamento-dados", title: "O que fazer após um vazamento de dados", summary: "Seus dados foram expostos? Saiba os passos imediatos.", category: "Segurança", date: "15 Fev 2026", readTime: "7 min", author: "Dr. Carlos Silva", image: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&h=400&fit=crop", tags: ["Iniciante", "Segurança", "Privacidade"] },
-  { id: "deepfake-perigos", title: "Deepfakes: a nova arma dos golpistas digitais", summary: "IA está sendo usada para criar vídeos falsos ultra-realistas.", category: "Tecnologia", date: "05 Fev 2026", readTime: "8 min", author: "Prof. Lucas Mendes", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop", tags: ["Avançado", "IA", "Tecnologia"] },
-  { id: "lgpd-direitos", title: "LGPD: conheça seus direitos sobre seus dados pessoais", summary: "A Lei Geral de Proteção de Dados garante direitos importantes.", category: "Legislação", date: "05 Mar 2026", readTime: "7 min", author: "Dra. Juliana Costa", image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop", tags: ["Intermediário", "Legislação", "Privacidade"] },
-];
-
-// Videos data
-const videoPosts: VideoPost[] = [
-  { id: "v1", title: "Cibersegurança — O que é e por que importa?", description: "Entenda os fundamentos da segurança cibernética e como ela afeta o seu dia a dia.", thumbnail: "https://img.youtube.com/vi/inWWhr5tnEA/maxresdefault.jpg", duration: "10:21", views: "1.2M", author: "Simplilearn", date: "2023", videoId: "inWWhr5tnEA", tags: ["Iniciante", "Segurança", "Educação"] },
-  { id: "v2", title: "Como hackers realmente invadem contas", description: "Veja as técnicas mais comuns usadas por hackers e como se proteger.", thumbnail: "https://img.youtube.com/vi/lpa8uy4DyMo/maxresdefault.jpg", duration: "14:07", views: "3.5M", author: "Linus Tech Tips", date: "2023", videoId: "lpa8uy4DyMo", tags: ["Avançado", "Segurança", "Tecnologia"] },
-  { id: "v3", title: "5 dicas de segurança online que todos precisam", description: "Dicas práticas e simples para proteger seus dados na internet.", thumbnail: "https://img.youtube.com/vi/aO858HyFbKI/maxresdefault.jpg", duration: "8:45", views: "850K", author: "ThioJoe", date: "2024", videoId: "aO858HyFbKI", tags: ["Iniciante", "Privacidade", "Educação"] },
-  { id: "v4", title: "Ransomware explicado em 6 minutos", description: "O que é ransomware, como funciona e como evitar ser vítima.", thumbnail: "https://img.youtube.com/vi/AR1qiGUdWKM/maxresdefault.jpg", duration: "6:12", views: "520K", author: "PowerCert", date: "2024", videoId: "AR1qiGUdWKM", tags: ["Intermediário", "Tecnologia", "Segurança"] },
-];
-
-
 const Blog = () => {
+  const [contents, setContents] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
@@ -83,42 +37,100 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
-  
 
+  useEffect(() => {
+    const fetchContents = async () => {
+      const { data, error } = await supabase
+        .from("contents")
+        .select(`
+            *,
+            profiles (
+              name,
+              role,
+              avatars
+            )
+          `)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setContents(data);
+      setLoading(false);
+    };
+
+    fetchContents();
+  }, []);
+  const socialPosts = contents
+    .filter(c => c.type === "post")
+    .map(c => ({
+      id: c.id,
+      author: c.profiles?.name ?? "Autor",
+      authorRole: c.profiles?.role ?? "",
+      authorAvatar: c.profiles?.avatars ?? "",
+      date: c.extra?.date,
+      content: c.content,
+      image: c.image,
+      likes: c.extra?.likes,
+      comments: c.extra?.comments
+    }));
+
+
+  const articles = contents
+    .filter(c => c.type === "article")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatars ?? "",
+      image: c.image
+    }));
+
+  const newsItems = contents
+    .filter(c => c.type === "news")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatars ?? "",
+      image: c.image
+    }));
+
+  const videoPosts = contents
+    .filter(c => c.type === "video")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      description: c.content,
+      thumbnail: c.image,
+      duration: c.extra?.duration,
+      views: c.extra?.views,
+      videoId: c.extra?.videoId,
+      author: c.extra?.author, // ✅ FIX
+      date: c.created_at
+    }));
+  console.log(contents)
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
-      {/* Parallax Hero */}
-      <section
-        className="relative min-h-[380px] md:min-h-[440px] flex items-center justify-center bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url(${blogParallax})` }}
-      >
-        <div className="absolute inset-0 bg-[hsl(var(--background))]/80 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[hsl(var(--primary))]/5" />
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="relative z-10 w-full max-w-[1366px] mx-auto px-[2%] pt-28 pb-10 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4"
-          >
+      {/* Hero */}
+      <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
             Blog <span className="text-gradient-gold">CyberGuard</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8"
-          >
-            {t("blog.subtitle")}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="max-w-xl mx-auto relative"
-          >
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
+          <div className="max-w-xl mx-auto relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
               type="text"
@@ -127,7 +139,7 @@ const Blog = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -147,9 +159,8 @@ const Blog = () => {
         </div>
       </section>
 
-
       {/* Content */}
-      <section className="py-8 bg-background">
+      <section className="py-12 bg-background">
         <div className="max-w-[1366px] mx-auto px-[2%]">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
             <div>
@@ -158,7 +169,6 @@ const Blog = () => {
                 <div className="space-y-6 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Papo & Meme</h2>}
                   {socialPosts
-                    
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
                       <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} viewport={{ once: true }}>
@@ -173,7 +183,6 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Leitura Segura</h2>}
                   {articles
-                    
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
                       <motion.article
@@ -189,15 +198,18 @@ const Blog = () => {
                           <img src={article.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <div className="flex gap-1.5 mb-1.5 flex-wrap">
-                            {article.tags?.map(tag => (
-                              <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
-                            ))}
-                          </div>
+                          <span className="text-[10px] font-bold text-primary mb-1">{article.category}</span>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{article.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{article.author}</span>
+                            <span className="flex items-center gap-1">
+                              {article.authorAvatar ? (
+                                <img src={article.authorAvatar} alt={article.author} className="w-5 h-5 rounded-full object-cover" />
+                              ) : (
+                                <User className="w-3 h-3" />
+                              )}
+                              {article.author}
+                            </span>
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{article.readTime}</span>
                           </div>
                         </div>
@@ -212,7 +224,6 @@ const Blog = () => {
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Aprenda Assistindo</h2>}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {videoPosts
-                      
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((video, i) => (
                         <motion.div
@@ -234,11 +245,6 @@ const Blog = () => {
                             <span className="absolute bottom-2 right-2 bg-background/80 text-foreground text-xs font-bold px-2 py-0.5 rounded">{video.duration}</span>
                           </div>
                           <div className="p-4">
-                            <div className="flex gap-1.5 mb-2 flex-wrap">
-                              {video.tags?.map(tag => (
-                                <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
-                              ))}
-                            </div>
                             <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{video.title}</h3>
                             <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
                               <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{video.views}</span>
@@ -256,7 +262,6 @@ const Blog = () => {
                 <div className="space-y-4 mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem  Fake News? Temos!</h2>}
                   {newsItems
-                    
                     .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((news, i) => (
                       <motion.article
@@ -272,15 +277,18 @@ const Blog = () => {
                           <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <div className="flex gap-1.5 mb-1.5 flex-wrap">
-                            {news.tags?.map(tag => (
-                              <span key={tag} className="text-[10px] font-bold rounded-full px-2 py-0.5 border border-primary/20 text-primary/70 bg-transparent">{tag}</span>
-                            ))}
-                          </div>
+                          <span className="text-[10px] font-bold text-amber-400 mb-1">{news.category}</span>
                           <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
                           <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{news.author}</span>
+                            <span className="flex items-center gap-1">
+                              {news.authorAvatar ? (
+                                <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                              ) : (
+                                <User className="w-3 h-3" />
+                              )}
+                              {news.author}
+                            </span>
                             <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{news.date}</span>
                           </div>
                         </div>

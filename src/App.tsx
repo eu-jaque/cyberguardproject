@@ -24,7 +24,7 @@ import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
 import Chatbot from "./components/Chatbot.tsx";
 import ChatBotView from "./pages/ChatBotView.tsx";
-// StudentDashboard merged into Dash
+import StudentDashboard from "./pages/StudentDashboard.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import ExpertProfile from "./components/experts/ExpertProfile.tsx";
 
@@ -73,7 +73,7 @@ const App = () => (
                 <Route path="/contato" element={<Contact />} />
                 <Route path="/cursos" element={<Courses />} />
                 <Route path="/student-dashboard" element={
-                  <ProtectedRoute><Dash /></ProtectedRoute>
+                  <ProtectedRoute><StudentDashboard /></ProtectedRoute>
                 } />
                 <Route path="/blog/:slug" element={<ArticlePage />} />
                 <Route path="/expert-profile" element={
