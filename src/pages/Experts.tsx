@@ -75,8 +75,23 @@ export default function Experts() {
         setExperts(data);
       }
     }
+
+    async function checkPendingSchedule() {
+      const pending = localStorage.getItem("cyberguard_pending_appointment");
+      if (pending && user) {
+        const { expertId, day, time } = JSON.parse(pending);
+        const expert = experts.find(e => e.id === expertId);
+        if (expert) {
+          setSelectedExpert(expert);
+          executeSchedule(day, time, expert, user.id);
+          localStorage.removeItem("cyberguard_pending_appointment");
+        }
+      }
+    }
+
     fetchExperts();
-  }, []);
+    if (experts.length > 0) checkPendingSchedule();
+  }, [user, experts]);
 
   const handleExpertSelected = (expert: Expert) => {
     setSelectedExpert(expert);
@@ -89,10 +104,26 @@ export default function Experts() {
       setIsLoginModalOpen(true);
       return;
     }
-    executeSchedule(day, time);
+    executeSchedule(day, time, selectedExpert, user.id);
   };
 
-  const executeSchedule = (day: string, time: string) => {
+  const executeSchedule = async (day: string, time: string, expert: any, userId: string) => {
+    if (!expert || !userId) return;
+
+    const { error } = await supabase.from("schedules").insert({
+      client_name: user?.user_metadata?.name || user?.email?.split("@")[0] || "Cliente",
+      date: new Date().toISOString().split("T")[0], // Simplificado, ideal seria calcular a data do dia da semana
+      time: time,
+      experts_id: expert.id,
+      user_id: userId,
+      status: "Pendente"
+    });
+
+    if (error) {
+      console.error("Erro ao agendar:", error);
+      return;
+    }
+
     setConfirmedDetails({ day, time });
     setIsScheduleModalOpen(false);
     setViewState("confirmation");

@@ -4,17 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import supabase from "../../../utils/supabase";
 import {
-  LayoutDashboard, Calendar as CalendarIcon, Bell, BarChart3, Mail, LogOut,
-  ChevronLeft, ChevronRight, Plus, X, Edit, Check, Clock, AlertCircle,
-  Lightbulb, LineChart
+  LayoutDashboard, Bell, LogOut, Calendar as CalendarIcon,
+  ChevronLeft, ChevronRight, Edit, Check, Clock,
+  Lightbulb, LineChart, X
 } from "lucide-react";
 import {
-  Sheet, SheetContent, SheetHeader, SheetTitle,
-} from "@/components/ui/sheet";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import CircuitBackground from "@/components/CircuitBackground";
-import EditProfileModal from "@/components/EditProfileModal";
-import RankingElite from "@/components/RankingElite";
+  Tooltip, TooltipContent, TooltipTrigger 
+} from "@/components/ui/tooltip";
+import { CircuitBackground, EditProfileModal, RankingElite } from "@/components";
 
 type SidebarItemType = { icon: typeof LayoutDashboard; label: string; key: string };
 
@@ -25,22 +22,26 @@ const sidebarItems: SidebarItemType[] = [
 ];
 
 type Appointment = {
-  id: string; client: string; date: string; time: string;
-  status: "Confirmado" | "Cancelado" | "Concluído" | "Pendente";
+  id: string; 
+  client_name: string; 
+  date: string; 
+  time: string;
+  status: "Confirmado" | "Rejeitado" | "Concluído" | "Pendente";
+  specialty?: string;
 };
 
 const mockAppointments: Appointment[] = [
-  { id: "1", client: "Maria Silva", date: "2026-03-28", time: "14:00", status: "Confirmado" },
-  { id: "2", client: "João Pedro", date: "2026-03-29", time: "10:00", status: "Pendente" },
-  { id: "3", client: "Ana Costa", date: "2026-03-25", time: "16:00", status: "Concluído" },
-  { id: "4", client: "Pedro Santos", date: "2026-03-20", time: "09:00", status: "Cancelado" },
-  { id: "5", client: "Lucas Mendes", date: "2026-03-30", time: "11:00", status: "Pendente" },
+  { id: "1", client_name: "Maria Silva", date: "2026-03-28", time: "14:00", status: "Confirmado" },
+  { id: "2", client_name: "João Pedro", date: "2026-03-29", time: "10:00", status: "Pendente" },
+  { id: "3", client_name: "Ana Costa", date: "2026-03-25", time: "16:00", status: "Concluído" },
+  { id: "4", client_name: "Pedro Santos", date: "2026-03-20", time: "09:00", status: "Rejeitado" },
+  { id: "5", client_name: "Lucas Mendes", date: "2026-03-30", time: "11:00", status: "Pendente" },
 ];
 
 const statusColors: Record<string, string> = {
   Confirmado: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  Cancelado: "bg-red-500/20 text-red-400 border-red-500/30",
-  Concluído: "bg-muted text-muted-foreground border-border",
+  Rejeitado: "bg-red-500/20 text-red-400 border-red-500/30",
+  Concluído: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   Pendente: "bg-amber-500/20 text-amber-400 border-amber-500/30",
 };
 
@@ -53,9 +54,7 @@ export default function ExpertProfile() {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileAvatar, setProfileAvatar] = useState("");
-  const [appointments, setAppointments] = useState(mockAppointments);
-  const [appointmentTab, setAppointmentTab] = useState<"proximos" | "historico" | "agenda">("proximos");
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const hours = Array.from({ length: 12 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
   
@@ -69,18 +68,25 @@ export default function ExpertProfile() {
     { name: 'DOMINGO', date: '21' },
   ];
 
-  const calendarEvents = [
-    { day: 1, time: '08:30', name: 'Ana Paula', color: 'bg-blue-500/10 border-blue-500/50', initial: 'A' },
-    { day: 2, time: '13:00', name: 'MAICON SILVA', color: 'bg-emerald-500/20 border-emerald-500/50', initial: 'M' },
-    { day: 2, time: '16:00', name: 'JOÃO PEDRO', color: 'bg-amber-500/10 border-amber-500/50', initial: 'J' },
-    { day: 2, time: '17:30', name: 'LUCAS MENDES', color: 'bg-amber-500/10 border-amber-500/50', initial: 'L' },
-    { day: 3, time: '14:30', name: 'Paulo Souza', color: 'bg-slate-500/10 border-slate-500/50', initial: 'P' },
-  ];
+  const calendarEvents = appointments
+    .filter(a => a.status === "Confirmado")
+    .map(a => {
+      const date = new Date(a.date);
+      // Map ISO date to 0-6 day of week if needed or find it in 'days' array
+      // Simplified: match by date string if profiles match
+      return {
+        date: a.date,
+        time: a.time,
+        name: a.client_name,
+        color: 'bg-emerald-500/20 border-emerald-500/50',
+        initial: a.client_name[0]
+      };
+    });
 
   useEffect(() => {
     async function loadProfile() {
       if (!user) return;
-      const { data } = await supabase.from("profiles").select("full_name, avatar_url").eq("id", user.id).single();
+      const { data } = await supabase.from("profiles").select("full_name, avatar_url").eq("user_id", user.id).single();
       if (data) {
         setProfileName(data.full_name || user.email?.split("@")[0] || "Especialista");
         setProfileAvatar(data.avatar_url || "");
@@ -88,7 +94,32 @@ export default function ExpertProfile() {
         setProfileName(user.email?.split("@")[0] || "Especialista");
       }
     }
+
+    async function fetchAppointments() {
+      if (!user) return;
+      
+      // Buscar o ID do registro de especialista para este usuário
+      const { data: expertRecord } = await supabase
+        .from("experts")
+        .select("id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (expertRecord) {
+        const { data, error } = await supabase
+          .from("schedules")
+          .select("*")
+          .eq("experts_id", expertRecord.id)
+          .order("date", { ascending: true });
+        
+        if (!error && data) {
+          setAppointments(data as Appointment[]);
+        }
+      }
+    }
+
     loadProfile();
+    fetchAppointments();
   }, [user]);
 
   const canCancel = (date: string) => {
@@ -96,8 +127,15 @@ export default function ExpertProfile() {
     return diff > 24 * 60 * 60 * 1000;
   };
 
-  const updateStatus = (id: string, status: Appointment["status"]) => {
-    setAppointments(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+  const updateStatus = async (id: string, status: Appointment["status"]) => {
+    const { error } = await supabase
+      .from("schedules")
+      .update({ status })
+      .eq("id", id);
+    
+    if (!error) {
+      setAppointments(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+    }
   };
 
   const handleLogout = async () => {
@@ -105,8 +143,8 @@ export default function ExpertProfile() {
     navigate("/auth", { replace: true });
   };
 
-  const upcoming = appointments.filter(a => a.status === "Confirmado" || a.status === "Pendente");
-  const history = appointments.filter(a => a.status === "Concluído" || a.status === "Cancelado");
+  const pendingActions = appointments.filter(a => a.status === "Pendente");
+  const appointmentHistory = appointments.filter(a => a.status !== "Pendente");
 
   const avatarSrc = profileAvatar || `https://api.dicebear.com/7.x/initials/svg?seed=${profileName}&backgroundColor=facc15`;
 
@@ -139,7 +177,7 @@ export default function ExpertProfile() {
           {sidebarItems.map((item, i) => (
             <motion.div key={item.key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
               <button
-                onClick={() => { setActiveSection(item.key); if (item.key === "appointments") setIsSheetOpen(true); }}
+                onClick={() => setActiveSection(item.key)}
                 className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${
                   activeSection === item.key ? "bg-primary/10 text-primary border-l-[3px] border-primary" : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
                 }`}
@@ -186,7 +224,7 @@ export default function ExpertProfile() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-xl p-5 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0891b2, #115e59)" }}>
                   <div className="flex justify-between items-start">
-                    <div><p className="text-3xl font-bold text-white">{upcoming.length}</p><p className="text-xs text-white/80 mt-1">Agendamentos para Hoje</p></div>
+                    <div><p className="text-3xl font-bold text-white">{appointments.filter(a => a.status === 'Confirmado').length}</p><p className="text-xs text-white/80 mt-1">Agendamentos Confirmados</p></div>
                     <Clock className="w-6 h-6 text-white/60" />
                   </div>
                 </div>
@@ -241,7 +279,10 @@ export default function ExpertProfile() {
                             <div key={i} className="h-16 border-b border-slate-800/30" />
                           ))}
                           
-                          {calendarEvents.filter(a => a.day === idx).map((apt, i) => (
+                          {calendarEvents.filter(apt => {
+                            const aptDate = new Date(apt.date).getDate().toString();
+                            return aptDate === day.date;
+                          }).map((apt, i) => (
                             <div 
                               key={i}
                               className={`absolute left-1 right-1 p-2 rounded-lg border cursor-pointer hover:brightness-125 transition-all z-20 ${apt.color}`}
@@ -329,63 +370,93 @@ export default function ExpertProfile() {
               </div>
             </motion.div>
           )}
+
+          {activeSection === "appointments" && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12">
+              <div>
+                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Ações Pendentes</h1>
+                <p className="text-sm text-slate-500 mt-2 italic font-medium">Usuários que clicaram em "Conversar com especialista".</p>
+                
+                <div className="flex gap-6 mt-8 overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-primary/20">
+                  {pendingActions.length > 0 ? pendingActions.map(a => (
+                    <div key={a.id} className="min-w-[320px] bg-slate-900/40 border-2 border-slate-800/50 rounded-[2rem] p-6 hover:border-primary/30 transition-all group backdrop-blur-sm relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10 group-hover:bg-primary/10 transition-colors" />
+                      <div className="flex gap-4 items-center mb-6">
+                        <div className="w-16 h-16 rounded-3xl border-2 border-yellow-500/50 bg-slate-800 flex items-center justify-center text-2xl font-bold text-white overflow-hidden shadow-[0_0_15px_rgba(234,179,8,0.2)]">
+                           <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${a.client_name}`} alt="" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-white group-hover:text-yellow-500 transition-colors">{a.client_name}</h4>
+                          <div className="flex items-center gap-2 text-[11px] text-slate-400 font-medium">
+                            <Clock className="w-3 h-3" />
+                            <span>{new Date(a.date).toLocaleDateString()} às {a.time} - {a.specialty || "Nutrição"}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <button onClick={() => updateStatus(a.id, "Confirmado")} className="w-full py-3.5 rounded-2xl bg-[#CC9F00] text-black font-black text-xs uppercase tracking-widest hover:brightness-110 transition-all shadow-[0_4px_15px_rgba(204,159,0,0.3)]">
+                          Confirmar Agendamento
+                        </button>
+                        <button onClick={() => updateStatus(a.id, "Rejeitado")} className="w-full py-3.5 rounded-2xl bg-transparent border-2 border-slate-700 text-slate-400 font-bold text-xs uppercase tracking-widest hover:border-red-500/50 hover:text-red-400 transition-all">
+                          Rejeitar
+                        </button>
+                      </div>
+                    </div>
+                  )) : (
+                    <p className="text-slate-500 italic py-8">Nenhuma ação pendente no momento.</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl font-bold text-white">Histórico de Agendamentos</h2>
+                </div>
+                
+                <div className="bg-[#0a0e17]/80 backdrop-blur-md rounded-[2.5rem] border border-slate-800/50 overflow-hidden shadow-2xl">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-slate-800/50 bg-slate-900/20">
+                        <th className="px-8 py-6 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Data</th>
+                        <th className="px-8 py-6 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Usuário</th>
+                        <th className="px-8 py-6 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Especialista</th>
+                        <th className="px-8 py-6 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/30">
+                      {appointmentHistory.map(a => (
+                        <tr key={a.id} className="hover:bg-slate-800/20 transition-colors group">
+                          <td className="px-8 py-6 text-sm font-medium text-slate-300">
+                             {new Date(a.date).toLocaleDateString()} às {a.time}
+                          </td>
+                          <td className="px-8 py-6">
+                            <div className="flex items-center gap-3">
+                              <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${a.client_name}`} alt="" className="w-9 h-9 rounded-xl border border-slate-700" />
+                              <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{a.client_name}</span>
+                            </div>
+                          </td>
+                          <td className="px-8 py-6">
+                             <span className="text-sm font-medium text-slate-400">Especialista {profileName}</span>
+                          </td>
+                          <td className="px-8 py-6">
+                            <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border flex items-center gap-2 w-fit ${statusColors[a.status]}`}>
+                              {a.status === "Confirmado" && <Check className="w-3 h-3" />}
+                              {a.status === "Rejeitado" && <X className="w-3 h-3" />}
+                              {a.status === "Concluído" && <Check className="w-3 h-3" />}
+                              {a.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 
-      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent className="w-full sm:max-w-lg overflow-y-auto bg-card border-l border-border">
-          <SheetHeader>
-            <SheetTitle className="text-foreground">Agendamentos</SheetTitle>
-          </SheetHeader>
-          <div className="mt-4">
-            <div className="flex gap-1 mb-6">
-              {[
-                { label: "Próximos", value: "proximos" as const },
-                { label: "Histórico", value: "historico" as const },
-                { label: "Minha Agenda", value: "agenda" as const },
-              ].map(tab => (
-                <button key={tab.value} onClick={() => setAppointmentTab(tab.value)}
-                  className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${appointmentTab === tab.value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary/50"}`}>
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <div className="space-y-3">
-              {(appointmentTab === "proximos" ? upcoming : appointmentTab === "historico" ? history : appointments).map(a => (
-                <div key={a.id} className="bg-secondary/20 rounded-xl p-4 space-y-3">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="text-sm font-bold text-foreground">{a.client}</h4>
-                      <p className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="w-3 h-3" /> {a.date} às {a.time}</p>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${statusColors[a.status]}`}>{a.status}</span>
-                  </div>
-                  {appointmentTab === "agenda" && a.status !== "Cancelado" && a.status !== "Concluído" && (
-                    <div className="flex gap-2">
-                      {a.status === "Pendente" && (
-                        <button onClick={() => updateStatus(a.id, "Confirmado")} className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/30 transition-colors">Confirmar</button>
-                      )}
-                      <button onClick={() => updateStatus(a.id, "Concluído")} className="px-3 py-1.5 rounded-lg bg-secondary/50 text-foreground text-xs font-bold hover:bg-secondary/70 transition-colors">Concluir</button>
-                      {canCancel(a.date) ? (
-                        <button onClick={() => updateStatus(a.id, "Cancelado")} className="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-bold hover:bg-red-500/30 transition-colors">Cancelar</button>
-                      ) : (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button disabled className="px-3 py-1.5 rounded-lg bg-secondary/30 text-muted-foreground text-xs font-bold cursor-not-allowed flex items-center gap-1">
-                              <AlertCircle className="w-3 h-3" /> Cancelar
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent><p>Cancelamentos só são permitidos com 24h de antecedência</p></TooltipContent>
-                        </Tooltip>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
 
       <EditProfileModal
         open={showEditProfile}
