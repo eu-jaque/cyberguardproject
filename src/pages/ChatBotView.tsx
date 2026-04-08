@@ -28,8 +28,8 @@ export default function ChatBotView() {
     const currentUserId = user?.id || 'id-temporario-local';
 
     const [conversations, setConversations] = useState<Conversation[]>([]);
-
     const [activeChatId, setActiveChatId] = useState<string>('');
+    const [sidebarOpen, setSidebarOpen] = useState(true);
 
     // Busca das conversas iniciais no Supabase
     useEffect(() => {
@@ -207,10 +207,10 @@ export default function ChatBotView() {
     const currentChat = conversations.find(c => c.id === activeChatId);
 
     return (
-        <div className="min-h-screen flex bg-[#0b1426] text-slate-100 transition-colors duration-300 relative selection:bg-amber-500/30 selection:text-amber-200">
-            <SidebarMenu />
+        <div className="min-h-screen flex bg-background text-foreground transition-colors duration-300 relative selection:bg-primary/30 selection:text-primary">
+            <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
-            <div className="flex-1 flex pl-16 h-screen w-full">
+            <div className={`flex-1 flex h-screen w-full transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
                 <ChatHistorySidebar
                     conversations={conversations}
                     activeId={activeChatId}
@@ -229,8 +229,6 @@ export default function ChatBotView() {
                     handleSendMessage={handleSendMessage}
                 />
             </div>
-
-            <AccessibilityWidget />
         </div>
     );
 }
