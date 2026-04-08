@@ -12,13 +12,14 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { motion } from "framer-motion";
 import {
   Star, Clock, Search, ShieldCheck,
-  BookOpen, ArrowRight, Loader2, ChevronDown, GraduationCap, Users, Award
+  BookOpen, ArrowRight, Loader2, ChevronDown, GraduationCap, Users, Award, Lock
 } from "lucide-react";
 
 export type Module = {
   id: string;
   title: string;
   description: string;
+  urlvideo:string;
 };
 
 export type Course = {
@@ -32,6 +33,7 @@ export type Course = {
   rating: number;
   url: string;
   modules: Module[];
+  video: string
 };
 
 export default function Courses() {
@@ -191,6 +193,41 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
     navigate("/student-dashboard", { state: { courseId: course.id } });
   };
 
+  const renderVideo = (url: string) => {
+    if (!url) return null;
+    
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      let embedId = '';
+      if (url.includes('youtu.be/')) {
+        embedId = url.split('youtu.be/')[1].split('?')[0];
+      } else if (url.includes('watch?v=')) {
+        embedId = url.split('watch?v=')[1].split('&')[0];
+      } else if (url.includes('embed/')) {
+        embedId = url.split('embed/')[1].split('?')[0];
+      }
+      
+      if (embedId) {
+        return (
+          <iframe
+            className="w-full h-full bg-black"
+            src={`https://www.youtube.com/embed/${embedId}`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        );
+      }
+    }
+    
+    return (
+      <video 
+        controls 
+        className="w-full h-full bg-black" 
+        src={url}
+      />
+    );
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero */}
@@ -226,21 +263,44 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
             ))}
           </div>
 
+          {course.video && (
+            <section className="space-y-3 mb-10">
+              <h2 className="text-2xl font-bold text-foreground mb-4">Vídeo de Apresentação</h2>
+              <div className="rounded-2xl overflow-hidden border border-border/50 bg-card aspect-video relative shadow-xl">
+                {renderVideo(course.video)}
+              </div>
+            </section>
+          )}
+
           <section className="space-y-3">
             <h2 className="text-2xl font-bold text-foreground mb-4">Conteúdo Programático</h2>
             {course.modules && course.modules.length > 0 ? (
               course.modules.map((m, index) => (
                 <div key={m.id || index} className="border border-border/50 rounded-xl overflow-hidden">
                   <button
-                    onClick={() => setActiveMod(activeMod === (m.id || index.toString()) ? null : (m.id || index.toString()))}
+                    onClick={() => {
+                      if (!user) {
+                        navigate("/auth");
+                        return;
+                      }
+                      setActiveMod(activeMod === (m.id || index.toString()) ? null : (m.id || index.toString()));
+                    }}
                     className="w-full p-5 flex justify-between items-center font-bold bg-card hover:bg-secondary/30 text-foreground transition-all"
                   >
-                    <span>Módulo {index + 1}: {m.title}</span>
+                    <span className="flex items-center gap-2">
+                      {!user && <Lock size={16} className="text-muted-foreground" />}
+                      Módulo {index + 1}: {m.title}
+                    </span>
                     <ChevronDown className={`transition-transform duration-300 text-primary ${activeMod === (m.id || index.toString()) ? "rotate-180" : ""}`} />
                   </button>
                   {activeMod === (m.id || index.toString()) && (
                     <div className="p-5 bg-secondary/10 text-muted-foreground border-t border-border/30 animate-fade-in">
                       <p>{m.description}</p>
+                      {m.urlvideo && (
+                        <div className="mt-4 rounded-xl overflow-hidden border border-border/50 bg-card aspect-video relative shadow-lg">
+                          {renderVideo(m.urlvideo)}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
