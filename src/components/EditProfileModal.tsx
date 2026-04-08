@@ -97,7 +97,7 @@ export default function EditProfileModal({ open, onClose, currentName, currentAv
           avatars: avatarUrl,
           avatar_url: avatarUrl
         }, {
-          onConflict: 'user_id' // 🔥 ESSENCIAL
+          onConflict: 'user_id'
         });
       if (error) throw error;
       onSaved(name, avatarUrl);
