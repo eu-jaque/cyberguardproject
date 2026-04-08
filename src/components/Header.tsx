@@ -168,17 +168,17 @@ const Header = () => {
         </div>
 
         {/* 4. SIDEBAR MOBILE (Mimetiza o fundo da página) */}
-        <div className={`fixed top-0 right-0 h-screen w-[280px] bg-background border-l border-border transition-transform duration-500 ease-in-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"} z-50 pt-24 px-8`}>
-          <div className="flex flex-col gap-8 items-start h-full pb-10 overflow-y-auto">
+        <div className={`fixed top-0 right-0 h-[100dvh] w-[85vw] sm:w-[320px] bg-background border-l border-border transition-transform duration-500 ease-in-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"} z-50 flex flex-col shadow-2xl`}>
+          <div className="flex flex-col gap-6 items-start flex-1 overflow-y-auto px-6 sm:px-8 pt-24 pb-8">
             <button onClick={() => handleNavClick("/")} className="mobile-link text-left w-full">{t("nav.inicio")}</button>
-            <Link to="/blog" className="mobile-link w-full">{t("nav.blog")}</Link>
-            <button className="mobile-link text-left w-full">{t("nav.cursos")}</button>
-            <Link to="/sobre" className="mobile-link w-full">{t("nav.sobre")}</Link>
+            <button onClick={() => handleNavClick("/blog")} className="mobile-link text-left w-full">{t("nav.blog")}</button>
+            <button onClick={() => handleNavClick("/cursos")} className="mobile-link text-left w-full">{t("nav.cursos")}</button>
+            <button onClick={() => handleNavClick("/sobre")} className="mobile-link text-left w-full">{t("nav.sobre")}</button>
             <button onClick={() => handleNavClick("/Contato", true)} className="mobile-link text-left w-full">{t("nav.contato")}</button>
 
-            <div className="w-full h-px bg-border/50 my-2" />
+            <div className="w-full h-px bg-border/50 my-2 shrink-0" />
 
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full shrink-0">
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t("nav.idioma")}</span>
               <div className="flex gap-4">
                 {(["pt", "en", "es"] as const).map((l) => (
@@ -190,7 +190,7 @@ const Header = () => {
             </div>
 
             {/* 🌙 Alternar Tema Mobile */}
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full shrink-0">
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Aparência</span>
               <button
                 onClick={toggleTheme}
@@ -204,7 +204,7 @@ const Header = () => {
               </button>
             </div>
 
-            <Link to="/auth" className="btn-gold-3d w-full text-center py-3 rounded-lg font-bold mt-auto shadow-lg">
+            <Link to="/auth" className="btn-gold-3d w-full text-center py-3 rounded-lg font-bold mt-auto mb-4 shadow-lg shrink-0">
               {t("nav.login")}
             </Link>
           </div>
