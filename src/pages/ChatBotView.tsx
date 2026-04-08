@@ -19,13 +19,23 @@ interface Message {
 interface Conversation {
     id: string;
     name: string;
-    date: string;
+    created_at: string;
     user_id: string;
 }
 
 export default function ChatBotView() {
     const { user } = useAuth();
     const currentUserId = user?.id || 'id-temporario-local';
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: 'hsl(var(--background))',
+        color: 'hsl(var(--foreground))',
+    });
 
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [activeChatId, setActiveChatId] = useState<string>('');
@@ -40,10 +50,11 @@ export default function ChatBotView() {
                 .from('conversations')
                 .select('*')
                 .eq('user_id', user.id)
-                .order('date', { ascending: false });
+                .order('created_at', { ascending: false });
 
             if (error) {
                 console.error("Erro ao buscar conversas:", error);
+                Toast.fire({ icon: 'error', title: 'Erro ao buscar chats.' });
                 return;
             }
 
@@ -52,6 +63,7 @@ export default function ChatBotView() {
                 if (data.length > 0 && !activeChatId) {
                     setActiveChatId(data[0].id);
                 }
+                Toast.fire({ icon: 'success', title: 'Chats carregados.' });
             }
         };
 
@@ -87,6 +99,17 @@ export default function ChatBotView() {
 
 
     const handleNewChat = async () => {
+        if (conversations.length >= 5) {
+            Swal.fire({
+                title: 'Limite atingido',
+                text: 'Você pode ter no máximo 5 chats ativos.',
+                icon: 'warning',
+                background: 'hsl(var(--background))',
+                color: 'hsl(var(--foreground))',
+            });
+            return;
+        }
+
         const newChat = {
             name: 'Novo Chat',
             user_id: currentUserId,
@@ -100,13 +123,14 @@ export default function ChatBotView() {
 
         if (error) {
             console.error("Erro ao criar conversa:", error);
-            Swal.fire('Erro', 'Não foi possível criar o chat.', 'error');
+            Toast.fire({ icon: 'error', title: 'Não foi possível criar o chat.' });
             return;
         }
 
         if (data) {
             setConversations(prev => [data, ...prev]);
             setActiveChatId(data.id);
+            Toast.fire({ icon: 'success', title: 'Chat criado com sucesso.' });
         }
     };
 
@@ -147,11 +171,12 @@ export default function ChatBotView() {
 
         if (error) {
             console.error("Erro ao renomear conversa:", error);
-            Swal.fire('Erro', 'Não foi possível renomear.', 'error');
+            Toast.fire({ icon: 'error', title: 'Não foi possível renomear.' });
             return;
         }
 
         setConversations(prev => prev.map(c => c.id === id ? { ...c, name: newTitle } : c));
+        Toast.fire({ icon: 'success', title: 'Chat renomeado.' });
     };
 
 
@@ -165,8 +190,8 @@ export default function ChatBotView() {
             cancelButtonColor: '#475569',
             confirmButtonText: 'Sim, excluir!',
             cancelButtonText: 'Cancelar',
-            background: '#0b1426',
-            color: '#f1f7feb3',
+            background: 'hsl(var(--background))',
+            color: 'hsl(var(--foreground))',
         });
 
         if (result.isConfirmed) {
@@ -177,7 +202,7 @@ export default function ChatBotView() {
 
             if (error) {
                 console.error("Erro ao remover conversa:", error);
-                Swal.fire('Erro', 'Não foi possível excluir o chat.', 'error');
+                Toast.fire({ icon: 'error', title: 'Não foi possível excluir o chat.' });
                 return;
             }
 
@@ -198,8 +223,8 @@ export default function ChatBotView() {
                 icon: 'success',
                 timer: 1500,
                 showConfirmButton: false,
-                background: '#0b1426',
-                color: '#f1f7feb3',
+                background: 'hsl(var(--background))',
+                color: 'hsl(var(--foreground))',
             });
         }
     };
