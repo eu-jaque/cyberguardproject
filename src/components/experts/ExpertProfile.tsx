@@ -58,7 +58,7 @@ export default function ExpertProfile() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const hours = Array.from({ length: 12 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
-  
+
   const days = [
     { name: 'SEGUNDA', date: '15' },
     { name: 'TERÇA', date: '16' },
@@ -140,9 +140,8 @@ export default function ExpertProfile() {
             <motion.div key={item.key} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
               <button
                 onClick={() => { setActiveSection(item.key); if (item.key === "appointments") setIsSheetOpen(true); }}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${
-                  activeSection === item.key ? "bg-primary/10 text-primary border-l-[3px] border-primary" : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
-                }`}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all group ${activeSection === item.key ? "bg-primary/10 text-primary border-l-[3px] border-primary" : "text-muted-foreground hover:text-primary hover:bg-secondary/20"
+                  }`}
               >
                 <item.icon className={`w-5 h-5 flex-shrink-0 ${activeSection === item.key ? "text-primary" : "group-hover:text-primary"} transition-colors`} />
                 {sidebarOpen && <span>{item.label}</span>}
@@ -240,9 +239,9 @@ export default function ExpertProfile() {
                           {hours.map((_, i) => (
                             <div key={i} className="h-16 border-b border-slate-800/30" />
                           ))}
-                          
+
                           {calendarEvents.filter(a => a.day === idx).map((apt, i) => (
-                            <div 
+                            <div
                               key={i}
                               className={`absolute left-1 right-1 p-2 rounded-lg border cursor-pointer hover:brightness-125 transition-all z-20 ${apt.color}`}
                               style={{ top: `${(parseInt(apt.time.split(':')[0]) - 8) * 64 + (parseInt(apt.time.split(':')[1]) / 60) * 64}px` }}
@@ -293,8 +292,8 @@ export default function ExpertProfile() {
                   { text: "Consulta com João Pedro confirmada", type: "Confirmação", time: "Há 5h", color: "text-cyan-400" },
                   { text: "Ana Costa avaliou sua consulta", type: "Avaliação", time: "Há 1d", color: "text-[#ffcc00]", stars: true },
                 ].map((n, i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="group bg-[#1a1a24]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-5 flex items-center gap-5 relative overflow-hidden transition-all hover:bg-white/5 hover:border-white/10"
                   >
                     <div className={`absolute left-0 top-0 bottom-0 w-1 bg-current ${n.color}`} />
