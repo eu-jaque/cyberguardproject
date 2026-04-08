@@ -19,7 +19,7 @@ export type Module = {
   id: string;
   title: string;
   description: string;
-  urlvideo:string;
+  urlvideo?: string;
 };
 
 export type Course = {
@@ -293,16 +293,7 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
                     </span>
                     <ChevronDown className={`transition-transform duration-300 text-primary ${activeMod === (m.id || index.toString()) ? "rotate-180" : ""}`} />
                   </button>
-                  {activeMod === (m.id || index.toString()) && (
-                    <div className="p-5 bg-secondary/10 text-muted-foreground border-t border-border/30 animate-fade-in">
-                      <p>{m.description}</p>
-                      {m.urlvideo && (
-                        <div className="mt-4 rounded-xl overflow-hidden border border-border/50 bg-card aspect-video relative shadow-lg">
-                          {renderVideo(m.urlvideo)}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  {activeMod === (m.id || index.toString())}
                 </div>
               ))
             ) : (
