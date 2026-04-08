@@ -1,13 +1,13 @@
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import { Sparkles, ShieldCheck, SendHorizontal, Bot, User, RefreshCw, Copy, Check } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import confettiLib from "canvas-confetti";
 import ChatHistorySidebar from "@/components/ChatHistorySidebar"; // Import novo
 import SidebarMenu from "@/components/SideBarMenu";
 import ChatBotComponent from "@/components/ChatBotComponent";
 import { useAuth } from "@/contexts/AuthContext";
 import Swal from 'sweetalert2';
 import supabase from "../../utils/supabase";
+import { sendMessageToAI } from "@/services/aiService";
 
 interface Message {
     id: string;
@@ -150,16 +150,23 @@ export default function ChatBotView() {
         setInput("");
         setIsTyping(true);
 
-        setTimeout(() => {
+        const chatHistoryMsg = messages.map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
+
+        try {
+            const aiResponseText = await sendMessageToAI(input, chatHistoryMsg);
+
             setIsTyping(false);
             const botMessage: Message = {
                 id: crypto.randomUUID(),
-                text: "Para proteger suas senhas, recomendo usar um gerenciador de senhas confiável e ativar a autenticação de dois fatores (2FA).",
+                text: aiResponseText,
                 sender: 'bot',
                 timestamp: new Date()
             };
             setMessages((prev) => [...prev, botMessage]);
-        }, 1500);
+        } catch (err) {
+            setIsTyping(false);
+            Toast.fire({ icon: 'error', title: 'Falha de conexão com a I.A.' });
+        }
     };
 
 
