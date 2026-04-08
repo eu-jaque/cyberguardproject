@@ -19,7 +19,7 @@ export type Module = {
   id: string;
   title: string;
   description: string;
- 
+  urlvideo?: string;
 };
 
 export type Course = {
