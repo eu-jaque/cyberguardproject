@@ -229,8 +229,6 @@ export default function ChatBotView() {
                     handleSendMessage={handleSendMessage}
                 />
             </div>
-
-            <AccessibilityWidget />
         </div>
     );
 }
