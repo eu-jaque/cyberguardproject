@@ -1,6 +1,7 @@
 type Msg = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+const GEMINI_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini`;
 
 import supabase from "../../utils/supabase";
 
@@ -20,7 +21,7 @@ export async function streamChat({
   const token = session?.access_token
   // const token = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-  const resp = await fetch(CHAT_URL, {
+  let resp = await fetch(CHAT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,6 +29,17 @@ export async function streamChat({
     },
     body: JSON.stringify({ messages }),
   });
+
+  if (resp.status === 402) {
+    resp = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ messages }),
+    });
+  }
 
   if (!resp.ok || !resp.body) {
     if (resp.status === 429) {
