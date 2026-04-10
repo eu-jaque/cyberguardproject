@@ -259,41 +259,81 @@ const Blog = () => {
 
               {/* NEWS TAB */}
               {(activeTab === "all" || activeTab === "news") && (
-                <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem  Fake News? Temos!</h2>}
-                  {newsItems
-                    .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
-                    .map((news, i) => (
-                      <motion.article
-                        key={news.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        viewport={{ once: true }}
-                        onClick={() => navigate(`/blog/${news.id}`)}
-                        className="group cursor-pointer flex gap-5 py-5 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors border-b border-border/30"
-                      >
-                        <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden">
-                          <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        </div>
-                        <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-amber-400 mb-1">{news.category}</span>
-                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
-                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1">
-                              {news.authorAvatar ? (
-                                <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
-                              ) : (
-                                <User className="w-3 h-3" />
+                <div className="mb-10">
+                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem Fake News? Temos!</h2>}
+                  {activeTab === "all" ? (
+                    <div className="relative">
+                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+                        {newsItems
+                          .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                          .map((news, i) => (
+                            <motion.article
+                              key={news.id}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: i * 0.05 }}
+                              viewport={{ once: true }}
+                              onClick={() => navigate(`/blog/${news.id}`)}
+                              className="group cursor-pointer flex-shrink-0 w-[280px] sm:w-[300px] snap-start bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/40 transition-all"
+                            >
+                              <div className="aspect-[16/10] relative overflow-hidden">
+                                <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                {news.category && (
+                                  <span className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">{news.category}</span>
+                                )}
+                              </div>
+                              <div className="p-4">
+                                <h3 className="text-sm font-bold text-primary group-hover:text-primary/80 transition-colors mb-2 line-clamp-3">{news.title}</h3>
+                                <span className="text-[11px] text-muted-foreground">{news.date}</span>
+                                <div className="flex items-center gap-2 mt-2">
+                                  {news.authorAvatar ? (
+                                    <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                                  ) : (
+                                    <User className="w-4 h-4 text-muted-foreground" />
+                                  )}
+                                  <span className="text-[11px] text-muted-foreground font-medium">{news.author}</span>
+                                </div>
+                              </div>
+                            </motion.article>
+                          ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {newsItems
+                        .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((news, i) => (
+                          <motion.article
+                            key={news.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.05 }}
+                            viewport={{ once: true }}
+                            onClick={() => navigate(`/blog/${news.id}`)}
+                            className="group cursor-pointer bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/40 transition-all"
+                          >
+                            <div className="aspect-[16/10] relative overflow-hidden">
+                              <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              {news.category && (
+                                <span className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">{news.category}</span>
                               )}
-                              {news.author}
-                            </span>
-                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{news.date}</span>
-                          </div>
-                        </div>
-                      </motion.article>
-                    ))}
+                            </div>
+                            <div className="p-4">
+                              <h3 className="text-sm font-bold text-primary group-hover:text-primary/80 transition-colors mb-2 line-clamp-3">{news.title}</h3>
+                              <span className="text-[11px] text-muted-foreground">{news.date}</span>
+                              <div className="flex items-center gap-2 mt-2">
+                                {news.authorAvatar ? (
+                                  <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                                ) : (
+                                  <User className="w-4 h-4 text-muted-foreground" />
+                                )}
+                                <span className="text-[11px] text-muted-foreground font-medium">{news.author}</span>
+                              </div>
+                            </div>
+                          </motion.article>
+                        ))}
+                    </div>
+                  )}
                 </div>
               )}
 
