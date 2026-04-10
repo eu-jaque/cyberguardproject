@@ -77,7 +77,7 @@ const SidebarMenu = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }: SidebarMe
   useEffect(() => {
     async function loadProfile() {
       if (user) {
-        const { data: profile } = await supabase.from("profiles").select("full_name, avatar_url").eq("id", user.id).single();
+        const { data: profile } = await supabase.from("profiles").select("full_name, avatar_url").eq("user_id", user.id).single();
         if (profile) {
           setProfileName(profile.full_name || user.email?.split("@")[0] || "Usuário");
           setProfileAvatar(profile.avatar_url || "");
