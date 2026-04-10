@@ -230,9 +230,8 @@ export default function ChatBotView() {
     };
 
     return (
-        <div className="min-h-screen flex bg-background text-foreground transition-colors duration-300 relative selection:bg-primary/30 selection:text-primary">
-            <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-            <div className={`flex-1 flex h-screen w-full transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
+        <div className="h-full flex bg-background text-foreground transition-colors duration-300 relative selection:bg-primary/30 selection:text-primary">
+            <div className={`flex-1 flex h-full w-full transition-all duration-300`}>
                 <ChatHistorySidebar
                     conversations={conversations}
                     activeId={activeChatId}

@@ -18,6 +18,9 @@ import DashCertificates from "@/components/dash/DashCertificates";
 import DashCommunity from "@/components/dash/DashCommunity";
 import DashQuiz from "@/components/dash/DashQuiz";
 import DashVerifiers from "@/components/dash/DashVerifiers";
+import Chatbot from "@/components/Chatbot";
+import ChatBotView from "./ChatBotView";
+import ExpertProfileEmbed from "@/components/experts/ExpertProfileEmbed";
 
 type SidebarItem = { icon: typeof BookOpen; label: string; key: string };
 
@@ -68,17 +71,29 @@ export default function Dash() {
 
   const avatarSrc = profileAvatar || `https://api.dicebear.com/7.x/initials/svg?seed=${profileName}&backgroundColor=facc15`;
 
+  const sectionTitles: Record<string, string> = {
+    overview: "Painel Geral",
+    blog: "Últimas Publicações",
+    courses: "Minha Jornada de Aprendizado",
+    certificates: "Minhas Conquistas",
+    community: "Espaço Colaborativo",
+    quiz: "Desafios & Jogos",
+    verifiers: "Central de Verificação",
+    chatbot: "Assistente Cyntia",
+    expert: "Painel do Especialista",
+  };
+
   return (
     <div className="min-h-screen flex relative">
       {/* Reutilizando SideBarMenu */}
       <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
       {/* Main content com offset do SideBarMenu */}
-      <div className={`flex-1 relative z-10 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
+      <div className={`flex-1 relative z-10 transition-all duration-300 flex flex-col h-screen overflow-hidden ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
         {/* Top bar */}
-        <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/10">
+        <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/10 bg-card/60 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+            <h1 className="text-lg font-bold text-foreground">{sectionTitles[activeSection] || "Dashboard"}</h1>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-foreground">{profileName}</span>
@@ -88,16 +103,22 @@ export default function Dash() {
           </div>
         </header>
 
-        <div className="p-6 md:p-10">
-          {/* Section Content */}
-          {activeSection === "overview" && <DashOverview courses={courses} />}
-          {activeSection === "blog" && <DashBlog />}
-          {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
-          {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} />}
-          {activeSection === "community" && <DashCommunity userEmail={user?.email} />}
-          {activeSection === "quiz" && <DashQuiz />}
-          {activeSection === "verifiers" && <DashVerifiers />}
-        </div>
+        {activeSection === "chatbot" || activeSection === "expert" ? (
+          <div className="flex-1 overflow-hidden">
+            {activeSection === "chatbot" && <ChatBotView />}
+            {activeSection === "expert" && <ExpertProfileEmbed />}
+          </div>
+        ) : (
+          <div className="p-6 md:p-10 flex-1 overflow-y-auto">
+            {activeSection === "overview" && <DashOverview courses={courses} />}
+            {activeSection === "blog" && <DashBlog />}
+            {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
+            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} />}
+            {/* {activeSection === "community" && <DashCommunity userEmail={user?.email} />} */}
+            {activeSection === "quiz" && <DashQuiz />}
+            {activeSection === "verifiers" && <DashVerifiers />}
+          </div>
+        )}
       </div>
     </div>
   );
