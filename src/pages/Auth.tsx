@@ -59,6 +59,23 @@ export default function Auth() {
     }
 
     showToast("Login realizado com sucesso.");
+    
+    // Check if user is an expert (professional)
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    
+    if (authUser) {
+      const { data: expertData } = await supabase
+        .from("experts")
+        .select("id")
+        .eq("user_id", authUser.id)
+        .maybeSingle();
+      
+      if (expertData) {
+        nav("/expert-profile", { replace: true });
+        return;
+      }
+    }
+    
     nav("/dash", { replace: true });
   }
 
