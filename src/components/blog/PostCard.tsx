@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Flame, X, LogIn } from "lucide-react";
+import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Angry, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
