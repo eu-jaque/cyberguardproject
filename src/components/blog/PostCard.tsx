@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Flame, X, LogIn } from "lucide-react";
+import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Angry, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,9 @@ export interface SocialPost {
 const reactions = [
   { icon: ThumbsUp, label: "Curtir", color: "text-blue-500" },
   { icon: Heart, label: "Amei", color: "text-red-500" },
-  { icon: Flame, label: "Fogo", color: "text-orange-500" },
-  { icon: Smile, label: "Haha", color: "text-yellow-500" },
+  { icon: Smile, label: "Uau", color: "text-yellow-500" },
+  { icon: Smile, label: "Haha", color: "text-yellow-400" },
+  { icon: Angry, label: "Raiva", color: "text-orange-500" },
 ];
 
 export default function PostCard({
