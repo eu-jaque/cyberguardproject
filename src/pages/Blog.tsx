@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
+import { Calendar, Search, Clock, User, Play, Mail, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
 
 
@@ -37,6 +37,16 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
+  const newsCarouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollNews = (direction: "left" | "right") => {
+    if (!newsCarouselRef.current) return;
+    const scrollAmount = 320;
+    newsCarouselRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     const fetchContents = async () => {
@@ -262,8 +272,14 @@ const Blog = () => {
                 <div className="mb-10">
                   {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem Fake News? Temos!</h2>}
                   {activeTab === "all" ? (
-                    <div className="relative">
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+                    <div className="relative group/carousel">
+                      <button
+                        onClick={() => scrollNews("left")}
+                        className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover/carousel:opacity-100"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <div ref={newsCarouselRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
                         {newsItems
                           .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                           .map((news, i) => (
@@ -297,6 +313,12 @@ const Blog = () => {
                             </motion.article>
                           ))}
                       </div>
+                      <button
+                        onClick={() => scrollNews("right")}
+                        className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover/carousel:opacity-100"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
