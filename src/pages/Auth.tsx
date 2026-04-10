@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import Footer from "@/components/Footer";
@@ -19,7 +19,8 @@ export default function Auth() {
   const nav = useNavigate();
   const { message, showToast } = useToast();
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [searchParams] = useSearchParams();
+  const [isLogin, setIsLogin] = useState(searchParams.get("signup") !== "true");
   const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState<User>({

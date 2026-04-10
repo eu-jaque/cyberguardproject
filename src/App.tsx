@@ -24,9 +24,9 @@ import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
 import Chatbot from "./components/Chatbot.tsx";
 import ChatBotView from "./pages/ChatBotView.tsx";
-import StudentDashboard from "./pages/StudentDashboard.tsx";
 import ArticlePage from "./pages/ArticlePage.tsx";
 import ExpertProfile from "./components/experts/ExpertProfile.tsx";
+import ManageCourses from "./pages/ManageCourses.tsx";
 
 
 const queryClient = new QueryClient();
@@ -72,12 +72,12 @@ const App = () => (
                 <Route path="/saiba-mais" element={<SaibaMais />} />
                 <Route path="/contato" element={<Contact />} />
                 <Route path="/cursos" element={<Courses />} />
-                <Route path="/student-dashboard" element={
-                  <ProtectedRoute><StudentDashboard /></ProtectedRoute>
-                } />
                 <Route path="/blog/:slug" element={<ArticlePage />} />
                 <Route path="/expert-profile" element={
                   <ProtectedRoute><ExpertProfile /></ProtectedRoute>
+                } />
+                <Route path="/manage-courses" element={
+                  <ProtectedRoute><ManageCourses /></ProtectedRoute>
                 } />
               </Routes>
             </AuthProvider>
