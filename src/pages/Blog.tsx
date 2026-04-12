@@ -1,3 +1,4 @@
+import blogHeroBg from "@/assets/blog-hero-bg.jpg";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
@@ -134,8 +135,12 @@ const Blog = () => {
     <div className="min-h-screen bg-background">
       <Header />
       {/* Hero */}
-      <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
-        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
+      <section
+        className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: `url(${blogHeroBg})` }}
+      >
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
             Blog <span className="text-gradient-gold">CyberGuard</span>
           </h1>
@@ -147,7 +152,7 @@ const Blog = () => {
               placeholder="Buscar conteúdo..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card/80 backdrop-blur-md border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
           </div>
         </div>
