@@ -1,11 +1,10 @@
 type Msg = { role: "user" | "assistant"; content: string };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
-const GEMINI_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini`;
+const GROQ_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/groq-chat`;
 
 import supabase from "../../utils/supabase";
 
-export async function streamChat({
+export async function streamGroqChat({
   messages,
   onDelta,
   onDone,
@@ -17,27 +16,16 @@ export async function streamChat({
   onError?: (error: string) => void;
 }) {
   const { data: { session } } = await supabase.auth.getSession();
-  const token = session?.access_token
+  const token = session?.access_token;
 
-  let resp = await fetch(CHAT_URL, {
+  let resp = await fetch(GROQ_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
     },
     body: JSON.stringify({ messages }),
   });
-
-  if (resp.status === 402) {
-    resp = await fetch(GEMINI_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ messages }),
-    });
-  }
 
   if (!resp.ok || !resp.body) {
     if (resp.status === 429) {
@@ -49,6 +37,16 @@ export async function streamChat({
       return;
     }
     onError?.("Erro ao conectar com a IA.");
+    return;
+  }
+
+  const contentType = resp.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const data = await resp.json();
+    if (data.response) {
+      onDelta(data.response);
+    }
+    onDone();
     return;
   }
 

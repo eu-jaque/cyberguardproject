@@ -8,7 +8,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import Swal from 'sweetalert2';
 import supabase from "../../utils/supabase";
 import { streamChat } from "@/lib/streamChat";
+import { streamGroqChat } from "@/lib/streamGroqChat";
 
+//Cria a interface Messagem
+//que segura as informações que serão utilizadas para envio/manipulação das mensagens
 interface Message {
     id: string;
     text: string;
@@ -16,6 +19,9 @@ interface Message {
     timestamp: Date;
 }
 
+//Cria a interface Conversation
+//que segura as informações que serão utilizadas para envio/manipulação das conversas
+//e ações como deletar, editar e carregar conversas
 interface Conversation {
     id: string;
     name: string;
@@ -23,10 +29,14 @@ interface Conversation {
     user_id: string;
 }
 
+//Cria a função ChatBotView
+//que será responsável por renderizar o chatbot
 export default function ChatBotView() {
     const { user } = useAuth();
     const currentUserId = user?.id || 'id-temporario-local';
 
+    //Cria o Toast
+    //que será responsável por exibir mensagens de erro, sucesso, etc
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -37,12 +47,16 @@ export default function ChatBotView() {
         color: 'hsl(var(--foreground))',
     });
 
+    //Cria os estados
+    //que serão responsáveis por armazenar as informações que serão utilizadas para envio/manipulação das mensagens
+    //e ações como deletar, editar e carregar conversas
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [activeChatId, setActiveChatId] = useState<string>('');
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const [chatModule, setChatModule] = useState<'default' | 'groq'>('default');
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Histórico de mensagens para enviar ao AI (role format)
@@ -50,40 +64,76 @@ export default function ChatBotView() {
 
     useEffect(() => {
         if (!user) return;
+        //trás as conversas ( conversations ) pelo id do usuário e ordem de criação
         const fetchConversations = async () => {
             const { data, error } = await supabase
                 .from('conversations')
                 .select('*')
                 .eq('user_id', user.id)
                 .order('created_at', { ascending: false });
-
+            //Se dar algum tipo de erro, exibe
             if (error) {
                 console.error("Erro ao buscar conversas:", error);
                 Toast.fire({ icon: 'error', title: 'Erro ao buscar chats.' });
                 return;
             }
+            //se encontrar, atráves do set, ele atualiza com os dados encontrados
             if (data) {
                 setConversations(data);
                 if (data.length > 0 && !activeChatId) {
+                    //se não tiver um chat ativo, ele define o primeiro chat como ativo
                     setActiveChatId(data[0].id);
                 }
             }
         };
+        //chama a função fetchConversations pela primeira vez
         fetchConversations();
     }, [user]);
 
     const currentChat = conversations.find(c => c.id === activeChatId);
 
+    const saveMessage = async (msg: { id: string; text: string; sender: 'user' | 'bot'; timestamp: Date }) => {
+        if (!activeChatId) return;
+        await supabase.from('messages').insert({
+            id: msg.id,
+            conversation_id: activeChatId,
+            text: msg.text,
+            sender: msg.sender,
+            timestamp: msg.timestamp.toISOString(),
+        });
+    };
+
     useEffect(() => {
+        if (!activeChatId) return;
         chatHistoryRef.current = [];
-        setMessages([
-            {
-                id: crypto.randomUUID(),
-                text: `Olá! Sou a **CYNTIA**, sua assistente de cibersegurança. Como posso ajudar você hoje?`,
-                sender: 'bot',
-                timestamp: new Date()
+        const loadMessages = async () => {
+            const { data } = await supabase
+                .from('messages')
+                .select('*')
+                .eq('conversation_id', activeChatId)
+                .order('timestamp', { ascending: true });
+
+            if (data && data.length > 0) {
+                setMessages(data.map((m: any) => ({
+                    id: m.id,
+                    text: m.text,
+                    sender: m.sender,
+                    timestamp: new Date(m.timestamp),
+                })));
+                chatHistoryRef.current = data.map((m: any) => ({
+                    role: m.sender === 'bot' ? 'assistant' as const : 'user' as const,
+                    content: m.text,
+                }));
+            } else {
+                setMessages([{
+                    id: crypto.randomUUID(),
+                    text: `Olá! Sou a **CYNTIA**, sua assistente de cibersegurança. Como posso ajudar você hoje?`,
+                    sender: 'bot',
+                    timestamp: new Date()
+                }]);
             }
-        ]);
+        };
+        loadMessages();
         setInput("");
     }, [activeChatId]);
 
@@ -133,6 +183,7 @@ export default function ChatBotView() {
         setMessages(prev => [...prev, userMessage]);
         chatHistoryRef.current.push({ role: "user", content: input });
         setInput("");
+        saveMessage(userMessage);
         setIsTyping(true);
 
         const botMessageId = crypto.randomUUID();
@@ -147,7 +198,8 @@ export default function ChatBotView() {
         }]);
 
         try {
-            await streamChat({
+            const streamFn = chatModule === 'groq' ? streamGroqChat : streamChat;
+            await streamFn({
                 messages: chatHistoryRef.current,
                 onDelta: (chunk) => {
                     assistantText += chunk;
@@ -158,6 +210,7 @@ export default function ChatBotView() {
                 onDone: () => {
                     chatHistoryRef.current.push({ role: "assistant", content: assistantText });
                     setIsTyping(false);
+                    saveMessage({ id: botMessageId, text: assistantText, sender: 'bot', timestamp: new Date() });
                 },
                 onError: (error) => {
                     setMessages(prev => prev.map(m =>
@@ -248,6 +301,8 @@ export default function ChatBotView() {
                     chatName={currentChat?.name || 'Novo Chat'}
                     handleSendMessage={handleSendMessage}
                     isTyping={isTyping}
+                    chatModule={chatModule}
+                    setChatModule={setChatModule}
                 />
             </div>
         </div>

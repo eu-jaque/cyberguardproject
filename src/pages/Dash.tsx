@@ -50,12 +50,20 @@ export default function Dash() {
       if (data) setCourses(data as Course[]);
 
       if (user) {
-        const { data: profile } = await supabase.from("profiles").select("full_name, avatar_url").eq("user_id", user.id).single();
+        const { data: profile } = await supabase.from("profiles").select("full_name, name, avatar_url").eq("user_id", user.id).single();
         if (profile) {
-          setProfileName(profile.full_name || user.email?.split("@")[0] || "Usuário");
+          setProfileName(profile.full_name || profile.name || user.email?.split("@")[0] || "Usuário");
           setProfileAvatar(profile.avatar_url || "");
         } else {
-          setProfileName(user.email?.split("@")[0] || "Usuário");
+          const defaultName = user.email?.split("@")[0] || "Usuário";
+          await supabase.from("profiles").insert({
+            user_id: user.id,
+            name: defaultName,
+            full_name: defaultName,
+            avatar_url: "",
+            type: "student"
+          });
+          setProfileName(defaultName);
         }
       }
       setLoading(false);
