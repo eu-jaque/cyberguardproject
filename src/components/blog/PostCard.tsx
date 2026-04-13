@@ -18,7 +18,7 @@ export interface SocialPost {
 const reactions = [
   { icon: ThumbsUp, label: "Curtir", color: "text-blue-500" },
   { icon: Heart, label: "Amei", color: "text-red-500" },
-  { icon: Smile, label: "Uau", color: "text-yellow-500" },
+  { icon: Smile, label: "Haha", color: "text-yellow-500" },
   { icon: Angry, label: "Raiva", color: "text-orange-500" },
 ];
 
