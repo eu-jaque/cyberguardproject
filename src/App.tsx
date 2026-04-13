@@ -11,12 +11,10 @@ import About from "./pages/About";
 import Auth from "./pages/Auth";
 import Dash from "./pages/Dash";
 import Services from "./pages/Services";
-// import Experts from "./pages/Experts";
 import Blog from "./pages/Blog";
 import Policies from "./pages/Policies";
 import SaibaMais from "./pages/SaibaMais";
 import "./App.css";
-// import Courses from "./pages/Courses.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthRoute from "./components/AuthRoute";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
@@ -24,6 +22,11 @@ import Contact from "./pages/Contact.tsx";
 import TicketsPage from "./pages/ViewTickets.tsx";
 import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
+import Chatbot from "./components/Chatbot.tsx";
+import ChatBotView from "./pages/ChatBotView.tsx";
+import ArticlePage from "./pages/ArticlePage.tsx";
+import ExpertProfile from "./components/experts/ExpertProfile.tsx";
+//import ManageCourses from "./pages/ManageCourses.tsx";
 
 
 const queryClient = new QueryClient();
@@ -47,14 +50,19 @@ const App = () => (
                   </AuthRoute>
                 } />
                 <Route path="/courses" element={
-                  <ProtectedRoute>
+                  
                     <Courses />
-                  </ProtectedRoute>
+                  
                 } />
                 <Route path="/dash" element={
                   <ProtectedRoute>
                     <Dash />
                   </ProtectedRoute>
+                } />
+                <Route path="/chatBot" element={
+                  // <ProtectedRoute>
+                    <ChatBotView/>
+                  // </ProtectedRoute>
                 } />
                 <Route path="/tickets" element={<TicketsPage />}></Route>
                 <Route path="/servicos" element={<Services />} />
@@ -62,10 +70,15 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/politicas" element={<Policies />} />
                 <Route path="/saiba-mais" element={<SaibaMais />} />
-                <Route path="/contato" element={<Contact></Contact>}></Route>
-                <Route path="/cursos" element={
-                  <Courses />
+                <Route path="/contato" element={<Contact />} />
+                <Route path="/cursos" element={<Courses />} />
+                <Route path="/blog/:slug" element={<ArticlePage />} />
+                <Route path="/expert-profile" element={
+                  <ProtectedRoute><ExpertProfile /></ProtectedRoute>
                 } />
+                {/* <Route path="/manage-courses" element={
+                  <ProtectedRoute><ManageCourses /></ProtectedRoute>
+                } /> */}
               </Routes>
             </AuthProvider>
           </BrowserRouter>

@@ -1,12 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
-
 @layer base {
 
-  /* ☀️ TEMA CLARO SUAVE (Soft/Slate Light - Sem cansar a vista) */
+  /* TEMA CLARO SUAVE (Soft/Slate Light - Sem cansar a vista) */
   :root {
     --background: 210 20% 98%;
     /* Cinza azulado bem clarinho em vez de branco puro */
@@ -115,13 +115,191 @@
   h5,
   h6 {
     @apply transition-colors duration-300;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 }
 
-/* O Restante das suas classes e utilitários (.btn-gold-3d, .glass-card, etc) continuam aqui iguais para baixo... */
 
-/* Restante das suas animações e estilos 3D */
+
+
+
+
+
+
+
+
+
+
+/*AUTH*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*body{
+  background-image: url(cyberguardproject/src/assets/parallax-bg.jpg);
+}*/
+
+/*PARALLAX AUTH*/
+
+.parallax-section-auth {
+
+  background-size: cover;
+  background-position: center;
+}
+
+/*fim PARALLAX-AUTH*/
+
+
+button:hover {
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.wrapper {
+  background: rgba(0, 0, 0, 0.6);
+  position: relative;
+  width: 800px;
+  height: 300px;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+
+.left,
+.right {
+  width: 50%;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right
+}
+
+.back-header,
+.back-p {
+  margin: 20px;
+  color: #fafafa;
+  letter-spacing: 1px;
+
+}
+
+.back-header {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.back-p {
+  letter-spacing: 1px;
+  font-size: 20px;
+  line-height: 30px;
+  margin-right: 60px;
+}
+
+.background button {
+  position: absolute;
+  left: 0;
+  bottom: 60px;
+}
+
+.background .left button {
+  left: 20px;
+}
+
+.background .right button {
+  left: 420px;
+}
+
+.form-container {
+  position: absolute;
+  width: 375px;
+  height: 350px;
+  background-color: white;
+  top: -25px;
+  left: 10px;
+  box-shadow: 9px 13px 16px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sign-up,
+.login {
+  margin: 40px;
+}
+
+.back-btn {
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  border: 1px solid white;
+  color: #fafafa;
+  transition: .3s all;
+}
+
+.back-btn:hover {
+  background-color: #145977;
+  border: 1px solid #145977;
+}
+
+
+.sign-up button:hover,
+.login button:hover {
+  background-color: #C53716;
+}
+
+.form-header {
+  font-size: 32px;
+  color: #FC7D5F;
+}
+
+.form-container input {
+  margin-top: 20px;
+  width: 80%;
+  height: 30px;
+  border: 0;
+  border-bottom: 1px solid #888;
+}
+
+input[type="text"],
+input[type="email"] {
+  color: #555;
+}
+
+.form-container i {
+  margin-left: 10px;
+  margin-bottom: -5px;
+  color: #888;
+}
+
+.login button,
+.forgot {
+  display: inline-block;
+}
+
+.forgot {
+  margin-left: 15px;
+  text-decoration: none;
+  color: black;
+}
+
+.forgot:hover {
+  color: #FC7D5F;
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+/* Gold gradient utilities */
 .bg-gradient-gold {
   background: linear-gradient(135deg, #D4A535, #F5D77A, #D4A535);
 }
@@ -134,8 +312,8 @@
 }
 
 .btn-gold-3d {
-  background: linear-gradient(145deg, #F5D77A, #D4A535, #B8860B);
-  box-shadow: 0 4px 15px rgba(212, 165, 53, 0.4), inset 0 1px 0 rgba(245, 215, 122, 0.5);
+  background: linear-gradient(145deg, #D4A535, #B8860B);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -149,20 +327,21 @@
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.15) 50%,
-      transparent 70%);
-  animation: shimmer 3s infinite;
+      transparent 45%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 55%);
+  animation: shimmer 4s infinite;
 }
 
 .btn-gold-3d:hover {
-  box-shadow: 0 6px 20px rgba(212, 165, 53, 0.6), inset 0 1px 0 rgba(245, 215, 122, 0.6);
+  box-shadow: 0 6px 15px rgba(212, 165, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
+  filter: brightness(1.05);
 }
 
 .btn-gold-3d:active {
   transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(212, 165, 53, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes shimmer {
@@ -188,6 +367,11 @@
   box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.5);
 }
 
+
+
+
+
+/* Header email input */
 .header-email-input {
   border: solid 2px hsl(var(--border));
   box-shadow: -2px -2px 6px 3px rgba(0, 0, 0, 0.3) inset;
