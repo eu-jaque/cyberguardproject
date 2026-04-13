@@ -137,7 +137,7 @@ const Blog = () => {
       <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
         <div className="max-w-[1366px] mx-auto px-[2%] text-center">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Blog <span className="text-gradient-gold">CyberGuard</span>
+            Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
           <div className="max-w-xl mx-auto relative">
