@@ -249,7 +249,7 @@ const Blog = () => {
                 <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(280,60%,50%,0.2)] bg-gradient-to-br from-[hsl(280,60%,20%,0.08)] to-[hsl(260,50%,30%,0.12)] p-4 sm:p-6" : ""}`}>
                   {activeTab === "all" && (
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-1 h-6 rounded-full bg-[hsl(280,60%,55%)]" />
+                      <div className="w-1 h-6 rounded-full bg-[hsl(39, 94%, 53%)]" />
                       <h2 className="text-lg font-bold text-foreground">Aprenda Assistindo</h2>
                     </div>
                   )}
