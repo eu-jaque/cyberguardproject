@@ -14,6 +14,7 @@ import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
 import { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
+import parallaxBg from "@/assets/parallax-bg.jpg";
 
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
@@ -136,7 +137,7 @@ const Blog = () => {
       {/* Hero */}
       <section
         className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url('/blog-hero-bg.jpg')` }}
+        style={{  backgroundImage: `url(${parallaxBg})` }}
       >
         <div className="absolute inset-0 bg-background/50" />
         <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
