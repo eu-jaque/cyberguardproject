@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Award } from "lucide-react";
-import CertificateGenerator from "../CertificateGenerator";
+// import CertificateGenerator from "../CertificateGenerator";
 
 interface DashCertificatesProps {
   isComplete: boolean;
@@ -19,10 +19,10 @@ export default function DashCertificates({ isComplete, progressPct, studentName,
           <h3 className="text-lg font-bold text-foreground">Parabéns! Certificado Disponível</h3>
           <p className="text-sm text-muted-foreground">Você concluiu 100% do curso.</p>
           <div className="max-w-xs mx-auto">
-            <CertificateGenerator
-              studentName={studentName || "Aluno CyberGuard"}
-              courseName={courseName || "Técnico em Cibersegurança"}
-            />
+            {/* <CertificateGenerator 
+              studentName={studentName || "Aluno CyberGuard"} 
+              courseName={courseName || "Técnico em Cibersegurança"} 
+            /> */}
           </div>
         </div>
       ) : (
