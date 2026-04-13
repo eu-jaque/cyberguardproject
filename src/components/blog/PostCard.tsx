@@ -49,7 +49,7 @@ export default function PostCard({
   const [isLoginModalOpen2, setIsLoginModalOpen2] = useState(false);
 
   return (
-    <article className="bg-card border border-border/50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <article className="bg-card border border-border/50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full max-w-full">
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
         <img
@@ -87,7 +87,7 @@ export default function PostCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center relative px-2 py-1">
+      <div className="flex flex-col sm:flex-row items-stretch relative px-2 py-1">
         <div
           className="relative flex-1"
           onMouseEnter={() => setShowReactions(true)}
@@ -95,7 +95,7 @@ export default function PostCard({
         >
           <button
             onClick={() => handleReaction(0)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full justify-center transition-colors ${reacted !== null
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium w-full justify-center transition-colors ${reacted !== null
               ? reactions[reacted].color
               : "text-muted-foreground hover:bg-secondary/50"
               }`}
@@ -134,12 +134,12 @@ export default function PostCard({
 
         <button
           onClick={onOpen}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors"
+          className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors"
         >
           <MessageCircle className="w-4 h-4" /> Comentar
         </button>
 
-        <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors">
+        <button className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors">
           <Share2 className="w-4 h-4" /> Compartilhar
         </button>
       </div>
