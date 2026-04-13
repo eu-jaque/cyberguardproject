@@ -227,7 +227,7 @@ export default function Auth() {
                           name="name"
                           value={user.name}
                           onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
+                          className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
                           placeholder="Ex: João Silva"
                         />
                       </div>
@@ -243,7 +243,7 @@ export default function Auth() {
                         name="email"
                         value={user.email}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
                         placeholder="nome@empresa.com"
                       />
                     </div>
@@ -258,7 +258,7 @@ export default function Auth() {
                         name="pass"
                         value={user.pass}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
                         placeholder="••••••••"
                       />
                     </div>

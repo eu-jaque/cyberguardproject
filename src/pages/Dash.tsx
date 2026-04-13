@@ -124,7 +124,7 @@ export default function Dash() {
             {activeSection === "overview" && <DashOverview courses={courses} userName={profileName} />}
             {activeSection === "blog" && <DashBlog />}
             {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
-            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} />}
+            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} studentName={""} courseName={""} />}
             {/* {activeSection === "community" && <DashCommunity userEmail={user?.email} />} */}
             {activeSection === "quiz" && <DashQuiz />}
             {activeSection === "verifiers" && <DashVerifiers />}
