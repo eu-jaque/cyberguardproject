@@ -187,10 +187,10 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
 
   const handleEnroll = () => {
     if (!user) {
-      navigate("/auth");
+      navigate("/auth?signup=true");
       return;
     }
-    navigate("/student-dashboard", { state: { courseId: course.id } });
+    navigate("/dash?tab=courses", { state: { courseId: course.id } });
   };
 
   const renderVideo = (url: string) => {
@@ -312,6 +312,7 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
             >
               {user ? "ACESSAR CURSO" : "MATRICULE-SE JÁ"}
             </Button>
+
             <p className="text-[11px] text-muted-foreground uppercase font-bold leading-tight">
               Início imediato • Certificado incluso • Acesso vitalício
             </p>
