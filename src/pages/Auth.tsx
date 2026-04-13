@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Toast, useToast } from "@/components/Toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ParallaxAuth from "@/components/ParallaxAuth";
 import supabase from "../../utils/supabase";
 import { Mail, Lock, User as UserIcon, ShieldCheck } from "lucide-react";
-// import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { motion, AnimatePresence } from "framer-motion";
+import Swal from "sweetalert2";
 import authImg from "@/assets/hacker-parallax.jpg";
 
 export type User = {
@@ -19,12 +18,10 @@ export type User = {
 
 export default function Auth() {
   const nav = useNavigate();
-  const { message, showToast } = useToast();
 
   const [searchParams] = useSearchParams();
   const [isLogin, setIsLogin] = useState(searchParams.get("signup") !== "true");
   const [loading, setLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const [user, setUser] = useState<User>({
     email: "",
@@ -43,109 +40,125 @@ export default function Auth() {
 
   async function checkedLogin() {
     if (!user.email || !user.pass) {
-      showToast("Informe email e senha.");
-      return;
-    }
-
-    if (!captchaToken) {
-      showToast("Complete o captcha.");
+      Swal.fire({
+        icon: "warning",
+        title: "Campos Vazios",
+        text: "Informe e-mail e senha.",
+        background: "#1A1A1A",
+        color: "#FFF",
+        confirmButtonColor: "#C19B4C",
+      });
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            password: user.pass,
-            captchaToken,
-          }),
-        }
-      );
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: user.pass,
+      });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        showToast(data.error || "Erro no login");
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro no Login",
+          text: error.message,
+          background: "#1A1A1A",
+          color: "#FFF",
+          confirmButtonColor: "#C19B4C",
+        });
         return;
       }
 
-      // 🔥 Persistir sessão manualmente
-      await supabase.auth.setSession({
-        access_token: data.access_token,
-        refresh_token: data.refresh_token,
+      Swal.fire({
+        icon: "success",
+        title: "Sucesso!",
+        text: "Bem-vindo de volta!",
+        timer: 1500,
+        showConfirmButton: false,
+        background: "#1A1A1A",
+        color: "#FFF",
       });
 
-      showToast("Login realizado com sucesso");
-
       nav("/dash", { replace: true });
-
     } catch (err) {
-      showToast("Erro de conexão");
+      Swal.fire({
+        icon: "error",
+        title: "Erro de Conexão",
+        text: "Tente novamente mais tarde.",
+        background: "#1A1A1A",
+        color: "#FFF",
+      });
     } finally {
       setLoading(false);
-      setCaptchaToken(null);
     }
   }
 
   async function handleRegister() {
     if (!user.email || !user.pass) {
-      showToast("E-mail e senha obrigatórios");
-      return;
-    }
-
-    if (!captchaToken) {
-      showToast("Complete o captcha.");
+      Swal.fire({
+        icon: "warning",
+        title: "Campos Vazios",
+        text: "E-mail e senha são obrigatórios.",
+        background: "#1A1A1A",
+        color: "#FFF",
+        confirmButtonColor: "#C19B4C",
+      });
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      const { data, error } = await supabase.auth.signUp({
+        email: user.email,
+        password: user.pass,
+        options: {
+          data: {
+            full_name: user.name,
           },
-          body: JSON.stringify({
-            email: user.email,
-            password: user.pass,
-            name: user.name,
-            captchaToken,
-          }),
-        }
-      );
+        },
+      });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        showToast(data.error || "Erro ao registrar");
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro no Cadastro",
+          text: error.message,
+          background: "#1A1A1A",
+          color: "#FFF",
+          confirmButtonColor: "#C19B4C",
+        });
         return;
       }
 
-      showToast("Conta criada com sucesso");
-      setIsLogin(true);
+      Swal.fire({
+        icon: "success",
+        title: "Cadastro Realizado!",
+        text: "Agora você pode entrar.",
+        background: "#1A1A1A",
+        color: "#FFF",
+        confirmButtonColor: "#C19B4C",
+      });
 
+      setIsLogin(true);
     } catch {
-      showToast("Erro de conexão");
+      Swal.fire({
+        icon: "error",
+        title: "Erro de Conexão",
+        text: "Erro ao tentar cadastrar.",
+        background: "#1A1A1A",
+        color: "#FFF",
+      });
     } finally {
       setLoading(false);
-      setCaptchaToken(null);
     }
   }
 
   return (
     <div>
-      <Toast message={message} />
+
       <Header />
 
       <main className="min-h-[calc(100vh-80px)] pt-[80px] flex items-center justify-center bg-background relative overflow-hidden transition-colors duration-300">
@@ -265,13 +278,7 @@ export default function Auth() {
                   </div>
                 </div>
 
-                {/* <HCaptcha
-                  sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
-                  onVerify={(token) => setCaptchaToken(token)}
-                  onExpire={() => setCaptchaToken(null)}
-                  onError={() => setCaptchaToken(null)}
-                  theme="dark"
-                /> */}
+
 
                 <div className="pt-2">
                   <button

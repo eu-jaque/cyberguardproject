@@ -103,13 +103,10 @@ export default function Dash() {
           <div className="flex items-center gap-3">
             <h1 className="text-lg font-bold text-foreground">{sectionTitles[activeSection] || "Dashboard"}</h1>
           </div>
-          <div className="flex items-center gap-4">
-
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline text-sm font-medium text-foreground">{profileName}</span>
-              <div className="w-9 h-9 rounded-full border-2 border-primary overflow-hidden shadow-[0_0_15px_rgba(212,165,53,0.3)]">
-                <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
-              </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-foreground">{profileName}</span>
+            <div className="w-8 h-8 rounded-full border-2 border-yellow-400 overflow-hidden">
+              <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
         </header>
@@ -121,10 +118,10 @@ export default function Dash() {
           </div>
         ) : (
           <div className="p-6 md:p-10 flex-1 overflow-y-auto">
-            {activeSection === "overview" && <DashOverview courses={courses} userName={profileName} />}
+            {activeSection === "overview" && <DashOverview courses={courses} userName={""} />}
             {activeSection === "blog" && <DashBlog />}
             {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
-            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} studentName={profileName} courseName={courses[0]?.title || "Curso CyberGuard"} />}
+            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} studentName={""} courseName={""} />}
             {/* {activeSection === "community" && <DashCommunity userEmail={user?.email} />} */}
             {activeSection === "quiz" && <DashQuiz />}
             {activeSection === "verifiers" && <DashVerifiers />}
