@@ -40,7 +40,7 @@ export default function ChatHistorySidebar({
   };
 
   return (
-    <aside className="w-72 h-full bg-card border-r border-border flex flex-col p-4 z-20">
+    <aside className="w-72 h-[calc(100vh)] bg-card border-r border-border flex flex-col p-4 z-20">
       {/* Botão Novo Chat */}
       <button
         onClick={onNewChat}

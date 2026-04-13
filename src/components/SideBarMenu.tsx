@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { ChevronDown, Globe, Menu, X, FileText, BookOpen, Award, MessageSquare, Gamepad2, Shield, Edit, LogOut, LayoutDashboard, Sun, Moon, Accessibility, Plus, Minus, Bot, UserCog } from "lucide-react";
+import { ChevronDown, Globe, Menu, X, FileText, BookOpen, Award, MessageSquare, Gamepad2, Shield, Edit, LogOut, LayoutDashboard, Sun, Moon, Accessibility, Plus, Minus, Bot } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import logo from "@/assets/logooriginal.png";
@@ -109,12 +109,11 @@ const SidebarMenu = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }: SidebarMe
     { icon: LayoutDashboard, label: "Visão Geral", key: "overview" },
     { icon: FileText, label: "Blog", key: "blog" },
     { icon: BookOpen, label: "Cursos", key: "courses" },
-    { icon: UserCog, label: "Painel Expert", key: "expert" },
-    { icon: Bot, label: "Cyntia IA", key: "chatbot" },
     { icon: Award, label: "Certificados", key: "certificates" },
-    // { icon: MessageSquare, label: "Comunidade", key: "community" },
+    { icon: MessageSquare, label: "Comunidade", key: "community" },
     { icon: Gamepad2, label: "Quiz & Jogos", key: "quiz" },
     { icon: Shield, label: "Verificadores", key: "verifiers" },
+    { icon: Bot, label: "Chatbot IA", key: "chatbot", path: "/chatBot" },
   ];
 
   const activeSection = searchParams.get("tab") || "overview";
@@ -169,15 +168,15 @@ const SidebarMenu = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }: SidebarMe
         <nav className="flex flex-col gap-1 flex-1">
           {menuItems.map((item, idx) => {
             const Icon = item.icon;
-            const isActive = item.key ? location.pathname === item.key : (activeSection === item.key && location.pathname === "/dash");
+            const isActive = item.path ? location.pathname === item.path : (activeSection === item.key && location.pathname === "/dash");
 
             return (
               <button
                 key={idx}
                 onClick={() => handleNavigation(item)}
                 className={`w-full flex items-center ${isOpen ? 'gap-3 px-3' : 'justify-center px-0'} py-3 rounded-xl text-sm transition-all group ${isActive
-                  ? "bg-primary/10 text-primary border-l-[3px] border-primary"
-                  : "text-muted-foreground hover:text-primary hover:bg-secondary/20 border-l-[3px] border-transparent"
+                    ? "bg-primary/10 text-primary border-l-[3px] border-primary"
+                    : "text-muted-foreground hover:text-primary hover:bg-secondary/20 border-l-[3px] border-transparent"
                   }`}
                 title={!isOpen ? item.label : ""}
               >

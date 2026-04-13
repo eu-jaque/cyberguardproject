@@ -24,9 +24,9 @@ import Courses from "./pages/Courses.tsx";
 import Experts from "./pages/Experts.tsx";
 import Chatbot from "./components/Chatbot.tsx";
 import ChatBotView from "./pages/ChatBotView.tsx";
-import ArticlePage from "./pages/ArticlePage.tsx";
-import ExpertProfile from "./components/experts/ExpertProfile.tsx";
-//import ManageCourses from "./pages/ManageCourses.tsx";
+import ArticlePage from "./pages/ArticlePage";
+import ExpertProfile from "./components/experts/ExpertProfile";
+import ExpertsManagement from "./pages/expertsManagement";
 
 
 const queryClient = new QueryClient();
@@ -76,9 +76,9 @@ const App = () => (
                 <Route path="/expert-profile" element={
                   <ProtectedRoute><ExpertProfile /></ProtectedRoute>
                 } />
-                {/* <Route path="/manage-courses" element={
-                  <ProtectedRoute><ManageCourses /></ProtectedRoute>
-                } /> */}
+                <Route path="/manage-experts" element={
+                  <ProtectedRoute><ExpertsManagement /></ProtectedRoute>
+                } />
               </Routes>
             </AuthProvider>
           </BrowserRouter>
