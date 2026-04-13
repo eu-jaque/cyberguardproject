@@ -14,7 +14,7 @@ import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
 import { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
-import parallaxBg from "@/assets/parallax-bg.jpg";
+import image from "@/assets/news.jpeg";
 
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
@@ -138,12 +138,12 @@ const Blog = () => {
       {/* Hero */}
       <section
         className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
-        style={{  backgroundImage: `url(${parallaxBg})` }}
+        style={{  backgroundImage: `url(${image})` }}
       >
         <div className="absolute inset-0 bg-background/50" />
         <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
-          <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Cyber <span className="text-gradient-gold">Blog</span>
+          <h1 className=" text-3xl md:text-5xl font-bold text-foreground mb-4">
+            Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
           <div className="max-w-xl mx-auto relative">
