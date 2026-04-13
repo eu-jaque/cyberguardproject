@@ -248,7 +248,7 @@ export default function Auth() {
                   )}
 
                   <div className="group space-y-2">
-                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">E-mail corporativo</label>
+                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">E-mail</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                       <input

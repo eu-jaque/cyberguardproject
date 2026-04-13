@@ -258,8 +258,9 @@ button:hover {
 }
 
 input[type="text"],
-input[type="email"] {
-  color: #555;
+input[type="email"],
+input[type="password"] {
+  color: hsl(var(--foreground));
 }
 
 .form-container i {
