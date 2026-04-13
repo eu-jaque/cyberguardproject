@@ -113,8 +113,8 @@ const SidebarMenu = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }: SidebarMe
     { icon: Bot, label: "Cyntia IA", key: "chatbot" },
     { icon: Award, label: "Certificados", key: "certificates" },
     // { icon: MessageSquare, label: "Comunidade", key: "community" },
-    { icon: Gamepad2, label: "Quiz & Jogos", key: "quiz" },
     { icon: Shield, label: "Verificadores", key: "verifiers" },
+    { icon: Gamepad2, label: "Quiz & Jogos", key: "quiz" },
   ];
 
   const activeSection = searchParams.get("tab") || "overview";
