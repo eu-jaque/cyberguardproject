@@ -121,10 +121,10 @@ export default function Dash() {
           </div>
         ) : (
           <div className="p-6 md:p-10 flex-1 overflow-y-auto">
-            {activeSection === "overview" && <DashOverview courses={courses} userName={profileName} />}
+            {activeSection === "overview" && <DashOverview courses={courses} />}
             {activeSection === "blog" && <DashBlog />}
             {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
-            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} />}
+            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} studentName={profileName} courseName={courses[0]?.title || "Curso CyberGuard"} />}
             {/* {activeSection === "community" && <DashCommunity userEmail={user?.email} />} */}
             {activeSection === "quiz" && <DashQuiz />}
             {activeSection === "verifiers" && <DashVerifiers />}
