@@ -106,11 +106,7 @@ const ExpertCard = ({ expert, position }: ExpertCardProps) => {
   );
 };
 
-interface RankingEliteProps {
-  limit?: number;
-}
-
-export default function RankingElite({ limit }: RankingEliteProps = {}) {
+export default function RankingElite() {
   const [experts, setExperts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -139,12 +135,10 @@ export default function RankingElite({ limit }: RankingEliteProps = {}) {
     </div>
   );
 
-  const displayed = limit ? experts.slice(0, limit) : experts;
-
   return (
     <div className="font-sans relative">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-        {displayed.map((e, index) => (
+        {experts.map((e, index) => (
           <ExpertCard key={e.id} expert={e} position={index} />
         ))}
       </div>

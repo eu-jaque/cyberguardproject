@@ -140,26 +140,7 @@ export default function PostCard({
           <MessageCircle className="w-4 h-4" /> Comentar
         </button>
 
-        <button
-          onClick={async () => {
-            const shareData = {
-              title: `Post de ${post.author}`,
-              text: post.content?.slice(0, 100) || "Confira este post no CyberGuard!",
-              url: `${window.location.origin}/blog/${post.id}`,
-            };
-            try {
-              if (navigator.share) {
-                await navigator.share(shareData);
-              } else {
-                await navigator.clipboard.writeText(shareData.url);
-                alert("Link copiado para a área de transferência!");
-              }
-            } catch (e) {
-              // user cancelled share dialog
-            }
-          }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors"
-        >
+        <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors">
           <Share2 className="w-4 h-4" /> Compartilhar
         </button>
       </div>

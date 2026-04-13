@@ -1,6 +1,5 @@
 import React from 'react';
-import { Bot, User, Sparkles, SendHorizontal, Loader2, Zap } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Bot, User, Sparkles, SendHorizontal, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -19,8 +18,6 @@ interface ChatBotComponentProps {
     handleSendMessage: (e: React.FormEvent) => void;
     chatName: string;
     isTyping?: boolean;
-    chatModule: 'default' | 'groq';
-    setChatModule: (m: 'default' | 'groq') => void;
 }
 
 export default function ChatBotComponent({
@@ -30,9 +27,7 @@ export default function ChatBotComponent({
     setInput,
     handleSendMessage,
     chatName,
-    isTyping,
-    chatModule,
-    setChatModule
+    isTyping
 }: ChatBotComponentProps) {
     return (
         <main className="flex-1 flex flex-col h-full relative min-w-0">
@@ -99,46 +94,23 @@ export default function ChatBotComponent({
             {/* Input */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent pt-10 pb-6">
                 <div className="max-w-3xl mx-auto w-full px-4">
-                    <form onSubmit={handleSendMessage} className="relative flex items-end bg-card border border-border rounded-2xl shadow-2xl focus-within:border-amber-500/50 transition-colors p-2">
-                        <div className="mr-2 self-end mb-1">
-                            <Select value={chatModule} onValueChange={(val: 'default' | 'groq') => setChatModule(val)}>
-                                <SelectTrigger className="w-[140px] h-9 bg-secondary/50 border-none rounded-xl text-xs font-medium focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Módulo" />
-                                </SelectTrigger>
-                                <SelectContent className="rounded-xl border-border bg-card shadow-xl">
-                                    <SelectItem value="default" className="text-xs cursor-pointer focus:bg-amber-500/10 focus:text-amber-500">
-                                        <div className="flex items-center gap-2">
-                                            <Bot size={14} className="text-amber-500" />
-                                            <span>Padrão</span>
-                                        </div>
-                                    </SelectItem>
-                                    <SelectItem value="groq" className="text-xs cursor-pointer focus:bg-amber-500/10 focus:text-amber-500">
-                                        <div className="flex items-center gap-2">
-                                            <Zap size={14} className="text-amber-500" />
-                                            <span>Llama / Groq</span>
-                                        </div>
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="relative flex-1 flex items-center">
-                            <textarea
-                                placeholder="Pergunte à CYNTIA..."
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                        e.preventDefault();
-                                        handleSendMessage(e);
-                                    }
-                                }}
-                                rows={1}
-                                className="flex-1 bg-transparent py-2 px-2 resize-none focus:outline-none text-base text-foreground placeholder:text-muted-foreground max-h-48"
-                            />
-                            <button type="submit" disabled={!input.trim() || isTyping} className="ml-2 mb-1 self-end p-2.5 rounded-xl bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-30 transition-all flex-shrink-0">
-                                <SendHorizontal size={18} />
-                            </button>
-                        </div>
+                    <form onSubmit={handleSendMessage} className="relative flex items-center bg-card border border-border rounded-2xl shadow-2xl focus-within:border-amber-500/50 transition-colors">
+                        <textarea
+                            placeholder="Pergunte à CYNTIA..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSendMessage(e);
+                                }
+                            }}
+                            rows={1}
+                            className="flex-1 bg-transparent py-4 pl-4 pr-16 resize-none focus:outline-none text-base text-foreground placeholder:text-muted-foreground max-h-48"
+                        />
+                        <button type="submit" disabled={!input.trim() || isTyping} className="absolute right-3 p-2.5 rounded-xl bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-30 transition-all">
+                            <SendHorizontal size={18} />
+                        </button>
                     </form>
                 </div>
             </div>

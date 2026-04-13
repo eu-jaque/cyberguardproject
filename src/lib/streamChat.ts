@@ -17,7 +17,9 @@ export async function streamChat({
   onError?: (error: string) => void;
 }) {
   const { data: { session } } = await supabase.auth.getSession();
+  // const token = session?.access_token || import.meta.env.VITE_SUPABASE_ANON_KEY;
   const token = session?.access_token
+  // const token = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   let resp = await fetch(CHAT_URL, {
     method: "POST",

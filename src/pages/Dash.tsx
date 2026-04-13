@@ -21,7 +21,6 @@ import DashVerifiers from "@/components/dash/DashVerifiers";
 import Chatbot from "@/components/Chatbot";
 import ChatBotView from "./ChatBotView";
 import ExpertProfileEmbed from "@/components/experts/ExpertProfileEmbed";
-
 type SidebarItem = { icon: typeof BookOpen; label: string; key: string };
 
 const dashTabs: SidebarItem[] = [
