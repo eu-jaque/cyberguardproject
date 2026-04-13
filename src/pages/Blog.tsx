@@ -134,8 +134,12 @@ const Blog = () => {
     <div className="min-h-screen bg-background">
       <Header />
       {/* Hero */}
-      <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
-        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
+      <section
+        className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: `url(${blogHeroBg})` }}
+      >
+        <div className="absolute inset-0 bg-background/50" />
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
             Blog <span className="text-gradient-gold">CyberGuard</span>
           </h1>
