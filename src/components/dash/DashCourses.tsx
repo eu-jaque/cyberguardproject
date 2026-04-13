@@ -8,6 +8,33 @@ import {
 import confettiLib from "canvas-confetti";
 import type { Course } from "@/pages/Courses";
 
+const COURSE_VIDEOS: Record<string, string[]> = {
+  "Segurança e Redes": [
+    "https://www.youtube.com/watch?v=Qmz3PGKT4KY",
+    "https://www.youtube.com/watch?v=1mOLgC34aZs",
+    "https://www.youtube.com/watch?v=PDiDHM3In3s&t=202s",
+    "https://www.youtube.com/watch?v=yLZyb-qqmYs",
+    "https://www.youtube.com/watch?v=sTlS-mrnQeM",
+    "https://www.youtube.com/watch?v=u9kVRtxcv-w"
+  ],
+  "Ethical Hacking": [
+    "https://www.youtube.com/watch?v=f4yavua1Uoo",
+    "https://www.youtube.com/watch?v=uuh5ActJxRA",
+    "https://www.youtube.com/watch?v=SbTmxD1aUgs",
+    "https://www.youtube.com/watch?v=bYLXZ8LR97o",
+    "https://www.youtube.com/watch?v=n8nI_IsH7rM",
+    "https://www.youtube.com/watch?v=YxcLn0CiKaU"
+  ],
+  "Fundamentos da Cibersegurança": [
+    "https://www.youtube.com/watch?v=UZu50GOsHt4",
+    "https://www.youtube.com/watch?v=AWUhXq4FDNo",
+    "https://www.youtube.com/watch?v=tI7OvhukTG8",
+    "https://www.youtube.com/watch?v=NkKuVh19wTw",
+    "https://www.youtube.com/watch?v=s8i4F-gPPdg",
+    "https://www.youtube.com/watch?v=cCkWimEYl6U"
+  ]
+};
+
 interface DashCoursesProps {
   courses: Course[];
   userEmail?: string;
@@ -317,6 +344,8 @@ export default function DashCourses({ courses, userEmail }: DashCoursesProps) {
 
   // === Course Player ===
   const videos = activeCourse.modules || [];
+  const videoLinks = COURSE_VIDEOS[activeCourse.title] || [];
+  
   const activeVideo = videos[activeVideoIdx];
   const videoId = activeVideo?.id || activeVideo?.title || "1";
 
@@ -344,8 +373,10 @@ export default function DashCourses({ courses, userEmail }: DashCoursesProps) {
           const vId = v.id || v.title;
           const isActive = i === activeVideoIdx;
           const isCompleted = completedVideos.has(vId);
+          const customUrl = videoLinks[i] || v.urlvideo || 'na';
+          
           return (
-            <div key={vId} onClick={() => { setActiveVideoIdx(i); setOpenVideoUrl(v.urlvideo || 'na'); }}
+            <div key={vId} onClick={() => { setActiveVideoIdx(i); setOpenVideoUrl(customUrl); }}
               className={`group flex flex-col p-6 rounded-3xl cursor-pointer transition-all duration-500 border ${isActive ? "border-primary/50 shadow-[0_0_40px_rgba(212,165,53,0.15)] bg-gradient-to-br from-[#1C1F26] to-[#2A2015]" : "border-white/5 hover:border-primary/30 bg-[#16181D] hover:bg-gradient-to-br hover:from-[#1C1F26] hover:to-[#222631]"}`}
             >
               {/* Icon Block */}
