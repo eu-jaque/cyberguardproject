@@ -59,23 +59,23 @@ export default function Auth() {
     }
 
     showToast("Login realizado com sucesso.");
-    
+
     // Check if user is an expert (professional)
     const { data: { user: authUser } } = await supabase.auth.getUser();
-    
+
     if (authUser) {
       const { data: expertData } = await supabase
         .from("experts")
         .select("id")
         .eq("user_id", authUser.id)
         .maybeSingle();
-      
+
       if (expertData) {
         nav("/expert-profile", { replace: true });
         return;
       }
     }
-    
+
     nav("/dash", { replace: true });
   }
 
@@ -153,41 +153,50 @@ export default function Auth() {
                 <div className="w-1/2 flex flex-col justify-center p-8 space-y-4">
 
                   {!isLogin && (
-                    <div className="relative">
-                      <UserIcon className="absolute left-3 top-3 w-5 h-5" />
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Nome"
-                        value={user.name}
-                        onChange={handleChange}
-                        className="w-full pl-10 p-2 rounded border"
-                      />
+                    <div className="group space-y-2">
+                      <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">Nome Completo</label>
+                      <div className="relative">
+                        <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                        <input
+                          type="text"
+                          name="name"
+                          value={user.name}
+                          onChange={handleChange}
+                          className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                          placeholder="Ex: João Silva"
+                        />
+                      </div>
                     </div>
                   )}
 
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3 w-5 h-5" />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      value={user.email}
-                      onChange={handleChange}
-                      className="w-full pl-10 p-2 rounded border"
-                    />
+                  <div className="group space-y-2">
+                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">E-mail corporativo</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                      <input
+                        type="email"
+                        name="email"
+                        value={user.email}
+                        onChange={handleChange}
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                        placeholder="nome@empresa.com"
+                      />
+                    </div>
                   </div>
 
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 w-5 h-5" />
-                    <input
-                      type="password"
-                      name="pass"
-                      placeholder="Senha"
-                      value={user.pass}
-                      onChange={handleChange}
-                      className="w-full pl-10 p-2 rounded border"
-                    />
+                  <div className="group space-y-2">
+                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">Chave de acesso</label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                      <input
+                        type="password"
+                        name="pass"
+                        value={user.pass}
+                        onChange={handleChange}
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                        placeholder="••••••••"
+                      />
+                    </div>
                   </div>
 
                   <button
@@ -198,8 +207,8 @@ export default function Auth() {
                     {loading
                       ? "Carregando..."
                       : isLogin
-                      ? "Entrar"
-                      : "Cadastrar"}
+                        ? "Entrar"
+                        : "Cadastrar"}
                   </button>
 
                 </div>
