@@ -180,7 +180,7 @@ export default function Auth() {
                     {isLogin ? "Cyber Guard" : "Junte-se"}
                   </h2>
                   <p className="text-white/80 text-xs font-medium max-w-[200px] mx-auto">
-                    {isLogin ? "Proteja seus ativos digitais com a melhor plataforma." : "Aprenda DEFESA com quem entende de ATAQUE."}
+                    {isLogin ? "Continue seus estudos." : "Aprenda com os melhores."}
                   </p>
                   <button
                     onClick={() => setIsLogin(!isLogin)}
