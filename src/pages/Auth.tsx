@@ -2,13 +2,15 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
+import { Toast, useToast } from "@/components/Toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import ParallaxAuth from "@/components/ParallaxAuth";
 import supabase from "../../utils/supabase";
 import { Mail, Lock, User as UserIcon, ShieldCheck } from "lucide-react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { motion, AnimatePresence } from "framer-motion";
-import Swal from "sweetalert2";
 import authImg from "@/assets/hacker-parallax.jpg";
+import Swal from "sweetalert2";
 
 export type User = {
   email: string;
@@ -18,10 +20,12 @@ export type User = {
 
 export default function Auth() {
   const nav = useNavigate();
+  const { message, showToast } = useToast();
 
   const [searchParams] = useSearchParams();
   const [isLogin, setIsLogin] = useState(searchParams.get("signup") !== "true");
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const [user, setUser] = useState<User>({
     email: "",
@@ -41,12 +45,24 @@ export default function Auth() {
   async function checkedLogin() {
     if (!user.email || !user.pass) {
       Swal.fire({
-        icon: "warning",
-        title: "Campos Vazios",
-        text: "Informe e-mail e senha.",
-        background: "#1A1A1A",
-        color: "#FFF",
-        confirmButtonColor: "#C19B4C",
+        icon: 'error',
+        title: 'Campos obrigatórios',
+        text: 'Informe email e senha.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
+      });
+      return;
+    }
+
+    if (!captchaToken) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Verificação necessária',
+        text: 'Complete o captcha para continuar.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
       });
       return;
     }
@@ -54,56 +70,61 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: user.pass,
       });
 
       if (error) {
         Swal.fire({
-          icon: "error",
-          title: "Credenciais Inválidas",
-          text: "E-mail ou senha incorretos. Por favor, confira seus dados e tente novamente.",
-          background: "#1A1A1A",
-          color: "#FFF",
-          confirmButtonColor: "#C19B4C",
+          icon: 'error',
+          title: 'Erro no login',
+          text: error.message,
+          background: '#1a1a1a',
+          color: '#fff',
+          confirmButtonColor: '#D4A535'
         });
         return;
       }
 
-      Swal.fire({
-        icon: "success",
-        title: "Sucesso!",
-        text: "Bem-vindo de volta!",
-        timer: 1500,
-        showConfirmButton: false,
-        background: "#1A1A1A",
-        color: "#FFF",
-      });
-
       nav("/dash", { replace: true });
+
     } catch (err) {
       Swal.fire({
-        icon: "error",
-        title: "Erro de Conexão",
-        text: "Tente novamente mais tarde.",
-        background: "#1A1A1A",
-        color: "#FFF",
+        icon: 'error',
+        title: 'Erro de conexão',
+        text: 'Não foi possível conectar ao servidor.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
       });
     } finally {
       setLoading(false);
+      setCaptchaToken(null);
     }
   }
 
   async function handleRegister() {
     if (!user.email || !user.pass) {
       Swal.fire({
-        icon: "warning",
-        title: "Campos Vazios",
-        text: "E-mail e senha são obrigatórios.",
-        background: "#1A1A1A",
-        color: "#FFF",
-        confirmButtonColor: "#C19B4C",
+        icon: 'error',
+        title: 'Dados faltando',
+        text: 'E-mail e senha são obrigatórios para o cadastro.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
+      });
+      return;
+    }
+
+    if (!captchaToken) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Captcha pendente',
+        text: 'Por favor, complete a verificação de segurança.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
       });
       return;
     }
@@ -111,54 +132,49 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: user.email,
         password: user.pass,
         options: {
           data: {
-            full_name: user.name,
-          },
-        },
+            name: user.name,
+          }
+        }
       });
 
       if (error) {
         Swal.fire({
-          icon: "error",
-          title: "Erro no Cadastro",
+          icon: 'error',
+          title: 'Falha no registro',
           text: error.message,
-          background: "#1A1A1A",
-          color: "#FFF",
-          confirmButtonColor: "#C19B4C",
+          background: '#1a1a1a',
+          color: '#fff',
+          confirmButtonColor: '#D4A535'
         });
         return;
       }
 
-      Swal.fire({
-        icon: "success",
-        title: "Cadastro Realizado!",
-        text: "Agora você pode entrar.",
-        background: "#1A1A1A",
-        color: "#FFF",
-        confirmButtonColor: "#C19B4C",
-      });
-
+      showToast("Verifique seu e-mail");
       setIsLogin(true);
+
     } catch {
       Swal.fire({
-        icon: "error",
-        title: "Erro de Conexão",
-        text: "Erro ao tentar cadastrar.",
-        background: "#1A1A1A",
-        color: "#FFF",
+        icon: 'error',
+        title: 'Erro sistêmico',
+        text: 'Erro de conexão ou instabilidade externa.',
+        background: '#1a1a1a',
+        color: '#fff',
+        confirmButtonColor: '#D4A535'
       });
     } finally {
       setLoading(false);
+      setCaptchaToken(null);
     }
   }
 
   return (
     <div>
-
+      <Toast message={message} />
       <Header />
 
       <main className="min-h-[calc(100vh-80px)] pt-[80px] flex items-center justify-center bg-background relative overflow-hidden transition-colors duration-300">
@@ -240,7 +256,7 @@ export default function Auth() {
                           name="name"
                           value={user.name}
                           onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                          className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
                           placeholder="Ex: João Silva"
                         />
                       </div>
@@ -256,14 +272,14 @@ export default function Auth() {
                         name="email"
                         value={user.email}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
                         placeholder="nome@empresa.com"
                       />
                     </div>
                   </div>
 
                   <div className="group space-y-2">
-                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">Chave de acesso</label>
+                    <label className="text-[10px] uppercase font-bold tracking-widest text-primary/70 ml-1">Senha</label>
                     <div className="relative">
                       <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                       <input
@@ -271,14 +287,21 @@ export default function Auth() {
                         name="pass"
                         value={user.pass}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium"
+                        className="w-full pl-12 pr-4 py-4 bg-background/50 border border-white/10 rounded-2xl focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-white"
                         placeholder="••••••••"
                       />
                     </div>
                   </div>
                 </div>
 
-
+                <div className="flex justify-center py-2">
+                  <HCaptcha
+                    sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+                    onVerify={(token) => setCaptchaToken(token)}
+                    onExpire={() => setCaptchaToken(null)}
+                    theme="dark"
+                  />
+                </div>
 
                 <div className="pt-2">
                   <button
