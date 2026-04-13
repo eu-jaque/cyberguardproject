@@ -7,7 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import ParallaxAuth from "@/components/ParallaxAuth";
 import supabase from "../../utils/supabase";
 import { Mail, Lock, User as UserIcon, ShieldCheck } from "lucide-react";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
+// import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { motion, AnimatePresence } from "framer-motion";
 import authImg from "@/assets/hacker-parallax.jpg";
 
@@ -265,13 +265,13 @@ export default function Auth() {
                   </div>
                 </div>
 
-                <HCaptcha
+                {/* <HCaptcha
                   sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
                   onVerify={(token) => setCaptchaToken(token)}
                   onExpire={() => setCaptchaToken(null)}
                   onError={() => setCaptchaToken(null)}
                   theme="dark"
-                />
+                /> */}
 
                 <div className="pt-2">
                   <button
