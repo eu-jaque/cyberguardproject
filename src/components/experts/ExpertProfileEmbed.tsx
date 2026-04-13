@@ -229,7 +229,7 @@ export default function ExpertProfileEmbed() {
                         {/* Ranking */}
                         <div className="mt-12">
                             <h2 className="text-xl font-black italic text-foreground mb-8 uppercase tracking-tighter">Ranking Elite</h2>
-                            <RankingElite limit={3} />
+                            <RankingElite />
                         </div>
                     </motion.div>
                 )}

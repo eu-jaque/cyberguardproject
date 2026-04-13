@@ -14,6 +14,7 @@ import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
 import { useEffect, useRef, useState } from "react";
 import supabase from "../../utils/supabase";
+import parallaxBg from "@/assets/parallax-bg.jpg";
 
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
@@ -130,18 +131,19 @@ const Blog = () => {
       date: c.created_at
     }));
   console.log(contents)
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
       {/* Hero */}
       <section
         className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url(${blogHeroBg})` }}
+        style={{  backgroundImage: `url(${parallaxBg})` }}
       >
         <div className="absolute inset-0 bg-background/50" />
         <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
           <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Blog <span className="text-gradient-gold">CyberGuard</span>
+            Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
           <div className="max-w-xl mx-auto relative">
@@ -175,12 +177,12 @@ const Blog = () => {
 
       {/* Content */}
       <section className="py-12 bg-background">
-        <div className="max-w-[1366px] mx-auto px-[2%]">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+        <div className="max-w-[1366px] mx-auto px-4 sm:px-[2%]">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-10">
             <div>
               {/* POSTS TAB */}
               {(activeTab === "all" || activeTab === "posts") && (
-                <div className={`space-y-6 mb-10 ${activeTab === "all" ? "rounded-2xl border border-primary/20 bg-gradient-to-br from-[hsl(var(--primary)/0.05)] to-[hsl(var(--accent)/0.08)] p-6" : ""}`}>
+                <div className={`space-y-4 sm:space-y-6 mb-10 ${activeTab === "all" ? "rounded-2xl border border-primary/20 bg-gradient-to-br from-[hsl(var(--primary)/0.05)] to-[hsl(var(--accent)/0.08)] p-4 sm:p-6" : ""}`}>
                   {activeTab === "all" && (
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1 h-6 rounded-full bg-primary" />
@@ -199,7 +201,7 @@ const Blog = () => {
 
               {/* ARTICLES TAB */}
               {(activeTab === "all" || activeTab === "articles") && (
-                <div className={`space-y-4 mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(210,80%,40%,0.2)] bg-gradient-to-br from-[hsl(210,80%,20%,0.08)] to-[hsl(220,60%,30%,0.12)] p-6" : ""}`}>
+                <div className={`space-y-4 mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(210,80%,40%,0.2)] bg-gradient-to-br from-[hsl(210,80%,20%,0.08)] to-[hsl(220,60%,30%,0.12)] p-4 sm:p-6" : ""}`}>
                   {activeTab === "all" && (
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1 h-6 rounded-full bg-[hsl(210,80%,50%)]" />
@@ -216,15 +218,15 @@ const Blog = () => {
                         transition={{ delay: i * 0.05 }}
                         viewport={{ once: true }}
                         onClick={() => navigate(`/blog/${article.id}`)}
-                        className="group cursor-pointer flex gap-5 py-5 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors border-b border-border/30"
+                        className="group cursor-pointer flex flex-col sm:flex-row gap-3 sm:gap-5 py-4 sm:py-5 hover:bg-card/50 -mx-2 sm:-mx-4 px-2 sm:px-4 rounded-xl transition-colors border-b border-border/30"
                       >
-                        <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden">
+                        <div className="flex-shrink-0 w-full sm:w-40 md:w-52 h-44 sm:h-28 md:h-32 rounded-xl overflow-hidden">
                           <img src={article.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <span className="text-[10px] font-bold text-primary mb-1">{article.category}</span>
-                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{article.summary}</p>
+                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">{article.title}</h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{article.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
                             <span className="flex items-center gap-1">
                               {article.authorAvatar ? (
@@ -244,14 +246,14 @@ const Blog = () => {
 
               {/* VIDEOS TAB */}
               {(activeTab === "all" || activeTab === "videos") && (
-                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(280,60%,50%,0.2)] bg-gradient-to-br from-[hsl(280,60%,20%,0.08)] to-[hsl(260,50%,30%,0.12)] p-6" : ""}`}>
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(280,60%,50%,0.2)] bg-gradient-to-br from-[hsl(280,60%,20%,0.08)] to-[hsl(260,50%,30%,0.12)] p-4 sm:p-6" : ""}`}>
                   {activeTab === "all" && (
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1 h-6 rounded-full bg-[hsl(280,60%,55%)]" />
                       <h2 className="text-lg font-bold text-foreground">Aprenda Assistindo</h2>
                     </div>
                   )}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                     {videoPosts
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((video, i) => (
@@ -288,7 +290,7 @@ const Blog = () => {
 
               {/* NEWS TAB */}
               {(activeTab === "all" || activeTab === "news") && (
-                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(45,90%,50%,0.15)] bg-gradient-to-br from-[hsl(45,90%,50%,0.05)] to-[hsl(35,80%,40%,0.1)] p-6" : ""}`}>
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(45,90%,50%,0.15)] bg-gradient-to-br from-[hsl(45,90%,50%,0.05)] to-[hsl(35,80%,40%,0.1)] p-4 sm:p-6" : ""}`}>
                   {activeTab === "all" && (
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1 h-6 rounded-full bg-[hsl(45,90%,50%)]" />
@@ -345,7 +347,7 @@ const Blog = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                       {newsItems
                         .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
                         .map((news, i) => (
