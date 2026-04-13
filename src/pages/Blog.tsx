@@ -180,8 +180,13 @@ const Blog = () => {
             <div>
               {/* POSTS TAB */}
               {(activeTab === "all" || activeTab === "posts") && (
-                <div className="space-y-6 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Papo & Meme</h2>}
+                <div className={`space-y-6 mb-10 ${activeTab === "all" ? "rounded-2xl border border-primary/20 bg-gradient-to-br from-[hsl(var(--primary)/0.05)] to-[hsl(var(--accent)/0.08)] p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-primary" />
+                      <h2 className="text-lg font-bold text-foreground">Papo & Meme</h2>
+                    </div>
+                  )}
                   {socialPosts
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
@@ -194,8 +199,13 @@ const Blog = () => {
 
               {/* ARTICLES TAB */}
               {(activeTab === "all" || activeTab === "articles") && (
-                <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Leitura Segura</h2>}
+                <div className={`space-y-4 mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(210,80%,40%,0.2)] bg-gradient-to-br from-[hsl(210,80%,20%,0.08)] to-[hsl(220,60%,30%,0.12)] p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(210,80%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Leitura Segura</h2>
+                    </div>
+                  )}
                   {articles
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
@@ -234,8 +244,13 @@ const Blog = () => {
 
               {/* VIDEOS TAB */}
               {(activeTab === "all" || activeTab === "videos") && (
-                <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Aprenda Assistindo</h2>}
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(280,60%,50%,0.2)] bg-gradient-to-br from-[hsl(280,60%,20%,0.08)] to-[hsl(260,50%,30%,0.12)] p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(280,60%,55%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Aprenda Assistindo</h2>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {videoPosts
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -273,8 +288,13 @@ const Blog = () => {
 
               {/* NEWS TAB */}
               {(activeTab === "all" || activeTab === "news") && (
-                <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Informação sem Fake News? Temos!</h2>}
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(45,90%,50%,0.15)] bg-gradient-to-br from-[hsl(45,90%,50%,0.05)] to-[hsl(35,80%,40%,0.1)] p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(45,90%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Informação sem Fake News? Temos!</h2>
+                    </div>
+                  )}
                   {activeTab === "all" ? (
                     <div className="relative group/carousel">
                       <button
