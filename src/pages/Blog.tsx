@@ -131,6 +131,7 @@ const Blog = () => {
       date: c.created_at
     }));
   console.log(contents)
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
