@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Award, ChevronLeft, ChevronRight, Play, CheckCircle, Download, Send,
@@ -14,7 +15,20 @@ interface DashCoursesProps {
 }
 
 export default function DashCourses({ courses, userEmail }: DashCoursesProps) {
+  const [searchParams] = useSearchParams();
   const [activeCourse, setActiveCourse] = useState<Course | null>(null);
+
+  useEffect(() => {
+    const courseId = searchParams.get("courseId");
+    if (courseId && courses.length > 0) {
+      const found = courses.find(c => c.id === courseId);
+      if (found) {
+        setActiveCourse(found);
+        setActiveVideoIdx(0);
+      }
+    }
+  }, [searchParams, courses]);
+
   const [activeVideoIdx, setActiveVideoIdx] = useState(0);
   const [filterLevel, setFilterLevel] = useState<string>("Todos");
   const [completedVideos, setCompletedVideos] = useState<Set<string>>(new Set());

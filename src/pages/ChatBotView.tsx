@@ -58,6 +58,7 @@ export default function ChatBotView() {
     const [isTyping, setIsTyping] = useState(false);
     const [chatModule, setChatModule] = useState<'default' | 'groq'>('default');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const skipNextLoadRef = useRef(false);
 
     // Histórico de mensagens para enviar ao AI (role format)
     const chatHistoryRef = useRef<{ role: "user" | "assistant"; content: string }[]>([]);
@@ -92,11 +93,13 @@ export default function ChatBotView() {
 
     const currentChat = conversations.find(c => c.id === activeChatId);
 
-    const saveMessage = async (msg: { id: string; text: string; sender: 'user' | 'bot'; timestamp: Date }) => {
-        if (!activeChatId) return;
+    const saveMessage = async (msg: { id: string; text: string; sender: 'user' | 'bot'; timestamp: Date }, chatIdOverride?: string) => {
+        const idToSave = chatIdOverride || activeChatId;
+        if (!idToSave) return;
+        
         await supabase.from('messages').insert({
             id: msg.id,
-            conversation_id: activeChatId,
+            conversation_id: idToSave,
             text: msg.text,
             sender: msg.sender,
             timestamp: msg.timestamp.toISOString(),
@@ -105,6 +108,10 @@ export default function ChatBotView() {
 
     useEffect(() => {
         if (!activeChatId) return;
+        if (skipNextLoadRef.current) {
+            skipNextLoadRef.current = false;
+            return;
+        }
         chatHistoryRef.current = [];
         const loadMessages = async () => {
             const { data } = await supabase
@@ -150,7 +157,7 @@ export default function ChatBotView() {
                 background: 'hsl(var(--background))',
                 color: 'hsl(var(--foreground))',
             });
-            return;
+            return null;
         }
         const { data, error } = await supabase
             .from('conversations')
@@ -160,18 +167,31 @@ export default function ChatBotView() {
 
         if (error) {
             Toast.fire({ icon: 'error', title: 'Não foi possível criar o chat.' });
-            return;
+            return null;
         }
         if (data) {
             setConversations(prev => [data, ...prev]);
             setActiveChatId(data.id);
             Toast.fire({ icon: 'success', title: 'Chat criado com sucesso.' });
+            return data.id;
         }
+        return null;
     };
 
     const handleSendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isTyping) return;
+
+        let targetChatId = activeChatId;
+        if (!targetChatId) {
+            skipNextLoadRef.current = true;
+            const newId = await handleNewChat();
+            if (!newId) {
+                skipNextLoadRef.current = false;
+                return;
+            }
+            targetChatId = newId;
+        }
 
         const userMessage: Message = {
             id: crypto.randomUUID(),
@@ -183,7 +203,7 @@ export default function ChatBotView() {
         setMessages(prev => [...prev, userMessage]);
         chatHistoryRef.current.push({ role: "user", content: input });
         setInput("");
-        saveMessage(userMessage);
+        saveMessage(userMessage, targetChatId);
         setIsTyping(true);
 
         const botMessageId = crypto.randomUUID();
@@ -210,7 +230,7 @@ export default function ChatBotView() {
                 onDone: () => {
                     chatHistoryRef.current.push({ role: "assistant", content: assistantText });
                     setIsTyping(false);
-                    saveMessage({ id: botMessageId, text: assistantText, sender: 'bot', timestamp: new Date() });
+                    saveMessage({ id: botMessageId, text: assistantText, sender: 'bot', timestamp: new Date() }, targetChatId);
                 },
                 onError: (error) => {
                     setMessages(prev => prev.map(m =>
