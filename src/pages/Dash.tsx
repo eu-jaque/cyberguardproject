@@ -18,9 +18,6 @@ import DashCertificates from "@/components/dash/DashCertificates";
 import DashCommunity from "@/components/dash/DashCommunity";
 import DashQuiz from "@/components/dash/DashQuiz";
 import DashVerifiers from "@/components/dash/DashVerifiers";
-import Chatbot from "@/components/Chatbot";
-import ChatBotView from "./ChatBotView";
-import ExpertProfileEmbed from "@/components/experts/ExpertProfileEmbed";
 type SidebarItem = { icon: typeof BookOpen; label: string; key: string };
 
 const dashTabs: SidebarItem[] = [
@@ -49,20 +46,12 @@ export default function Dash() {
       if (data) setCourses(data as Course[]);
 
       if (user) {
-        const { data: profile } = await supabase.from("profiles").select("full_name, name, avatar_url").eq("user_id", user.id).single();
+        const { data: profile } = await supabase.from("profiles").select("full_name, avatar_url").eq("user_id", user.id).single();
         if (profile) {
-          setProfileName(profile.full_name || profile.name || user.email?.split("@")[0] || "Usuário");
+          setProfileName(profile.full_name || user.email?.split("@")[0] || "Usuário");
           setProfileAvatar(profile.avatar_url || "");
         } else {
-          const defaultName = user.email?.split("@")[0] || "Usuário";
-          await supabase.from("profiles").insert({
-            user_id: user.id,
-            name: defaultName,
-            full_name: defaultName,
-            avatar_url: "",
-            type: "student"
-          });
-          setProfileName(defaultName);
+          setProfileName(user.email?.split("@")[0] || "Usuário");
         }
       }
       setLoading(false);
@@ -78,57 +67,43 @@ export default function Dash() {
 
   const avatarSrc = profileAvatar || `https://api.dicebear.com/7.x/initials/svg?seed=${profileName}&backgroundColor=facc15`;
 
-  const sectionTitles: Record<string, string> = {
-    overview: "Painel Geral",
-    blog: "Últimas Publicações",
-    courses: "Minha Jornada de Aprendizado",
-    certificates: "Minhas Conquistas",
-    community: "Espaço Colaborativo",
-    quiz: "Desafios & Jogos",
-    verifiers: "Central de Verificação",
-    chatbot: "Assistente Cyntia",
-    expert: "Painel do Especialista",
-  };
-
   return (
     <div className="min-h-screen flex relative">
       {/* Reutilizando SideBarMenu */}
       <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
       {/* Main content com offset do SideBarMenu */}
-      <div className={`flex-1 relative z-10 transition-all duration-300 flex flex-col h-screen overflow-hidden ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
+      <div className={`flex-1 relative z-10 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-16'}`}>
         {/* Top bar */}
-        <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/10 bg-card/60 backdrop-blur-sm">
+        <header className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border/10">
           <div className="flex items-center gap-3">
-            <h1 className="text-lg font-bold text-foreground">{sectionTitles[activeSection] || "Dashboard"}</h1>
+            <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
           </div>
-          <div className="flex items-center gap-4">
-
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline text-sm font-medium text-foreground">{profileName}</span>
-              <div className="w-9 h-9 rounded-full border-2 border-primary overflow-hidden shadow-[0_0_15px_rgba(212,165,53,0.3)]">
-                <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
-              </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-foreground">{profileName}</span>
+            <div className="w-8 h-8 rounded-full border-2 border-yellow-400 overflow-hidden">
+              <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
         </header>
 
-        {activeSection === "chatbot" || activeSection === "expert" ? (
-          <div className="flex-1 overflow-hidden">
-            {activeSection === "chatbot" && <ChatBotView />}
-            {activeSection === "expert" && <ExpertProfileEmbed />}
-          </div>
-        ) : (
-          <div className="p-6 md:p-10 flex-1 overflow-y-auto">
-            {activeSection === "overview" && <DashOverview courses={courses} userName={profileName} />}
-            {activeSection === "blog" && <DashBlog />}
-            {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
-            {activeSection === "certificates" && <DashCertificates isComplete={false} progressPct={0} />}
-            {/* {activeSection === "community" && <DashCommunity userEmail={user?.email} />} */}
-            {activeSection === "quiz" && <DashQuiz />}
-            {activeSection === "verifiers" && <DashVerifiers />}
-          </div>
-        )}
+        <div className="p-6 md:p-10">
+          {/* Section Content */}
+          {activeSection === "overview" && <DashOverview courses={courses} />}
+          {activeSection === "blog" && <DashBlog />}
+          {activeSection === "courses" && <DashCourses courses={courses} userEmail={user?.email} />}
+          {activeSection === "certificates" && (
+            <DashCertificates
+              isComplete={courses.length > 0}
+              progressPct={courses.length > 0 ? 100 : 0}
+              studentName={profileName}
+              courseName={courses[0]?.title || "Curso CyberGuard"}
+            />
+          )}
+          {activeSection === "community" && <DashCommunity userEmail={user?.email} />}
+          {activeSection === "quiz" && <DashQuiz />}
+          {activeSection === "verifiers" && <DashVerifiers />}
+        </div>
       </div>
     </div>
   );
