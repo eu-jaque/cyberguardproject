@@ -62,8 +62,8 @@ export default function Auth() {
       if (error) {
         Swal.fire({
           icon: "error",
-          title: "Erro no Login",
-          text: error.message,
+          title: "Credenciais Inválidas",
+          text: "E-mail ou senha incorretos. Por favor, confira seus dados e tente novamente.",
           background: "#1A1A1A",
           color: "#FFF",
           confirmButtonColor: "#C19B4C",
