@@ -142,7 +142,7 @@ const Blog = () => {
       >
         <div className="absolute inset-0 bg-background/50" />
         <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
-          <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className=" text-3xl md:text-5xl font-bold text-foreground mb-4">
             Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
