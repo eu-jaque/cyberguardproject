@@ -90,10 +90,11 @@ function ExplorerView({ courses, onSelectCourse }: { courses: Course[]; onSelect
   return (
     <div>
       {/* Hero */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(216,71%,8%)] via-[hsl(216,71%,12%)] to-[hsl(216,50%,15%)]" />
-        <div className="absolute top-[-100px] right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-100px] left-1/3 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <section className="relative py-24 overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
+        <div className="absolute top-[-100px] right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-100px] left-1/3 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -101,10 +102,10 @@ function ExplorerView({ courses, onSelectCourse }: { courses: Course[]; onSelect
               <GraduationCap className="w-4 h-4 text-primary" />
               <span className="text-xs font-medium text-primary uppercase tracking-wider">Academia CyberGuard</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
               Proteja o <span className="text-gradient-gold">Futuro Digital</span>
             </h1>
-            <p className="text-lg text-blue-200/70 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Cursos de cibersegurança ministrados por especialistas. Do básico ao avançado, com certificado.
             </p>
           </motion.div>
@@ -128,8 +129,8 @@ function ExplorerView({ courses, onSelectCourse }: { courses: Course[]; onSelect
             ].map(s => (
               <div key={s.label} className="text-center">
                 <s.icon className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-xl font-bold text-white">{s.value}</p>
-                <p className="text-[11px] text-blue-200/50 uppercase tracking-wider">{s.label}</p>
+                <p className="text-xl font-bold text-foreground">{s.value}</p>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-wider">{s.label}</p>
               </div>
             ))}
           </div>
@@ -195,7 +196,7 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
 
   const renderVideo = (url: string) => {
     if (!url) return null;
-    
+
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       let embedId = '';
       if (url.includes('youtu.be/')) {
@@ -205,7 +206,7 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
       } else if (url.includes('embed/')) {
         embedId = url.split('embed/')[1].split('?')[0];
       }
-      
+
       if (embedId) {
         return (
           <iframe
@@ -218,11 +219,11 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
         );
       }
     }
-    
+
     return (
-      <video 
-        controls 
-        className="w-full h-full bg-black" 
+      <video
+        controls
+        className="w-full h-full bg-black"
         src={url}
       />
     );
@@ -231,18 +232,19 @@ function DetailsView({ course, onBack, user }: { course: Course; onBack: () => v
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(216,71%,8%)] via-[hsl(216,71%,12%)] to-[hsl(216,50%,15%)]" />
+      <section className="relative py-16 overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 items-center">
           <div className="w-full md:w-1/3">
             <img src={course.url} className="w-full h-72 object-cover rounded-2xl border-2 border-primary/30 shadow-2xl" alt={course.title} />
           </div>
           <div className="flex-1 space-y-4">
-            <Button onClick={onBack} variant="ghost" className="text-white/70 hover:bg-white/10 mb-2 pl-0">
+            <Button onClick={onBack} variant="ghost" className="text-muted-foreground hover:bg-secondary/50 mb-2 pl-0">
               <ArrowRight className="rotate-180 mr-2" size={16} /> Voltar
             </Button>
-            <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight">{course.title}</h1>
-            <p className="text-lg text-blue-200/70 max-w-2xl">{course.description}</p>
+            <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">{course.title}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">{course.description}</p>
           </div>
         </div>
       </section>

@@ -13,7 +13,7 @@
     --foreground: 216 71% 12%;
     /* Azul escuro quase preto para os textos */
 
-    --card: 210 20% 96%;
+    --card: 210 15% 94%;
     /* Cards levemente mais escuros que o fundo */
     --card-foreground: 216 71% 12%;
 
@@ -24,11 +24,11 @@
     /* Dourado mais saturado para ler bem no fundo claro */
     --primary-foreground: 216 71% 10%;
 
-    --secondary: 214 20% 90%;
+    --secondary: 214 10% 90%;
     /* Divisores e hovers cinzas e suaves */
     --secondary-foreground: 216 71% 12%;
 
-    --muted: 214 20% 92%;
+    --muted: 214 10% 92%;
     --muted-foreground: 215 16% 45%;
 
     --accent: 40 85% 50%;
@@ -37,9 +37,9 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214 20% 88%;
+    --border: 214 10% 88%;
     /* Bordas visíveis mas suaves */
-    --input: 214 20% 88%;
+    --input: 214 10% 90%;
     --ring: 40 85% 50%;
 
     --radius: 0.5rem;
