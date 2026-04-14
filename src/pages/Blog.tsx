@@ -137,36 +137,44 @@ const Blog = () => {
       <Header />
       {/* Hero */}
       <section
-        className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
-        style={{  backgroundImage: `url(${image})` }}
+        className="pt-32 pb-20 relative bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: `url(${image})` }}
       >
-        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-[#00215E]/70 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
         <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
-          <h1 className=" text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
-          <div className="max-w-xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Buscar conteúdo..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="inline-block bg-card/10 backdrop-blur-xl border border-primary/20 rounded-3xl px-8 py-10 md:px-14 md:py-14 shadow-2xl"
+          >
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+              Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
+            </h1>
+            <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
+            <div className="max-w-xl mx-auto relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+              <input
+                type="text"
+                placeholder="Buscar conteúdo..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all shadow-inner"
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Tabs */}
-      <section className="border-b border-border bg-background sticky top-[72px] z-20">
+      <section className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-[72px] z-20 shadow-sm">
         <div className="max-w-[1366px] mx-auto px-[2%] flex gap-1 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+              className={`px-5 py-3.5 text-sm font-semibold border-b-2 transition-all whitespace-nowrap ${activeTab === tab.value ? "border-primary text-primary bg-primary/5" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary/30"
                 }`}
             >
               {tab.label}
@@ -387,8 +395,13 @@ const Blog = () => {
 
               {/* CYBERLAB TAB */}
               {(activeTab === "all" || activeTab === "cyberlab") && (
-                <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">Divirta-se com o CyberLab</h2>}
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(160,60%,40%,0.2)] bg-gradient-to-br from-[hsl(160,60%,20%,0.08)] to-[hsl(180,50%,30%,0.12)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(160,60%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Divirta-se com o CyberLab</h2>
+                    </div>
+                  )}
                   <CyberLabSection />
                 </div>
               )}

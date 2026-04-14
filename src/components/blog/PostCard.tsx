@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Angry, X, LogIn } from "lucide-react";
+import { Heart, MessageCircle, Share2, ThumbsUp, Flame, Sparkles, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +16,10 @@ export interface SocialPost {
 }
 
 const reactions = [
-  { icon: ThumbsUp, label: "Curtir", color: "text-blue-500" },
-  { icon: Heart, label: "Amei", color: "text-red-500" },
-  { icon: Smile, label: "Haha", color: "text-yellow-500" },
-  { icon: Angry, label: "Raiva", color: "text-orange-500" },
+  { icon: ThumbsUp, label: "Curtir", color: "text-blue-400" },
+  { icon: Heart, label: "Amei", color: "text-rose-400" },
+  { icon: Flame, label: "Fogo", color: "text-orange-400" },
+  { icon: Sparkles, label: "Incrível", color: "text-amber-400" },
 ];
 
 export default function PostCard({
@@ -49,7 +49,7 @@ export default function PostCard({
   const [isLoginModalOpen2, setIsLoginModalOpen2] = useState(false);
 
   return (
-    <article className="bg-card border border-border/50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full max-w-full">
+    <article className="bg-card/80 backdrop-blur-md border border-border/30 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 w-full max-w-full">
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
         <img
@@ -117,15 +117,15 @@ export default function PostCard({
 
           {/* Reaction picker */}
           {showReactions && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-1 bg-card border border-border rounded-full px-2 py-1.5 shadow-xl z-20 animate-scale-in">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-1.5 bg-card/90 backdrop-blur-xl border border-border/50 rounded-full px-3 py-2 shadow-2xl z-20 animate-scale-in">
               {reactions.map((r, i) => (
                 <button
                   key={r.label}
                   onClick={() => handleReaction(i)}
-                  className={`p-2 rounded-full hover:bg-secondary/50 transition-transform hover:scale-125 ${r.color}`}
+                  className={`p-2.5 rounded-full hover:bg-secondary/60 transition-all duration-200 hover:scale-130 hover:-translate-y-1 ${r.color}`}
                   title={r.label}
                 >
-                  <r.icon className="w-5 h-5" />
+                  <r.icon className="w-5 h-5" fill="currentColor" strokeWidth={1.5} />
                 </button>
               ))}
             </div>
