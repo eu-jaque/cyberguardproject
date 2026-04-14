@@ -9,13 +9,13 @@ const handleShare = async () => {
       await navigator.share({
         title: 'Título do Post',
         text: 'Confira este conteúdo incrível!',
-        url: window.location.href, // Pega a URL atual
+        url: window.location.href, 
       });
     } catch (err) {
       console.error("Erro ao compartilhar:", err);
     }
   } else {
-    // Fallback: Copiar link para o clipboard ou abrir modal
+  
     navigator.clipboard.writeText(window.location.href);
     alert("Link copiado para a área de transferência!");
   }
