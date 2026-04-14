@@ -25,7 +25,6 @@ const HeroCarousel = () => {
 
   return (
     <section id="inicio" className="relative w-full h-screen overflow-hidden">
-      {/* Full-width background images */}
       {images.map((img, i) => (
         <div
           key={i}
@@ -34,36 +33,20 @@ const HeroCarousel = () => {
           }`}
         >
           <img src={img} alt={titles[i]} className="w-full h-full object-cover" />
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent" />
         </div>
       ))}
 
-      {/* Glassmorphism content card */}
       <div className="absolute inset-0 flex items-center pointer-events-none">
-        <div className="w-full max-w-[1366px] mx-auto px-4 sm:px-[2%]">
-          <div
-            className="max-w-2xl pointer-events-auto rounded-2xl p-6 sm:p-10 border border-white/10"
-            style={{
-              background: "linear-gradient(135deg, rgba(0,33,94,0.45) 0%, rgba(0,0,0,0.35) 100%)",
-              backdropFilter: "blur(16px) saturate(1.4)",
-              WebkitBackdropFilter: "blur(16px) saturate(1.4)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
-            }}
-          >
-            {/* Decorative accent line */}
-            <div className="w-16 h-1 rounded-full bg-primary mb-5" />
-
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+        <div className="w-full max-w-[1366px] mx-auto px-[2%]">
+          <div className="max-w-xl pointer-events-auto">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-tight">
               {titles[current]}
             </h1>
-            <p className="text-white/80 mb-8 text-base sm:text-lg md:text-xl leading-relaxed">
-              {descs[current]}
-            </p>
+            <p className="text-foreground/80 mb-6" style={{ fontSize: "20px" }}>{descs[current]}</p>
             <Link
               to="/saiba-mais"
-              className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-lg font-semibold inline-block text-sm sm:text-base"
+              className="btn-gold-3d text-primary-foreground px-8 py-3 rounded-[5px] font-semibold inline-block"
             >
               {t("hero.cta")}
             </Link>
@@ -71,40 +54,26 @@ const HeroCarousel = () => {
         </div>
       </div>
 
-      {/* Navigation arrows */}
       <button
         onClick={(e) => { e.stopPropagation(); prev(); }}
-        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full transition-all border border-white/15 hover:border-primary/60"
-        style={{
-          background: "rgba(0,0,0,0.3)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-background/40 hover:bg-primary/80 text-foreground p-3 rounded-full transition-colors"
       >
-        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white/80" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
       <button
         onClick={(e) => { e.stopPropagation(); next(); }}
-        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full transition-all border border-white/15 hover:border-primary/60"
-        style={{
-          background: "rgba(0,0,0,0.3)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-background/40 hover:bg-primary/80 text-foreground p-3 rounded-full transition-colors"
       >
-        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white/80" />
+        <ChevronRight className="w-6 h-6" />
       </button>
 
-      {/* Dot indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
         {images.map((_, i) => (
           <button
             key={i}
             onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
-            className={`h-2.5 rounded-full transition-all duration-500 ${
-              i === current
-                ? "bg-primary w-10 shadow-[0_0_12px_rgba(212,165,53,0.5)]"
-                : "bg-white/30 w-2.5 hover:bg-white/50"
+            className={`w-3 h-3 rounded-full transition-all ${
+              i === current ? "bg-primary w-8" : "bg-foreground/40"
             }`}
           />
         ))}
