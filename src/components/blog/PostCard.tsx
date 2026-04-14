@@ -3,6 +3,23 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const handleShare = async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Título do Post',
+        text: 'Confira este conteúdo incrível!',
+        url: window.location.href, // Pega a URL atual
+      });
+    } catch (err) {
+      console.error("Erro ao compartilhar:", err);
+    }
+  } else {
+    // Fallback: Copiar link para o clipboard ou abrir modal
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copiado para a área de transferência!");
+  }
+};
 export interface SocialPost {
   id: string;
   author: string;
