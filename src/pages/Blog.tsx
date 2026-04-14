@@ -28,7 +28,6 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "CyberLab", value: "cyberlab" },
 ];
 
-<<<<<<< HEAD
 // Social Posts data
 const socialPosts: SocialPost[] = [
   {
@@ -74,8 +73,6 @@ const videoPosts: VideoPost[] = [
   { id: "v4", title: "O que fazer após um vazamento de dados", description: "Passos imediatos para proteger suas contas.", thumbnail: "https://img.youtube.com/vi/3uJszS1bk28/hqdefault.jpg", duration: "8:15", views: "6.3K", author: "CyberGuard", date: "10 Fev 2026", videoId: "3uJszS1bk28" },
 ];
 
-=======
->>>>>>> b7b6573f865e85ebd7436cee183805d6098b7aa6
 const Blog = () => {
   const [contents, setContents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
