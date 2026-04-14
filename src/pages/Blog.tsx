@@ -136,95 +136,27 @@ const Blog = () => {
     <div className="min-h-screen bg-background">
       <Header />
       {/* Hero */}
-      <section className="pt-24 pb-12 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0a0e17 0%, #00215E 50%, #0a1628 100%)' }}>
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,215,0,0.3) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-
-        <div className="max-w-[1366px] mx-auto px-[2%] relative z-10">
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-16">
-            {/* Left content */}
-            <div className="flex-1 pt-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/30 mb-6">
-                <svg className="w-4 h-4 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/></svg>
-                <span className="text-[#FFD700] text-sm font-semibold tracking-wide">Cibersegurança em destaque</span>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
-                Blog <span className="text-[#FFD700]" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}>CyberGuard</span>
-              </h1>
-              <p className="text-gray-300 text-base md:text-lg max-w-md mb-8">
-                Artigos e notícias sobre cibersegurança para manter você informado e protegido.
-              </p>
-              <div className="max-w-md relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Buscar artigos..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFD700]/40 focus:border-[#FFD700]/40 transition-all backdrop-blur-sm"
-                />
-              </div>
-            </div>
-
-            {/* Right shield graphic */}
-            <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-[320px] h-[280px] relative">
-              {/* Outer orbit */}
-              <div className="absolute w-[260px] h-[260px] rounded-full border border-[#FFD700]/20" />
-              {/* Middle orbit */}
-              <div className="absolute w-[190px] h-[190px] rounded-full border border-[#FFD700]/30 bg-[#FFD700]/5" />
-              {/* Inner circle */}
-              <div className="absolute w-[100px] h-[100px] rounded-full bg-gradient-to-br from-[#FFD700]/10 to-[#FFD700]/5 flex items-center justify-center border border-[#FFD700]/30">
-                <svg className="w-10 h-10 text-[#FFD700]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-              </div>
-              {/* Label */}
-              <span className="absolute top-1/2 mt-16 text-gray-400 text-sm tracking-wider">Proteja-se</span>
-              {/* Dots */}
-              <div className="absolute top-6 right-12 w-2 h-2 rounded-full bg-[#FFD700]/60" />
-              <div className="absolute bottom-10 left-4 w-2 h-2 rounded-full bg-gray-500/60" />
-              <div className="absolute bottom-16 right-2 w-1.5 h-1.5 rounded-full bg-blue-400/60" />
-            </div>
+      <section
+        className="pt-32 pb-16 relative bg-fixed bg-cover bg-center"
+        style={{  backgroundImage: `url(${image})` }}
+      >
+        <div className="absolute inset-0 bg-background/50" />
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
+          <h1 className=" text-3xl md:text-5xl font-bold text-foreground mb-4">
+            Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
+          <div className="max-w-xl mx-auto relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Buscar conteúdo..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            />
           </div>
-
-          {/* Featured article */}
-          {articles.length > 0 && (
-            <div className="mt-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-[2px] bg-[#FFD700]" />
-                <span className="text-[#FFD700] text-xs font-bold tracking-[0.2em] uppercase">Artigo em Destaque</span>
-              </div>
-              <div
-                className="relative rounded-2xl overflow-hidden cursor-pointer group"
-                onClick={() => navigate(`/article/${articles[0].id}`)}
-                style={{ background: 'linear-gradient(135deg, #0d1520 0%, #162032 100%)' }}
-              >
-                <div className="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity">
-                  {articles[0].image && <img src={articles[0].image} alt="" className="w-full h-full object-cover" />}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/70 to-transparent" />
-                <div className="relative z-10 p-6 sm:p-8 pt-16 sm:pt-24">
-                  {articles[0].category && (
-                    <span className="inline-block px-3 py-1 rounded-full bg-[#FFD700]/15 text-[#FFD700] text-xs font-bold mb-3 border border-[#FFD700]/30">
-                      {articles[0].category}
-                    </span>
-                  )}
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 leading-tight max-w-2xl">
-                    {articles[0].title}
-                  </h2>
-                  <p className="text-gray-300 text-sm sm:text-base max-w-xl mb-4 line-clamp-2">
-                    {articles[0].summary}
-                  </p>
-                  <div className="flex items-center gap-4 text-gray-400 text-xs">
-                    <span className="flex items-center gap-1"><User className="w-3.5 h-3.5" /> {articles[0].author}</span>
-                    <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {articles[0].date}</span>
-                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {articles[0].readTime}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-        {/* Bottom golden line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700]/40 to-transparent" />
       </section>
 
       {/* Tabs */}
