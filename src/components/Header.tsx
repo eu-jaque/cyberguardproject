@@ -70,7 +70,7 @@ const Header = () => {
           : "bg-transparent"
           }`}
       >
-        <div className="w-full max-w-[1366px] mx-auto px-[5%] flex items-center justify-between">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 flex items-center justify-between">
 
           {/* 1. LOGO */}
           <div className="flex items-center gap-2 cursor-pointer shrink-0 z-50" onClick={() => handleNavClick("/")}>
@@ -123,6 +123,7 @@ const Header = () => {
             </div>
 
             <Link to="/sobre" className="nav-link-style">{t("nav.sobre")}</Link>
+            <Link to="/saiba-mais" className="nav-link-style">{t("nav.planos")}</Link>
             <button onClick={() => handleNavClick("/Contato", true)} className="nav-link-style">{t("nav.contato")}</button>
 
             <div className="h-4 w-px bg-border/60 mx-2" />
@@ -174,6 +175,7 @@ const Header = () => {
             <button onClick={() => handleNavClick("/blog")} className="mobile-link text-left w-full">{t("nav.blog")}</button>
             <button onClick={() => handleNavClick("/cursos")} className="mobile-link text-left w-full">{t("nav.cursos")}</button>
             <button onClick={() => handleNavClick("/sobre")} className="mobile-link text-left w-full">{t("nav.sobre")}</button>
+            <button onClick={() => handleNavClick("/saiba-mais")} className="mobile-link text-left w-full">{t("nav.planos")}</button>
             <button onClick={() => handleNavClick("/Contato", true)} className="mobile-link text-left w-full">{t("nav.contato")}</button>
 
             <div className="w-full h-px bg-border/50 my-2 shrink-0" />
