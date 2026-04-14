@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Clock, Lightbulb, LineChart, Zap, TrendingUp, Play } from "lucide-react";
+import { Clock, Lightbulb, LineChart, Zap, TrendingUp, Play, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { Course } from "@/pages/Courses";
 import { useSearchParams } from "react-router-dom";
 
@@ -112,26 +113,44 @@ export default function DashOverview({ courses, userName }: DashOverviewProps) {
         </div>
 
         {/* Quick Tips */}
-        <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-border/10 rounded-3xl p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <Lightbulb className="w-5 h-5 text-primary" />
+        <div className="flex flex-col gap-6">
+          <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-border/10 rounded-3xl p-8 flex-1">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-primary/20 rounded-lg">
+                <Lightbulb className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Dica do Dia</h3>
             </div>
-            <h3 className="text-xl font-bold text-foreground">Dica do Dia</h3>
+
+            <div className="space-y-4">
+              <div className="p-4 bg-background/40 rounded-2xl border border-white/5">
+                <p className="text-sm font-medium text-white/90">
+                  Ative a autenticação de dois fatores (MFA) em todas as suas contas críticas para aumentar a segurança em até 99%.
+                </p>
+              </div>
+              <div className="p-4 bg-background/40 rounded-2xl border border-white/5">
+                <p className="text-sm font-medium text-white/90">
+                  Nunca use a mesma senha para serviços diferentes. Use um gerenciador de senhas confiável.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="p-4 bg-background/40 rounded-2xl border border-white/5">
-              <p className="text-sm font-medium text-white/90">
-                Ative a autenticação de dois fatores (MFA) em todas as suas contas críticas para aumentar a segurança em até 99%.
-              </p>
+          {/* Saiba Mais Box */}
+          <Link to="/saiba-mais" className="block group">
+            <div className="bg-primary/5 border border-primary/20 rounded-3xl p-8 relative overflow-hidden transition-all hover:bg-primary/10">
+              <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                <ExternalLink className="w-16 h-16 text-primary" />
+              </div>
+              <div className="relative z-10">
+                <h3 className="text-lg font-black uppercase italic tracking-tighter text-gradient-gold mb-2">Proteção CyberGuard</h3>
+                <p className="text-sm text-muted-foreground font-medium mb-4 max-w-[200px]">Saiba como blindar seu site e proteger seus dados agora.</p>
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest">
+                  Ver Detalhes <Play className="w-2 h-2 fill-primary" />
+                </span>
+              </div>
             </div>
-            <div className="p-4 bg-background/40 rounded-2xl border border-white/5">
-              <p className="text-sm font-medium text-white/90">
-                Nunca use a mesma senha para serviços diferentes. Use um gerenciador de senhas confiável.
-              </p>
-            </div>
-          </div>
+          </Link>
         </div>
       </div>
     </motion.div>
