@@ -103,9 +103,9 @@ const quizzes: Quiz[] = [
 ];
 
 const levelColors: Record<string, string> = {
-  Iniciante: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+  Iniciante: "bg-amber-500/20 text-amber-400 border-amber-500/30",
   Intermediário: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  Avançado: "bg-red-500/20 text-red-400 border-red-500/30",
+  Avançado: "bg-amber-500/20 text-amber-400 border-amber-500/30",
 };
 
 export default function CyberLabSection() {
@@ -152,7 +152,7 @@ export default function CyberLabSection() {
         ))}
       </div>
 
-      {/* Quiz cards */}
+  
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filtered.map((quiz, i) => (
           <motion.div
@@ -275,7 +275,7 @@ function QuizPlayer({ quiz, onBack }: { quiz: Quiz; onBack: () => void }) {
         </div>
       </div>
 
-      {/* Question */}
+     
       <motion.div key={current} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-card border border-border/50 rounded-2xl p-6">
         <h3 className="text-lg font-bold text-foreground mb-6">{question.q}</h3>
 
@@ -306,7 +306,7 @@ function QuizPlayer({ quiz, onBack }: { quiz: Quiz; onBack: () => void }) {
           })}
         </div>
 
-        {/* Feedback */}
+       
         {showFeedback && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-4 p-4 rounded-xl bg-secondary/30 border border-border/30">
             <p className="text-xs text-muted-foreground">{question.explanation}</p>

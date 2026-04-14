@@ -1,5 +1,4 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import  supabase  from '../../utils/supabase';
 
 
 const testimonials = [

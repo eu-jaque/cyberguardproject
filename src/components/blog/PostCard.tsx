@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2, ThumbsUp, Smile, Flame } from "lucide-react";
+import { Heart, MessageCircle, Share2, ThumbsUp, Flame, Sparkles, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +16,10 @@ export interface SocialPost {
 }
 
 const reactions = [
-  { icon: ThumbsUp, label: "Curtir", color: "text-blue-500" },
-  { icon: Heart, label: "Amei", color: "text-red-500" },
-  { icon: Flame, label: "Fogo", color: "text-orange-500" },
-  { icon: Smile, label: "Haha", color: "text-yellow-500" },
+  { icon: ThumbsUp, label: "Curtir", color: "text-blue-400" },
+  { icon: Heart, label: "Amei", color: "text-rose-400" },
+  { icon: Flame, label: "Fogo", color: "text-orange-400" },
+  { icon: Sparkles, label: "Incrível", color: "text-amber-400" },
 ];
 
 export default function PostCard({
@@ -33,19 +33,23 @@ export default function PostCard({
   const navigate = useNavigate();
   const [reacted, setReacted] = useState<number | null>(null);
   const [showReactions, setShowReactions] = useState(false);
-
+  const handleLoginSuccess = () => {
+    navigate("/auth");
+  };
   const handleReaction = (idx: number) => {
     if (!user) {
+      setIsLoginModalOpen2(true);
       localStorage.setItem("cyberguard_redirect_post", post.id);
-      navigate("/auth");
+      // navigate("/auth");
       return;
     }
     setReacted(reacted === idx ? null : idx);
     setShowReactions(false);
   };
+  const [isLoginModalOpen2, setIsLoginModalOpen2] = useState(false);
 
   return (
-    <article className="bg-card border border-border/50 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <article className="bg-card/80 backdrop-blur-md border border-border/30 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 w-full max-w-full">
       {/* Header */}
       <div className="flex items-center gap-3 p-4">
         <img
@@ -83,7 +87,7 @@ export default function PostCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center relative px-2 py-1">
+      <div className="flex flex-col sm:flex-row items-stretch relative px-2 py-1">
         <div
           className="relative flex-1"
           onMouseEnter={() => setShowReactions(true)}
@@ -91,11 +95,10 @@ export default function PostCard({
         >
           <button
             onClick={() => handleReaction(0)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium w-full justify-center transition-colors ${
-              reacted !== null
-                ? reactions[reacted].color
-                : "text-muted-foreground hover:bg-secondary/50"
-            }`}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium w-full justify-center transition-colors ${reacted !== null
+              ? reactions[reacted].color
+              : "text-muted-foreground hover:bg-secondary/50"
+              }`}
           >
             {reacted !== null ? (
               <>
@@ -114,15 +117,15 @@ export default function PostCard({
 
           {/* Reaction picker */}
           {showReactions && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-1 bg-card border border-border rounded-full px-2 py-1.5 shadow-xl z-20 animate-scale-in">
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 flex gap-1.5 bg-card/90 backdrop-blur-xl border border-border/50 rounded-full px-3 py-2 shadow-2xl z-20 animate-scale-in">
               {reactions.map((r, i) => (
                 <button
                   key={r.label}
                   onClick={() => handleReaction(i)}
-                  className={`p-2 rounded-full hover:bg-secondary/50 transition-transform hover:scale-125 ${r.color}`}
+                  className={`p-2.5 rounded-full hover:bg-secondary/60 transition-all duration-200 hover:scale-130 hover:-translate-y-1 ${r.color}`}
                   title={r.label}
                 >
-                  <r.icon className="w-5 h-5" />
+                  <r.icon className="w-5 h-5" fill="currentColor" strokeWidth={1.5} />
                 </button>
               ))}
             </div>
@@ -131,15 +134,51 @@ export default function PostCard({
 
         <button
           onClick={onOpen}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors"
+          className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors"
         >
           <MessageCircle className="w-4 h-4" /> Comentar
         </button>
 
-        <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors">
+        <button className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground hover:bg-secondary/50 flex-1 justify-center transition-colors">
           <Share2 className="w-4 h-4" /> Compartilhar
         </button>
       </div>
+      {isLoginModalOpen2 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="relative bg-card/90 backdrop-blur-2xl w-full max-w-md p-10 rounded-[28px] border border-border shadow-2xl animate-in zoom-in-95 duration-300 transition-colors duration-300">
+
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <button
+              onClick={() => setIsLoginModalOpen2(false)}
+              className="absolute top-5 right-5 text-muted-foreground hover:text-foreground p-1.5 rounded-full bg-secondary/80 hover:bg-secondary border border-border/40 transition-all duration-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-2xl bg-secondary border border-border/40 flex items-center justify-center mb-6 shadow-inner transition-colors duration-300">
+                <LogIn className="w-7 h-7 text-amber-400" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-foreground mb-3 tracking-tight transition-colors duration-300">Autenticação Necessária</h2>
+              <p className="text-muted-foreground text-sm mb-8 font-light leading-relaxed transition-colors duration-300">
+                Faça login ou crie uma conta para fazer um comentário.
+              </p>
+
+              <button
+                onClick={handleLoginSuccess}
+                className="w-full h-12 btn-gold-3d text-primary-foreground font-bold rounded-xl text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Login / Continuar
+                <LogIn className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+      }
     </article>
+
   );
 }

@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
 
@@ -13,7 +13,7 @@
     --foreground: 216 71% 12%;
     /* Azul escuro quase preto para os textos */
 
-    --card: 210 20% 96%;
+    --card: 210 15% 94%;
     /* Cards levemente mais escuros que o fundo */
     --card-foreground: 216 71% 12%;
 
@@ -24,11 +24,11 @@
     /* Dourado mais saturado para ler bem no fundo claro */
     --primary-foreground: 216 71% 10%;
 
-    --secondary: 214 20% 90%;
+    --secondary: 214 10% 90%;
     /* Divisores e hovers cinzas e suaves */
     --secondary-foreground: 216 71% 12%;
 
-    --muted: 214 20% 92%;
+    --muted: 214 10% 92%;
     --muted-foreground: 215 16% 45%;
 
     --accent: 40 85% 50%;
@@ -37,9 +37,9 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214 20% 88%;
+    --border: 214 10% 88%;
     /* Bordas visíveis mas suaves */
-    --input: 214 20% 88%;
+    --input: 214 10% 90%;
     --ring: 40 85% 50%;
 
     --radius: 0.5rem;
@@ -105,7 +105,7 @@
 
   body {
     @apply bg-background text-foreground transition-colors duration-300;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat';
   }
 
   h1,
@@ -115,23 +115,14 @@
   h5,
   h6 {
     @apply transition-colors duration-300;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat';
   }
 }
 
 
 
-
-
-
-
-
-
-
-
-
 /*AUTH*/
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -151,72 +142,86 @@
 /*fim PARALLAX-AUTH*/
 
 
-button:hover{
+button:hover {
   cursor: pointer;
 }
-.hide{
+
+.hide {
   display: none;
 }
-.wrapper{
-  background: rgba(0,0,0,0.6);
+
+.wrapper {
+  background: rgba(0, 0, 0, 0.6);
   position: relative;
   width: 800px;
   height: 300px;
   margin: 0 auto;
   margin-top: 150px;
 }
+
 .left,
-.right{
+.right {
   width: 50%;
 }
-.left{
+
+.left {
   float: left;
 }
-.right{
+
+.right {
   float: right
 }
+
 .back-header,
-.back-p{
+.back-p {
   margin: 20px;
   color: #fafafa;
   letter-spacing: 1px;
-  
+
 }
-.back-header{
+
+.back-header {
   font-size: 30px;
   font-weight: 500;
 }
-.back-p{
+
+.back-p {
   letter-spacing: 1px;
   font-size: 20px;
   line-height: 30px;
   margin-right: 60px;
 }
-.background button{
+
+.background button {
   position: absolute;
   left: 0;
   bottom: 60px;
 }
-.background .left button{
+
+.background .left button {
   left: 20px;
 }
-.background .right button{
+
+.background .right button {
   left: 420px;
 }
-.form-container{
+
+.form-container {
   position: absolute;
   width: 375px;
   height: 350px;
   background-color: white;
   top: -25px;
   left: 10px;
-  box-shadow: 9px 13px 16px 0px rgba(0,0,0,0.75);
+  box-shadow: 9px 13px 16px 0px rgba(0, 0, 0, 0.75);
 }
+
 .sign-up,
-.login{
+.login {
   margin: 40px;
 }
-.back-btn{
+
+.back-btn {
   width: 100px;
   height: 30px;
   font-size: 15px;
@@ -227,21 +232,24 @@ button:hover{
   color: #fafafa;
   transition: .3s all;
 }
-.back-btn:hover{
+
+.back-btn:hover {
   background-color: #145977;
   border: 1px solid #145977;
 }
 
 
 .sign-up button:hover,
-.login button:hover{
+.login button:hover {
   background-color: #C53716;
 }
-.form-header{
+
+.form-header {
   font-size: 32px;
   color: #FC7D5F;
 }
-.form-container input{
+
+.form-container input {
   margin-top: 20px;
   width: 80%;
   height: 30px;
@@ -250,26 +258,29 @@ button:hover{
 }
 
 input[type="text"],
-input[type="email"]{
-  color: #555;
+input[type="email"],
+input[type="password"] {
+  color: hsl(var(--foreground));
 }
-.form-container i{
+
+.form-container i {
   margin-left: 10px;
   margin-bottom: -5px;
   color: #888;
 }
 
 .login button,
-.forgot
-{
+.forgot {
   display: inline-block;
 }
-.forgot{
+
+.forgot {
   margin-left: 15px;
   text-decoration: none;
   color: black;
 }
-.forgot:hover{
+
+.forgot:hover {
   color: #FC7D5F;
   text-decoration: underline;
 }
@@ -293,8 +304,8 @@ input[type="email"]{
 }
 
 .btn-gold-3d {
-  background: linear-gradient(145deg, #F5D77A, #D4A535, #B8860B);
-  box-shadow: 0 4px 15px rgba(212, 165, 53, 0.4), inset 0 1px 0 rgba(245, 215, 122, 0.5);
+  background: linear-gradient(145deg, #D4A535, #B8860B);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -308,20 +319,21 @@ input[type="email"]{
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.15) 50%,
-      transparent 70%);
-  animation: shimmer 3s infinite;
+      transparent 45%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 55%);
+  animation: shimmer 4s infinite;
 }
 
 .btn-gold-3d:hover {
-  box-shadow: 0 6px 20px rgba(212, 165, 53, 0.6), inset 0 1px 0 rgba(245, 215, 122, 0.6);
+  box-shadow: 0 6px 15px rgba(212, 165, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
+  filter: brightness(1.05);
 }
 
 .btn-gold-3d:active {
   transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(212, 165, 53, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes shimmer {

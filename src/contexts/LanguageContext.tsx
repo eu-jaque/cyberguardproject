@@ -15,6 +15,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.cursos": { pt: "Cursos", en: "Courses", es: "Cursos" },
   "nav.servicos": { pt: "Serviços", en: "Services", es: "Servicios" },
   "nav.sobre": { pt: "Sobre", en: "About", es: "Acerca" },
+  "nav.planos": { pt: "Planos", en: "Plans", es: "Planes" },
   "nav.contato": { pt: "Contato", en: "Contact", es: "Contacto" },
   "nav.login": { pt: "Login / Cadastrar", en: "Login / Sign Up", es: "Login / Registro" },
   "nav.email_placeholder": { pt: "Seu e-mail", en: "Your email", es: "Tu correo" },

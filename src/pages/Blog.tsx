@@ -2,9 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import { Calendar, Search, Clock, User, Play, Mail, Eye } from "lucide-react";
+import { Calendar, Search, Clock, User, Play, Mail, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PostCard from "@/components/blog/PostCard";
@@ -13,6 +12,10 @@ import VideoModal from "@/components/blog/VideoModal";
 import CyberLabSection from "@/components/blog/CyberLabSection";
 import type { SocialPost } from "@/components/blog/PostCard";
 import type { VideoPost } from "@/components/blog/VideoModal";
+import { useEffect, useRef, useState } from "react";
+import supabase from "../../utils/supabase";
+import image from "@/assets/news.jpeg";
+
 
 type ContentType = "all" | "posts" | "articles" | "videos" | "news" | "cyberlab";
 
@@ -25,6 +28,7 @@ const tabs: { label: string; value: ContentType }[] = [
   { label: "CyberLab", value: "cyberlab" },
 ];
 
+<<<<<<< HEAD
 // Social Posts data
 const socialPosts: SocialPost[] = [
   {
@@ -70,7 +74,11 @@ const videoPosts: VideoPost[] = [
   { id: "v4", title: "O que fazer após um vazamento de dados", description: "Passos imediatos para proteger suas contas.", thumbnail: "https://img.youtube.com/vi/3uJszS1bk28/hqdefault.jpg", duration: "8:15", views: "6.3K", author: "CyberGuard", date: "10 Fev 2026", videoId: "3uJszS1bk28" },
 ];
 
+=======
+>>>>>>> b7b6573f865e85ebd7436cee183805d6098b7aa6
 const Blog = () => {
+  const [contents, setContents] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,41 +86,144 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoPost | null>(null);
   const [email, setEmail] = useState("");
+  const newsCarouselRef = useRef<HTMLDivElement>(null);
 
+  const scrollNews = (direction: "left" | "right") => {
+    if (!newsCarouselRef.current) return;
+    const scrollAmount = 320;
+    newsCarouselRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const fetchContents = async () => {
+      const { data, error } = await supabase
+        .from("contents")
+        .select(`
+            *,
+            profiles (
+              name,
+              role,
+              avatars
+            )
+          `)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setContents(data);
+      setLoading(false);
+    };
+
+    fetchContents();
+  }, []);
+  const socialPosts = contents
+    .filter(c => c.type === "post")
+    .map(c => ({
+      id: c.id,
+      author: c.profiles?.name ?? "Autor",
+      authorRole: c.profiles?.role ?? "",
+      authorAvatar: c.profiles?.avatars ?? "",
+      date: c.extra?.date,
+      content: c.content,
+      image: c.image,
+      likes: c.extra?.likes,
+      comments: c.extra?.comments
+    }));
+
+
+  const articles = contents
+    .filter(c => c.type === "article")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatars ?? "",
+      image: c.image
+    }));
+
+  const newsItems = contents
+    .filter(c => c.type === "news")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      summary: c.content,
+      category: c.extra?.category,
+      date: c.extra?.date,
+      readTime: c.extra?.readTime,
+      author: c.profiles?.name,
+      authorAvatar: c.profiles?.avatars ?? "",
+      image: c.image
+    }));
+
+  const videoPosts = contents
+    .filter(c => c.type === "video")
+    .map(c => ({
+      id: c.id,
+      title: c.title,
+      description: c.content,
+      thumbnail: c.image,
+      duration: c.extra?.duration,
+      views: c.extra?.views,
+      videoId: c.extra?.videoId,
+      author: c.extra?.author, // ✅ FIX
+      date: c.created_at
+    }));
+  console.log(contents)
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       {/* Hero */}
-      <section className="pt-32 pb-12 bg-gradient-to-b from-card to-background">
-        <div className="max-w-[1366px] mx-auto px-[2%] text-center">
-          <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Blog <span className="text-gradient-gold">CyberGuard</span>
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
-          <div className="max-w-xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Buscar conteúdo..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-          </div>
+      <section
+        className="pt-32 pb-20 relative bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: `url(${image})` }}
+      >
+        <div className="absolute inset-0 bg-[#00215E]/70 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        <div className="max-w-[1366px] mx-auto px-[2%] text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="inline-block bg-card/10 backdrop-blur-xl border border-primary/20 rounded-3xl px-8 py-10 md:px-14 md:py-14 shadow-2xl"
+          >
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+              Mais que um Blog: <span className="text-gradient-gold">Conteúdo que protege</span>
+            </h1>
+            <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">{t("blog.subtitle")}</p>
+            <div className="max-w-xl mx-auto relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+              <input
+                type="text"
+                placeholder="Buscar conteúdo..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-all shadow-inner"
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Tabs */}
-      <section className="border-b border-border bg-background sticky top-[72px] z-20">
+      <section className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-[72px] z-20 shadow-sm">
         <div className="max-w-[1366px] mx-auto px-[2%] flex gap-1 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-                activeTab === tab.value ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-5 py-3.5 text-sm font-semibold border-b-2 transition-all whitespace-nowrap ${activeTab === tab.value ? "border-primary text-primary bg-primary/5" : "border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary/30"
+                }`}
             >
               {tab.label}
             </button>
@@ -122,13 +233,18 @@ const Blog = () => {
 
       {/* Content */}
       <section className="py-12 bg-background">
-        <div className="max-w-[1366px] mx-auto px-[2%]">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+        <div className="max-w-[1366px] mx-auto px-4 sm:px-[2%]">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 lg:gap-10">
             <div>
               {/* POSTS TAB */}
               {(activeTab === "all" || activeTab === "posts") && (
-                <div className="space-y-6 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📝 Posts Recentes</h2>}
+                <div className={`space-y-4 sm:space-y-6 mb-10 ${activeTab === "all" ? "rounded-2xl border border-primary/20 bg-gradient-to-br from-[hsl(var(--primary)/0.05)] to-[hsl(var(--accent)/0.08)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-primary" />
+                      <h2 className="text-lg font-bold text-foreground">Papo & Meme</h2>
+                    </div>
+                  )}
                   {socialPosts
                     .filter(p => !searchQuery || p.content.toLowerCase().includes(searchQuery.toLowerCase()) || p.author.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((post, i) => (
@@ -141,8 +257,13 @@ const Blog = () => {
 
               {/* ARTICLES TAB */}
               {(activeTab === "all" || activeTab === "articles") && (
-                <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📄 Artigos</h2>}
+                <div className={`space-y-4 mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(210,80%,40%,0.2)] bg-gradient-to-br from-[hsl(210,80%,20%,0.08)] to-[hsl(220,60%,30%,0.12)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(210,80%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Leitura Segura</h2>
+                    </div>
+                  )}
                   {articles
                     .filter(a => !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()))
                     .map((article, i) => (
@@ -153,17 +274,24 @@ const Blog = () => {
                         transition={{ delay: i * 0.05 }}
                         viewport={{ once: true }}
                         onClick={() => navigate(`/blog/${article.id}`)}
-                        className="group cursor-pointer flex gap-5 py-5 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors border-b border-border/30"
+                        className="group cursor-pointer flex flex-col sm:flex-row gap-3 sm:gap-5 py-4 sm:py-5 hover:bg-card/50 -mx-2 sm:-mx-4 px-2 sm:px-4 rounded-xl transition-colors border-b border-border/30"
                       >
-                        <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden">
+                        <div className="flex-shrink-0 w-full sm:w-40 md:w-52 h-44 sm:h-28 md:h-32 rounded-xl overflow-hidden">
                           <img src={article.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex flex-col justify-center min-w-0 flex-1">
                           <span className="text-[10px] font-bold text-primary mb-1">{article.category}</span>
-                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{article.title}</h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{article.summary}</p>
+                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">{article.title}</h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{article.summary}</p>
                           <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{article.author}</span>
+                            <span className="flex items-center gap-1">
+                              {article.authorAvatar ? (
+                                <img src={article.authorAvatar} alt={article.author} className="w-5 h-5 rounded-full object-cover" />
+                              ) : (
+                                <User className="w-3 h-3" />
+                              )}
+                              {article.author}
+                            </span>
                             <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{article.readTime}</span>
                           </div>
                         </div>
@@ -174,9 +302,14 @@ const Blog = () => {
 
               {/* VIDEOS TAB */}
               {(activeTab === "all" || activeTab === "videos") && (
-                <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">🎬 Vídeos</h2>}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(280,60%,50%,0.2)] bg-gradient-to-br from-[hsl(280,60%,20%,0.08)] to-[hsl(260,50%,30%,0.12)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(39, 94%, 53%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Aprenda Assistindo</h2>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                     {videoPosts
                       .filter(v => !searchQuery || v.title.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((video, i) => (
@@ -213,41 +346,110 @@ const Blog = () => {
 
               {/* NEWS TAB */}
               {(activeTab === "all" || activeTab === "news") && (
-                <div className="space-y-4 mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">📰 Notícias</h2>}
-                  {newsItems
-                    .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
-                    .map((news, i) => (
-                      <motion.article
-                        key={news.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        viewport={{ once: true }}
-                        onClick={() => navigate(`/blog/${news.id}`)}
-                        className="group cursor-pointer flex gap-5 py-5 hover:bg-card/50 -mx-4 px-4 rounded-xl transition-colors border-b border-border/30"
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(45,90%,50%,0.15)] bg-gradient-to-br from-[hsl(45,90%,50%,0.05)] to-[hsl(35,80%,40%,0.1)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(45,90%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Informação sem Fake News? Temos!</h2>
+                    </div>
+                  )}
+                  {activeTab === "all" ? (
+                    <div className="relative group/carousel">
+                      <button
+                        onClick={() => scrollNews("left")}
+                        className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover/carousel:opacity-100"
                       >
-                        <div className="flex-shrink-0 w-40 h-28 md:w-52 md:h-32 rounded-xl overflow-hidden">
-                          <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        </div>
-                        <div className="flex flex-col justify-center min-w-0 flex-1">
-                          <span className="text-[10px] font-bold text-red-400 mb-1">🔴 {news.category}</span>
-                          <h3 className="text-sm md:text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{news.title}</h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">{news.summary}</p>
-                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-2">
-                            <span className="flex items-center gap-1"><User className="w-3 h-3" />{news.author}</span>
-                            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{news.date}</span>
-                          </div>
-                        </div>
-                      </motion.article>
-                    ))}
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <div ref={newsCarouselRef} className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+                        {newsItems
+                          .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                          .map((news, i) => (
+                            <motion.article
+                              key={news.id}
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: i * 0.05 }}
+                              viewport={{ once: true }}
+                              onClick={() => navigate(`/blog/${news.id}`)}
+                              className="group cursor-pointer flex-shrink-0 w-[280px] sm:w-[300px] snap-start bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/40 transition-all"
+                            >
+                              <div className="aspect-[16/10] relative overflow-hidden">
+                                <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                {news.category && (
+                                  <span className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">{news.category}</span>
+                                )}
+                              </div>
+                              <div className="p-4">
+                                <h3 className="text-sm font-bold text-primary group-hover:text-primary/80 transition-colors mb-2 line-clamp-3">{news.title}</h3>
+                                <span className="text-[11px] text-muted-foreground">{news.date}</span>
+                                <div className="flex items-center gap-2 mt-2">
+                                  {news.authorAvatar ? (
+                                    <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                                  ) : (
+                                    <User className="w-4 h-4 text-muted-foreground" />
+                                  )}
+                                  <span className="text-[11px] text-muted-foreground font-medium">{news.author}</span>
+                                </div>
+                              </div>
+                            </motion.article>
+                          ))}
+                      </div>
+                      <button
+                        onClick={() => scrollNews("right")}
+                        className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors opacity-0 group-hover/carousel:opacity-100"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                      {newsItems
+                        .filter(n => !searchQuery || n.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .map((news, i) => (
+                          <motion.article
+                            key={news.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: i * 0.05 }}
+                            viewport={{ once: true }}
+                            onClick={() => navigate(`/blog/${news.id}`)}
+                            className="group cursor-pointer bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/40 transition-all"
+                          >
+                            <div className="aspect-[16/10] relative overflow-hidden">
+                              <img src={news.image} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              {news.category && (
+                                <span className="absolute top-2 left-2 bg-primary/90 text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">{news.category}</span>
+                              )}
+                            </div>
+                            <div className="p-4">
+                              <h3 className="text-sm font-bold text-primary group-hover:text-primary/80 transition-colors mb-2 line-clamp-3">{news.title}</h3>
+                              <span className="text-[11px] text-muted-foreground">{news.date}</span>
+                              <div className="flex items-center gap-2 mt-2">
+                                {news.authorAvatar ? (
+                                  <img src={news.authorAvatar} alt={news.author} className="w-5 h-5 rounded-full object-cover" />
+                                ) : (
+                                  <User className="w-4 h-4 text-muted-foreground" />
+                                )}
+                                <span className="text-[11px] text-muted-foreground font-medium">{news.author}</span>
+                              </div>
+                            </div>
+                          </motion.article>
+                        ))}
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* CYBERLAB TAB */}
               {(activeTab === "all" || activeTab === "cyberlab") && (
-                <div className="mb-10">
-                  {activeTab === "all" && <h2 className="text-lg font-bold text-foreground mb-4">🧪 CyberLab — Desafios</h2>}
+                <div className={`mb-10 ${activeTab === "all" ? "rounded-2xl border border-[hsl(160,60%,40%,0.2)] bg-gradient-to-br from-[hsl(160,60%,20%,0.08)] to-[hsl(180,50%,30%,0.12)] p-4 sm:p-6" : ""}`}>
+                  {activeTab === "all" && (
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-1 h-6 rounded-full bg-[hsl(160,60%,50%)]" />
+                      <h2 className="text-lg font-bold text-foreground">Divirta-se com o CyberLab</h2>
+                    </div>
+                  )}
                   <CyberLabSection />
                 </div>
               )}

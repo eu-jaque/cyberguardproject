@@ -1,4 +1,4 @@
-import { X, Send } from "lucide-react";
+import { X, Send, LogIn } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -15,11 +15,15 @@ export default function PostModal({ post, onClose }: { post: SocialPost; onClose
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(mockComments);
-
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const handleLoginSuccess = () => {
+    navigate("/auth");
+  };
   const handleComment = () => {
     if (!user) {
+      setIsLoginModalOpen(true);
       localStorage.setItem("cyberguard_redirect_post", post.id);
-      navigate("/auth");
+      // navigate("/auth");
       return;
     }
     if (!comment.trim()) return;
@@ -77,6 +81,41 @@ export default function PostModal({ post, onClose }: { post: SocialPost; onClose
           </button>
         </div>
       </div>
-    </div>
-  );
+      {isLoginModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="relative bg-card/90 backdrop-blur-2xl w-full max-w-md p-10 rounded-[28px] border border-border shadow-2xl animate-in zoom-in-95 duration-300 transition-colors duration-300">
+
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <button
+              onClick={() => setIsLoginModalOpen(false)}
+              className="absolute top-5 right-5 text-muted-foreground hover:text-foreground p-1.5 rounded-full bg-secondary/80 hover:bg-secondary border border-border/40 transition-all duration-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-2xl bg-secondary border border-border/40 flex items-center justify-center mb-6 shadow-inner transition-colors duration-300">
+                <LogIn className="w-7 h-7 text-amber-400" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-foreground mb-3 tracking-tight transition-colors duration-300">Autenticação Necessária</h2>
+              <p className="text-muted-foreground text-sm mb-8 font-light leading-relaxed transition-colors duration-300">
+                Faça login ou crie uma conta para fazer um comentário.
+              </p>
+
+              <button
+                onClick={handleLoginSuccess}
+                className="w-full h-12 btn-gold-3d text-primary-foreground font-bold rounded-xl text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Login / Continuar
+                <LogIn className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+      }
+    </div >
+  )
 }
